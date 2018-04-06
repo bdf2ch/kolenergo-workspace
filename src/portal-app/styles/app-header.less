@@ -1,0 +1,39 @@
+
+
+
+#app-header {
+  overflow: hidden;
+  height: @app-header-height;
+  background-size: cover;
+  background: url("/assets/images/header-4.jpg") center center;
+  transition: height 0.1s 0s;
+
+  #app-header-overlay {
+    width: 100%;
+    height: 100%;
+    background: rgba(38, 50, 56, 0.5);
+
+    #app-header-logos {
+      height: 45%;
+    }
+
+    #app-header-phone-book-search {
+      height: 55%;
+    }
+  }
+}
+
+
+@media (max-width: 575.98px) {
+  #app-header {
+    height: @app-header-height-sm;
+
+    #app-header-logos {
+      display: none;
+    }
+
+    #app-header-phone-book-search {
+      height: 100% !important;
+    }
+  }
+}

@@ -1,0 +1,34 @@
+@import (reference) "variables";
+
+#app-header-phone-book-search {
+  //margin-top: -40px;
+  //margin-bottom: 50px;
+
+  .mat-card {
+    height: 90px;
+    //background: rgba(13, 71, 161, 0.8);
+    //box-shadow: none;
+    background: #FAFAFA;
+  }
+
+  input {
+    height: 55px !important;
+    font-family: "IBM Plex Sans Regular" !important;
+  }
+
+  button {
+    background: @app-button-background-color;
+    color: @app-button-color;
+    border-color: @app-button-background-color;
+    &:hover {
+      background: @app-button-background-color-hover;
+      border-color: @app-button-background-color-hover;
+    }
+  }
+
+  label {
+    font-family: "IBM Plex Sans Semi Bold" !important;
+    font-size: 17px !important;
+    color: #ECEFF1;
+  }
+}

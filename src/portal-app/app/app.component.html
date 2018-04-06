@@ -1,0 +1,315 @@
+<nav class="navbar d-flex">
+  <a class="navbar-brand align-self-md-end" href="#">
+    <span class="department">филиал</span> «Колэнерго»
+  </a>
+  <button class="btn btn-sm" type="button" (click)="openAuthDialog()">Войти</button>
+</nav>
+
+<div class="container-fluid no-padding">
+  <div id="app-header" class="row justify-content-center no-gutters">
+    <div id="app-header-overlay" class="container-fluid mh-100">
+
+      <!-- START: Logos -->
+      <div id="app-header-logos" class="row justify-content-center align-items-center">
+        <div class="col-10 col-sm-8 col-md-8">
+          <div class="row no-gutters">
+            <div class="col-12">
+              <div class="container-fluid">
+                <div class="row align-items-center">
+                  <div class="col-md-auto col-sm-auto">
+                    <img src="/assets/images/rosseti-logo.png" alt="">
+                  </div>
+                  <div class="col-md-8 col-sm-auto">
+                    <img src="/assets/images/mrsk-logo.png" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- END: Logos -->
+
+      <!-- START: Phone book search -->
+      <div id="app-header-phone-book-search" class="row justify-content-center align-items-center align-self-center align-self-md-end no-gutters">
+        <div class="col-12 col-sm-8 col-md-8">
+            <div class="container">
+              <div class="row">
+                <div class="col-12">
+                  <div class="form-group">
+                    <label for="exampleFormControlInput1">Поиск абонентов в телефонном справочнике</label>
+                    <div class="input-group mb-3">
+                      <input type="text" class="form-control form-control-lg" placeholder="Введите имя абонента или номер телефона">
+                      <div class="input-group-append">
+                        <button class="btn btn-primary" type="button">
+                          <i class="fa fa-search"></i>
+                          &nbsp; Найти
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+      <!-- END: Phone book search-->
+
+    </div>
+  </div>
+</div>
+
+
+<!-- START: Service Links -->
+<div id="app-services-links" class="container-fluid no-padding">
+  <div class="row justify-content-center no-gutters">
+
+
+    <div class="col-12 col-sm-10 col-md-8">
+
+      <div class="container-fluid no-padding">
+        <div class="row justify-content-center">
+          <div class="block-label col-auto text-center d-flex justify-content-center align-items-center text-center">
+            Наши сервисы
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- START: IT Requests Link -->
+          <div class="col-4 col-sm-4 col-md-3 text-center">
+            <div class="service-link it-requests mx-auto d-flex align-items-center justify-content-center">
+              <i class="fa fa-desktop"></i>
+            </div>
+            <div class="service-label d-inline-flex">Заявки на услуги ИТ</div>
+          </div>
+          <!-- END: IT Requests Link-->
+
+          <!-- START: Auto Requests Link -->
+          <div class="col-4 col-sm-4 col-md-3 text-center">
+            <div class="service-link auto-requests mx-auto d-flex align-items-center justify-content-center">
+              <i class="fa fa-car"></i>
+            </div>
+            <span class="service-label d-inline-flex">Заявки на автотранспорт</span>
+          </div>
+          <!-- END: Auto Requests Link -->
+
+          <!-- START: Billing Lists Link -->
+          <div class="col-4 col-sm-4 col-md-3 text-center">
+            <div class="service-link billing-lists mx-auto d-flex align-items-center justify-content-center">
+              <i class="fa fa-dollar"></i>
+            </div>
+            <span class="service-label d-inline-flex">Расчетные листки</span>
+          </div>
+          <!-- END: Billing Lists Link -->
+
+          <!-- START: Phone Book Link -->
+          <div class="col-4 col-sm-4 col-md-3 text-center">
+            <div class="service-link phone-book mx-auto d-flex align-items-center justify-content-center">
+              <i class="fa fa-phone"></i>
+            </div>
+            <span class="service-label d-inline-flex">Телефонный справочник</span>
+          </div>
+          <!-- END: Phone Book Link -->
+
+          <!-- START: ASUD Link-->
+          <div class="col-4 col-sm-4 col-md-3 text-center">
+            <div class="service-link asud mx-auto d-flex align-items-center justify-content-center">
+              <i class="fa fa-file-text"></i>
+            </div>
+            <span class="service-label d-inline-flex">АСУД</span>
+          </div>
+          <!-- END: ASUD Link -->
+
+          <!-- START: GIS-Profi Link-->
+          <div class="col-4 col-sm-4 col-md-3 text-center">
+            <div class="service-link gis-profi mx-auto d-flex align-items-center justify-content-center">
+              <i class="fa fa-map"></i>
+            </div>
+            <span class="service-label d-inline-flex">ГИС-Профи</span>
+          </div>
+          <!-- END: GIS-Profi Link-->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END: Service Links -->
+
+
+
+<div id="app-news-and-events" class="container-fluid no-padding">
+  <div class="row no-gutters">
+    <div class="col">
+      <div class="container-fluid">
+        <div class="row justify-content-center">
+          <div class="block-label col-auto text-center d-flex justify-content-center align-items-center text-center">
+            Объявления и события
+          </div>
+        </div>
+        <div class="row no-gutters justify-content-center">
+          <div class="col-12 col-sm-10 col-md-8 col-lg-8">
+            <div class="container-fluid">
+              <div class="row">
+                <!-- START: News -->
+                <div id="news" class="col-12 col-sm-12 col-md-12 col-lg-6 mb-4 mb-sm-5 mb-md-3">
+                  <ul class="list-unstyled">
+                    <li class="media news-item mb-3">
+                      <img class="mr-3 rounded" src="assets/images/header-1.png" style="width: 100px; height: 100px">
+                      <div class="media-body">
+                        <div class="media-date">16 марта 2018</div>
+                        Обращение директора филиала ПАО «МРСК Северо-Запада» «Колэнерго» С.Н.Викулина
+                      </div>
+                    </li>
+                    <li class="media news-item mb-3">
+                      <img class="mr-3 rounded" src="assets/images/header-2.jpg" style="width: 100px; height: 100px; line-height: 16px">
+                      <div class="media-body">
+                        <div class="media-date">20 марта 2018</div>
+                        Внимание! Фестиваль творчества энергетиков
+                      </div>
+                    </li>
+                    <li class="media news-item">
+                      <img class="mr-3 rounded" src="assets/images/header-3.jpg" style="width: 100px; height: 100px">
+                      <div class="media-body">
+                        <div class="media-date">10 февраля 2018</div>
+                        Внимание! Конкурс среди сотрудников филиала ПАО «МРСК Северо-Запада» «Колэнерго»
+                      </div>
+                    </li>
+                    <li>
+                      <div class="mt-3 text-center text-sm-left text-md-left">
+                        <button type="button" class="btn btn-outline-primary">Все объявления</button>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <!-- END: News -->
+
+                <!-- START: Events -->
+                <div id="events" class="col-12 col-sm-12 col-md-12 col-lg-6">
+
+                  <ul class="list-unstyled">
+                    <li class="media news-item mb-4 mb-sm-4 mb-md-3">
+                      <img class="mr-3 rounded" src="assets/images/header-4.jpg" style="width: 100px; height: 100px">
+                      <div class="media-body">
+                        <div class="media-date">16 марта 2018</div>
+                        Творческие конкурсы к 10-летию «МРСК Северо-Запада»
+                      </div>
+                    </li>
+                    <li class="media news-item mb-4 mb-sm-4 mb-md-3">
+                      <img class="mr-3 rounded" src="assets/images/header-5.jpg" style="width: 100px; height: 100px">
+                      <div class="media-body text-justify">
+                        <div class="media-date">20 марта 2018</div>
+                        Пенсионная реформа в России
+                      </div>
+                    </li>
+                    <li class="media news-item mb-4 mb-sm-4 mb-md-3">
+                      <img class="mr-3 rounded" src="assets/images/header-1.png" style="width: 100px; height: 100px">
+                      <div class="media-body">
+                        <div class="media-date">10 февраля 2018</div>
+                        Добровольное медицинское страхование членов семей сотрудников
+                      </div>
+                    </li>
+                    <li>
+                      <div class="mt-3 text-center text-sm-left text-md-left">
+                        <button type="button" class="btn btn-outline-primary">Все события</button>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <!-- END: Events -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- START: Employees -->
+<div id="employees" class="container-fluid no-padding">
+  <div class="row no-gutters">
+    <div class="col">
+      <div class="container-fluid">
+        <div class="row justify-content-center">
+          <div class="block-label col-auto text-center d-flex justify-content-center align-items-center text-center">
+            Сотрудники
+          </div>
+        </div>
+        <div class="row no-gutters justify-content-center">
+          <div class="col-12 col-sm-10 col-md-8 col-lg-8">
+            <div class="container-fluid">
+              <div class="row">
+                <!-- START: News -->
+                <div id="employee-holidays" class="col-12 col-sm-12 col-md-12 col-lg-6">
+                  <div class="section-label">
+                    <i class="fa fa-gift"></i>
+                    <span class="label">Дни рождения</span>
+                  </div>
+                  <ul class="list-unstyled">
+                    <li class="media news-item mb-3">
+                      <img class="mr-3 round" src="assets/images/header-1.png" style="width: 100px; height: 100px">
+                      <div class="media-body">
+                        <div class="media-date">16 марта 2018</div>
+                        Обращение директора филиала ПАО «МРСК Северо-Запада» «Колэнерго» С.Н.Викулина
+                      </div>
+                    </li>
+                    <li class="media news-item mb-3">
+                      <img class="mr-3 rounded" src="assets/images/header-2.jpg" style="width: 100px; height: 100px; line-height: 16px">
+                      <div class="media-body text-justify">
+                        <div class="media-date">20 марта 2018</div>
+                        Внимание! Фестиваль творчества энергетиков
+                      </div>
+                    </li>
+                    <li class="media news-item">
+                      <img class="mr-3 rounded" src="assets/images/header-3.jpg" style="width: 100px; height: 100px">
+                      <div class="media-body">
+                        <div class="media-date">10 февраля 2018</div>
+                        Внимание! Конкурс среди сотрудников филиала ПАО «МРСК Северо-Запада» «Колэнерго»
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <!-- END: News -->
+
+                <!-- START: Events -->
+                <div id="events" class="col-12 col-sm-12 col-md-12 col-lg-6">
+
+                  <ul class="list-unstyled">
+                    <li class="media news-item mb-4 mb-sm-4 mb-md-3">
+                      <img class="mr-3 rounded" src="assets/images/header-4.jpg" style="width: 100px; height: 100px">
+                      <div class="media-body">
+                        <div class="media-date">16 марта 2018</div>
+                        Творческие конкурсы к 10-летию «МРСК Северо-Запада»
+                      </div>
+                    </li>
+                    <li class="media news-item mb-4 mb-sm-4 mb-md-3">
+                      <img class="mr-3 rounded" src="assets/images/header-5.jpg" style="width: 100px; height: 100px">
+                      <div class="media-body text-justify">
+                        <div class="media-date">20 марта 2018</div>
+                        Пенсионная реформа в России
+                      </div>
+                    </li>
+                    <li class="media news-item mb-4 mb-sm-4 mb-md-3">
+                      <img class="mr-3 rounded" src="assets/images/header-1.png" style="width: 100px; height: 100px">
+                      <div class="media-body">
+                        <div class="media-date">10 февраля 2018</div>
+                        Добровольное медицинское страхование членов семей сотрудников
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <!-- END: Events -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END: Employees -->
+
+

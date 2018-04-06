@@ -7,6 +7,8 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "noEmitHelpers": true,
+    "importHelpers": true,
     "target": "es5",
     "typeRoots": [
       "node_modules/@types"
@@ -14,6 +16,15 @@
     "lib": [
       "es2017",
       "dom"
-    ]
+    ],
+    "baseUrl": "src",
+    "paths": {
+      "@portal/*": [
+        "portal-app/app/*"
+      ],
+      "@kolenergo-lib": [
+        "kolenergo-lib/api.ts"
+      ]
+    }
   }
 }

@@ -1,0 +1,93 @@
+@app-services-background-color: #F5F5F5;
+
+#app-services-links {
+  padding-bottom: 40px !important;
+  background: @app-services-background-color;
+
+  .service-link {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 5px;
+    box-sizing: border-box;
+    background: white;
+    //border: 1px solid #E0E0E0;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.3);
+
+    &:hover {
+
+    }
+
+    .fa {
+      font-size: 30px;
+      color: white;
+    }
+    &.it-requests {
+      background: #4CAF50;
+      &:hover {
+        background: #2E7D32;
+      }
+    }
+    &.auto-requests {
+      background: #03A9F4;
+      &:hover {
+        background: #0277BD;
+      }
+    }
+    &.billing-lists {
+      background: #FFC107;
+      &:hover {
+        background: #FF8F00;
+      }
+    }
+    &.phone-book {
+      background: #009688;
+      &:hover {
+        background: #00695C;
+      }
+    }
+    &.asud {
+      background: #673AB7;
+      &:hover {
+        background: #4527A0;
+      }
+    }
+    &.gis-profi {
+      background: #CDDC39;
+      &:hover {
+        background: #9E9D24;
+      }
+    }
+
+  }
+
+  .service-label {
+    margin-bottom: 30px;
+    font-size: 14px;
+    line-height: 14px !important;
+    font-weight: bold;
+    color: #607D8B;
+  }
+
+  h6 {
+    font-family: "IBM Plex Sans Bold" !important;
+    font-size: 16px;
+    color: #414A52;
+  }
+
+
+}
+
+
+
+@media (max-width: 575.98px) {
+  #app-services-links {
+    .service-link {
+      margin-bottom: 20px !important;
+    }
+    .service-label {
+      display: none !important;
+    }
+  }
+}

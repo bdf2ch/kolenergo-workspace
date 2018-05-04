@@ -5,9 +5,9 @@
   },
   "apps": [
     {
-      "name": "kolenergo-lib",
-      "root": "src/kolenergo-lib",
-      "outDir": "dist/kolenergo-lib",
+      "name": "shared-lib",
+      "root": "src/shared-lib",
+      "outDir": "dist/shared-lib",
       "assets": [],
       "index": "../_common/index.html",
       "main": "api.ts",
@@ -30,6 +30,33 @@
       "name": "portal-app",
       "root": "src/portal-app",
       "outDir": "dist/portal-app",
+      "assets": [
+        "assets",
+        "favicon.ico"
+      ],
+      "index": "index.html",
+      "main": "main.ts",
+      "polyfills": "../_common/polyfills.ts",
+      "test": "../test.ts",
+      "tsconfig": "../tsconfig.app.json",
+      "testTsconfig": "../tsconfig.spec.json",
+      "prefix": "app",
+      "styles": [
+        "styles/styles.less",
+        "../../node_modules/bootstrap/dist/css/bootstrap.css",
+        "../../node_modules/font-awesome/css/font-awesome.min.css"
+      ],
+      "scripts": [],
+      "environmentSource": "environments/environment.ts",
+      "environments": {
+        "dev": "environments/environment.ts",
+        "prod": "environments/environment.prod.ts"
+      }
+    },
+    {
+      "name": "aho-requests-app",
+      "root": "src/aho-requests-app",
+      "outDir": "dist/aho-requests-app",
       "assets": [
         "assets",
         "favicon.ico"

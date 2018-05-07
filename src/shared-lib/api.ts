@@ -1,4 +1,6 @@
-export { AuthenticationModule } from './app/authentication/authentication.module';
-export { AuthenticationComponent } from './app/authentication/components/authentication/authentication.component';
+export { AuthenticationModule } from './authentication/authentication.module';
+export { AuthenticationComponent } from './authentication/components/authentication/authentication.component';
 
-export { UsersModule } from './app/users/users.module';
+export { UsersModule } from './users/users.module';
+export { IUser } from './shared/interfaces/user.interface';
+export { User } from './shared/models/user.model';

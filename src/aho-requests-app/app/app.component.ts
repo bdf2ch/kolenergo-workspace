@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthenticationComponent } from '../../shared-lib/api';
+import { AuthenticationService } from '../../shared-lib/app/authentication/services/authentication.service';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,8 @@ import { AuthenticationComponent } from '../../shared-lib/api';
 })
 export class AppComponent implements OnInit {
 
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog,
+              private authenticationService: AuthenticationService) { }
 
   ngOnInit() {
   }
@@ -19,5 +21,10 @@ export class AppComponent implements OnInit {
     this.dialog.open(AuthenticationComponent, {
       width: '350px'
     });
+  }
+
+
+  logOut(): void {
+    this.authenticationService.logOut();
   }
 }

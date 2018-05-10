@@ -55,6 +55,17 @@ export class AuthenticationService {
     }
   }
 
+
+  async logOut(): Promise<boolean> {
+    try {
+      await this.authenticationResource.logout();
+      return false;
+    } catch (error) {
+      console.error(error);
+      return true;
+    }
+  }
+
   /**
    * Возвращает состояние загрузки данных
    * @returns {boolean}

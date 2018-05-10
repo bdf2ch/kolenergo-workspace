@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
@@ -8,10 +8,19 @@ import { AuthenticationService } from '../../services/authentication.service';
   styleUrls: ['./authentication.component.less']
 })
 export class AuthenticationComponent implements OnInit {
-  public account: FormControl = new FormControl('', Validators.required);
-  public password: FormControl = new FormControl('', Validators.required);
+  public authForm: FormGroup;
+  public authData: any = {
+    account: '',
+    password: ''
+  };
 
-  constructor(public authentication: AuthenticationService) { }
+  constructor(private formBuilder: FormBuilder,
+              public authenticationService: AuthenticationService) {
+    this.authForm = this.formBuilder.group({
+      account: ['', Validators.required],
+      password: ['', Validators.required]
+    });
+  }
 
   ngOnInit() { }
 
@@ -21,7 +30,7 @@ export class AuthenticationComponent implements OnInit {
    * @returns {string}
    */
   getAccountErrorMessage(): string {
-    return this.account.hasError('required') ? 'Вы не ввели учетную запись' : '';
+    return this.authForm.get('account').hasError('required') ? 'Вы не ввели учетную запись' : '';
   }
 
 
@@ -30,10 +39,13 @@ export class AuthenticationComponent implements OnInit {
    * @returns {string}
    */
   getPasswordErrorMessage(): string {
-    return this.password.hasError('required') ? 'Вы не ввели пароль' : '';
+    return this.authForm.get('password').hasError('required') ? 'Вы не ввели пароль' : '';
   }
 
 
-  submit(): void {}
+  async submit(): Promise<any> {
+    const result = await this.authenticationService.logIn(this.authData.account, this.authData.password);
+    console.log(result);
+  }
 
 }

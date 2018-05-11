@@ -10,7 +10,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthenticationResource } from './resources/authentication.resource';
 import { AuthenticationService } from './services/authentication.service';
-import { AuthenticationComponent } from './components/authentication/authentication.component';
+import { AuthenticationDialogComponent } from './components/authentication/authentication-dialog.component';
+import { CanActivateGuard } from './guards/can-activate.guard';
+import { ResolveGuard } from './guards/resolve.guard';
 
 
 @NgModule({
@@ -27,17 +29,19 @@ import { AuthenticationComponent } from './components/authentication/authenticat
     MatProgressSpinnerModule
   ],
   declarations: [
-    AuthenticationComponent
+    AuthenticationDialogComponent
   ],
   providers: [
     AuthenticationResource,
-    AuthenticationService
+    AuthenticationService,
+    CanActivateGuard,
+    ResolveGuard
   ],
   exports: [
-    AuthenticationComponent
+    AuthenticationDialogComponent
   ],
   entryComponents: [
-    AuthenticationComponent
+    AuthenticationDialogComponent
   ]
 })
 export class AuthenticationModule { }

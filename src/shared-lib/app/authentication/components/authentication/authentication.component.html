@@ -30,7 +30,7 @@
     <!-- Start: Кнопка авторизации -->
     <div class="row pt-3">
       <div class="col-12 text-center d-flex justify-content-center">
-        <button type="submit" class="w-100" mat-raised-button [color]="'primary'" (click)="submit()">Войти</button>
+        <button type="submit" class="w-100" mat-raised-button [color]="'primary'" [disabled]="authForm.invalid" (click)="submit()">Войти</button>
         <mat-progress-spinner [color]="'primary'" [mode]="'indeterminate'" [diameter]="30" *ngIf="authenticationService.loading()"></mat-progress-spinner>
       </div>
     </div>

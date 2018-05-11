@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AuthenticationComponent } from '../../shared-lib/api';
+import { AuthenticationDialogComponent } from '../../shared-lib/api';
 import { AuthenticationService } from '../../shared-lib/app/authentication/services/authentication.service';
 
 @Component({
@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
 
 
   openAuthDialog(): void {
-    this.dialog.open(AuthenticationComponent, {
+    this.dialog.open(AuthenticationDialogComponent, {
       width: '350px'
     });
   }

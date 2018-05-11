@@ -14,7 +14,10 @@ export { MobilePhone } from './app/shared/models/mobile-phone.model';
  * Authentication module
  */
 export { AuthenticationModule } from './app/authentication/authentication.module';
-export { AuthenticationComponent } from './app/authentication/components/authentication/authentication.component';
+export { AuthenticationService } from './app/authentication/services/authentication.service';
+export { ResolveGuard } from './app/authentication/guards/resolve.guard';
+export { CanActivateGuard } from './app/authentication/guards/can-activate.guard';
+export { AuthenticationDialogComponent } from './app/authentication/components/authentication/authentication-dialog.component';
 
 /**
  * Users module

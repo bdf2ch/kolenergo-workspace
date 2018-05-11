@@ -26,6 +26,7 @@ export class AuthenticationService {
   async check(): Promise<User | null> {
     try {
       const result = await this.authenticationResource.check();
+      console.log('check result', result);
       if (result) {
         this.currentUser = new User(result);
         return this.currentUser;
@@ -59,10 +60,11 @@ export class AuthenticationService {
   async logOut(): Promise<boolean> {
     try {
       await this.authenticationResource.logout();
-      return false;
+      this.currentUser = null;
+      return true;
     } catch (error) {
       console.error(error);
-      return true;
+      return false;
     }
   }
 

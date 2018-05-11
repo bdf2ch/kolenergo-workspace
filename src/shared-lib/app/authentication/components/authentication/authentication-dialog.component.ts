@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material';
 import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
@@ -7,14 +8,15 @@ import { AuthenticationService } from '../../services/authentication.service';
   templateUrl: './authentication.component.html',
   styleUrls: ['./authentication.component.less']
 })
-export class AuthenticationComponent implements OnInit {
+export class AuthenticationDialogComponent implements OnInit {
   public authForm: FormGroup;
   public authData: any = {
     account: '',
     password: ''
   };
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(private dialog: MatDialogRef<AuthenticationDialogComponent>,
+              private formBuilder: FormBuilder,
               public authenticationService: AuthenticationService) {
     this.authForm = this.formBuilder.group({
       account: ['', Validators.required],
@@ -43,8 +45,15 @@ export class AuthenticationComponent implements OnInit {
   }
 
 
+  /**
+   * Отправка данных формы
+   * @returns {Promise<any>}
+   */
   async submit(): Promise<any> {
     const result = await this.authenticationService.logIn(this.authData.account, this.authData.password);
+    if (result) {
+      this.dialog.close();
+    }
     console.log(result);
   }
 

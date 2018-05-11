@@ -16,6 +16,13 @@ export class UsersResource extends Resource {
 
   @ResourceAction({
     path: '/',
+    method: ResourceRequestMethod.Get,
+    withCredentials: true
+  })
+  getAll: IResourceMethod<void, IUser[]>;
+
+  @ResourceAction({
+    path: '/',
     method: ResourceRequestMethod.Post,
     withCredentials: true
   })

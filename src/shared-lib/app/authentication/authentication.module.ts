@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthenticationResource } from './resources/authentication.resource';
 import { AuthenticationService } from './services/authentication.service';
 import { AuthenticationDialogComponent } from './components/authentication/authentication-dialog.component';
@@ -26,7 +27,8 @@ import { ResolveGuard } from './guards/resolve.guard';
     MatInputModule,
     MatButtonModule,
     MatDialogModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatSnackBarModule
   ],
   declarations: [
     AuthenticationDialogComponent

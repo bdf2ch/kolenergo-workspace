@@ -1,0 +1,43 @@
+<mat-toolbar color="accent" class="border-bottom">
+  <mat-toolbar-row>
+    <div class="container-fluid">
+      <div class="row no-gutters">
+        <div class="col-6">
+          <mat-icon [color]="'primary'" fontSet="fa" fontIcon="fa-lightbulb-o"></mat-icon>
+          <span>Заявки АХО</span>
+        </div>
+        <div class="col-6 text-right">
+          <button mat-stroked-button
+                  [color]="'primary'"
+                  *ngIf="authenticationService.getCurrentUser()"
+                  [matMenuTriggerFor]="userMenu">
+            {{ authenticationService.getCurrentUser().firstName + ' ' + authenticationService.getCurrentUser().lastName }}
+          </button>
+          <mat-menu #userMenu="matMenu">
+            <button mat-menu-item>
+              <mat-icon>settings</mat-icon>
+              Настройки
+            </button>
+            <button mat-menu-item
+                    (click)="logOut()">
+              <mat-icon [color]="primary" fontSet="fa" fontIcon="fa-lightbulb" class="fa-2x"></mat-icon>
+              Выход из системы
+            </button>
+          </mat-menu>
+
+          <button mat-stroked-button
+                  [color]="'primary'"
+                  *ngIf="!authenticationService.getCurrentUser()"
+                  (click)="openAuthDialog()">
+            Войти
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+  </mat-toolbar-row>
+</mat-toolbar>
+
+
+<router-outlet></router-outlet>

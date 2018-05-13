@@ -11,5 +11,5 @@ export interface IUser {
   position: string;                 // Должность пользователя
   email: string;                    // E-mail пользователя
   activeDirectoryAccount: string;   // Учетная запись Active Directory
-  fio: string;                      // ФИО пользователя
+  fio?: string;                      // ФИО пользователя
 }

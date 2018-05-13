@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
@@ -11,11 +12,12 @@ import { AuthenticationService } from '../../services/authentication.service';
 export class AuthenticationDialogComponent implements OnInit {
   public authForm: FormGroup;
   public authData: any = {
-    account: '',
-    password: ''
+    account: 'kolu0897',
+    password: 'zx12!@#$'
   };
 
   constructor(private dialog: MatDialogRef<AuthenticationDialogComponent>,
+              private snackBar: MatSnackBar,
               private formBuilder: FormBuilder,
               public authenticationService: AuthenticationService) {
     this.authForm = this.formBuilder.group({
@@ -53,6 +55,12 @@ export class AuthenticationDialogComponent implements OnInit {
     const result = await this.authenticationService.logIn(this.authData.account, this.authData.password);
     if (result) {
       this.dialog.close();
+    } else {
+      this.snackBar.open('Пользователь не найден', 'Закрыть', {
+        duration: 5000,
+        horizontalPosition: 'center',
+        verticalPosition: 'bottom'
+      });
     }
     console.log(result);
   }

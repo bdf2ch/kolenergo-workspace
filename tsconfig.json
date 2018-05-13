@@ -19,11 +19,11 @@
     ],
     "baseUrl": "src",
     "paths": {
-      "@portal/*": [
+      "@kolenergo/portal": [
         "portal-app/app/*"
       ],
-      "@kolenergo-lib": [
-        "kolenergo-lib/api.ts"
+      "@kolenergo/lib": [
+        "shared-lib/api.ts"
       ]
     }
   }

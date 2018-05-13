@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {MatDialog} from '@angular/material/dialog';
-import {AuthenticationDialogComponent} from '../../../shared-lib/api';
-import {AuthenticationService} from '../../../shared-lib/app/authentication/services/authentication.service';
+import { MatDialog } from '@angular/material/dialog';
+import { AuthenticationDialogComponent } from '@kolenergo/lib';
+import { AuthenticationService } from '@kolenergo/lib';
 
 @Component({
   selector: 'app-start',

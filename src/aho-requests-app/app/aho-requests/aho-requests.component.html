@@ -3,8 +3,7 @@
     <div class="container-fluid">
       <div class="row no-gutters">
         <div class="col-6">
-          <mat-icon [color]="'primary'" fontSet="fa" fontIcon="fa-lightbulb-o"></mat-icon>
-          <span><strong>Заявки</strong> АХО</span>
+          <span class="d-inline-flex"><strong>Заявки</strong> АХО</span>
         </div>
         <div class="col-6 text-right">
           <button mat-stroked-button
@@ -13,14 +12,14 @@
                   [matMenuTriggerFor]="userMenu">
             {{ authenticationService.getCurrentUser().firstName + ' ' + authenticationService.getCurrentUser().lastName }}
           </button>
-          <mat-menu #userMenu="matMenu">
+          <mat-menu #userMenu="matMenu" [yPosition]="'below'">
             <button mat-menu-item>
               <mat-icon>settings</mat-icon>
               Настройки
             </button>
             <button mat-menu-item
                     (click)="logOut()">
-              <mat-icon [color]="primary" fontSet="fa" fontIcon="fa-lightbulb" class="fa-2x"></mat-icon>
+              <mat-icon [color]="'primary'" fontSet="fa" fontIcon="fa-lightbulb" class="fa-2x"></mat-icon>
               Выход из системы
             </button>
           </mat-menu>

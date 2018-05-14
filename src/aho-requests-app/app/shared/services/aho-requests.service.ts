@@ -20,14 +20,14 @@ export class AhoRequestsService {
         dateCreated: new Date()
       }),
       new AhoRequest({
-        id: 2,
+        id: 1,
         userId: 1,
         requestTypeId: 2,
         comment: 'Тестовая заявка АХО №2',
         dateCreated: new Date()
       }),
       new AhoRequest({
-        id: 3,
+        id: 1,
         userId: 1,
         requestTypeId: 3,
         comment: 'Тестовая заявка АХО №3',

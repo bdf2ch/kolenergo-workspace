@@ -1,4 +1,8 @@
+/**
+ * Интерфейс, описывающий тип заявкки АХО
+ */
 export interface IAhoRequestType {
-  id: number;
-  title: string;
+  id: number;       // Идентификатор типа
+  title: string;    // Наименование типа
+  icon?: string;    // Иконка типа
 }

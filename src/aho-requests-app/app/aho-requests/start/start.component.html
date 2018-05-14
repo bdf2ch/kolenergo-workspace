@@ -1,1 +1,50 @@
+<div class="container-fluid">
+  <div class="row pt-3">
+    <div class="col-lg-3 col-xl-2">filters</div>
+    <div class="col-12 col-sm-12 col-md-12 col-lg-9 col-xl-10">
+      <mat-card>
+        <mat-tab-group class="aho-requests-tabs" [color]="'primary'">
+          <mat-tab *ngFor="let requestType of ahoRequestsService.getRequestTypes()" label="{{ requestType.title }}">
+            <ng-template mat-tab-label>
+              <div class="d-flex align-content-center">
+                <mat-icon fontSet="fa" fontIcon="{{ requestType.icon }}" class="mr-2" *ngIf="requestType.icon"></mat-icon>
+                <span class="text-uppercase">{{ requestType.title }}</span>
+              </div>
+            </ng-template>
+            <div class="demo-tab-content">
+              <mat-table #table [dataSource]="dataSource">
 
+                <!-- Position Column -->
+                <ng-container matColumnDef="id">
+                  <mat-header-cell *matHeaderCellDef> # </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="userId">
+                  <mat-header-cell *matHeaderCellDef> user </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.userId}} </mat-cell>
+                </ng-container>
+
+                <!-- Weight Column -->
+                <ng-container matColumnDef="comment">
+                  <mat-header-cell *matHeaderCellDef> comment </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.comment}} </mat-cell>
+                </ng-container>
+
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="dateCreated">
+                  <mat-header-cell *matHeaderCellDef> Crearted </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.dateCreated}} </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+              </mat-table>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </mat-card>
+    </div>
+  </div>
+</div>

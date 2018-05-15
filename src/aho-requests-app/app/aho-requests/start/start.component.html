@@ -12,18 +12,18 @@
               </div>
             </ng-template>
             <div class="pt-4">
-              <mat-table #table [dataSource]="dataSource">
+              <mat-table #table [dataSource]="dataSource" class="aho-requests-table">
 
                 <!-- Position Column -->
                 <ng-container matColumnDef="id">
-                  <mat-header-cell *matHeaderCellDef class=""> # </mat-header-cell>
-                  <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+                  <mat-header-cell *matHeaderCellDef class="request-id-column"> # </mat-header-cell>
+                  <mat-cell *matCellDef="let element" class="request-id-column"> {{element.id}} </mat-cell>
                 </ng-container>
 
                 <!-- Name Column -->
                 <ng-container matColumnDef="userId">
-                  <mat-header-cell *matHeaderCellDef> Пользователь </mat-header-cell>
-                  <mat-cell *matCellDef="let element"> {{element.userId}} </mat-cell>
+                  <mat-header-cell *matHeaderCellDef class="d-none d-sm-none d-md-flex"> Заявитель </mat-header-cell>
+                  <mat-cell *matCellDef="let element" class="d-none d-sm-none d-md-flex"> {{ element.user.firstName + ' ' + element.user.lastName }} </mat-cell>
                 </ng-container>
 
                 <!-- Weight Column -->
@@ -34,8 +34,8 @@
 
                 <!-- Symbol Column -->
                 <ng-container matColumnDef="dateCreated">
-                  <mat-header-cell *matHeaderCellDef> Дата подачи заявки </mat-header-cell>
-                  <mat-cell *matCellDef="let element"> {{element.dateCreated | date:'dd.MM.yyyy, HH:mm'}} </mat-cell>
+                  <mat-header-cell *matHeaderCellDef class="request-date-created-column d-none d-sm-none d-md-flex"> Дата подачи заявки </mat-header-cell>
+                  <mat-cell *matCellDef="let element" class="request-date-created-column d-none d-sm-none d-md-flex"> {{element.dateCreated | date:'dd.MM.yyyy, HH:mm'}} </mat-cell>
                 </ng-container>
 
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
@@ -48,3 +48,12 @@
     </div>
   </div>
 </div>
+
+
+<button mat-fab
+        [color]="'primary'"
+        id="add-request-button"
+        (click)="openNewRequestDialog()"
+        *ngIf="authenticationService.getCurrentUser()">
+  <mat-icon fontSet="fa" fontIcon="fa-plus"></mat-icon>
+</button>

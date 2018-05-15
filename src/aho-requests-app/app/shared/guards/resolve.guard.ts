@@ -8,7 +8,8 @@ export class AhoRequestsResolveGuard implements Resolve<boolean> {
   constructor(private readonly ahoRequestsService: AhoRequestsService) {}
 
   async resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
-    const requestTypes = await this.ahoRequestsService.fetchRequestTypes();
+    await this.ahoRequestsService.fetchRequestTypes();
+    await this.ahoRequestsService.fetchRequests();
     return true;
   }
 }

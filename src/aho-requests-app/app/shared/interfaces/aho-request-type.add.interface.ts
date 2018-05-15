@@ -4,4 +4,5 @@
 export interface IAddAhoRequestType {
   title: string;    // Наименование типа
   icon?: string;    // Иконка типа
+  order?: number;   // Порядок следования
 }

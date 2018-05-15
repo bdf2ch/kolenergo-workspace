@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthenticationDialogComponent } from '@kolenergo/lib';
 import { AuthenticationService } from '@kolenergo/lib';
 import { AhoRequestsService } from '../../shared/services/aho-requests.service';
 import { MatTableDataSource } from '@angular/material';
+import { NewRequestComponent } from '../../shared/components/new-request/new-request.component';
 
 @Component({
   selector: 'app-start',
@@ -35,4 +36,9 @@ export class StartComponent implements OnInit {
     this.authenticationService.logOut();
   }
 
+  openNewRequestDialog() {
+    this.dialog.open(NewRequestComponent, {
+      width: '500px'
+    });
+  }
 }

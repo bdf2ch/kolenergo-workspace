@@ -19,7 +19,7 @@ export class User implements IUser {
    * Конструктор класса
    * @param {IUser} config - Параметры инициализации
    */
-  constructor(config: IUser) {
+  constructor(config?: IUser) {
     this.id = config ? config.id : 0;
     this.divisionId = config ? config.divisionId : 0;
     this.personalNumber = config ? config.personalNumber : '';

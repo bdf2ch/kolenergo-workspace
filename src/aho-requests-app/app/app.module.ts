@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { ResourceModule } from '@ngx-resource/handler-ngx-http';
@@ -13,6 +14,10 @@ import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthenticationModule } from '../../shared-lib/api';
 import { AppComponent } from './app.component';
 import { StartComponent } from './aho-requests/start/start.component';
@@ -21,6 +26,7 @@ import { AhoRequestsComponent } from './aho-requests/aho-requests.component';
 import { AhoRequestsService } from './shared/services/aho-requests.service';
 import { AhoRequestsResolveGuard } from './shared/guards/resolve.guard';
 import { AhoRequestsResource } from './shared/resources/aho-requests.resource';
+import { NewRequestComponent } from './shared/components/new-request/new-request.component';
 
 
 const routes: Routes = [
@@ -44,6 +50,8 @@ const routes: Routes = [
   imports: [
     BrowserModule,
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(routes),
     HttpClientModule,
@@ -56,12 +64,17 @@ const routes: Routes = [
     MatToolbarModule,
     MatTableModule,
     MatTabsModule,
-    MatCardModule
+    MatCardModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatSnackBarModule
   ],
   declarations: [
     AppComponent,
     StartComponent,
-    AhoRequestsComponent
+    AhoRequestsComponent,
+    NewRequestComponent
   ],
   bootstrap: [
     AppComponent
@@ -71,6 +84,9 @@ const routes: Routes = [
     AhoRequestsResource,
     AhoRequestsService,
     AhoRequestsResolveGuard
+  ],
+  entryComponents: [
+    NewRequestComponent
   ]
 })
 export class AppModule {

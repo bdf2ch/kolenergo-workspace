@@ -18,6 +18,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthenticationModule } from '../../shared-lib/api';
 import { AppComponent } from './app.component';
 import { StartComponent } from './aho-requests/start/start.component';
@@ -68,7 +70,9 @@ const routes: Routes = [
     MatInputModule,
     MatFormFieldModule,
     MatSelectModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatTooltipModule,
+    MatProgressSpinnerModule
   ],
   declarations: [
     AppComponent,

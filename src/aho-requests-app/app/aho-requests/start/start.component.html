@@ -1,50 +1,85 @@
-<div class="container-fluid">
+<div class="container-fluid content-wrapper pb-3">
   <div class="row pt-3">
+
+      <div class="d-flex filter-search">
+        <mat-form-field class="w-100">
+          <input type="text" matInput placeholder="Поиск заявок">
+          <mat-icon matPrefix fontSet="fa" fontIcon="fa-search" class="pr-3" [color]="'primary'"></mat-icon>
+          <mat-icon matSuffix fontSet="fa" fontIcon="fa-times" class="pr-3" [color]="'primary'"></mat-icon>
+          <mat-icon matSuffix fontSet="fa" fontIcon="fa-filter" class="pr-3" [color]="'primary'"></mat-icon>
+          <mat-progress-spinner
+            matSuffix
+            [diameter]="10"
+            [color]="'primary'"
+            [mode]="'indeterminate'">
+          </mat-progress-spinner>
+        </mat-form-field>
+      </div>
+
+    <div class="d-flex col-auto" style="width: 40px;">
+      <button mat-raised-button>
+        <mat-icon fontSet="fa" fontIcon="fa-filter"></mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="row no-gutters">
     <div class="col-12">
-      <!--<mat-card>-->
-        <mat-tab-group class="aho-requests-tabs" [color]="'primary'">
-          <mat-tab *ngFor="let requestType of ahoRequestsService.getRequestTypes()" label="{{ requestType.title }}" class="request-type-tab">
-            <ng-template mat-tab-label>
-              <div class="d-flex align-content-center">
-                <mat-icon fontSet="fa" fontIcon="{{ requestType.icon }}" class="mr-2" *ngIf="requestType.icon"></mat-icon>
-                <span class="text-uppercase">{{ requestType.title }}</span>
-                <span class="badge badge-pill badge-danger ml-3">5</span>
-              </div>
-            </ng-template>
-            <div class="pt-4">
-              <mat-table #table [dataSource]="dataSource" class="aho-requests-table">
+      <mat-table #table [dataSource]="dataSource" class="aho-requests-table">
 
-                <!-- Position Column -->
-                <ng-container matColumnDef="id">
-                  <mat-header-cell *matHeaderCellDef class="request-id-column"> # </mat-header-cell>
-                  <mat-cell *matCellDef="let element" class="request-id-column"> {{element.id}} </mat-cell>
-                </ng-container>
+        <!-- Start: Request type column -->
+        <ng-container matColumnDef="requestType">
+          <mat-header-cell *matHeaderCellDef class="request-type-column d-none d-sm-flex"></mat-header-cell>
+          <mat-cell *matCellDef="let element" class="request-type-column d-none d-sm-flex">
+            <mat-icon
+              [color]="'accent'"
+              fontSet="fa" fontIcon="{{ ahoRequestsService.getRequestTypeById(element.requestTypeId).icon }}"
+              matTooltip="{{ ahoRequestsService.getRequestTypeById(element.requestTypeId).title }}"
+              [matTooltipPosition]="'right'">
+            </mat-icon>
+          </mat-cell>
+        </ng-container>
+        <!-- End: Request type column -->
 
-                <!-- Name Column -->
-                <ng-container matColumnDef="userId">
-                  <mat-header-cell *matHeaderCellDef class="d-none d-sm-none d-md-flex"> Заявитель </mat-header-cell>
-                  <mat-cell *matCellDef="let element" class="d-none d-sm-none d-md-flex"> {{ element.user.firstName + ' ' + element.user.lastName }} </mat-cell>
-                </ng-container>
+        <!-- Start: Request id column -->
+        <ng-container matColumnDef="id">
+          <mat-header-cell *matHeaderCellDef class="request-id-column d-none d-sm-flex"> # </mat-header-cell>
+          <mat-cell *matCellDef="let element" class="request-id-column d-none d-sm-flex"> {{ element.id }} </mat-cell>
+        </ng-container>
+        <!-- End: Request id column -->
 
-                <!-- Weight Column -->
-                <ng-container matColumnDef="comment">
-                  <mat-header-cell *matHeaderCellDef> Содержание </mat-header-cell>
-                  <mat-cell *matCellDef="let element"> {{element.comment}} </mat-cell>
-                </ng-container>
+        <!-- Start: Request user column -->
+        <ng-container matColumnDef="user">
+          <mat-header-cell *matHeaderCellDef class="request-user d-none d-sm-none d-md-flex ml-md-5"> Заявитель </mat-header-cell>
+          <mat-cell *matCellDef="let element" class="request-user d-none d-sm-none d-md-flex ml-md-5"> {{ element.user.firstName + ' ' + element.user.lastName }} </mat-cell>
+        </ng-container>
+        <!-- End: Request user column -->
 
-                <!-- Symbol Column -->
-                <ng-container matColumnDef="dateCreated">
-                  <mat-header-cell *matHeaderCellDef class="request-date-created-column d-none d-sm-none d-md-flex"> Дата подачи заявки </mat-header-cell>
-                  <mat-cell *matCellDef="let element" class="request-date-created-column d-none d-sm-none d-md-flex"> {{element.dateCreated | date:'dd.MM.yyyy, HH:mm'}} </mat-cell>
-                </ng-container>
+        <!-- Start: Request comment column -->
+        <ng-container matColumnDef="comment">
+          <mat-header-cell *matHeaderCellDef> Содержание </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.comment }} </mat-cell>
+        </ng-container>
+        <!-- End: Request comment column -->
 
-                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-              </mat-table>
-            </div>
-          </mat-tab>
-        </mat-tab-group>
-      <!--</mat-card>-->
+        <!-- Start: Request room column -->
+        <ng-container matColumnDef="room">
+          <mat-header-cell *matHeaderCellDef class="request-room-column"> Кабинет </mat-header-cell>
+          <mat-cell *matCellDef="let element" class="request-room-column">{{ element.room }}</mat-cell>
+        </ng-container>
+        <!-- End: Request room column -->
+
+        <!-- Start: Request date column -->
+        <ng-container matColumnDef="dateCreated">
+          <mat-header-cell *matHeaderCellDef class="request-date-created-column d-none d-sm-none d-md-flex"> Дата подачи заявки </mat-header-cell>
+          <mat-cell *matCellDef="let element" class="request-date-created-column d-none d-sm-none d-md-flex"> {{ element.dateCreated | date:'dd.MM.yyyy, HH:mm' }} </mat-cell>
+        </ng-container>
+        <!-- End: Request end column -->
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selectRequest(row)"></mat-row>
+      </mat-table>
+
+
     </div>
   </div>
 </div>
@@ -54,6 +89,8 @@
         [color]="'primary'"
         id="add-request-button"
         (click)="openNewRequestDialog()"
-        *ngIf="authenticationService.getCurrentUser()">
+        *ngIf="authenticationService.getCurrentUser()"
+        matTooltip="Подать заявку"
+        [matTooltipPosition]="'left'">
   <mat-icon fontSet="fa" fontIcon="fa-plus"></mat-icon>
 </button>

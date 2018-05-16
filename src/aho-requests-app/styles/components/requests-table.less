@@ -1,8 +1,32 @@
 .aho-requests-table {
+  .mat-row {
+    cursor: pointer;
+    &:hover {
+      background: #EDE7F6;
+    }
+  }
+
+  .request-type-column {
+    max-width: 60px;
+    .fa {
+      font-size: 20px;
+      color: #7986CB;
+    }
+  }
+
   .request-id-column {
     max-width: 40px;
   }
+
+  .request-user {
+    max-width: 250px;
+  }
+
   .request-date-created-column {
     max-width: 120px;
+  }
+
+  .request-room-column {
+    max-width: 60px;
   }
 }

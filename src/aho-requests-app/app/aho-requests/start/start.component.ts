@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthenticationDialogComponent } from '@kolenergo/lib';
 import { AuthenticationService } from '@kolenergo/lib';
@@ -13,7 +13,7 @@ import { NewRequestComponent } from '../../shared/components/new-request/new-req
 })
 export class StartComponent implements OnInit {
   dataSource: any;
-  displayedColumns = ['id', 'userId', 'comment', 'dateCreated'];
+  displayedColumns = ['requestType', 'id', 'dateCreated', 'user', 'comment', 'room'];
 
   constructor(private dialog: MatDialog,
               public authenticationService: AuthenticationService,
@@ -40,5 +40,9 @@ export class StartComponent implements OnInit {
     this.dialog.open(NewRequestComponent, {
       width: '500px'
     });
+  }
+
+  selectRequest(row: any) {
+    console.log(row);
   }
 }

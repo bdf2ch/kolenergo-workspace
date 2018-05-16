@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AhoRequestsResource } from '../resources/aho-requests.resource';
 import { AhoRequestType } from '../models/aho-request-type.model';
@@ -11,12 +11,39 @@ import { IAddAhoRequest } from '../interfaces/aho-request.add.interface';
 export class AhoRequestsService {
   private requestTypes: AhoRequestType[];
   private requests: AhoRequest[];
+  private selectedRequest: AhoRequest | null;
+  private addRequestInProgress: boolean;
 
-  constructor(private readonly detector: ChangeDetectorRef,
-              private readonly snackBar: MatSnackBar,
+  constructor(private readonly snackBar: MatSnackBar,
               private readonly ahoRequestResource: AhoRequestsResource) {
     this.requestTypes = [];
     this.requests = [];
+    this.selectedRequest = null;
+    this.addRequestInProgress = false;
+  }
+
+  /**
+   * Статус добавления заявки
+   * @returns {boolean}
+   */
+  isAddingRequest(): boolean {
+    return this.addRequestInProgress;
+  }
+
+  /**
+   * Возвращает текущую заявку
+   * @returns {AhoRequest | null}
+   */
+  getSelectedRequest(): AhoRequest | null {
+    return this.selectedRequest;
+  }
+
+  /**
+   * Устанавливает текущую заявку
+   * @param {AhoRequest | null} request
+   */
+  setSelectedRequest(request: AhoRequest | null) {
+   this.selectedRequest = request;
   }
 
   /**
@@ -72,6 +99,16 @@ export class AhoRequestsService {
     return this.requestTypes;
   }
 
+  getRequestTypeById(id: number): AhoRequestType | null {
+    let result: AhoRequestType | null = null;
+    this.requestTypes.forEach((requestType: AhoRequestType) => {
+      if (requestType.id === id) {
+        result = requestType;
+      }
+    });
+    return result;
+  }
+
   /**
    * Добавление новой заявки
    * @param {IAddAhoRequest} request - Добавляемая заявка
@@ -79,16 +116,17 @@ export class AhoRequestsService {
    */
   async addRequest(request: IAddAhoRequest): Promise<IAhoRequest | null> {
     try {
+      this.addRequestInProgress = true;
       const result = await this.ahoRequestResource.addRequest(request);
+      this.addRequestInProgress = false;
       if (result) {
         const newRequest = new AhoRequest(result);
         this.requests.push(newRequest);
-        this.snackBar.open(`Заявка №${newRequest.id} добавлена`, 'Закрыть', {
+        this.snackBar.open(`Ваша заявка добавлена`, 'Закрыть', {
           horizontalPosition: 'left',
           verticalPosition: 'bottom',
           duration: 3000
         });
-        this.detector.detectChanges();
         return newRequest;
       }
     } catch (error) {

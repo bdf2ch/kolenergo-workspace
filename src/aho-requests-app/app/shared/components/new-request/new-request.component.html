@@ -36,7 +36,49 @@
 
   </form>
 </mat-dialog-content>
-<mat-dialog-actions class="pt-3 justify-content-center flex-nowrap">
-  <button mat-raised-button mat-dialog-close [color]="'warn'" class="col-6 col-md-4">Отмена</button>
-  <button mat-raised-button type="submit" [color]="'primary'" [disabled]="newRequestForm.invalid" class="col-6 col-md-4" (click)="addRequest()">Подать заявку</button>
+<mat-dialog-actions class="pt-3">
+  <div class="container-fluid p-0">
+    <div class="row">
+
+      <!-- End: Кнопка добавления заявки -->
+      <div class="col-12 col-md-6">
+        <button mat-raised-button
+                type="submit"
+                [color]="'primary'"
+                [disabled]="newRequestForm.invalid || ahoRequestsService.isAddingRequest()"
+                class="w-100"
+                (click)="addRequest()">
+          <div class="d-flex flex-row w-100 align-items-center" *ngIf="ahoRequestsService.isAddingRequest()">
+            <mat-progress-spinner
+              class="mr-2"
+              [diameter]="20"
+              [color]="'primary'"
+              [mode]="'indeterminate'">
+            </mat-progress-spinner>
+            Загрузка
+          </div>
+          <span *ngIf="!ahoRequestsService.isAddingRequest()">Подать заявку</span>
+        </button>
+      </div>
+      <!-- End: Кнопка добавления заявки -->
+
+
+      <!-- Start: Кнопка отмены -->
+      <div class="col-12 col-md-6 pt-2 pt-md-0">
+        <button mat-raised-button
+                mat-dialog-close
+                [color]="'warn'"
+                class="w-100">
+          Отмена
+        </button>
+      </div>
+      <!-- End: Кнопка отмены -->
+
+    </div>
+  </div>
+
+
+
+
+
 </mat-dialog-actions>

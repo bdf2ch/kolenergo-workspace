@@ -4,9 +4,9 @@
 
     <mat-form-field class="w-100">
       <mat-select placeholder="Тип заявки"
-                  [(value)]="newRequest.requestTypeId">
+                  [(value)]="newRequest.type">
         <mat-option *ngFor="let requestType of ahoRequestsService.getRequestTypes()"
-                    [value]="requestType.id">
+                    [value]="requestType">
           {{ requestType.title }}
         </mat-option>
       </mat-select>

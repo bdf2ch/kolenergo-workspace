@@ -5,6 +5,7 @@ import { AuthenticationService } from '@kolenergo/lib';
 import { AhoRequestsService } from '../../shared/services/aho-requests.service';
 import { MatTableDataSource } from '@angular/material';
 import { NewRequestComponent } from '../../shared/components/new-request/new-request.component';
+import { AhoRequest } from '../../shared/models/aho-request.model';
 
 @Component({
   selector: 'app-start',
@@ -13,7 +14,7 @@ import { NewRequestComponent } from '../../shared/components/new-request/new-req
 })
 export class StartComponent implements OnInit {
   dataSource: any;
-  displayedColumns = ['requestType', 'id', 'dateCreated', 'user', 'comment', 'room'];
+  displayedColumns = ['requestType', 'id', 'dateCreated', 'user', 'room', 'comment', 'requestStatus'];
 
   constructor(private dialog: MatDialog,
               public authenticationService: AuthenticationService,
@@ -42,7 +43,8 @@ export class StartComponent implements OnInit {
     });
   }
 
-  selectRequest(row: any) {
-    console.log(row);
+  selectRequest(request: AhoRequest) {
+    console.log(request);
+    this.ahoRequestsService.setSelectedRequest(request);
   }
 }

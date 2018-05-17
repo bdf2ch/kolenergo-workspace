@@ -4,6 +4,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AuthenticationService } from '@kolenergo/lib';
 import { AhoRequestsService } from '../../services/aho-requests.service';
 import { AhoRequest } from '../../models/aho-request.model';
+import { IAddAhoRequest } from '../../interfaces/aho-request.add.interface';
 
 @Component({
   selector: 'app-new-request',
@@ -12,7 +13,7 @@ import { AhoRequest } from '../../models/aho-request.model';
 })
 export class NewRequestComponent implements OnInit {
   newRequestForm: FormGroup;
-  newRequest: AhoRequest;
+  newRequest: IAddAhoRequest;
 
   constructor(private readonly dialog: MatDialog,
               private readonly dialogRef: MatDialogRef<NewRequestComponent>,
@@ -28,6 +29,7 @@ export class NewRequestComponent implements OnInit {
 
   ngOnInit() {
     this.newRequest.userId = this.authenticationService.getCurrentUser() ? this.authenticationService.getCurrentUser().id : 0;
+    this.newRequest.status = this.ahoRequestsService.getRequestStatusById(1);
   }
 
 

@@ -1,5 +1,7 @@
 import { IAhoRequest } from '../interfaces/aho-request.interface';
 import { User } from '@kolenergo/lib';
+import { AhoRequestType } from './aho-request-type.model';
+import { AhoRequestStatus } from './aho-request-status.model';
 
 /**
  * Класс, реализующий интерфейс заявки АХО
@@ -7,7 +9,8 @@ import { User } from '@kolenergo/lib';
 export class AhoRequest implements IAhoRequest {
   id: number;               // Идентификатор заявки
   userId: number;           // Идентификатор пользователя, подавшего заявку
-  requestTypeId: number;    // Идентификатор типа заявки
+  type: AhoRequestType;     // Тип заявки
+  status: AhoRequestStatus; // Статус заявки
   comment: string;          // Содержание заявки
   room: string;             // Кабинет
   dateCreated: Date;        // Дата создания заявки
@@ -20,7 +23,8 @@ export class AhoRequest implements IAhoRequest {
   constructor(config?: IAhoRequest) {
     this.id = config ? config.id : 0;
     this.userId = config ? config.userId : 0;
-    this.requestTypeId = config ? config.requestTypeId : 0;
+    this.type = config ? new AhoRequestType(config.type) : new AhoRequestType();
+    this.status = config ? new AhoRequestStatus(config.status) : new AhoRequestStatus();
     this.comment = config ? config.comment : '';
     this.room = config ? config.room : '';
     this.dateCreated = config ? new Date(config.dateCreated) : new Date();

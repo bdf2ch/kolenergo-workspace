@@ -1,30 +1,7 @@
 <div class="container-fluid content-wrapper pb-3">
-  <div class="row pt-3">
-
-      <div class="d-flex filter-search">
-        <mat-form-field class="w-100">
-          <input type="text" matInput placeholder="Поиск заявок">
-          <mat-icon matPrefix fontSet="fa" fontIcon="fa-search" class="pr-3" [color]="'primary'"></mat-icon>
-          <mat-icon matSuffix fontSet="fa" fontIcon="fa-times" class="pr-3" [color]="'primary'"></mat-icon>
-          <mat-icon matSuffix fontSet="fa" fontIcon="fa-filter" class="pr-3" [color]="'primary'"></mat-icon>
-          <mat-progress-spinner
-            matSuffix
-            [diameter]="10"
-            [color]="'primary'"
-            [mode]="'indeterminate'">
-          </mat-progress-spinner>
-        </mat-form-field>
-      </div>
-
-    <div class="d-flex col-auto" style="width: 40px;">
-      <button mat-raised-button>
-        <mat-icon fontSet="fa" fontIcon="fa-filter"></mat-icon>
-      </button>
-    </div>
-  </div>
-  <div class="row no-gutters">
+  <div class="row no-gutters pt-1 pt-sm-2 pt-md-3">
     <div class="col-12">
-      <mat-table #table [dataSource]="dataSource" class="aho-requests-table">
+      <mat-table #table [dataSource]="ahoRequestsService.getDataSource()" class="aho-requests-table">
 
         <!-- Start: Request type column -->
         <ng-container matColumnDef="requestType">
@@ -32,8 +9,9 @@
           <mat-cell *matCellDef="let element" class="request-type-column d-none d-sm-flex">
             <mat-icon
               [color]="'accent'"
-              fontSet="fa" fontIcon="{{ ahoRequestsService.getRequestTypeById(element.requestTypeId).icon }}"
-              matTooltip="{{ ahoRequestsService.getRequestTypeById(element.requestTypeId).title }}"
+              fontSet="fa"
+              fontIcon="{{ element.type.icon }}"
+              matTooltip="{{ element.type.title }}"
               [matTooltipPosition]="'right'">
             </mat-icon>
           </mat-cell>
@@ -74,6 +52,19 @@
           <mat-cell *matCellDef="let element" class="request-date-created-column d-none d-sm-none d-md-flex"> {{ element.dateCreated | date:'dd.MM.yyyy, HH:mm' }} </mat-cell>
         </ng-container>
         <!-- End: Request end column -->
+
+        <!-- Start: Request status column -->
+        <ng-container matColumnDef="requestStatus">
+          <mat-header-cell *matHeaderCellDef class="request-status-column d-none d-sm-none d-md-flex"> Статус </mat-header-cell>
+          <mat-cell *matCellDef="let element" class="request-status-column d-none d-sm-none d-md-flex">
+            <mat-icon fontSet="fa"
+                      fontIcon="{{ element.status.icon }}"
+                      [style.color]="element.status.iconColor ? element.status.iconColor : 'black'"
+                      *ngIf="element.status.icon" matTooltip="{{element.status.title}}" [matTooltipPosition]="'left'">
+            </mat-icon>
+          </mat-cell>
+        </ng-container>
+        <!-- End: Request status column -->
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selectRequest(row)"></mat-row>

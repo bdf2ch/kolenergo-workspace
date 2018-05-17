@@ -5,6 +5,7 @@ import { IAddAhoRequestType } from '../interfaces/aho-request-type.add.interface
 import { IAddAhoRequest } from '../interfaces/aho-request.add.interface';
 import { IAhoRequest } from '../interfaces/aho-request.interface';
 import { environment } from '../../../../_common/environments/environment';
+import { IAhoRequestStatus } from '../interfaces/aho-request-status.interface';
 
 
 @Injectable()
@@ -16,6 +17,7 @@ export class AhoRequestsResource extends Resource {
   constructor(handler: ResourceHandler) {
     super(handler);
   }
+
 
   @ResourceAction({
     path: '/types',
@@ -37,6 +39,13 @@ export class AhoRequestsResource extends Resource {
     withCredentials: true
   })
   editType: IResourceMethod<{ id: number, requestType: IAddAhoRequestType }, IAhoRequestType>;
+
+  @ResourceAction({
+    path: '/statuses',
+    method: ResourceRequestMethod.Get,
+    withCredentials: true
+  })
+  getRequestStatuses: IResourceMethod<void, IAhoRequestStatus[]>;
 
   @ResourceAction({
     path: '/requests',

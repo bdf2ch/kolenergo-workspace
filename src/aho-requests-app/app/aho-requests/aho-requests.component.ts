@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthenticationDialogComponent, AuthenticationService } from '@kolenergo/lib';
+import {AhoRequestsService} from '../shared/services/aho-requests.service';
 
 @Component({
   selector: 'app-aho-requests',
@@ -10,7 +11,8 @@ import { AuthenticationDialogComponent, AuthenticationService } from '@kolenergo
 export class AhoRequestsComponent implements OnInit {
 
   constructor(private readonly dialog: MatDialog,
-              public readonly authenticationService: AuthenticationService) {}
+              public readonly authenticationService: AuthenticationService,
+              public ahoRequestsService: AhoRequestsService) {}
 
   ngOnInit() {}
 

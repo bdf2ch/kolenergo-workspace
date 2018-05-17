@@ -6,6 +6,7 @@ export { IAddAhoRequest } from './app/shared/interfaces/aho-request.add.interfac
 export { IAhoRequestType } from './app/shared/interfaces/aho-request-type.interface';
 export { IAddAhoRequestType } from './app/shared/interfaces/aho-request-type.add.interface';
 export { IEditAhoRequestType } from './app/shared/interfaces/aho-request-type.edit.interface';
+export { IAhoRequestStatus } from './app/shared/interfaces/aho-request-status.interface';
 
 
 /**

@@ -6,20 +6,27 @@ import { IAhoRequestType } from '../interfaces/aho-request-type.interface';
 import { AhoRequest } from '../models/aho-request.model';
 import { IAhoRequest } from '../interfaces/aho-request.interface';
 import { IAddAhoRequest } from '../interfaces/aho-request.add.interface';
+import {AhoRequestStatus} from '../models/aho-request-status.model';
+import {IAhoRequestStatus} from '../interfaces/aho-request-status.interface';
+import {MatTableDataSource} from '@angular/material';
 
 @Injectable()
 export class AhoRequestsService {
   private requestTypes: AhoRequestType[];
+  private requestStatuses: AhoRequestStatus[];
   private requests: AhoRequest[];
   private selectedRequest: AhoRequest | null;
   private addRequestInProgress: boolean;
+  private dataSource: MatTableDataSource<AhoRequest>;
 
   constructor(private readonly snackBar: MatSnackBar,
               private readonly ahoRequestResource: AhoRequestsResource) {
     this.requestTypes = [];
+    this.requestStatuses = [];
     this.requests = [];
     this.selectedRequest = null;
     this.addRequestInProgress = false;
+    this.dataSource = new MatTableDataSource<AhoRequest>(this.requests);
   }
 
   /**
@@ -36,6 +43,14 @@ export class AhoRequestsService {
    */
   getSelectedRequest(): AhoRequest | null {
     return this.selectedRequest;
+  }
+
+  /**
+   * Возвращает DataSource для таблицы с заявками
+   * @returns {MatTableDataSource}
+   */
+  getDataSource(): MatTableDataSource<AhoRequest> {
+    return this.dataSource;
   }
 
   /**
@@ -65,6 +80,7 @@ export class AhoRequestsService {
       return null;
     }
   }
+
 
   getRequests(): AhoRequest[] {
     return this.requests;
@@ -99,6 +115,11 @@ export class AhoRequestsService {
     return this.requestTypes;
   }
 
+  /**
+   * Поиск типа заявки по идентификатору типа
+   * @param {number} id - Идентификатор типа заявки
+   * @returns {AhoRequestType | null}
+   */
   getRequestTypeById(id: number): AhoRequestType | null {
     let result: AhoRequestType | null = null;
     this.requestTypes.forEach((requestType: AhoRequestType) => {
@@ -107,6 +128,50 @@ export class AhoRequestsService {
       }
     });
     return result;
+  }
+
+
+  /**
+   * Получение статусов заявок АХО с сервера
+   * @returns {Promise<IAhoRequestStatus[] | null>}
+   */
+  async fetchRequestStatuses(): Promise<IAhoRequestStatus[] | null> {
+    try {
+      const result = await this.ahoRequestResource.getRequestStatuses();
+      if (result) {
+        result.forEach((item: IAhoRequestStatus) => {
+          const requestStatus = new AhoRequestStatus(item);
+          this.requestStatuses.push(requestStatus);
+        });
+        return this.requestStatuses;
+      }
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  /**
+   * Поиск статуса заявки по идентификатору статуса
+   * @param {number} id - Идентификатор статуса
+   * @returns {AhoRequestStatus | null}
+   */
+  getRequestStatusById(id: number): AhoRequestStatus | null {
+    let result: AhoRequestStatus | null = null;
+    this.requestStatuses.forEach((item: AhoRequestStatus) => {
+      if (item.id === id) {
+        result = item;
+      }
+    });
+    return result;
+  }
+
+  /**
+   * Возвращает все статусы заявок АХО
+   * @returns {AhoRequestStatus[]}
+   */
+  getRequestStatuses(): AhoRequestStatus[] {
+    return this.requestStatuses;
   }
 
   /**
@@ -127,6 +192,7 @@ export class AhoRequestsService {
           verticalPosition: 'bottom',
           duration: 3000
         });
+        this.dataSource = new MatTableDataSource<AhoRequest>(this.requests);
         return newRequest;
       }
     } catch (error) {

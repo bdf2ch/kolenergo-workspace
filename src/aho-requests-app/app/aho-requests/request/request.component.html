@@ -1,0 +1,46 @@
+<div class="container-fluid content-wrapper h-100 pb-3">
+  <div class="row pt-3">
+    <div class="col-12">
+      <mat-card class="aho-request">
+
+        <mat-card-header>
+          <mat-card-title>
+            <span class="request-title">
+              Заявка #{{ ahoRequestService.getSelectedRequest().id }}
+            </span>
+            <span class="request-date"> от {{ ahoRequestService.getSelectedRequest().dateCreated | date:'dd.MM.yyyy, HH:mm' }}</span>
+          </mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-12">
+                <mat-divider class="pb-4 mb-4"></mat-divider>
+                <div class="request-type mt-5 mb-5">
+                  <mat-icon fontSet="fa"
+                            fontIcon="{{ ahoRequestService.getSelectedRequest().type.icon }}"
+                            *ngIf="ahoRequestService.getSelectedRequest().type.icon">
+                  </mat-icon>
+                  <span>{{ ahoRequestService.getSelectedRequest().type.title }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12 request-comment">
+                {{ ahoRequestService.getSelectedRequest().comment }}
+                <mat-divider></mat-divider>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+
+        <mat-card-actions>
+          <button mat-button>LIKE</button>
+          <button mat-button>SHARE</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>

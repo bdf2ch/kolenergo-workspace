@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthenticationDialogComponent } from '@kolenergo/lib';
 import { AuthenticationService } from '@kolenergo/lib';
@@ -16,13 +17,17 @@ export class StartComponent implements OnInit {
   dataSource: any;
   displayedColumns = ['requestType', 'id', 'dateCreated', 'user', 'room', 'comment', 'requestStatus'];
 
-  constructor(private dialog: MatDialog,
-              public authenticationService: AuthenticationService,
-              public ahoRequestsService: AhoRequestsService) {
+  constructor(private readonly router: Router,
+              private readonly dialog: MatDialog,
+              public readonly authenticationService: AuthenticationService,
+              public readonly ahoRequestsService: AhoRequestsService) {
     this.dataSource = new MatTableDataSource(this.ahoRequestsService.getRequests());
   }
 
   ngOnInit() {
+    setTimeout(() => {
+      this.ahoRequestsService.setSelectedRequest(null);
+    });
   }
 
 
@@ -46,5 +51,6 @@ export class StartComponent implements OnInit {
   selectRequest(request: AhoRequest) {
     console.log(request);
     this.ahoRequestsService.setSelectedRequest(request);
+    this.router.navigate(['/request', request.id]);
   }
 }

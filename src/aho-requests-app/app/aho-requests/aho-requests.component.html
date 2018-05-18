@@ -2,11 +2,16 @@
   <mat-toolbar-row>
     <div class="container-fluid">
       <div class="row justify-content-around">
-        <div class="col-auto d-none d-sm-none d-md-flex align-content-center align-items-center">
-          <span class="d-inline-flex"><strong>Заявки</strong>&nbsp;АХО</span>
-          <span class="selected-request" *ngIf="ahoRequestsService.getSelectedRequest()">
+        <div class="col-auto d-none d-sm-none d-md-flex align-content-center align-items-center align-content-center">
+          <div class="app-title d-flex align-items-center">
+            <a routerLink="/">
+              <span class="bold mr-1">Заявки</span>
+              <span class="regular">АХО</span>
+            </a>
+            <span class="regular" *ngIf="ahoRequestsService.getSelectedRequest()">
             &nbsp; &#124; заявка #{{ ahoRequestsService.getSelectedRequest().id }}
           </span>
+          </div>
         </div>
 
         <div class="col">
@@ -27,14 +32,14 @@
                   [matMenuTriggerFor]="userMenu">
             {{ authenticationService.getCurrentUser().firstName + ' ' + authenticationService.getCurrentUser().lastName }}
           </button>
-          <mat-menu #userMenu="matMenu" [yPosition]="'below'">
+          <mat-menu #userMenu="matMenu" [yPosition]="'below'" class="user-menu">
             <button mat-menu-item>
-              <mat-icon>settings</mat-icon>
-              Настройки
+              <mat-icon color="'primary'" fontSet="fa" fontIcon="fa-user-circle-o"></mat-icon>
+              Мои заявки
             </button>
             <button mat-menu-item
                     (click)="logOut()">
-              <mat-icon [color]="'primary'" fontSet="fa" fontIcon="fa-lightbulb" class="fa-2x"></mat-icon>
+              <mat-icon color="'primary'" fontSet="fa" fontIcon="fa-sign-out"></mat-icon>
               Выход из системы
             </button>
           </mat-menu>

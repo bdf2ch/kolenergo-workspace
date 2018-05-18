@@ -6,9 +6,9 @@ import { IAhoRequestType } from '../interfaces/aho-request-type.interface';
 import { AhoRequest } from '../models/aho-request.model';
 import { IAhoRequest } from '../interfaces/aho-request.interface';
 import { IAddAhoRequest } from '../interfaces/aho-request.add.interface';
-import {AhoRequestStatus} from '../models/aho-request-status.model';
-import {IAhoRequestStatus} from '../interfaces/aho-request-status.interface';
-import {MatTableDataSource} from '@angular/material';
+import { AhoRequestStatus } from '../models/aho-request-status.model';
+import { IAhoRequestStatus } from '../interfaces/aho-request-status.interface';
+import { MatTableDataSource } from '@angular/material';
 
 @Injectable()
 export class AhoRequestsService {
@@ -84,6 +84,17 @@ export class AhoRequestsService {
 
   getRequests(): AhoRequest[] {
     return this.requests;
+  }
+
+
+  async fetchRequestById(id: number): Promise<AhoRequest | null> {
+    try {
+      const result = await this.ahoRequestResource.getRequestById({id: id});
+      return result ? new AhoRequest(result) : null;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
   }
 
 

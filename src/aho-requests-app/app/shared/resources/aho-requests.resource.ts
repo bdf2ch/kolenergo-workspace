@@ -55,6 +55,13 @@ export class AhoRequestsResource extends Resource {
   getRequests: IResourceMethod<void, IAhoRequest[]>;
 
   @ResourceAction({
+    path: '/requests/{!id}',
+    method: ResourceRequestMethod.Get,
+    withCredentials: true
+  })
+  getRequestById: IResourceMethod<{id: number}, IAhoRequest>;
+
+  @ResourceAction({
     path: '/requests',
     method: ResourceRequestMethod.Post,
     withCredentials: true

@@ -21,6 +21,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatDividerModule } from '@angular/material/divider';
 import { AuthenticationModule } from '../../shared-lib/api';
 import { AppComponent } from './app.component';
 import { StartComponent } from './aho-requests/start/start.component';
@@ -30,6 +31,8 @@ import { AhoRequestsService } from './shared/services/aho-requests.service';
 import { AhoRequestsResolveGuard } from './shared/guards/resolve.guard';
 import { AhoRequestsResource } from './shared/resources/aho-requests.resource';
 import { NewRequestComponent } from './shared/components/new-request/new-request.component';
+import { RequestComponent } from './aho-requests/request/request.component';
+import { RequestResolveGuard } from './aho-requests/request/request-resolve.guard';
 
 
 const routes: Routes = [
@@ -37,13 +40,20 @@ const routes: Routes = [
     path: '',
     component: AhoRequestsComponent,
     resolve: [
-      ResolveGuard,
-      AhoRequestsResolveGuard
+      ResolveGuard
     ],
     children: [
       {
         path: '',
-        component: StartComponent
+        component: StartComponent,
+        resolve: [AhoRequestsResolveGuard]
+      },
+      {
+        path: 'request/:id',
+        component: RequestComponent,
+        resolve: [
+          RequestResolveGuard
+        ]
       }
     ]
   }
@@ -74,13 +84,15 @@ const routes: Routes = [
     MatSnackBarModule,
     MatTooltipModule,
     MatProgressSpinnerModule,
-    MatChipsModule
+    MatChipsModule,
+    MatDividerModule
   ],
   declarations: [
     AppComponent,
     StartComponent,
     AhoRequestsComponent,
-    NewRequestComponent
+    NewRequestComponent,
+    RequestComponent
   ],
   bootstrap: [
     AppComponent
@@ -89,7 +101,8 @@ const routes: Routes = [
     MatIconRegistry,
     AhoRequestsResource,
     AhoRequestsService,
-    AhoRequestsResolveGuard
+    AhoRequestsResolveGuard,
+    RequestResolveGuard
   ],
   entryComponents: [
     NewRequestComponent

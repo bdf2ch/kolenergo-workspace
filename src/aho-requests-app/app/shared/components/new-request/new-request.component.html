@@ -35,25 +35,14 @@
         <mat-error *ngIf="newRequestForm.get('room').invalid">{{ getCommentErrorMessage() }}</mat-error>
       </mat-form-field>
 
-      <div *ngIf="newRequest.type.id === 1">
+      <div class="mt-2" *ngIf="newRequest.type.id === 1">
 
         <mat-table [dataSource]="officeStuffDataSource">
-
-          <!-- Start: Request id column -->
-          <ng-container matColumnDef="controls">
-            <mat-header-cell *matHeaderCellDef > # </mat-header-cell>
-            <mat-cell *matCellDef="let element">
-              <button mat-icon-button [color]="'primary'">
-                <mat-icon fontSet="fa" fontIcon="fa-trash"></mat-icon>
-              </button>
-            </mat-cell>
-          </ng-container>
-          <!-- End: Request id column -->
 
           <!-- Start: Request user column -->
           <ng-container matColumnDef="title">
             <mat-header-cell *matHeaderCellDef class="office-stuff-item-title-column pr-3"> Наименование </mat-header-cell>
-            <mat-cell *matCellDef="let element" class="office-stuff-item-title-column pr-3">
+            <mat-cell *matCellDef="let element" class="office-stuff-item-title-column pr-3 pt-2">
               <mat-form-field class="w-100">
                 <input type="text"
                        matInput
@@ -69,10 +58,11 @@
           <!-- Start: Request comment column -->
           <ng-container matColumnDef="count">
             <mat-header-cell *matHeaderCellDef class="office-stuff-item-count-column"> Количество </mat-header-cell>
-            <mat-cell *matCellDef="let element" class="office-stuff-item-count-column">
+            <mat-cell *matCellDef="let element" class="office-stuff-item-count-column pt-2">
               <mat-form-field class="w-100">
                 <input type="number"
                        matInput
+                       [min]="1"
                        placeholder="Кол-во"
                        formControlName="room"
                        required>
@@ -81,6 +71,17 @@
             </mat-cell>
           </ng-container>
           <!-- End: Request comment column -->
+
+          <!-- Start: Request id column -->
+          <ng-container matColumnDef="controls">
+            <mat-header-cell *matHeaderCellDef class="office-stuff-item-controls-column"></mat-header-cell>
+            <mat-cell *matCellDef="let element" class="office-stuff-item-controls-column d-flex justify-content-end">
+              <button mat-icon-button [color]="'primary'">
+                <mat-icon fontSet="fa" fontIcon="fa-trash" matTooltip="Удалить" [matTooltipPosition]="'right'"></mat-icon>
+              </button>
+            </mat-cell>
+          </ng-container>
+          <!-- End: Request id column -->
 
           <mat-header-row *matHeaderRowDef="headerColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: headerColumns;"></mat-row>

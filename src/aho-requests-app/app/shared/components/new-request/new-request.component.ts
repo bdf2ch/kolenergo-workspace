@@ -16,8 +16,7 @@ export class NewRequestComponent implements OnInit {
   newRequestForm: FormGroup;
   newRequest: AhoRequest;
   officeStuffDataSource: MatTableDataSource<OfficeStuffListItem>;
-  headerColumns = ['controls', 'title', 'count'];
-  newItemColumns = ['title', 'count'];
+  headerColumns = ['title', 'count', 'controls'];
 
   constructor(private readonly dialog: MatDialog,
               private readonly dialogRef: MatDialogRef<NewRequestComponent>,
@@ -33,6 +32,7 @@ export class NewRequestComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.newRequest.type = this.ahoRequestsService.getRequestTypes()[0];
     this.newRequest.userId = this.authenticationService.getCurrentUser() ? this.authenticationService.getCurrentUser().id : 0;
     this.newRequest.status = this.ahoRequestsService.getRequestStatusById(1);
     this.newRequest.officeStuffList.push(new OfficeStuffListItem());

@@ -2,13 +2,13 @@
  * Interfaces
  */
 
-export { IMobilePhone } from './app/shared/interfaces/mobile-phone.interface';
+export { IMobilePhone } from './app/users/interfaces/mobile-phone.interface';
 
 /**
  * Models
  */
 
-export { MobilePhone } from './app/shared/models/mobile-phone.model';
+export { MobilePhone } from './app/users/models/mobile-phone.model';
 
 /**
  * Authentication module
@@ -24,9 +24,9 @@ export { AuthenticationDialogComponent } from './app/authentication/components/a
  */
 export { UsersModule } from './app/users/users.module';
 export { UsersService } from './app/users/users.service';
-export { IUser } from './app/shared/interfaces/user.interface';
-export { IAddUser } from './app/shared/interfaces/user.add.interface';
-export { IEditUser } from './app/shared/interfaces/user.edit.interface';
-export { IDeleteUser } from './app/shared/interfaces/user.delete.interface';
-export { User } from './app/shared/models/user.model';
+export { IUser } from './app/users/interfaces/user.interface';
+export { IAddUser } from './app/users/interfaces/user.add.interface';
+export { IEditUser } from './app/users/interfaces/user.edit.interface';
+export { IDeleteUser } from './app/users/interfaces/user.delete.interface';
+export { User } from './app/users/models/user.model';
 

@@ -1,27 +1,28 @@
-<h2 mat-dialog-title>Новая заявка</h2>
-<mat-dialog-content>
-  <form [formGroup]="newRequestForm">
+<div class="new-request">
+  <h2 mat-dialog-title>Новая заявка</h2>
+  <mat-dialog-content>
+    <form [formGroup]="newRequestForm">
 
-    <mat-form-field class="w-100">
-      <mat-select placeholder="Тип заявки"
-                  [(value)]="newRequest.type">
-        <mat-option *ngFor="let requestType of ahoRequestsService.getRequestTypes()"
-                    [value]="requestType">
-          {{ requestType.title }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+      <mat-form-field class="w-100">
+        <mat-select placeholder="Категория заявки"
+                    [(value)]="newRequest.type">
+          <mat-option *ngFor="let requestType of ahoRequestsService.getRequestTypes()"
+                      [value]="requestType">
+            {{ requestType.title }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-    <mat-form-field class="w-100">
-      <input type="text" matInput
-             placeholder="Введите № кабинета"
-             formControlName="room"
-             [(ngModel)]="newRequest.room"
-             required>
-      <mat-error *ngIf="newRequestForm.get('room').invalid">{{ getRoomErrorMessage() }}</mat-error>
-    </mat-form-field>
+      <mat-form-field class="w-100" *ngIf="newRequest.type.id !== 1">
+        <input type="text" matInput
+               placeholder="Введите № кабинета"
+               formControlName="room"
+               [(ngModel)]="newRequest.room"
+               required>
+        <mat-error *ngIf="newRequestForm.get('room').invalid">{{ getRoomErrorMessage() }}</mat-error>
+      </mat-form-field>
 
-    <mat-form-field class="w-100 pt-2">
+      <mat-form-field class="w-100 pt-2" *ngIf="newRequest.type.id !== 1">
       <textarea matInput
                 placeholder="Комментарий к заявке"
                 formControlName="comment"
@@ -31,54 +32,109 @@
                 matAutosizeMaxRows="5"
                 required>
       </textarea>
-      <mat-error *ngIf="newRequestForm.get('room').invalid">{{ getCommentErrorMessage() }}</mat-error>
-    </mat-form-field>
+        <mat-error *ngIf="newRequestForm.get('room').invalid">{{ getCommentErrorMessage() }}</mat-error>
+      </mat-form-field>
 
-  </form>
-</mat-dialog-content>
-<mat-dialog-actions class="pt-3">
-  <div class="container-fluid p-0">
-    <div class="row">
+      <div *ngIf="newRequest.type.id === 1">
 
-      <!-- End: Кнопка добавления заявки -->
-      <div class="col-12 col-md-6">
-        <button mat-raised-button
-                type="submit"
+        <mat-table [dataSource]="officeStuffDataSource">
+
+          <!-- Start: Request id column -->
+          <ng-container matColumnDef="controls">
+            <mat-header-cell *matHeaderCellDef > # </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <button mat-icon-button [color]="'primary'">
+                <mat-icon fontSet="fa" fontIcon="fa-trash"></mat-icon>
+              </button>
+            </mat-cell>
+          </ng-container>
+          <!-- End: Request id column -->
+
+          <!-- Start: Request user column -->
+          <ng-container matColumnDef="title">
+            <mat-header-cell *matHeaderCellDef class="office-stuff-item-title-column pr-3"> Наименование </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="office-stuff-item-title-column pr-3">
+              <mat-form-field class="w-100">
+                <input type="text"
+                       matInput
+                       placeholder="Введите наименование"
+                       formControlName="room"
+                       required>
+                <!--<mat-error *ngIf="newRequestForm.get('room').invalid">{{ getRoomErrorMessage() }}</mat-error>-->
+              </mat-form-field>
+            </mat-cell>
+          </ng-container>
+          <!-- End: Request user column -->
+
+          <!-- Start: Request comment column -->
+          <ng-container matColumnDef="count">
+            <mat-header-cell *matHeaderCellDef class="office-stuff-item-count-column"> Количество </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="office-stuff-item-count-column">
+              <mat-form-field class="w-100">
+                <input type="number"
+                       matInput
+                       placeholder="Кол-во"
+                       formControlName="room"
+                       required>
+                <!--<mat-error *ngIf="newRequestForm.get('room').invalid">{{ getRoomErrorMessage() }}</mat-error>-->
+              </mat-form-field>
+            </mat-cell>
+          </ng-container>
+          <!-- End: Request comment column -->
+
+          <mat-header-row *matHeaderRowDef="headerColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: headerColumns;"></mat-row>
+        </mat-table>
+
+      </div>
+
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions class="pt-3">
+    <div class="container-fluid p-0">
+      <div class="row">
+
+        <!-- End: Кнопка добавления заявки -->
+        <div class="col-12 col-md-6">
+          <button mat-raised-button
+                  type="submit"
+                  [color]="'primary'"
+                  [disabled]="newRequestForm.invalid || ahoRequestsService.isAddingRequest()"
+                  class="w-100"
+                  (click)="addRequest()">
+            <div class="d-flex flex-row w-100 align-items-center" *ngIf="ahoRequestsService.isAddingRequest()">
+              <mat-progress-spinner
+                class="mr-2"
+                [diameter]="20"
                 [color]="'primary'"
-                [disabled]="newRequestForm.invalid || ahoRequestsService.isAddingRequest()"
-                class="w-100"
-                (click)="addRequest()">
-          <div class="d-flex flex-row w-100 align-items-center" *ngIf="ahoRequestsService.isAddingRequest()">
-            <mat-progress-spinner
-              class="mr-2"
-              [diameter]="20"
-              [color]="'primary'"
-              [mode]="'indeterminate'">
-            </mat-progress-spinner>
-            Загрузка
-          </div>
-          <span *ngIf="!ahoRequestsService.isAddingRequest()">Подать заявку</span>
-        </button>
+                [mode]="'indeterminate'">
+              </mat-progress-spinner>
+              Загрузка
+            </div>
+            <span *ngIf="!ahoRequestsService.isAddingRequest()">Подать заявку</span>
+          </button>
+        </div>
+        <!-- End: Кнопка добавления заявки -->
+
+
+        <!-- Start: Кнопка отмены -->
+        <div class="col-12 col-md-6 pt-2 pt-md-0">
+          <button mat-raised-button
+                  mat-dialog-close
+                  [color]="'warn'"
+                  class="w-100">
+            Отмена
+          </button>
+        </div>
+        <!-- End: Кнопка отмены -->
+
       </div>
-      <!-- End: Кнопка добавления заявки -->
-
-
-      <!-- Start: Кнопка отмены -->
-      <div class="col-12 col-md-6 pt-2 pt-md-0">
-        <button mat-raised-button
-                mat-dialog-close
-                [color]="'warn'"
-                class="w-100">
-          Отмена
-        </button>
-      </div>
-      <!-- End: Кнопка отмены -->
-
     </div>
-  </div>
 
 
 
 
 
-</mat-dialog-actions>
+  </mat-dialog-actions>
+
+</div>

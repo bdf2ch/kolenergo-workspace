@@ -4,7 +4,8 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AuthenticationService } from '@kolenergo/lib';
 import { AhoRequestsService } from '../../services/aho-requests.service';
 import { AhoRequest } from '../../models/aho-request.model';
-import { IAddAhoRequest } from '../../interfaces/aho-request.add.interface';
+import { MatTableDataSource } from '@angular/material';
+import { OfficeStuffListItem } from '../../models/office-stuff-list-item.model';
 
 @Component({
   selector: 'app-new-request',
@@ -13,7 +14,10 @@ import { IAddAhoRequest } from '../../interfaces/aho-request.add.interface';
 })
 export class NewRequestComponent implements OnInit {
   newRequestForm: FormGroup;
-  newRequest: IAddAhoRequest;
+  newRequest: AhoRequest;
+  officeStuffDataSource: MatTableDataSource<OfficeStuffListItem>;
+  headerColumns = ['controls', 'title', 'count'];
+  newItemColumns = ['title', 'count'];
 
   constructor(private readonly dialog: MatDialog,
               private readonly dialogRef: MatDialogRef<NewRequestComponent>,
@@ -21,6 +25,7 @@ export class NewRequestComponent implements OnInit {
               private readonly authenticationService: AuthenticationService,
               public readonly ahoRequestsService: AhoRequestsService) {
     this.newRequest = new AhoRequest();
+    this.officeStuffDataSource = new MatTableDataSource<OfficeStuffListItem>(this.newRequest.officeStuffList);
     this.newRequestForm = this.formBuilder.group({
       comment: ['', Validators.required],
       room: ['', Validators.required]
@@ -30,6 +35,8 @@ export class NewRequestComponent implements OnInit {
   ngOnInit() {
     this.newRequest.userId = this.authenticationService.getCurrentUser() ? this.authenticationService.getCurrentUser().id : 0;
     this.newRequest.status = this.ahoRequestsService.getRequestStatusById(1);
+    this.newRequest.officeStuffList.push(new OfficeStuffListItem());
+    //this.newRequest.officeStuffList = [];
   }
 
 

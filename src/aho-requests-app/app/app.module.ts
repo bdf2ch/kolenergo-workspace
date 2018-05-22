@@ -22,6 +22,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatListModule } from '@angular/material/list';
 import { AuthenticationModule } from '../../shared-lib/api';
 import { AppComponent } from './app.component';
 import { StartComponent } from './aho-requests/start/start.component';
@@ -85,7 +86,8 @@ const routes: Routes = [
     MatTooltipModule,
     MatProgressSpinnerModule,
     MatChipsModule,
-    MatDividerModule
+    MatDividerModule,
+    MatListModule
   ],
   declarations: [
     AppComponent,

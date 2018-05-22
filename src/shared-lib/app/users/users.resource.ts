@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { IResourceMethod, Resource, ResourceAction, ResourceHandler, ResourceParams, ResourceRequestMethod } from '@ngx-resource/core';
 import { environment } from '../../../_common/environments/environment';
-import { IUser } from '../shared/interfaces/user.interface';
-import { IAddUser } from '../shared/interfaces/user.add.interface';
+import { IUser } from './interfaces/user.interface';
+import { IAddUser } from './interfaces/user.add.interface';
 
 @Injectable()
 @ResourceParams({

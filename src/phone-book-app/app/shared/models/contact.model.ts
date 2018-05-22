@@ -1,5 +1,5 @@
 import { IContact } from '../interfaces/contact.interface';
-import { User } from '../../../../shared-lib/app/shared/models/user.model';
+import { User } from '../../../../shared-lib/app/users/models/user.model';
 import { Phone } from './phone.model';
 
 /**

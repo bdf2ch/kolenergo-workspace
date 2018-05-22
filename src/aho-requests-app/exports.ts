@@ -1,6 +1,7 @@
 /**
  * Intefaces
  */
+export { IOfficeStuffListItem } from './app/shared/interfaces/office-stuff-list-item.interface';
 export { IAhoRequest } from './app/shared/interfaces/aho-request.interface';
 export { IAddAhoRequest } from './app/shared/interfaces/aho-request.add.interface';
 export { IAhoRequestType } from './app/shared/interfaces/aho-request-type.interface';
@@ -14,3 +15,4 @@ export { IAhoRequestStatus } from './app/shared/interfaces/aho-request-status.in
  */
 export { AhoRequest } from './app/shared/models/aho-request.model';
 export { AhoRequestType } from './app/shared/models/aho-request-type.model';
+export { OfficeStuffListItem } from './app/shared/models/office-stuff-list-item.model';

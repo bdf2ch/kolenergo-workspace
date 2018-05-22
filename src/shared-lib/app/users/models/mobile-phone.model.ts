@@ -18,5 +18,3 @@ export class MobilePhone implements IMobilePhone {
     this.number = config ? config.number : '';
   }
 }
-
-

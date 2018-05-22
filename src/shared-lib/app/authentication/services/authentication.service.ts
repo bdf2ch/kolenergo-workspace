@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AuthenticationResource } from '../resources/authentication.resource';
-import { User } from '../../shared/models/user.model';
+import { User } from '../../users/models/user.model';
 
 @Injectable()
 export class AuthenticationService {
@@ -43,9 +43,9 @@ export class AuthenticationService {
    * @param {string} password - Пароль
    * @returns {Promise<User | null>}
    */
-  async logIn(account: string, password: string): Promise<User | null> {
+  async logIn(account: string, password: string, addIfNotExists?: boolean): Promise<User | null> {
     try {
-      const result = await this.authenticationResource.login({account: account, password: password});
+      const result = await this.authenticationResource.login({account: account, password: password, addIfNotExists: addIfNotExists});
       if (result) {
         this.currentUser = new User(result);
         return this.currentUser;

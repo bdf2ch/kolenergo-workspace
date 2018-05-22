@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
-import { User } from '../../shared/models/user.model';
+import { User } from '../../users/models/user.model';
 import { AuthenticationService } from '../services/authentication.service';
 
 

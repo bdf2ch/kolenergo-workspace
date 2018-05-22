@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IResourceMethod, Resource, ResourceAction, ResourceHandler, ResourceParams, ResourceRequestMethod } from '@ngx-resource/core';
-import { IUser } from '../../../../shared-lib/app/shared/interfaces/user.interface';
+import { IUser } from '../../users/interfaces/user.interface';
 import { environment } from '../../../../_common/environments/environment';
 
 @Injectable()
@@ -25,7 +25,7 @@ export class AuthenticationResource extends Resource {
     path: '/login',
     withCredentials: true
   })
-  login: IResourceMethod<{account: string, password: string}, IUser>;
+  login: IResourceMethod<{account: string, password: string, addIfNotExists?: boolean}, IUser>;
 
   @ResourceAction({
     path: '/logout',

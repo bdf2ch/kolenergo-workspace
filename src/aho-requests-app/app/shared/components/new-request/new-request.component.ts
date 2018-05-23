@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AuthenticationService } from '@kolenergo/lib';
 import { AhoRequestsService } from '../../services/aho-requests.service';
@@ -27,7 +27,9 @@ export class NewRequestComponent implements OnInit {
     this.officeStuffDataSource = new MatTableDataSource<OfficeStuffListItem>(this.newRequest.officeStuffList);
     this.newRequestForm = this.formBuilder.group({
       comment: ['', Validators.required],
-      room: ['', Validators.required]
+      room: ['', Validators.required],
+      officeStuffItemTitle1: ['', Validators.required],
+      officeStuffItemCount1: ['', Validators.required]
     });
   }
 
@@ -54,6 +56,32 @@ export class NewRequestComponent implements OnInit {
    */
   getCommentErrorMessage(): string {
     return this.newRequestForm.get('comment').hasError('required') ? 'Вы не ввели комментарий к заявке' : '';
+  }
+
+  addOfficeStuffItem(item: OfficeStuffListItem, index: number) {
+    console.log(item, index);
+    console.log(this.newRequestForm);
+
+    this.newRequestForm.addControl(`officeStuffItemTitle${index + 1}`, new FormControl('', Validators.required));
+    this.newRequestForm.addControl(`officeStuffItemCount${index + 1}`, new FormControl('', Validators.required));
+
+
+    this.newRequest.officeStuffList.push(new OfficeStuffListItem({
+      id: 0,
+      requestId: 0,
+      title: '',
+      count: 1,
+      isDone: false,
+    }));
+
+    //this.newRequestForm.get(`officeStuffItemTitle${index}`).reset();
+    //this.newRequestForm.get(`officeStuffItemCount${index}`).reset();
+
+
+
+    setTimeout(() => {
+      this.officeStuffDataSource = new MatTableDataSource<OfficeStuffListItem>(this.newRequest.officeStuffList);
+    });
   }
 
   /**

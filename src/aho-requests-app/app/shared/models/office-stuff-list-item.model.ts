@@ -18,7 +18,7 @@ export class OfficeStuffListItem implements IOfficeStuffListItem {
     this.id = config ? config.id : 0;
     this.requestId = config ? config.requestId : 0;
     this.title = config ? config.title : '';
-    this.count = config ? config.count : 0;
+    this.count = config ? config.count : 1;
     this.isDone = config ? config.isDone : false;
   }
 }

@@ -3,6 +3,7 @@
   <mat-dialog-content>
     <form [formGroup]="newRequestForm">
 
+      <!-- Start: Категория заявки -->
       <mat-form-field class="w-100">
         <mat-select placeholder="Категория заявки"
                     [(value)]="newRequest.type">
@@ -12,82 +13,111 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+      <!-- End: Категория заявки -->
 
+      <!-- Start: # Кабинета -->
       <mat-form-field class="w-100" *ngIf="newRequest.type.id !== 1">
-        <input type="text" matInput
+        <input type="text"
+               matInput
                placeholder="Введите № кабинета"
                formControlName="room"
                [(ngModel)]="newRequest.room"
                required>
         <mat-error *ngIf="newRequestForm.get('room').invalid">{{ getRoomErrorMessage() }}</mat-error>
       </mat-form-field>
+      <!-- End: # Кабинета -->
 
+      <!-- Start: Комментарий -->
       <mat-form-field class="w-100 pt-2" *ngIf="newRequest.type.id !== 1">
-      <textarea matInput
-                placeholder="Комментарий к заявке"
-                formControlName="comment"
-                [(ngModel)]="newRequest.comment"
-                matTextareaAutosize
-                matAutosizeMinRows="1"
-                matAutosizeMaxRows="5"
+        <textarea matInput
+                  placeholder="Комментарий к заявке"
+                  formControlName="comment"
+                  [(ngModel)]="newRequest.comment"
+                  matTextareaAutosize
+                  matAutosizeMinRows="1"
+                  matAutosizeMaxRows="5"
                 required>
-      </textarea>
+        </textarea>
         <mat-error *ngIf="newRequestForm.get('room').invalid">{{ getCommentErrorMessage() }}</mat-error>
       </mat-form-field>
+      <!-- End: Комментарий -->
 
+      <!-- Start: Список канцелярских товаров -->
       <div class="mt-2" *ngIf="newRequest.type.id === 1">
 
         <mat-table [dataSource]="officeStuffDataSource">
 
-          <!-- Start: Request user column -->
+          <!-- Start: Колонка наименования концелярских принадлежностей -->
           <ng-container matColumnDef="title">
             <mat-header-cell *matHeaderCellDef class="office-stuff-item-title-column pr-3"> Наименование </mat-header-cell>
-            <mat-cell *matCellDef="let element" class="office-stuff-item-title-column pr-3 pt-2">
+            <mat-cell *matCellDef="let element; let i = index;" class="office-stuff-item-title-column pr-3 pt-2">
               <mat-form-field class="w-100">
                 <input type="text"
                        matInput
-                       placeholder="Введите наименование"
-                       formControlName="room"
+                       placeholder="Наименование"
+                       formControlName="{{ 'officeStuffItemTitle' + (i + 1).toString() }}"
+                       [(ngModel)]="element.title"
                        required>
                 <!--<mat-error *ngIf="newRequestForm.get('room').invalid">{{ getRoomErrorMessage() }}</mat-error>-->
               </mat-form-field>
             </mat-cell>
           </ng-container>
-          <!-- End: Request user column -->
+          <!-- End: Колонка наименования канцелярских принадлежностей -->
 
-          <!-- Start: Request comment column -->
+          <!-- Start: Колонка количества канцелярских принадлежностей -->
           <ng-container matColumnDef="count">
             <mat-header-cell *matHeaderCellDef class="office-stuff-item-count-column"> Количество </mat-header-cell>
-            <mat-cell *matCellDef="let element" class="office-stuff-item-count-column pt-2">
+            <mat-cell *matCellDef="let element; let i = index;" class="office-stuff-item-count-column pt-2">
               <mat-form-field class="w-100">
                 <input type="number"
                        matInput
                        [min]="1"
                        placeholder="Кол-во"
-                       formControlName="room"
+                       formControlName="{{ 'officeStuffItemCount' + (i + 1).toString() }}"
+                       [(ngModel)]="element.count"
                        required>
                 <!--<mat-error *ngIf="newRequestForm.get('room').invalid">{{ getRoomErrorMessage() }}</mat-error>-->
               </mat-form-field>
             </mat-cell>
           </ng-container>
-          <!-- End: Request comment column -->
+          <!-- End: Колонка количества канцелярских принадлежностей -->
 
-          <!-- Start: Request id column -->
+          <!-- Start: Колонка элементов управления-->
           <ng-container matColumnDef="controls">
             <mat-header-cell *matHeaderCellDef class="office-stuff-item-controls-column"></mat-header-cell>
-            <mat-cell *matCellDef="let element" class="office-stuff-item-controls-column d-flex justify-content-end">
-              <button mat-icon-button [color]="'primary'">
-                <mat-icon fontSet="fa" fontIcon="fa-trash" matTooltip="Удалить" [matTooltipPosition]="'right'"></mat-icon>
+            <mat-cell *matCellDef="let element; let i = index; let isLast = last;" class="office-stuff-item-controls-column d-flex justify-content-end">
+              <button mat-icon-button
+                      [color]="'primary'"
+                      [disabled]="newRequestForm.get('officeStuffItemTitle' + (i === 0 ? i + 1 : i).toString()).invalid || newRequestForm.get('officeStuffItemCount' + (i === 0 ? i + 1 : i).toString()).invalid"
+                      (click)="addOfficeStuffItem(element, i + 1)"
+                      *ngIf="isLast">
+                <mat-icon fontSet="fa"
+                          fontIcon="fa-plus"
+                          matTooltip="Добавить"
+                          [matTooltipPosition]="'above'">
+                </mat-icon>
+              </button>
+
+              <button mat-icon-button
+                      [color]="'primary'"
+                      (click)="addOfficeStuffItem(element, i + 1)"
+                      *ngIf="!isLast">
+                <mat-icon fontSet="fa"
+                          fontIcon="fa-trash"
+                          matTooltip="Удалить"
+                          [matTooltipPosition]="'above'">
+                </mat-icon>
               </button>
             </mat-cell>
           </ng-container>
-          <!-- End: Request id column -->
+          <!-- End: Колонка элементов управления -->
 
           <mat-header-row *matHeaderRowDef="headerColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: headerColumns;"></mat-row>
         </mat-table>
 
       </div>
+      <!-- End: Список канцелярских товаров -->
 
     </form>
   </mat-dialog-content>

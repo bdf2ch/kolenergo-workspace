@@ -60,14 +60,16 @@
             <mat-icon fontSet="fa"
                       fontIcon="{{ element.status.icon }}"
                       [style.color]="element.status.iconColor ? element.status.iconColor : 'black'"
-                      *ngIf="element.status.icon" matTooltip="{{element.status.title}}" [matTooltipPosition]="'left'">
+                      *ngIf="element.status.icon"
+                      matTooltip="{{element.status.title}}"
+                      [matTooltipPosition]="'left'">
             </mat-icon>
           </mat-cell>
         </ng-container>
         <!-- End: Request status column -->
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selectRequest(row)"></mat-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns; let i = index;" (click)="selectRequest(row)"></mat-row>
       </mat-table>
 
 

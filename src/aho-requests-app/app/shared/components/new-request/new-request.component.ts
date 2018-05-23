@@ -65,7 +65,6 @@ export class NewRequestComponent implements OnInit {
     this.newRequestForm.addControl(`officeStuffItemTitle${index + 1}`, new FormControl('', Validators.required));
     this.newRequestForm.addControl(`officeStuffItemCount${index + 1}`, new FormControl('', Validators.required));
 
-
     this.newRequest.officeStuffList.push(new OfficeStuffListItem({
       id: 0,
       requestId: 0,
@@ -74,14 +73,12 @@ export class NewRequestComponent implements OnInit {
       isDone: false,
     }));
 
-    //this.newRequestForm.get(`officeStuffItemTitle${index}`).reset();
-    //this.newRequestForm.get(`officeStuffItemCount${index}`).reset();
+    this.officeStuffDataSource = new MatTableDataSource<OfficeStuffListItem>(this.newRequest.officeStuffList);
+}
 
-
-
-    setTimeout(() => {
-      this.officeStuffDataSource = new MatTableDataSource<OfficeStuffListItem>(this.newRequest.officeStuffList);
-    });
+  removeOfficeStuffItem(index: number) {
+    this.newRequest.officeStuffList.splice(index, 1);
+    this.officeStuffDataSource = new MatTableDataSource<OfficeStuffListItem>(this.newRequest.officeStuffList);
   }
 
   /**

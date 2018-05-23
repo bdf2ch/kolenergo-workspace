@@ -50,8 +50,8 @@
           <!-- Start: Колонка наименования концелярских принадлежностей -->
           <ng-container matColumnDef="title">
             <mat-header-cell *matHeaderCellDef class="office-stuff-item-title-column pr-3"> Наименование </mat-header-cell>
-            <mat-cell *matCellDef="let element; let i = index;" class="office-stuff-item-title-column pr-3 pt-2">
-              <mat-form-field class="w-100">
+            <mat-cell *matCellDef="let element; let i = index;" class="office-stuff-item-title-column pr-3">
+              <mat-form-field class="w-100" [floatLabel]="'never'">
                 <input type="text"
                        matInput
                        placeholder="Наименование"
@@ -67,8 +67,8 @@
           <!-- Start: Колонка количества канцелярских принадлежностей -->
           <ng-container matColumnDef="count">
             <mat-header-cell *matHeaderCellDef class="office-stuff-item-count-column"> Количество </mat-header-cell>
-            <mat-cell *matCellDef="let element; let i = index;" class="office-stuff-item-count-column pt-2">
-              <mat-form-field class="w-100">
+            <mat-cell *matCellDef="let element; let i = index;" class="office-stuff-item-count-column">
+              <mat-form-field class="w-100" [floatLabel]="'never'">
                 <input type="number"
                        matInput
                        [min]="1"
@@ -88,7 +88,7 @@
             <mat-cell *matCellDef="let element; let i = index; let isLast = last;" class="office-stuff-item-controls-column d-flex justify-content-end">
               <button mat-icon-button
                       [color]="'primary'"
-                      [disabled]="newRequestForm.get('officeStuffItemTitle' + (i === 0 ? i + 1 : i).toString()).invalid || newRequestForm.get('officeStuffItemCount' + (i === 0 ? i + 1 : i).toString()).invalid"
+                      [disabled]="newRequestForm.get('officeStuffItemTitle' + ( i + 1).toString()).invalid || newRequestForm.get('officeStuffItemCount' + (i + 1).toString()).invalid"
                       (click)="addOfficeStuffItem(element, i + 1)"
                       *ngIf="isLast">
                 <mat-icon fontSet="fa"
@@ -100,7 +100,7 @@
 
               <button mat-icon-button
                       [color]="'primary'"
-                      (click)="addOfficeStuffItem(element, i + 1)"
+                      (click)="removeOfficeStuffItem(i)"
                       *ngIf="!isLast">
                 <mat-icon fontSet="fa"
                           fontIcon="fa-trash"

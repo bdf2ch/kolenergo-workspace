@@ -26,6 +26,7 @@
     "@ngx-resource/core": "^5.2.11",
     "@ngx-resource/handler-ngx-http": "^6.0.1",
     "core-js": "^2.4.1",
+    "element-angular": "^0.7.6",
     "font-awesome": "^4.7.0",
     "rxjs": "^5.5.6",
     "zone.js": "^0.8.19"

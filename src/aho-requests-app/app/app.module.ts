@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { ResourceModule } from '@ngx-resource/handler-ngx-http';
+import { ElModule } from 'element-angular';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material';
 import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
@@ -70,6 +71,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     HttpClientModule,
     ResourceModule.forRoot(),
+    ElModule.forRoot(),
     AuthenticationModule,
     MatDialogModule,
     MatButtonModule,

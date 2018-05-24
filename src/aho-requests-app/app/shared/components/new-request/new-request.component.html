@@ -6,7 +6,8 @@
       <!-- Start: Категория заявки -->
       <mat-form-field class="w-100">
         <mat-select placeholder="Категория заявки"
-                    [(value)]="newRequest.type">
+                    [(value)]="newRequest.type"
+                    (selectionChange)="onRequestTypeChange($event)">
           <mat-option *ngFor="let requestType of ahoRequestsService.getRequestTypes()"
                       [value]="requestType">
             {{ requestType.title }}
@@ -55,7 +56,7 @@
                 <input type="text"
                        matInput
                        placeholder="Наименование"
-                       formControlName="{{ 'officeStuffItemTitle' + (i + 1).toString() }}"
+                       formControlName="{{ 'officeStuffItemTitle' + i.toString() }}"
                        [(ngModel)]="element.title"
                        required>
                 <!--<mat-error *ngIf="newRequestForm.get('room').invalid">{{ getRoomErrorMessage() }}</mat-error>-->
@@ -73,7 +74,7 @@
                        matInput
                        [min]="1"
                        placeholder="Кол-во"
-                       formControlName="{{ 'officeStuffItemCount' + (i + 1).toString() }}"
+                       formControlName="{{ 'officeStuffItemCount' + i.toString() }}"
                        [(ngModel)]="element.count"
                        required>
                 <!--<mat-error *ngIf="newRequestForm.get('room').invalid">{{ getRoomErrorMessage() }}</mat-error>-->
@@ -88,7 +89,7 @@
             <mat-cell *matCellDef="let element; let i = index; let isLast = last;" class="office-stuff-item-controls-column d-flex justify-content-end">
               <button mat-icon-button
                       [color]="'primary'"
-                      [disabled]="newRequestForm.get('officeStuffItemTitle' + ( i + 1).toString()).invalid || newRequestForm.get('officeStuffItemCount' + (i + 1).toString()).invalid"
+                      [disabled]="newRequestForm.get('officeStuffItemTitle' + i.toString()).invalid || newRequestForm.get('officeStuffItemCount' + i.toString()).invalid"
                       (click)="addOfficeStuffItem(element, i + 1)"
                       *ngIf="isLast">
                 <mat-icon fontSet="fa"
@@ -113,7 +114,7 @@
           <!-- End: Колонка элементов управления -->
 
           <mat-header-row *matHeaderRowDef="headerColumns"></mat-header-row>
-          <mat-row *matRowDef="let row; columns: headerColumns;"></mat-row>
+          <mat-row *matRowDef="let row; let isLast = last; columns: headerColumns;" [ngClass]="{'added': !isLast}"></mat-row>
         </mat-table>
 
       </div>
@@ -130,7 +131,7 @@
           <button mat-raised-button
                   type="submit"
                   [color]="'primary'"
-                  [disabled]="newRequestForm.invalid || ahoRequestsService.isAddingRequest()"
+                  [disabled]="(newRequest.type.id === 1 && newRequest.officeStuffList.length < 2) || (newRequest.type.id !== 1 && newRequestForm.invalid) || ahoRequestsService.isAddingRequest()"
                   class="w-100"
                   (click)="addRequest()">
             <div class="d-flex flex-row w-100 align-items-center" *ngIf="ahoRequestsService.isAddingRequest()">

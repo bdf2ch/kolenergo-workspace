@@ -35,14 +35,14 @@
         <!-- Start: Request comment column -->
         <ng-container matColumnDef="comment">
           <mat-header-cell *matHeaderCellDef> Содержание </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{ element.comment }} </mat-cell>
+          <mat-cell *matCellDef="let element"> {{ element.comment !== '' ? element.comment : element.officeStuffListTitle }} </mat-cell>
         </ng-container>
         <!-- End: Request comment column -->
 
         <!-- Start: Request room column -->
         <ng-container matColumnDef="room">
           <mat-header-cell *matHeaderCellDef class="request-room-column"> Кабинет </mat-header-cell>
-          <mat-cell *matCellDef="let element" class="request-room-column">{{ element.room }}</mat-cell>
+          <mat-cell *matCellDef="let element" class="request-room-column">{{ element.room !== '' ? element.room : '-' }}</mat-cell>
         </ng-container>
         <!-- End: Request room column -->
 

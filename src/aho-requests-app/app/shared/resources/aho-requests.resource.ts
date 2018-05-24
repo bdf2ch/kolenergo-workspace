@@ -1,5 +1,13 @@
 import { Injectable } from '@angular/core';
-import { IResourceMethod, Resource, ResourceAction, ResourceHandler, ResourceParams, ResourceRequestMethod } from '@ngx-resource/core';
+import {
+  IResourceMethod,
+  IResourceMethodStrict,
+  Resource,
+  ResourceAction,
+  ResourceHandler,
+  ResourceParams,
+  ResourceRequestMethod
+} from '@ngx-resource/core';
 import { IAhoRequestType } from '../interfaces/aho-request-type.interface';
 import { IAddAhoRequestType } from '../interfaces/aho-request-type.add.interface';
 import { IAddAhoRequest } from '../interfaces/aho-request.add.interface';
@@ -53,6 +61,14 @@ export class AhoRequestsResource extends Resource {
     withCredentials: true
   })
   getRequests: IResourceMethod<void, IAhoRequest[]>;
+
+
+  @ResourceAction({
+    path: '/requests',
+    method: ResourceRequestMethod.Get,
+    withCredentials: true
+  })
+  getRequestsByStatusId: IResourceMethodStrict<void, {statusId: number}, void, IAhoRequest[]>;
 
   @ResourceAction({
     path: '/requests/{!id}',

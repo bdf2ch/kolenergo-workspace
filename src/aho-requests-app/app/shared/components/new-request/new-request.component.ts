@@ -28,8 +28,8 @@ export class NewRequestComponent implements OnInit {
     this.newRequestForm = this.formBuilder.group({
       comment: ['', Validators.required],
       room: ['', Validators.required],
-      officeStuffItemTitle1: ['', Validators.required],
-      officeStuffItemCount1: ['', Validators.required]
+      officeStuffItemTitle0: ['', Validators.required],
+      officeStuffItemCount0: ['', Validators.required]
     });
   }
 
@@ -41,6 +41,50 @@ export class NewRequestComponent implements OnInit {
     //this.newRequest.officeStuffList = [];
   }
 
+  onRequestTypeChange(event: any) {
+    console.log(event);
+    switch (event.value.id) {
+      case 1:
+        //setTimeout(() => {
+          console.log('1 selected');
+          console.log(this.newRequest);
+          this.newRequestForm.removeControl('room');
+          this.newRequestForm.removeControl('comment');
+          this.newRequest.officeStuffList.forEach((item: OfficeStuffListItem, index: number) => {
+            this.newRequestForm.addControl(`officeStuffItemTitle${index}`, new FormControl(item.title, Validators.required));
+            this.newRequestForm.addControl(`officeStuffItemCount${index}`, new FormControl(item.count, Validators.required));
+        //  });
+
+          /*
+          this.newRequestForm.addControl(
+            `officeStuffItemTitle${this.newRequest.officeStuffList.length.toString()}`,
+            new FormControl('', Validators.required)
+          );
+          this.newRequestForm.addControl(
+            `officeStuffItemCount${this.newRequest.officeStuffList.length.toString()}`,
+            new FormControl('', Validators.required)
+          );
+          */
+          console.log(this.newRequestForm);
+        });
+        break;
+      default:
+        console.log('other selected');
+        //setTimeout(() => {
+          for (const control in this.newRequestForm.controls) {
+            if (control.indexOf('officeStuff') !== -1) {
+              this.newRequestForm.removeControl(control);
+            }
+          }
+        // });
+        this.newRequestForm.removeControl(`officeStuffItemTitle${this.newRequest.officeStuffList.length.toString()}`);
+          this.newRequestForm.removeControl(`officeStuffItemCount${this.newRequest.officeStuffList.length.toString()}`);
+        this.newRequestForm.addControl('room', new FormControl('', Validators.required));
+        this.newRequestForm.addControl('comment', new FormControl('', Validators.required));
+        console.log(this.newRequestForm);
+        break;
+    }
+  }
 
   /**
    * Возвращает текст ошибки для поля ввода кабинета
@@ -62,8 +106,8 @@ export class NewRequestComponent implements OnInit {
     console.log(item, index);
     console.log(this.newRequestForm);
 
-    this.newRequestForm.addControl(`officeStuffItemTitle${index + 1}`, new FormControl('', Validators.required));
-    this.newRequestForm.addControl(`officeStuffItemCount${index + 1}`, new FormControl('', Validators.required));
+    this.newRequestForm.addControl(`officeStuffItemTitle${index}`, new FormControl('', Validators.required));
+    this.newRequestForm.addControl(`officeStuffItemCount${index}`, new FormControl('', Validators.required));
 
     this.newRequest.officeStuffList.push(new OfficeStuffListItem({
       id: 0,
@@ -78,6 +122,8 @@ export class NewRequestComponent implements OnInit {
 
   removeOfficeStuffItem(index: number) {
     this.newRequest.officeStuffList.splice(index, 1);
+    this.newRequestForm.removeControl(`officeStuffItemTitle${index}`);
+    this.newRequestForm.removeControl(`officeStuffItemCount${index}`);
     this.officeStuffDataSource = new MatTableDataSource<OfficeStuffListItem>(this.newRequest.officeStuffList);
   }
 
@@ -86,6 +132,7 @@ export class NewRequestComponent implements OnInit {
    * @returns {Promise<void>}
    */
   async addRequest() {
+    this.newRequest.officeStuffList.splice(this.newRequest.officeStuffList.length - 1, 1);
     await this.ahoRequestsService.addRequest(this.newRequest);
     this.dialogRef.close();
   }

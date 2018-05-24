@@ -16,6 +16,7 @@ export class AhoRequestsService {
   private requestStatuses: AhoRequestStatus[];
   private requests: AhoRequest[];
   private selectedRequest: AhoRequest | null;
+  private newRequestsCount: number;
   private addRequestInProgress: boolean;
   private dataSource: MatTableDataSource<AhoRequest>;
 
@@ -25,6 +26,7 @@ export class AhoRequestsService {
     this.requestStatuses = [];
     this.requests = [];
     this.selectedRequest = null;
+    this.newRequestsCount = 0;
     this.addRequestInProgress = false;
     this.dataSource = new MatTableDataSource<AhoRequest>(this.requests);
   }
@@ -43,6 +45,10 @@ export class AhoRequestsService {
    */
   getSelectedRequest(): AhoRequest | null {
     return this.selectedRequest;
+  }
+
+  getNewRequestsCount(): number {
+    return this.newRequestsCount;
   }
 
   /**
@@ -72,7 +78,33 @@ export class AhoRequestsService {
         result.forEach((item: IAhoRequest) => {
           const request = new AhoRequest(item);
           this.requests.push(request);
+          if (request.status.id === 1) {
+            this.newRequestsCount += 1;
+          }
         });
+        return this.requests;
+      }
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  /**
+   * Получение всех заявок с заданным статусом
+   * @param {number} id - Идентификатор статуса заявки
+   * @returns {Promise<AhoRequest[] | null>}
+   */
+  async fetchRequestsByStatusId(id: number): Promise<AhoRequest[] | null> {
+    try {
+      const result = await this.ahoRequestResource.getRequestsByStatusId(null, {statusId: id}, null);
+      if (result) {
+        this.requests = [];
+        result.forEach((item: IAhoRequest) => {
+          const request = new AhoRequest(item);
+          this.requests.push(request);
+        });
+        this.dataSource = new MatTableDataSource<AhoRequest>(this.requests);
         return this.requests;
       }
     } catch (error) {
@@ -197,7 +229,8 @@ export class AhoRequestsService {
       this.addRequestInProgress = false;
       if (result) {
         const newRequest = new AhoRequest(result);
-        this.requests.push(newRequest);
+        this.requests.unshift(newRequest);
+        this.newRequestsCount += 1;
         this.snackBar.open(`Ваша заявка добавлена`, 'Закрыть', {
           horizontalPosition: 'left',
           verticalPosition: 'bottom',

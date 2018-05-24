@@ -17,14 +17,27 @@
         <div class="col">
           <div class="form-inline d-flex w-100">
             <input type="text" class="form-control form-control-lg w-100" placeholder="Поиск заявок">
-
           </div>
         </div>
 
         <div class="col-auto d-none d-md-flex justify-content-end align-items-center">
+          <!--
           <button type="button" mat-icon-button [color]="'primary'" class="mr-2">
             <mat-icon fontSet="fa" fontIcon="fa-filter"></mat-icon>
           </button>
+          -->
+
+
+          <el-badge [model]="ahoRequestsService.getNewRequestsCount()" class="item mr-4">
+            <!--
+            <el-button>
+              <i class="fa fa-file-o"></i>
+            </el-button>
+            -->
+            <button mat-icon-button [color]="'primary'" matTooltip="Новые заявки" [matTooltipPosition]="'below'" (click)="getNewRequests()">
+              <mat-icon fontSet="fa" fontIcon="fa-file-o"></mat-icon>
+            </button>
+          </el-badge>
 
           <button mat-stroked-button
                   [color]="'primary'"

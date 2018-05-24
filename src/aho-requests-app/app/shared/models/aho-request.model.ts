@@ -18,6 +18,7 @@ export class AhoRequest implements IAhoRequest {
   dateCreated: Date;                          // Дата создания заявки
   user: User;                                 // Пользователь, создавший заявку
   officeStuffList: OfficeStuffListItem[];     // Список канцелярских принадлежностей
+  officeStuffListTitle: string;               // Список канцелярских принадлежностей одной строкой
 
   /**
    * Конструктор
@@ -28,17 +29,20 @@ export class AhoRequest implements IAhoRequest {
     this.userId = config ? config.userId : 0;
     this.type = config ? new AhoRequestType(config.type) : new AhoRequestType();
     this.status = config ? new AhoRequestStatus(config.status) : new AhoRequestStatus();
-    this.comment = config ? config.comment : '';
-    this.room = config ? config.room : '';
+    this.comment = config && config.comment ? config.comment : '';
+    this.room = config && config.room ? config.room : '';
     this.dateCreated = config ? new Date(config.dateCreated) : new Date();
     this.user = config && config.user ? new User(config.user) : new User();
+    this.officeStuffList = [];
+    this.officeStuffListTitle = '';
+
     if (config && config.officeStuffList) {
-      config.officeStuffList.forEach((item: IOfficeStuffListItem) => {
+      config.officeStuffList.forEach((item: IOfficeStuffListItem, index: number) => {
         const officeStuffItem = new OfficeStuffListItem(item);
+        this.officeStuffListTitle += `${index + 1}. ${officeStuffItem.title} - ${officeStuffItem.count} шт.`;
+        this.officeStuffListTitle += index < config.officeStuffList.length - 1 ? '  ' : '';
         this.officeStuffList.push(officeStuffItem);
       });
-    } else {
-      this.officeStuffList = [];
     }
   }
 }

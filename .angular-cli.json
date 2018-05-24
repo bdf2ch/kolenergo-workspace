@@ -71,7 +71,8 @@
       "styles": [
         "styles/styles.less",
         "../../node_modules/bootstrap/dist/css/bootstrap.css",
-        "../../node_modules/font-awesome/css/font-awesome.min.css"
+        "../../node_modules/font-awesome/css/font-awesome.min.css",
+        "../../node_modules/element-angular/theme/index.css"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",

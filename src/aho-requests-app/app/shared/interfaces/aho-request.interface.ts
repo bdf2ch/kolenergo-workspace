@@ -11,8 +11,8 @@ export interface IAhoRequest {
   userId: number;                                 // Идентификатор пользователя, подавшего заявку
   type: IAhoRequestType;                          // Тип заявки
   status: IAhoRequestStatus;                      // Статус заявки
-  comment: string;                                // Содержание заявки
-  room: string;                                   // Кабинет
+  comment?: string;                               // Содержание заявки
+  room?: string;                                  // Кабинет
   dateCreated: Date;                              // Дата создания заявки
   user?: IUser;                                   // Пользователь, создавший заявку
   officeStuffList: IOfficeStuffListItem[];        // Список требуемых канцелярских принадлежностей

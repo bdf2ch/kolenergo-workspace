@@ -13,7 +13,7 @@ import { AuthenticationResource } from './resources/authentication.resource';
 import { AuthenticationService } from './services/authentication.service';
 import { AuthenticationDialogComponent } from './components/authentication/authentication-dialog.component';
 import { CanActivateGuard } from './guards/can-activate.guard';
-import { ResolveGuard } from './guards/resolve.guard';
+import { AuthenticationResolveGuard } from './guards/authentication-resolve.guard.service';
 
 
 @NgModule({
@@ -37,7 +37,7 @@ import { ResolveGuard } from './guards/resolve.guard';
     AuthenticationResource,
     AuthenticationService,
     CanActivateGuard,
-    ResolveGuard
+    AuthenticationResolveGuard
   ],
   exports: [
     AuthenticationDialogComponent

@@ -13,7 +13,7 @@ export class AhoRequestsComponent implements OnInit {
 
   constructor(private readonly dialog: MatDialog,
               public readonly authenticationService: AuthenticationService,
-              public ahoRequestsService: AhoRequestsService) {}
+              public readonly ahoRequestsService: AhoRequestsService) {}
 
   ngOnInit() {}
 

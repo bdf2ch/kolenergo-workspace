@@ -1,11 +1,12 @@
-import {Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthenticationDialogComponent } from '@kolenergo/lib';
 import { AuthenticationService } from '@kolenergo/lib';
 import { AhoRequestsService } from '../../shared/services/aho-requests.service';
 import { MatTableDataSource } from '@angular/material';
 import { NewRequestComponent } from '../../shared/components/new-request/new-request.component';
+import { RequestComponent } from '../request/request.component';
 import { AhoRequest } from '../../shared/models/aho-request.model';
 
 @Component({
@@ -18,6 +19,7 @@ export class StartComponent implements OnInit {
   displayedColumns = ['requestType', 'id', 'dateCreated', 'user', 'room', 'comment', 'requestStatus'];
 
   constructor(private readonly router: Router,
+              private readonly route: ActivatedRoute,
               private readonly dialog: MatDialog,
               public readonly authenticationService: AuthenticationService,
               public readonly ahoRequestsService: AhoRequestsService) {
@@ -26,8 +28,21 @@ export class StartComponent implements OnInit {
 
   ngOnInit() {
     setTimeout(() => {
-      this.ahoRequestsService.setSelectedRequest(null);
+      //this.ahoRequestsService.setSelectedRequest(null);
+      this.route.params.subscribe((params: any) => {
+        console.log('route params', params);
+        if (params['id']) {
+          this.dialog.open(RequestComponent, {
+            width: '550px',
+            minHeight: '550px',
+          });
+        } else {
+          this.dialog.closeAll();
+        }
+      });
     });
+
+
   }
 
 
@@ -50,7 +65,7 @@ export class StartComponent implements OnInit {
 
   selectRequest(request: AhoRequest) {
     console.log(request);
-    this.ahoRequestsService.setSelectedRequest(request);
+    //this.ahoRequestsService.setSelectedRequest(request);
     this.router.navigate(['/request', request.id]);
   }
 }

@@ -9,12 +9,23 @@ export class RequestResolveGuard implements Resolve<AhoRequest | null> {
 
   async resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<AhoRequest | null> {
     console.log('request resolve');
+    const id = parseInt(route.params.id);
+    console.log('id = ', id);
     if (!this.ahoRequestsService.getSelectedRequest()) {
-      const id = parseInt(route.params.id);
-      console.log('id = ', id);
-      const request = await this.ahoRequestsService.fetchRequestById(id);
-      this.ahoRequestsService.setSelectedRequest(request);
-      return request;
+
+      this.ahoRequestsService.getRequests().forEach((req: AhoRequest) => {
+        if (req.id === id) {
+          this.ahoRequestsService.setSelectedRequest(req);
+          console.log('local request found');
+        }
+      });
+
+      if (!this.ahoRequestsService.getSelectedRequest()) {
+        console.log('fetching remote request');
+        const request = await this.ahoRequestsService.fetchRequestById(id);
+        this.ahoRequestsService.setSelectedRequest(request);
+        return request;
+      }
     }
   }
 }

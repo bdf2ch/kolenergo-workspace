@@ -27,10 +27,10 @@ import { MatListModule } from '@angular/material/list';
 import { AuthenticationModule } from '../../shared-lib/api';
 import { AppComponent } from './app.component';
 import { StartComponent } from './aho-requests/start/start.component';
-import { ResolveGuard } from '../../shared-lib/api';
+import { AuthenticationResolveGuard } from '../../shared-lib/api';
 import { AhoRequestsComponent } from './aho-requests/aho-requests.component';
 import { AhoRequestsService } from './shared/services/aho-requests.service';
-import { AhoRequestsResolveGuard } from './shared/guards/resolve.guard';
+import { AhoRequestsResolveGuard } from './shared/guards/aho-requests-resolve.guard';
 import { AhoRequestsResource } from './shared/resources/aho-requests.resource';
 import { NewRequestComponent } from './shared/components/new-request/new-request.component';
 import { RequestComponent } from './aho-requests/request/request.component';
@@ -42,17 +42,17 @@ const routes: Routes = [
     path: '',
     component: AhoRequestsComponent,
     resolve: [
-      ResolveGuard
+      AuthenticationResolveGuard,
+      AhoRequestsResolveGuard
     ],
     children: [
       {
         path: '',
         component: StartComponent,
-        resolve: [AhoRequestsResolveGuard]
       },
       {
         path: 'request/:id',
-        component: RequestComponent,
+        component: StartComponent,
         resolve: [
           RequestResolveGuard
         ]
@@ -109,6 +109,7 @@ const routes: Routes = [
     RequestResolveGuard
   ],
   entryComponents: [
+    RequestComponent,
     NewRequestComponent
   ]
 })

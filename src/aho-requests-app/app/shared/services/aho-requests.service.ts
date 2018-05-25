@@ -75,6 +75,7 @@ export class AhoRequestsService {
     try {
       const result = await this.ahoRequestResource.getRequests();
       if (result) {
+        this.requests = [];
         result.forEach((item: IAhoRequest) => {
           const request = new AhoRequest(item);
           this.requests.push(request);
@@ -82,6 +83,7 @@ export class AhoRequestsService {
             this.newRequestsCount += 1;
           }
         });
+        this.dataSource = new MatTableDataSource<AhoRequest>(this.requests);
         return this.requests;
       }
     } catch (error) {

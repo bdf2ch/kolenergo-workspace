@@ -1,18 +1,21 @@
 /**
  * Intefaces
  */
-export { IOfficeStuffListItem } from './app/shared/interfaces/office-stuff-list-item.interface';
-export { IAhoRequest } from './app/shared/interfaces/aho-request.interface';
-export { IAddAhoRequest } from './app/shared/interfaces/aho-request.add.interface';
-export { IAhoRequestType } from './app/shared/interfaces/aho-request-type.interface';
-export { IAddAhoRequestType } from './app/shared/interfaces/aho-request-type.add.interface';
-export { IEditAhoRequestType } from './app/shared/interfaces/aho-request-type.edit.interface';
-export { IAhoRequestStatus } from './app/shared/interfaces/aho-request-status.interface';
+export { IAhoRequest } from './app/aho-requests/interfaces/aho-request.interface';
+export { IAddAhoRequest } from './app/aho-requests/interfaces/aho-request.add.interface';
+export { IAhoRequestType } from './app/aho-requests/interfaces/aho-request-type.interface';
+export { IAddAhoRequestType } from './app/aho-requests/interfaces/aho-request-type.add.interface';
+export { IEditAhoRequestType } from './app/aho-requests/interfaces/aho-request-type.edit.interface';
+export { IAhoRequestStatus } from './app/aho-requests/interfaces/aho-request-status.interface';
+export { IAhoRequestTask } from './app/aho-requests/interfaces/aho-request-task.interface';
+export { IAhoRequestTaskContent } from './app/aho-requests/interfaces/aho-request-task-content.interface';
 
 
 /**
  * Models
  */
-export { AhoRequest } from './app/shared/models/aho-request.model';
-export { AhoRequestType } from './app/shared/models/aho-request-type.model';
-export { OfficeStuffListItem } from './app/shared/models/office-stuff-list-item.model';
+export { AhoRequest } from './app/aho-requests/models/aho-request.model';
+export { AhoRequestType } from './app/aho-requests/models/aho-request-type.model';
+export { AhoRequestStatus } from './app/aho-requests/models/aho-request-status.model';
+export { AhoRequestTask } from './app/aho-requests/models/aho-request-task.model';
+export { AhoRequestTaskContent } from './app/aho-requests/models/aho-request-task-content.model';

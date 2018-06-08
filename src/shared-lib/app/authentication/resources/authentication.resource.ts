@@ -1,15 +1,18 @@
 import { Injectable } from '@angular/core';
 import { IResourceMethod, Resource, ResourceAction, ResourceHandler, ResourceParams, ResourceRequestMethod } from '@ngx-resource/core';
 import { IUser } from '../../users/interfaces/user.interface';
+import { WindowRef } from '../services/window.service';
 import { environment } from '../../../../_common/environments/environment';
 
 @Injectable()
 @ResourceParams({
-  pathPrefix: environment.apiUrl + 'authentication'
+  pathPrefix: environment.apiUrl + 'authentication',
+  withCredentials: true
 })
 export class AuthenticationResource extends Resource {
 
-  constructor(handler: ResourceHandler) {
+  constructor(private window: WindowRef,
+              private handler: ResourceHandler) {
     super(handler);
   }
 
@@ -25,7 +28,7 @@ export class AuthenticationResource extends Resource {
     path: '/login',
     withCredentials: true
   })
-  login: IResourceMethod<{account: string, password: string, addIfNotExists?: boolean}, IUser>;
+  login: IResourceMethod<{account: string, password: string, addIfNotExists?: boolean, appCode?: string}, IUser>;
 
   @ResourceAction({
     path: '/logout',

@@ -43,9 +43,14 @@ export class AuthenticationService {
    * @param {string} password - Пароль
    * @returns {Promise<User | null>}
    */
-  async logIn(account: string, password: string, addIfNotExists?: boolean): Promise<User | null> {
+  async logIn(account: string, password: string, addIfNotExists?: boolean, appCode?: string): Promise<User | null> {
     try {
-      const result = await this.authenticationResource.login({account: account, password: password, addIfNotExists: addIfNotExists});
+      const result = await this.authenticationResource.login({
+        account: account,
+        password: password,
+        addIfNotExists: addIfNotExists,
+        appCode: appCode
+      });
       if (result) {
         this.currentUser = new User(result);
         return this.currentUser;

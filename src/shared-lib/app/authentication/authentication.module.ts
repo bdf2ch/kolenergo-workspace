@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -14,10 +15,12 @@ import { AuthenticationService } from './services/authentication.service';
 import { AuthenticationDialogComponent } from './components/authentication/authentication-dialog.component';
 import { CanActivateGuard } from './guards/can-activate.guard';
 import { AuthenticationResolveGuard } from './guards/authentication-resolve.guard.service';
+import { WindowRef } from './services/window.service';
 
 
 @NgModule({
   imports: [
+    BrowserModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
@@ -34,6 +37,7 @@ import { AuthenticationResolveGuard } from './guards/authentication-resolve.guar
     AuthenticationDialogComponent
   ],
   providers: [
+    WindowRef,
     AuthenticationResource,
     AuthenticationService,
     CanActivateGuard,

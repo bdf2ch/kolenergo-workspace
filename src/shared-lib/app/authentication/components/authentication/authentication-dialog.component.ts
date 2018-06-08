@@ -52,7 +52,12 @@ export class AuthenticationDialogComponent implements OnInit {
    * @returns {Promise<any>}
    */
   async submit(): Promise<any> {
-    const result = await this.authenticationService.logIn(this.authData.account, this.authData.password, true);
+    const result = await this.authenticationService.logIn(
+      this.authData.account,
+      this.authData.password,
+      true,
+      window.localStorage && window.localStorage.getItem('app_code') ? window.localStorage.getItem('app_code') : null
+    );
     if (result) {
       this.dialog.close();
     } else {

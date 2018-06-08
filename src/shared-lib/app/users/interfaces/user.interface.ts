@@ -1,6 +1,8 @@
 /**
  * Интерфейс, описывающий пользователя
  */
+import {IPermission} from "./permission.interface";
+
 export interface IUser {
   id: number;                       // Идентификатор пользователя
   divisionId: number;               // Идентификатор структурного подразделения
@@ -11,5 +13,6 @@ export interface IUser {
   position: string;                 // Должность пользователя
   email: string;                    // E-mail пользователя
   activeDirectoryAccount: string;   // Учетная запись Active Directory
-  fio?: string;                      // ФИО пользователя
+  fio?: string;                     // ФИО пользователя
+  permissions?: IPermission[];      // Набор прав пользователя
 }

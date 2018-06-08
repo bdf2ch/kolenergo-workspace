@@ -1,4 +1,6 @@
 import { IUser } from '../interfaces/user.interface';
+import {IPermission} from "../interfaces/permission.interface";
+import {Permission} from "./permission.model";
 
 /**
  * Класс, реализующий интерфейс пользователя
@@ -14,6 +16,7 @@ export class User implements IUser {
   email: string;                    // E-mail пользователя
   activeDirectoryAccount: string;   // Учетная запись Active Directory
   fio: string;                      // ФИО пользователя
+  permissions?: IPermission[];      // Набор прав пользователя
 
   /**
    * Конструктор класса
@@ -30,5 +33,13 @@ export class User implements IUser {
     this.email = config ? config.email : '';
     this.activeDirectoryAccount = config ? config.activeDirectoryAccount : '';
     this.fio = `${this.firstName} ${this.secondName} ${this.lastName}`.replace('  ', ' ');
+    this.permissions = [];
+
+    if (config && config.permissions) {
+      config.permissions.forEach((item: IPermission) => {
+        const permission = new Permission(item);
+        this.permissions.push(permission);
+      });
+    }
   }
 }

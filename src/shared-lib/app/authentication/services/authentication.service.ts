@@ -23,9 +23,9 @@ export class AuthenticationService {
    * Проверка текущей сессии
    * @returns {Promise<User | null>}
    */
-  async check(): Promise<User | null> {
+  async check(appCode?: string | null): Promise<User | null> {
     try {
-      const result = await this.authenticationResource.check();
+      const result = await this.authenticationResource.check({appCode: appCode}, null, null);
       console.log('check result', result);
       if (result) {
         this.currentUser = new User(result);

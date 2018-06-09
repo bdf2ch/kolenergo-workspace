@@ -100,6 +100,16 @@
 
     </mat-tab-group>
 
+    <div *ngIf="authenticationService.getCurrentUser() && authenticationService.getCurrentUser().permissions.getByCode('allow_set_employee')">
+      <mat-form-field class="w-100">
+        <mat-select placeholder="Исполнитель">
+          <mat-option *ngFor="let employee of ahoRequestsService.getEmployees()" [value]="employee">
+            {{ employee.fio }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
   </mat-dialog-content>
   <mat-dialog-actions class="pt-3">
     <div class="container-fluid p-0">

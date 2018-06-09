@@ -1,6 +1,9 @@
+/**
+ * Интерфейс, описывающий право пользователя
+ */
 export interface IPermission {
-  id: number;
-  code: string;
-  title: string;
-  isEnabled: boolean;
+  id: number;             // Идентфиикатор права пользователя
+  code: string;           // Код права пользователя
+  title: string;          // Наименование права пользователя
+  isEnabled: boolean;     // Доступно ли право пользователя
 }

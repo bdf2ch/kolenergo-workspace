@@ -9,14 +9,16 @@ import { IAddAhoRequest } from '../interfaces/aho-request.add.interface';
 import { AhoRequestStatus } from '../models/aho-request-status.model';
 import { IAhoRequestStatus } from '../interfaces/aho-request-status.interface';
 import { MatTableDataSource } from '@angular/material';
-import {AhoRequestTaskContent} from '../models/aho-request-task-content.model';
-import {IAhoRequestTaskContent} from '../interfaces/aho-request-task-content.interface';
+import { AhoRequestTaskContent } from '../models/aho-request-task-content.model';
+import { IAhoRequestTaskContent } from '../interfaces/aho-request-task-content.interface';
+import { User, UsersService } from '@kolenergo/lib';
 
 @Injectable()
 export class AhoRequestsService {
   private requestTypes: AhoRequestType[];
   private requestStatuses: AhoRequestStatus[];
   private requestTasksContent: AhoRequestTaskContent[];
+  private employees: User[];
   private requests: AhoRequest[];
   private selectedRequest: AhoRequest | null;
   private newRequestsCount: number;
@@ -24,10 +26,12 @@ export class AhoRequestsService {
   private dataSource: MatTableDataSource<AhoRequest>;
 
   constructor(private readonly snackBar: MatSnackBar,
-              private readonly ahoRequestResource: AhoRequestsResource) {
+              private readonly ahoRequestResource: AhoRequestsResource,
+              private readonly usersService: UsersService) {
     this.requestTypes = [];
     this.requestStatuses = [];
     this.requestTasksContent = [];
+    this.employees = [];
     this.requests = [];
     this.selectedRequest = null;
     this.newRequestsCount = 0;
@@ -191,6 +195,20 @@ export class AhoRequestsService {
   }
 
 
+  /**
+   * Получение списка сотрудников, задействованных в приложении
+   * @returns {Promise<User[] | null>}
+   */
+  async fetchEmployees(): Promise<User[] | null> {
+    const result = await this.usersService.getByAppCode(
+      window.localStorage && window.localStorage.getItem('app_code') ? window.localStorage.getItem('app_code') : null
+    );
+    this.employees = result ? result : [];
+    console.log(this.employees);
+    return result;
+  }
+
+
   async fetchRequestTasksContent(): Promise<IAhoRequestTaskContent[] | null> {
     try {
       const result = await this.ahoRequestResource.getRequestTasksContent();
@@ -261,6 +279,10 @@ export class AhoRequestsService {
       console.error(error);
       return null;
     }
+  }
+
+  getEmployees(): User[] {
+    return this.employees;
   }
 
 }

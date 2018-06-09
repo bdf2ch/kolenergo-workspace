@@ -23,7 +23,7 @@ export { AuthenticationDialogComponent } from './app/authentication/components/a
  * Users module
  */
 export { UsersModule } from './app/users/users.module';
-export { UsersService } from './app/users/users.service';
+export { UsersService } from './app/users/services/users.service';
 export { IUser } from './app/users/interfaces/user.interface';
 export { IAddUser } from './app/users/interfaces/user.add.interface';
 export { IEditUser } from './app/users/interfaces/user.edit.interface';

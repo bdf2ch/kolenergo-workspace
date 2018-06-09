@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { AhoRequestsRouterModule } from './aho-requests.router.module';
 import { ExportsModule } from '../exports.module';
+import { UsersModule } from '@kolenergo/lib';
 
 import { AhoRequestsComponent } from './components/aho-requests/aho-requests.component';
 import { StartComponent } from './components/start/start.component';
@@ -16,7 +17,8 @@ import { MatIconRegistry } from '@angular/material/icon';
 @NgModule({
   imports: [
     ExportsModule,
-    AhoRequestsRouterModule
+    AhoRequestsRouterModule,
+    UsersModule
   ],
   declarations: [
     AhoRequestsComponent,

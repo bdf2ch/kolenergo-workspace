@@ -26,9 +26,9 @@ export class AuthenticationService {
   async check(appCode?: string | null): Promise<User | null> {
     try {
       const result = await this.authenticationResource.check({appCode: appCode}, null, null);
-      console.log('check result', result);
       if (result) {
         this.currentUser = new User(result);
+        console.log(this.currentUser);
         return this.currentUser;
       }
     } catch (error) {

@@ -1,8 +1,16 @@
 import { Injectable } from '@angular/core';
-import { IResourceMethod, Resource, ResourceAction, ResourceHandler, ResourceParams, ResourceRequestMethod } from '@ngx-resource/core';
-import { environment } from '../../../_common/environments/environment';
-import { IUser } from './interfaces/user.interface';
-import { IAddUser } from './interfaces/user.add.interface';
+import {
+  IResourceMethod,
+  IResourceMethodStrict,
+  Resource,
+  ResourceAction,
+  ResourceHandler,
+  ResourceParams,
+  ResourceRequestMethod
+} from '@ngx-resource/core';
+import { environment } from '../../../../_common/environments/environment';
+import { IUser } from '../interfaces/user.interface';
+import { IAddUser } from '../interfaces/user.add.interface';
 
 @Injectable()
 @ResourceParams({
@@ -19,7 +27,7 @@ export class UsersResource extends Resource {
     method: ResourceRequestMethod.Get,
     withCredentials: true
   })
-  getAll: IResourceMethod<void, IUser[]>;
+  getAll: IResourceMethodStrict<void, {appCode?: string}, void, IUser[]>;
 
   @ResourceAction({
     path: '/',

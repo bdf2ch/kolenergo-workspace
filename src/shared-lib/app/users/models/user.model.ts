@@ -1,5 +1,5 @@
 import { IUser } from '../interfaces/user.interface';
-import { UserPermissions } from './user-permissions.model';
+import { UserPermissionsManager } from './user-permissions-manager.model';
 
 /**
  * Класс, реализующий интерфейс пользователя
@@ -15,7 +15,7 @@ export class User implements IUser {
   email: string;                    // E-mail пользователя
   activeDirectoryAccount: string;   // Учетная запись Active Directory
   fio: string;                      // ФИО пользователя
-  permissions: UserPermissions;     // Права пользователя
+  permissions: UserPermissionsManager;     // Права пользователя
 
   /**
    * Конструктор класса
@@ -32,6 +32,6 @@ export class User implements IUser {
     this.email = config ? config.email : '';
     this.activeDirectoryAccount = config ? config.activeDirectoryAccount : '';
     this.fio = `${this.firstName} ${this.secondName} ${this.lastName}`.replace('  ', ' ');
-    this.permissions = config && config.permissionList ? new UserPermissions(config.permissionList) : new UserPermissions();
+    this.permissions = config && config.permissionList ? new UserPermissionsManager({permissions: config.permissionList, roles: config.rolesList}) : new UserPermissionsManager();
   }
 }

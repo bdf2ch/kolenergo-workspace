@@ -10,9 +10,10 @@ export interface IAhoRequest {
   id: number;                                     // Идентификатор заявки
   type: IAhoRequestType;                          // Тип заявки
   status: IAhoRequestStatus;                      // Статус заявки
-  //description?: string;                           // Примечание к заявке
+  //description?: string;                         // Примечание к заявке
   room?: string;                                  // Кабинет
   dateCreated: Date;                              // Дата создания заявки
   user: IUser;                                    // Пользователь, создавший заявку
+  employee?: IUser | null;                        // Исполнитель заявки
   tasks: IAhoRequestTask[];                       // Список задач
 }

@@ -1,9 +1,9 @@
+import { IPermission } from './permission.interface';
+import { IRole } from '../interfaces/role.interface';
+
 /**
  * Интерфейс, описывающий пользователя
  */
-import { IPermission } from './permission.interface';
-import {UserPermissions } from '../models/user-permissions.model';
-
 export interface IUser {
   id: number;                                 // Идентификатор пользователя
   divisionId: number;                         // Идентификатор структурного подразделения
@@ -16,4 +16,5 @@ export interface IUser {
   activeDirectoryAccount: string;             // Учетная запись Active Directory
   fio?: string;                               // ФИО пользователя
   permissionList?: IPermission[];             // Набор прав пользователя
+  rolesList?: IRole[];
 }

@@ -29,4 +29,9 @@ export { IAddUser } from './app/users/interfaces/user.add.interface';
 export { IEditUser } from './app/users/interfaces/user.edit.interface';
 export { IDeleteUser } from './app/users/interfaces/user.delete.interface';
 export { User } from './app/users/models/user.model';
+export { IPermission } from './app/users/interfaces/permission.interface';
+export { IRole } from './app/users/interfaces/role.interface';
+export { Permission } from './app/users/models/permission.model';
+export { Role } from './app/users/models/role.model';
+export { UserPermissionsManager } from './app/users/models/user-permissions-manager.model';
 

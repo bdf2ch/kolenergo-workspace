@@ -70,7 +70,6 @@ export class AhoRequestsResource extends Resource {
   })
   getRequests: IResourceMethod<void, IAhoRequest[]>;
 
-
   @ResourceAction({
     path: '/requests',
     method: ResourceRequestMethod.Get,
@@ -91,4 +90,18 @@ export class AhoRequestsResource extends Resource {
     withCredentials: true
   })
   addRequest: IResourceMethod<IAddAhoRequest, IAhoRequest>;
+
+  @ResourceAction({
+    path: '/requests/{!id}',
+    method: ResourceRequestMethod.Patch,
+    withCredentials: true
+  })
+  editRequest: IResourceMethodStrict<IAhoRequest, void, {id: number}, IAhoRequest>;
+
+  @ResourceAction({
+    path: '/requests/{!id}',
+    method: ResourceRequestMethod.Delete,
+    withCredentials: true
+  })
+  deleteRequest: IResourceMethod<{id: number}, boolean>;
 }

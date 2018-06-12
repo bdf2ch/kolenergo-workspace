@@ -281,6 +281,51 @@ export class AhoRequestsService {
     }
   }
 
+  async editRequest(request: IAhoRequest): Promise<AhoRequest | null> {
+    try {
+      const result = await this.ahoRequestResource.editRequest(request, null, {id: request.id});
+      const request_ = new AhoRequest(result);
+      this.snackBar.open(`Изменения в заявке #${request.id} сохранены`, 'Закрыть', {
+        horizontalPosition: 'left',
+        verticalPosition: 'bottom',
+        duration: 3000
+      });
+      this.dataSource = new MatTableDataSource<AhoRequest>(this.requests);
+      return request_;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  /**
+   * Удаление заявки
+   * @param {number} requestId - Идентификатор заявки
+   * @returns {Promise<boolean>}
+   */
+  async deleteRequest(requestId: number): Promise<boolean> {
+    try {
+      const result = await this.ahoRequestResource.deleteRequest({id: requestId});
+      if (result === true) {
+        this.requests.forEach((request: AhoRequest, index: number, array: AhoRequest[]) => {
+          if (request.id === requestId) {
+            this.requests.splice(index, 1);
+          }
+        });
+        this.snackBar.open(`Заявка #${requestId} удалена`, 'Закрыть', {
+          horizontalPosition: 'left',
+          verticalPosition: 'bottom',
+          duration: 3000
+        });
+        this.dataSource = new MatTableDataSource<AhoRequest>(this.requests);
+        return true;
+      }
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  }
+
   getEmployees(): User[] {
     return this.employees;
   }

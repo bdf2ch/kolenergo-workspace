@@ -16,6 +16,7 @@ export class AhoRequest implements IAhoRequest {
   room: string;                               // Кабинет
   dateCreated: Date;                          // Дата создания заявки
   user: User;                                 // Пользователь, создавший заявку
+  employee: User | null;                      // Исполнитель заявки
   tasks: IAhoRequestTask[];                   // Список задач
   label: string;                              // Представление списка задач одной строкой
 
@@ -31,6 +32,7 @@ export class AhoRequest implements IAhoRequest {
     this.room = config && config.room ? config.room : '';
     this.dateCreated = config ? new Date(config.dateCreated) : new Date();
     this.user = config && config.user ? new User(config.user) : new User();
+    this.employee = config && config.employee ? new User(config.employee) : null;
     this.tasks = [];
     this.label = '';
 
@@ -42,5 +44,15 @@ export class AhoRequest implements IAhoRequest {
         this.label += index !== config.tasks.length - 1 ? '      ' : '';
       });
     }
+  }
+
+  isAllTasksCompleted(): boolean {
+    let result = false;
+    this.tasks.forEach((task: AhoRequestTask) => {
+      if (task.done) {
+        result = true;
+      }
+    });
+    return result;
   }
 }

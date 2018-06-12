@@ -13,6 +13,7 @@ import { AhoRequestsResource } from './resources/aho-requests.resource';
 import { AhoRequestResolveGuard } from './guards/aho-request-resolve.guard.';
 import { TaskContentByRequestTypePipe } from './pipes/task-content-by-request-type.pipe';
 import { MatIconRegistry } from '@angular/material/icon';
+import { EmployeeByRequestTypePipe } from './pipes/employee-by-request-type.pipe';
 
 @NgModule({
   imports: [
@@ -25,7 +26,8 @@ import { MatIconRegistry } from '@angular/material/icon';
     StartComponent,
     AhoRequestComponent,
     NewRequestComponent,
-    TaskContentByRequestTypePipe
+    TaskContentByRequestTypePipe,
+    EmployeeByRequestTypePipe
   ],
   providers: [
     AhoRequestsResource,

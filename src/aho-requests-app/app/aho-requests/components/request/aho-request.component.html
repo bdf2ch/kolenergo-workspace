@@ -3,6 +3,15 @@
     <div>
       <span class="request-title">Заявка №{{ ahoRequestsService.getSelectedRequest().id }}</span>
       <span class="request-date">от {{ ahoRequestsService.getSelectedRequest().dateCreated | date:'dd.MM.yyyy, HH:mm' }}</span>
+      <button class="float-right" mat-icon-button *ngIf="authenticationService.getCurrentUser() && authenticationService.getCurrentUser().permissions.getRoleById(1)" [matMenuTriggerFor]="requestMenu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #requestMenu="matMenu" [yPosition]="'below'">
+        <button mat-menu-item (click)="deleteRequest()">
+          <mat-icon color="'primary'">delete</mat-icon>
+          Удалить заявку
+        </button>
+      </mat-menu>
     </div>
     <div class="user">Автор: {{ ahoRequestsService.getSelectedRequest().user.fio }}</div>
     <mat-divider class="mt-3"></mat-divider>
@@ -53,8 +62,9 @@
 
         <!-- Start: Список задач -->
         <div *ngIf="ahoRequestsService.getSelectedRequest().tasks.length > 0">
-          <mat-selection-list>
+          <mat-selection-list #tasks (selectionChange)="completeTask($event)">
             <mat-list-option *ngFor="let task of ahoRequestsService.getSelectedRequest().tasks"
+                             [disabled]="!authenticationService.getCurrentUser() || !authenticationService.getCurrentUser().permissions.getPermissionByCode('allow_complete_tasks')"
                              [selected]="task.done">
               <span matLine>{{ task.content.title }}</span>
               <span matLine class="text-muted" *ngIf="ahoRequestsService.getSelectedRequest().type.isCountable">Количество: {{ task.count + ' ' + task.content.boxing }}</span>
@@ -100,10 +110,10 @@
 
     </mat-tab-group>
 
-    <div *ngIf="authenticationService.getCurrentUser() && authenticationService.getCurrentUser().permissions.getByCode('allow_set_employee')">
+    <div *ngIf="authenticationService.getCurrentUser() && authenticationService.getCurrentUser().permissions.getPermissionByCode('allow_set_employee')" class="mt-2">
       <mat-form-field class="w-100">
-        <mat-select placeholder="Исполнитель">
-          <mat-option *ngFor="let employee of ahoRequestsService.getEmployees()" [value]="employee">
+        <mat-select placeholder="Исполнитель" ([model])="ahoRequestsService.getSelectedRequest().employee" (selectionChange)="selectEmployee($event)">
+          <mat-option *ngFor="let employee of ahoRequestsService.getEmployees() | employeeByRequestType: ahoRequestsService.getSelectedRequest().type" [value]="employee">
             {{ employee.fio }}
           </mat-option>
         </mat-select>
@@ -119,8 +129,9 @@
         <div class="col-12 col-md-6">
           <button mat-raised-button
                   type="submit"
-                  [color]="'primary'"
                   class="w-100"
+                  [disabled]="!isRequestChanged"
+                  [color]="'primary'"
                   (click)="editRequest()">
             <div class="d-flex flex-row w-100 align-items-center" *ngIf="ahoRequestsService.isAddingRequest()">
               <mat-progress-spinner

@@ -330,4 +330,15 @@ export class AhoRequestsService {
     return this.employees;
   }
 
+  /**
+   * Поиск типа заявки по идентификатору типа
+   * @param {number} requestTypeId - Идентфиикатор типа заявки
+   * @returns {AhoRequestType | null}
+   */
+  getRequestTypeById(requestTypeId: number): AhoRequestType | null {
+    const findRequestTypeById = (item: AhoRequestType) => item.id === requestTypeId;
+    const requestType = this.requestTypes.find(findRequestTypeById);
+    return requestType ? requestType : null;
+  }
+
 }

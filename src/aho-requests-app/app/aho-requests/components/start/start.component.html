@@ -81,6 +81,16 @@
         </ng-container>
         <!-- End: Request end column -->
 
+        <!-- Start: Request employee column -->
+        <ng-container matColumnDef="employee">
+          <mat-header-cell *matHeaderCellDef class="d-none d-sm-none d-md-flex"> Исполнитель </mat-header-cell>
+          <mat-cell *matCellDef="let task" class="d-none d-sm-none d-md-flex">
+            <span class="text-muted" *ngIf="!task.employee">Не задан</span>
+            <span *ngIf="task.employee">{{ task.employee.firstName + ' ' + task.employee.lastName }}</span>
+          </mat-cell>
+        </ng-container>
+        <!-- End: Request employee column -->
+
         <!-- Start: Request status column -->
         <ng-container matColumnDef="requestStatus">
           <mat-header-cell *matHeaderCellDef class="request-status-column d-none d-sm-none d-md-flex"> Статус </mat-header-cell>

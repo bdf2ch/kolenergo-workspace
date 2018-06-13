@@ -47,10 +47,10 @@ export class AhoRequest implements IAhoRequest {
   }
 
   isAllTasksCompleted(): boolean {
-    let result = false;
+    let result = true;
     this.tasks.forEach((task: AhoRequestTask) => {
-      if (task.done) {
-        result = true;
+      if (!task.done) {
+        result = false;
       }
     });
     return result;

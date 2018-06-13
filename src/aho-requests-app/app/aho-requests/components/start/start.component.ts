@@ -16,7 +16,7 @@ import { AhoRequest } from '../../models/aho-request.model';
 })
 export class StartComponent implements OnInit {
   dataSource: any;
-  displayedColumns = ['requestType', 'id', 'dateCreated', 'user', 'room', 'description', 'requestStatus'];
+  displayedColumns = ['requestType', 'id', 'dateCreated', 'user', 'room', 'description', 'employee', 'requestStatus'];
 
   constructor(private readonly router: Router,
               private readonly route: ActivatedRoute,

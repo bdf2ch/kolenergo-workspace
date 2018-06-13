@@ -15,7 +15,7 @@
         </mat-menu>
       </div>
       <div class="request-user">
-        Заявитель: <strong>{{ ahoRequestsService.getSelectedRequest().user.fio }}</strong>
+        Заявитель: {{ ahoRequestsService.getSelectedRequest().user.fio }}
       </div>
     </div>
     <!--
@@ -30,14 +30,14 @@
       <mat-tab label="Содержание" class="mh-100">
 
         <div class="p-4">
-          <div class="request-information pb-2 text-center">
-            Требуется {{ ahoRequestsService.getRequestTypeById(ahoRequestsService.getSelectedRequest().type.id).title }}
+          <div class="request-information pb-3 text-center">
+            {{ ahoRequestsService.getRequestTypeById(ahoRequestsService.getSelectedRequest().type.id).title }}
             <span *ngIf="ahoRequestsService.getSelectedRequest().type.id !== 1"> в кабинете #{{ahoRequestsService.getSelectedRequest().room }}</span>
           </div>
 
 
           <!-- Start: Список задач -->
-          <div *ngIf="ahoRequestsService.getSelectedRequest().tasks.length > 0" class="">
+          <div *ngIf="ahoRequestsService.getSelectedRequest().tasks.length > 0">
             <mat-selection-list>
               <mat-list-option *ngFor="let task of ahoRequestsService.getSelectedRequest().tasks"
                                (selectionChange)="completeTask($event, task)"
@@ -49,6 +49,17 @@
             </mat-selection-list>
           </div>
           <!-- End: Список задач -->
+
+          <div *ngIf="authenticationService.getCurrentUser() && authenticationService.getCurrentUser().permissions.getPermissionByCode('allow_set_employee')" class="w-100 mt-3">
+            <mat-form-field class="w-100">
+              <mat-select placeholder="Исполнитель" [(value)]="ahoRequestsService.getSelectedRequest().employee" (selectionChange)="selectEmployee($event)">
+                <mat-option *ngFor="let employee of ahoRequestsService.getEmployees() | employeeByRequestType: ahoRequestsService.getSelectedRequest().type" [value]="employee">
+                  {{ employee.fio }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
         </div>
 
 
@@ -57,32 +68,15 @@
 
       <!-- Start: Комментарии к заявке -->
       <mat-tab label="Комментарии">
-        <div class="demo-tab-content">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla venenatis ante augue.
-          Phasellus volutpat neque ac dui mattis vulputate. Etiam consequat aliquam cursus.
-          In sodales pretium ultrices. Maecenas lectus est, sollicitudin consectetur felis nec,
-          feugiat ultricies mi. Aliquam erat volutpat. Nam placerat, tortor in ultrices porttitor,
-          orci enim rutrum enim, vel tempor sapien arcu a tellus.
+        <div class="p-4 h-100 d-flex justify-content-center align-items-center">
+          <div class="text-muted">Комментарии отсутствуют</div>
         </div>
       </mat-tab>
       <!-- End: Комментарии к заявке -->
 
       <!-- Start: История изменений заявки -->
       <mat-tab label="История изменений">
-        <div class="demo-tab-content">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla venenatis ante augue.
-          Phasellus volutpat neque ac dui mattis vulputate. Etiam consequat aliquam cursus.
-          In sodales pretium ultrices. Maecenas lectus est, sollicitudin consectetur felis nec,
-          feugiat ultricies mi. Aliquam erat volutpat. Nam placerat, tortor in ultrices porttitor,
-          orci enim rutrum enim, vel tempor sapien arcu a tellus.
-          <br />
-          <br />
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla venenatis ante augue.
-          Phasellus volutpat neque ac dui mattis vulputate. Etiam consequat aliquam cursus.
-          In sodales pretium ultrices. Maecenas lectus est, sollicitudin consectetur felis nec,
-          feugiat ultricies mi. Aliquam erat volutpat. Nam placerat, tortor in ultrices porttitor,
-          orci enim rutrum enim, vel tempor sapien arcu a tellus.
-        </div>
+        <div class="p-4"></div>
       </mat-tab>
       <!-- End: История изменений заявки -->
 
@@ -92,15 +86,7 @@
 
   </mat-dialog-content>
   <mat-dialog-actions>
-    <div *ngIf="authenticationService.getCurrentUser() && authenticationService.getCurrentUser().permissions.getPermissionByCode('allow_set_employee')" class="w-100">
-      <mat-form-field class="w-100">
-        <mat-select placeholder="Исполнитель" [(value)]="ahoRequestsService.getSelectedRequest().employee" (selectionChange)="selectEmployee($event)">
-          <mat-option *ngFor="let employee of ahoRequestsService.getEmployees() | employeeByRequestType: ahoRequestsService.getSelectedRequest().type" [value]="employee">
-            {{ employee.fio }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
+
 
     <div class="container-fluid p-0">
       <div class="row">

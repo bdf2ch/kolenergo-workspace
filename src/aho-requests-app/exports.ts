@@ -9,6 +9,7 @@ export { IEditAhoRequestType } from './app/aho-requests/interfaces/aho-request-t
 export { IAhoRequestStatus } from './app/aho-requests/interfaces/aho-request-status.interface';
 export { IAhoRequestTask } from './app/aho-requests/interfaces/aho-request-task.interface';
 export { IAhoRequestTaskContent } from './app/aho-requests/interfaces/aho-request-task-content.interface';
+export { IAhoRequestComment } from './app/aho-requests/interfaces/aho-request-comment.interface';
 
 
 /**
@@ -19,3 +20,4 @@ export { AhoRequestType } from './app/aho-requests/models/aho-request-type.model
 export { AhoRequestStatus } from './app/aho-requests/models/aho-request-status.model';
 export { AhoRequestTask } from './app/aho-requests/models/aho-request-task.model';
 export { AhoRequestTaskContent } from './app/aho-requests/models/aho-request-task-content.model';
+export { AhoRequestComment } from './app/aho-requests/models/aho-request-comment.model';

@@ -51,26 +51,26 @@
 
         <!-- Start: Request user column -->
         <ng-container matColumnDef="user">
-          <mat-header-cell *matHeaderCellDef class="request-user d-none d-sm-none d-md-flex ml-md-5"> Заявитель </mat-header-cell>
-          <mat-cell *matCellDef="let element" class="request-user d-none d-sm-none d-md-flex ml-md-5"> {{ element.user.firstName + ' ' + element.user.lastName }} </mat-cell>
+          <mat-header-cell *matHeaderCellDef class="request-user-column d-none d-sm-none d-md-flex ml-md-5"> Заявитель </mat-header-cell>
+          <mat-cell *matCellDef="let element" class="request-user-column d-none d-sm-none d-md-flex ml-md-5"> {{ element.user.firstName + ' ' + element.user.lastName }} </mat-cell>
         </ng-container>
         <!-- End: Request user column -->
 
-        <!-- Start: Request comment column -->
+        <!-- Start: Request tasks column -->
         <ng-container matColumnDef="description">
-          <mat-header-cell *matHeaderCellDef> Содержание </mat-header-cell>
-          <mat-cell *matCellDef="let request" class="pt-2 pb-2">
+          <mat-header-cell *matHeaderCellDef class="request-tasks-column"> Содержание </mat-header-cell>
+          <mat-cell *matCellDef="let request" class="request-tasks-column pt-2 pb-2">
             <div *ngFor="let task of request.tasks">
-              {{ task.content.title }} <span class="text-muted" *ngIf="request.type.isCountable">&nbsp; &mdash; &nbsp; {{ task.count  + ' ' + task.content.boxing }}</span>
+              {{ task.content.title }} <span class="task-count text-muted" *ngIf="request.type.isCountable">&nbsp; &mdash; &nbsp; {{ task.count  + ' ' + task.content.boxing }}</span>
             </div>
           </mat-cell>
         </ng-container>
-        <!-- End: Request comment column -->
+        <!-- End: Request taasks column -->
 
         <!-- Start: Request room column -->
         <ng-container matColumnDef="room">
           <mat-header-cell *matHeaderCellDef class="request-room-column"> Кабинет </mat-header-cell>
-          <mat-cell *matCellDef="let element" class="request-room-column">{{ element.room !== '' ? element.room : '-' }}</mat-cell>
+          <mat-cell *matCellDef="let element" class="request-room-column">{{ element.room !== '' ? element.room : '' }}</mat-cell>
         </ng-container>
         <!-- End: Request room column -->
 
@@ -83,9 +83,9 @@
 
         <!-- Start: Request employee column -->
         <ng-container matColumnDef="employee">
-          <mat-header-cell *matHeaderCellDef class="d-none d-sm-none d-md-flex"> Исполнитель </mat-header-cell>
-          <mat-cell *matCellDef="let task" class="d-none d-sm-none d-md-flex">
-            <span class="text-muted" *ngIf="!task.employee">Не задан</span>
+          <mat-header-cell *matHeaderCellDef class="request-employee-column d-none d-sm-none d-md-flex"> Исполнитель </mat-header-cell>
+          <mat-cell *matCellDef="let task" class="request-employee-column d-none d-sm-none d-md-flex">
+            <span class="no-employee text-muted" *ngIf="!task.employee">Не назначен</span>
             <span *ngIf="task.employee">{{ task.employee.firstName + ' ' + task.employee.lastName }}</span>
           </mat-cell>
         </ng-container>

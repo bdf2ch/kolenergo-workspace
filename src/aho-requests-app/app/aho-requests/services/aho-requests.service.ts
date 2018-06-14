@@ -12,6 +12,8 @@ import { MatTableDataSource } from '@angular/material';
 import { AhoRequestTaskContent } from '../models/aho-request-task-content.model';
 import { IAhoRequestTaskContent } from '../interfaces/aho-request-task-content.interface';
 import { User, UsersService } from '@kolenergo/lib';
+import {AhoRequestComment} from '../models/aho-request-comment.model';
+import {IAhoRequestComment} from '../interfaces/aho-request-comment.interface';
 
 @Injectable()
 export class AhoRequestsService {
@@ -339,6 +341,30 @@ export class AhoRequestsService {
     const findRequestTypeById = (item: AhoRequestType) => item.id === requestTypeId;
     const requestType = this.requestTypes.find(findRequestTypeById);
     return requestType ? requestType : null;
+  }
+
+  /**
+   * Добавление комментария к заявке
+   * @param {IAhoRequestComment} comment - Комментарий
+   * @param {number} requestId - Идентификатор заявки
+   * @returns {Promise<AhoRequestComment | null>}
+   */
+  async addComment(comment: IAhoRequestComment, requestId: number): Promise<AhoRequestComment | null> {
+    try {
+      const result = await this.ahoRequestResource.addComment(comment, null, {id: requestId});
+      if (result) {
+        const comment_ = new AhoRequestComment(result);
+        this.requests.forEach((item: AhoRequest) => {
+          if (item.id === requestId) {
+            item.comments.push(comment_);
+          }
+        });
+        return comment_;
+      }
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
   }
 
 }

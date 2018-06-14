@@ -61,11 +61,11 @@
           <mat-header-cell *matHeaderCellDef class="request-tasks-column"> Содержание </mat-header-cell>
           <mat-cell *matCellDef="let request" class="request-tasks-column pt-2 pb-2">
             <div *ngFor="let task of request.tasks">
-              {{ task.content.title }} <span class="task-count text-muted" *ngIf="request.type.isCountable">&nbsp; &mdash; &nbsp; {{ task.count  + ' ' + task.content.boxing }}</span>
+              {{ task.content.title }} <span class="task-count text-muted" *ngIf="request.type.isCountable">&nbsp; &mdash; &nbsp; {{task.content.boxing ? task.count  + ' ' + task.content.boxing : task.count  + ' штук' }}</span>
             </div>
           </mat-cell>
         </ng-container>
-        <!-- End: Request taasks column -->
+        <!-- End: Request tasks column -->
 
         <!-- Start: Request room column -->
         <ng-container matColumnDef="room">
@@ -94,7 +94,7 @@
         <!-- Start: Request status column -->
         <ng-container matColumnDef="requestStatus">
           <mat-header-cell *matHeaderCellDef class="request-status-column d-none d-sm-none d-md-flex"> Статус </mat-header-cell>
-          <mat-cell *matCellDef="let element" class="request-status-column d-none d-sm-none d-md-flex">
+          <mat-cell *matCellDef="let element" class="request-status-column d-none d-sm-none d-md-flex justify-content-center">
             <mat-icon fontSet="fa"
                       fontIcon="{{ element.status.icon }}"
                       [style.color]="element.status.iconColor ? element.status.iconColor : 'black'"

@@ -8,10 +8,17 @@
   }
 
   .mat-dialog-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
     padding: 0px;
 
     .mat-tab-labels {
       justify-content: space-between;
+    }
+
+    .mat-tab-body-wrapper {
+      height: 100%;
     }
 
     .request-information {
@@ -29,6 +36,12 @@
 
   .mat-dialog-actions {
     //border-top: 1px solid #ECEFF1;
+    //margin-left: -20px;
+    //margin-right: -20px;
+    margin-left: -24px;
+    margin-right: -24px;
+    padding: 20px;
+    background: #FAFAFA;
   }
 
   .mat-list-item {
@@ -84,5 +97,9 @@
   .room {
     font-family: "Segoe UI Light";
     font-size: 35px;
+  }
+
+  .no-comments {
+    font-family: "Segoe UI Light";
   }
 }

@@ -34,7 +34,7 @@ export class StartComponent implements OnInit {
         if (params['id']) {
           this.dialog.open(AhoRequestComponent, {
             width: '550px',
-            minHeight: '550px',
+            height: '620px'
           });
         } else {
           this.dialog.closeAll();

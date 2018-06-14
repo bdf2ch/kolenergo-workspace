@@ -5,6 +5,8 @@ import { AhoRequestsService } from '../../services/aho-requests.service';
 import { AuthenticationService } from '@kolenergo/lib';
 import { AhoRequestStatus } from '../../models/aho-request-status.model';
 import { AhoRequestTask } from '../../models/aho-request-task.model';
+import {AhoRequestComment } from '../../models/aho-request-comment.model';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-request',
@@ -13,18 +15,23 @@ import { AhoRequestTask } from '../../models/aho-request-task.model';
 })
 export class AhoRequestComponent implements OnInit {
   public isRequestChanged: boolean;
-  tasks: any;
-  selectedTasks: any;
+  public newComment: AhoRequestComment;
+  newCommentForm: FormGroup;
 
-  constructor(
-    private readonly router: Router,
+  constructor(private readonly router: Router,
+              private readonly formBuilder: FormBuilder,
               private readonly dialogRef: MatDialogRef<AhoRequestComponent>,
               public readonly authenticationService: AuthenticationService,
               public readonly ahoRequestsService: AhoRequestsService) {
     this.isRequestChanged = false;
+    this.newComment = new AhoRequestComment();
   }
 
   ngOnInit() {
+    this.newCommentForm = this.formBuilder.group({
+      comment: ['', Validators.required]
+    });
+
     this.dialogRef.backdropClick().subscribe(() => {
       this.router.navigate(['']);
     });
@@ -59,7 +66,6 @@ export class AhoRequestComponent implements OnInit {
 
   async editRequest() {
     if (this.ahoRequestsService.getSelectedRequest().isAllTasksCompleted()) {
-      console.log('all tasks completed');
       const findStatusById = (item: AhoRequestStatus) => item.id === 3;
       const status = this.ahoRequestsService.getRequestStatuses().find(findStatusById);
       this.ahoRequestsService.getSelectedRequest().status = status;
@@ -75,8 +81,16 @@ export class AhoRequestComponent implements OnInit {
         this.dialogRef.close();
         this.router.navigate(['']);
       });
-
     }
 
+    async addComment() {
+      await this.ahoRequestsService.addComment(this.newComment, this.ahoRequestsService.getSelectedRequest().id)
+        .then(() => {
+          this.newComment = new AhoRequestComment();
+          this.newCommentForm.reset({
+            comment: this.newComment.content
+          });
+        });
+    }
 
 }

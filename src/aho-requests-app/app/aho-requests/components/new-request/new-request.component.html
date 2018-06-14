@@ -1,7 +1,7 @@
 <div class="new-request">
   <h2 mat-dialog-title>Новая заявка</h2>
   <mat-dialog-content>
-    <form [formGroup]="newRequestForm">
+    <form [formGroup]="newRequestForm" class="pl-4 pt-4 pr-4">
 
       <!-- Start: Категория заявки -->
       <mat-form-field class="w-100">
@@ -45,90 +45,109 @@
       -->
       <!-- End: Комментарий -->
 
-      <!-- Start: Список канцелярских товаров -->
+      <!-- Start: Список задач -->
       <div class="mt-2">
+          <mat-table [dataSource]="tasksDataSource">
 
-        <mat-table [dataSource]="tasksDataSource">
+            <!-- Start: Колонка наименования задачи -->
+            <ng-container matColumnDef="title">
+              <mat-header-cell *matHeaderCellDef class="task-item-title-column pr-3">{{ newRequest.type.listTitle ? newRequest.type.listTitle : 'Перечень задач' }}</mat-header-cell>
+              <mat-cell *matCellDef="let task;" class="task-item-title-column pr-3">
+                {{ task.content['id'] ? task.content.title : task.content }}
+              </mat-cell>
+            </ng-container>
+            <!-- End: Колонка наименования задачи -->
 
-          <!-- Start: Колонка наименования задачи -->
-          <ng-container matColumnDef="title">
-            <mat-header-cell *matHeaderCellDef class="office-stuff-item-title-column pr-3"> {{ newRequest.type.listTitle ? newRequest.type.listTitle : 'Перечень задач' }} </mat-header-cell>
-            <mat-cell *matCellDef="let task; let i = index;" class="office-stuff-item-title-column pr-3">
-              <mat-form-field class="w-100" [floatLabel]="'never'">
-                <input type="text"
-                       matInput
-                       placeholder="{{ newRequest.type.itemTitle ? newRequest.type.itemTitle : 'Введите наименование' }}"
-                       formControlName="{{ 'taskTitle' + task.timeAdded.toString() }}"
-                       [(ngModel)]="task.content"
-                       [matAutocomplete]="content"
-                       required>
-                <mat-autocomplete #content="matAutocomplete" [displayWith]="displayTaskContentTitle">
-                  <mat-option *ngFor="let item of ahoRequestsService.getRequestTasksContent() | taskContentByRequestType : newRequest.type.id" [value]="item">
-                    {{ item.title }}
-                  </mat-option>
-                </mat-autocomplete>
-                <!--<mat-error *ngIf="newRequestForm.get('room').invalid">{{ getRoomErrorMessage() }}</mat-error>-->
-              </mat-form-field>
-            </mat-cell>
-          </ng-container>
-          <!-- End: Колонка наименования задачи -->
+            <!-- Start: Колонка количественного измерения задачи -->
+            <ng-container matColumnDef="count" *ngIf="newRequest.type.isCountable">
+              <mat-header-cell *matHeaderCellDef class="task-item-count-column"> Количество </mat-header-cell>
+              <mat-cell *matCellDef="let task;" class="task-item-count-column">
+                {{ task.content.boxing ? task.count + ' ' + task.content.boxing : task.count + ' штук' }}
+              </mat-cell>
+            </ng-container>
+            <!-- End: Колонка количественного измерения задачи -->
 
-          <!-- Start: Колонка количественного измерения задачи -->
-          <ng-container matColumnDef="count" *ngIf="newRequest.type.isCountable">
-            <mat-header-cell *matHeaderCellDef class="office-stuff-item-count-column"> Количество </mat-header-cell>
-            <mat-cell *matCellDef="let task; let i = index;" class="office-stuff-item-count-column">
-              <mat-form-field class="w-100" [floatLabel]="'never'">
-                <input type="number"
-                       matInput
-                       [min]="1"
-                       placeholder="Кол-во"
-                       formControlName="{{ 'taskCount' + task.timeAdded.toString() }}"
-                       [(ngModel)]="task.count"
-                       required>
-                <mat-hint align="end">{{ task.content && task.content.boxing ? task.content.boxing : null }}</mat-hint>
-              </mat-form-field>
-            </mat-cell>
-          </ng-container>
-          <!-- End: Колонка количественного измерения задачи -->
+            <!-- Start: Колонка элементов управления-->
+            <ng-container matColumnDef="controls">
+              <mat-header-cell *matHeaderCellDef class="task-item-controls-column"></mat-header-cell>
+              <mat-cell *matCellDef="let task;" class="task-item-controls-column d-flex justify-content-end">
+                <button mat-icon-button
+                        type="button"
+                        [color]="'primary'"
+                        (click)="removeTask(task)">
+                  <mat-icon fontSet="fa"
+                            fontIcon="fa-trash"
+                            matTooltip="Удалить из заявки"
+                            [matTooltipPosition]="'above'">
+                  </mat-icon>
+                </button>
+              </mat-cell>
+            </ng-container>
+            <!-- End: Колонка элементов управления -->
 
-          <!-- Start: Колонка элементов управления-->
-          <ng-container matColumnDef="controls">
-            <mat-header-cell *matHeaderCellDef class="office-stuff-item-controls-column"></mat-header-cell>
-            <mat-cell *matCellDef="let task; let i = index; let isLast = last;" class="office-stuff-item-controls-column d-flex justify-content-end">
-              <button mat-icon-button
-                      [color]="'primary'"
-                      [disabled]="newRequest.type.isCountable ? (newRequestForm.get('taskTitle' + task.timeAdded.toString()).invalid) : newRequestForm.get('taskTitle'  + task.timeAdded.toString()).invalid"
-                      (click)="addTask()"
-                      *ngIf="isLast">
-                <mat-icon fontSet="fa"
-                          fontIcon="fa-plus"
-                          matTooltip="Добавить к заявке"
-                          [matTooltipPosition]="'above'">
-                </mat-icon>
-              </button>
-
-              <button mat-icon-button
-                      [color]="'primary'"
-                      (click)="removeTask(task)"
-                      *ngIf="!isLast">
-                <mat-icon fontSet="fa"
-                          fontIcon="fa-trash"
-                          matTooltip="Удалить из заявки"
-                          [matTooltipPosition]="'above'">
-                </mat-icon>
-              </button>
-            </mat-cell>
-          </ng-container>
-          <!-- End: Колонка элементов управления -->
-
-          <mat-header-row *matHeaderRowDef="headerColumns"></mat-header-row>
-          <mat-row *matRowDef="let row; let isLast = last; columns: headerColumns;" [ngClass]="{'added': !isLast}"></mat-row>
-        </mat-table>
-
+            <mat-header-row *matHeaderRowDef="headerColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: headerColumns;" class="added"></mat-row>
+          </mat-table>
       </div>
-      <!-- End: Список канцелярских товаров -->
-
+      <!-- End: Список задач -->
     </form>
+
+
+    <!-- Start: New task form -->
+    <form [formGroup]="newTaskForm" class="d-flex flex-row pl-4 pr-4">
+
+      <!-- Start: Task content -->
+      <div class="task-item-title-column col pl-0">
+        <mat-form-field class="w-100" [floatLabel]="'never'">
+          <input type="text"
+                 matInput
+                 placeholder="{{ newRequest.type.itemTitle ? newRequest.type.itemTitle : 'Введите наименование' }}"
+                 formControlName="title"
+                 [(ngModel)]="newTask.content"
+                 [matAutocomplete]="content"
+                 required>
+          <mat-autocomplete #content="matAutocomplete" [displayWith]="displayTaskContentTitle">
+            <mat-option
+              *ngFor="let item of ahoRequestsService.getRequestTasksContent() | taskContentByRequestType : newRequest.type.id"
+              [value]="item">
+              {{ item.title }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <!-- End: Task content -->
+
+      <!-- Start: Task count -->
+      <div class="task-item-count-column" *ngIf="newRequest.type.isCountable">
+        <mat-form-field class="w-100" [floatLabel]="'never'">
+          <input type="number"
+                 matInput
+                 [min]="1"
+                 placeholder="Кол-во"
+                 formControlName="count"
+                 [(ngModel)]="newTask.count"
+                 required>
+          <mat-hint align="end">{{ newTask.content && newTask.content.boxing ? newTask.content.boxing : null }}
+          </mat-hint>
+        </mat-form-field>
+      </div>
+      <!-- End: Task count -->
+
+      <div class="task-item-controls-column d-flex align-items-center">
+        <button mat-icon-button
+                [color]="'primary'"
+                [disabled]="newTaskForm.invalid"
+                (click)="addTask()">
+          <mat-icon fontSet="fa"
+                    fontIcon="fa-plus"
+                    matTooltip="Добавить к заявке"
+                    [matTooltipPosition]="'above'">
+          </mat-icon>
+        </button>
+      </div>
+    </form>
+    <!-- End: New task form-->
+
   </mat-dialog-content>
   <mat-dialog-actions class="pt-3">
     <div class="container-fluid p-0">
@@ -139,7 +158,7 @@
           <button mat-raised-button
                   type="submit"
                   [color]="'primary'"
-                  [disabled]="newRequest.tasks.length < 2 || ahoRequestsService.isAddingRequest()"
+                  [disabled]="newRequestForm.invalid ||newRequest.tasks.length < 2 || ahoRequestsService.isAddingRequest()"
                   class="w-100"
                   (click)="addRequest()">
             <div class="d-flex flex-row w-100 align-items-center" *ngIf="ahoRequestsService.isAddingRequest()">

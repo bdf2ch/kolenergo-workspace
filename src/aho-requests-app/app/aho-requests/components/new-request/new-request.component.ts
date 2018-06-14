@@ -15,7 +15,9 @@ import { AhoRequestTaskContent } from '../../models/aho-request-task-content.mod
 })
 export class NewRequestComponent implements OnInit {
   newRequestForm: FormGroup;
+  newTaskForm: FormGroup;
   newRequest: AhoRequest;
+  newTask: AhoRequestTask;
   tasksDataSource: MatTableDataSource<AhoRequestTask>;
   headerColumns: string[];
 
@@ -25,16 +27,21 @@ export class NewRequestComponent implements OnInit {
               private readonly authenticationService: AuthenticationService,
               public readonly ahoRequestsService: AhoRequestsService) {
     this.newRequest = new AhoRequest();
+    this.newTask = new AhoRequestTask();
     this.headerColumns = [];
   }
 
   ngOnInit() {
-    this.newRequestForm = this.formBuilder.group({});
     this.newRequest.type = this.ahoRequestsService.getRequestTypes()[0];
     this.newRequest.user = this.authenticationService.getCurrentUser();
     this.newRequest.status = this.ahoRequestsService.getRequestStatusById(1);
     this.headerColumns = this.newRequest.type.isCountable ? ['title', 'count', 'controls'] : ['title', 'controls'];
-    this.addTask();
+    this.newRequestForm = this.formBuilder.group({});
+    this.newTaskForm = this.formBuilder.group({
+      title: ['', Validators.required],
+      count: [1, Validators.required]
+    });
+    //this.addTask();
     this.tasksDataSource = new MatTableDataSource<AhoRequestTask>(this.newRequest.tasks);
   }
 
@@ -44,24 +51,42 @@ export class NewRequestComponent implements OnInit {
    */
   onRequestTypeChange(event: any) {
     this.newRequest.tasks = [];
-    this.newRequest.tasks.push(new AhoRequestTask());
+    //this.newRequest.tasks.push(new AhoRequestTask());
     this.headerColumns = this.newRequest.type.isCountable ? ['title', 'count', 'controls'] : ['title', 'controls'];
     for (const control in this.newRequestForm.controls) {
       this.newRequestForm.removeControl(control);
     }
+
+    /*
     this.newRequestForm.addControl(
       `taskTitle${this.newRequest.tasks[this.newRequest.tasks.length - 1].timeAdded}`,
       new FormControl('', Validators.required)
     );
+    */
+    /*
+    this.newTaskForm.addControl(
+      `taskTitle${this.newRequest.tasks[this.newRequest.tasks.length - 1].timeAdded}`,
+      new FormControl('', Validators.required)
+    );
+    */
 
     switch (event.value.isCountable) {
       case true:
         this.newRequestForm.removeControl('room');
+        /*
+        this.newTaskForm.addControl(
+          `taskCount${this.newRequest.tasks[this.newRequest.tasks.length - 1].timeAdded}`,
+          new FormControl('', Validators.required)
+        );
+        */
+        /*
         this.newRequestForm.addControl(
           `taskCount${this.newRequest.tasks[this.newRequest.tasks.length - 1].timeAdded}`,
           new FormControl('', Validators.required)
         );
+        */
           console.log(this.newRequestForm);
+          console.log(this.newTaskForm);
           break;
       default:
         this.newRequestForm.addControl('room', new FormControl('', Validators.required));
@@ -92,11 +117,22 @@ export class NewRequestComponent implements OnInit {
    */
   addTask() {
     console.log(this.newRequestForm);
+    console.log(this.newTaskForm);
     console.log(this.newRequest.tasks);
+    /*
     for (const control in this.newRequestForm.controls) {
-      this.newRequestForm.controls[control].disable();
+      if (control.indexOf('task') !== -1) {
+        this.newRequestForm.controls[control].disable();
+      }
     }
-    this.newRequest.tasks.push(new AhoRequestTask());
+    */
+    this.newRequest.tasks.push(this.newTask);
+    this.newTask = new AhoRequestTask();
+    this.newTaskForm.reset({
+      title: '',
+      count: 1
+    });
+    /*
     this.newRequestForm.addControl(
       `taskTitle${this.newRequest.tasks[this.newRequest.tasks.length - 1].timeAdded.toString()}`,
       new FormControl('', Validators.required)
@@ -107,6 +143,7 @@ export class NewRequestComponent implements OnInit {
         new FormControl('', Validators.required)
       );
     }
+    */
     this.tasksDataSource = new MatTableDataSource<AhoRequestTask>(this.newRequest.tasks);
 }
 
@@ -120,10 +157,6 @@ export class NewRequestComponent implements OnInit {
         array.splice(index, 1);
       }
     });
-    this.newRequestForm.removeControl(`taskTitle${task.timeAdded}`);
-    if (this.newRequest.type.isCountable) {
-      this.newRequestForm.removeControl(`taskCount${task.timeAdded}`);
-    }
     this.tasksDataSource = new MatTableDataSource<AhoRequestTask>(this.newRequest.tasks);
   }
 
@@ -141,8 +174,8 @@ export class NewRequestComponent implements OnInit {
    * @returns {Promise<void>}
    */
   async addRequest() {
-    this.newRequest.tasks.splice(this.newRequest.tasks.length - 1, 1);
-    await this.ahoRequestsService.addRequest(this.newRequest);
-    this.dialogRef.close();
+    await this.ahoRequestsService.addRequest(this.newRequest).then(() => {
+      this.dialogRef.close();
+    });
   }
 }

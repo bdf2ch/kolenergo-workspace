@@ -14,7 +14,8 @@ import { IAddAhoRequest } from '../interfaces/aho-request.add.interface';
 import { IAhoRequest } from '../interfaces/aho-request.interface';
 import { environment } from '../../../../_common/environments/environment';
 import { IAhoRequestStatus } from '../interfaces/aho-request-status.interface';
-import {IAhoRequestTaskContent} from '../interfaces/aho-request-task-content.interface';
+import { IAhoRequestTaskContent } from '../interfaces/aho-request-task-content.interface';
+import {IAhoRequestComment} from '../interfaces/aho-request-comment.interface';
 
 
 @Injectable()
@@ -104,4 +105,12 @@ export class AhoRequestsResource extends Resource {
     withCredentials: true
   })
   deleteRequest: IResourceMethod<{id: number}, boolean>;
+
+  @ResourceAction({
+    path: '/requests/{!id}/comments',
+    method: ResourceRequestMethod.Post,
+    withCredentials: true
+  })
+  addComment: IResourceMethodStrict<IAhoRequestComment, void, {id: number}, IAhoRequestComment>;
+
 }

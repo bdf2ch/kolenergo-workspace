@@ -25,12 +25,33 @@
       font-family: "Segoe UI Light";
       font-size: 20px;
       //border-bottom: 1px dashed #ECEFF1;
+      background: #ECEFF1;
+      border-radius: 4px;
+
+      .mat-icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        height: 40px;
+        //padding: 10px;
+        background: #B0BEC5;
+        border-radius: 50%;
+      }
+
+      .fa {
+        color: #ECEFF1 !important;
+      }
     }
 
     .mat-list-item-ripple {
       //margin-bottom: 10px;
-      border-top: 1px dashed #ECEFF1;
+      //border-top: 1px dashed #ECEFF1;
       border-bottom: 1px dashed #ECEFF1;
+    }
+
+    .mat-list-item-disabled {
+      background: transparent !important;
     }
   }
 
@@ -86,13 +107,10 @@
     line-height: 18px;
   }
 
-  .comment {
-    font-family: "Segoe UI Light";
-    ul {
-      margin-top: auto !important;
-      margin-bottom: 0px !important;
-    }
+  .request-employee {
+    margin-top: -20px;
   }
+
 
   .room {
     font-family: "Segoe UI Light";
@@ -101,5 +119,57 @@
 
   .no-comments {
     font-family: "Segoe UI Light";
+  }
+
+  .badge {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    height: 20px;
+    font-family: "Segoe UI Light";
+    font-size: 11px;
+    color: white;
+    background: red;
+    border-radius: 50%;
+  }
+
+  .request-comments {
+    .comment {
+      //display: inline-flex !important;
+      align-self: flex-start;
+      //width: auto;
+      margin-top: 15px;
+
+
+      .comment-content {
+        padding: 15px;
+        font-family: "Segoe UI";
+        font-size: 15px;
+        line-height: 15px;
+        border-radius: 4px;
+        background: #FFECB3;
+      }
+
+      .comment-user {
+        font-family: "Segoe UI";
+        font-size: 11px;
+        text-align: left;
+        color: #BDBDBD;
+      }
+      &.own {
+        align-self: flex-end;
+        .comment-content {
+          background: #F3E5F5;
+        }
+        .comment-user {
+          text-align: right;
+        }
+      }
+    }
+  }
+
+  .new-comment-form {
+    margin-top: -20px;
   }
 }

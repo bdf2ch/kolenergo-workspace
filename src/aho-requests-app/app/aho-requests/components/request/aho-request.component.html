@@ -24,15 +24,16 @@
   </div>
   <mat-dialog-content>
 
-    <mat-tab-group class="demo-tab-group" [dynamicHeight]="false" ngClass="h-100">
+    <mat-tab-group class="demo-tab-group" [dynamicHeight]="false" ngClass="h-100" (selectedIndexChange)="tabChange($event)">
 
       <!-- Start: Содкржание заявки -->
       <mat-tab label="Содержание" class="mh-100">
         <div class="p-4">
-          <div class="request-information pb-3 text-center">
-            <mat-icon fontSet="fa" fontIcon="{{ ahoRequestsService.getSelectedRequest().type.icon }}" [color]="'primary'"></mat-icon>
+
+          <div class="request-information d-flex justify-content-center align-items-center pb-3 pt-3 text-center">
+            <mat-icon fontSet="fa" fontIcon="{{ ahoRequestsService.getSelectedRequest().type.icon }}" class="mr-3"></mat-icon>
             {{ ahoRequestsService.getRequestTypeById(ahoRequestsService.getSelectedRequest().type.id).title }}
-            <span *ngIf="ahoRequestsService.getSelectedRequest().type.id !== 1"> в кабинете #{{ahoRequestsService.getSelectedRequest().room }}</span>
+            <span *ngIf="ahoRequestsService.getSelectedRequest().type.id !== 1">&nbsp;в кабинете #{{ahoRequestsService.getSelectedRequest().room }}</span>
           </div>
 
           <!-- Start: Список задач -->
@@ -50,58 +51,43 @@
           <!-- End: Список задач -->
         </div>
 
-        <div *ngIf="authenticationService.getCurrentUser() && authenticationService.getCurrentUser().permissions.getPermissionByCode('allow_set_employee')" class="w-100 pl-4 pr-4">
-          <mat-form-field class="w-100">
-            <mat-select placeholder="Исполнитель" [(value)]="ahoRequestsService.getSelectedRequest().employee" (selectionChange)="selectEmployee($event)">
-              <mat-option *ngFor="let employee of ahoRequestsService.getEmployees() | employeeByRequestType: ahoRequestsService.getSelectedRequest().type" [value]="employee">
-                {{ employee.fio }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
       </mat-tab>
       <!-- End: Содержание заявки -->
 
       <!-- Start: Комментарии к заявке -->
-      <mat-tab label="Комментарии">
+      <mat-tab label="Комментарии" class="mh-100">
         <ng-template mat-tab-label>
-          Комментарии
-          <span *ngIf="ahoRequestsService.getSelectedRequest().comments.length > 0">
+          <div class="d-flex">
+            Комментарии
+            <span class="badge ml-2" *ngIf="ahoRequestsService.getSelectedRequest().comments.length > 0">
           {{ ahoRequestsService.getSelectedRequest().comments.length }}
-        </span>
+          </span>
+          </div>
         </ng-template>
-        <div class="pl-4 pr-4 pt-4 h-100 d-flex flex-column justify-content-between">
 
-          <div class="w-100 h-100 d-flex flex-column justify-content-center align-self-center">
-            <!-- Start: No comments placeholder -->
-            <div *ngIf="ahoRequestsService.getSelectedRequest().comments.length === 0">
-              <div class="no-comments text-muted mb-3 text-center">Комментарии отсутствуют</div>
+        <!-- Start: No comments placeholder -->
+        <div *ngIf="ahoRequestsService.getSelectedRequest().comments.length === 0" class="h-100 d-flex flex-column justify-content-center align-items-center">
+          <div class="no-comments text-muted mb-3 text-center">Комментарии отсутствуют</div>
+        </div>
+        <!-- End: No comments placeholder -->
+
+        <div class="pl-4 pr-4 d-flex flex-column justify-content-between" *ngIf="ahoRequestsService.getSelectedRequest().comments.length > 0">
+          <div class="d-flex w-100 h-100 flex-column justify-content-center align-self-center">
+            <!-- Start: Request comments -->
+            <div class="request-comments w-100 h-100 d-flex flex-column justify-content-end pb-4">
+              <div class="comment"
+                   [ngClass]="{'own': comment.userId === ahoRequestsService.getSelectedRequest().user.id}"
+                   *ngFor="let comment of ahoRequestsService.getSelectedRequest().comments">
+                <div class="comment-content">
+                  {{ comment.content }}
+                </div>
+                <div class="comment-user">
+                  {{ comment.user.firstName + ' ' + comment.user.lastName + ' в ' + (comment.dateCreated |  date:'dd.MM.yyyy в HH:mm') }}
+                </div>
+              </div>
             </div>
-            <!-- End: No comments placeholder -->
+            <!-- End: request comments -->
           </div>
-
-          <!-- Start New comment form -->
-          <div class="w-100">
-            <form [formGroup]="newCommentForm" class="row no-gutters w-100 d-flex">
-              <div class="col">
-                <mat-form-field class="w-100" [floatLabel]="'never'">
-                  <input type="text"
-                         matInput
-                         placeholder="Ваш комментарий"
-                         formControlName="comment"
-                         [(ngModel)]="newComment.content"
-                         required>
-                </mat-form-field>
-              </div>
-              <div class="col-auto d-flex justify-content-end align-items-center">
-                <button mat-icon-button type="submit" [color]="'primary'" [disabled]="newCommentForm.invalid" (click)="addComment()">
-                  <mat-icon>send</mat-icon>
-                </button>
-              </div>
-            </form>
-          </div>
-          <!-- End: New comment form -->
-
 
 
 
@@ -124,6 +110,39 @@
   </mat-dialog-content>
   <mat-dialog-actions>
 
+    <!-- Start: Request employee -->
+    <div class="request-employee w-100" *ngIf="selectedTabIndex === 0 && authenticationService.getCurrentUser() && authenticationService.getCurrentUser().permissions.getPermissionByCode('allow_set_employee')">
+      <mat-form-field class="w-100">
+        <mat-select placeholder="Исполнитель" [(value)]="ahoRequestsService.getSelectedRequest().employee" (selectionChange)="selectEmployee($event)">
+          <mat-option *ngFor="let employee of ahoRequestsService.getEmployees() | employeeByRequestType: ahoRequestsService.getSelectedRequest().type" [value]="employee">
+            {{ employee.fio }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <!-- End: Request employee -->
+
+    <!-- Start: New comment form -->
+    <div class="new-comment-form w-100" *ngIf="selectedTabIndex === 1 && authenticationService.getCurrentUser() && (authenticationService.getCurrentUser().id === ahoRequestsService.getSelectedRequest().id || authenticationService.getCurrentUser().permissions.getPermissionByCode('allow_add_comments'))">
+      <form [formGroup]="newCommentForm" class="row no-gutters w-100 d-flex">
+        <div class="col">
+          <mat-form-field class="w-100" [floatLabel]="'never'">
+            <input type="text"
+                   matInput
+                   placeholder="Ваш комментарий"
+                   formControlName="comment"
+                   [(ngModel)]="newComment.content"
+                   required>
+          </mat-form-field>
+        </div>
+        <div class="col-auto d-flex justify-content-end align-items-center">
+          <button mat-icon-button type="submit" [color]="'primary'" [disabled]="newCommentForm.invalid" (click)="addComment()">
+            <mat-icon>send</mat-icon>
+          </button>
+        </div>
+      </form>
+    </div>
+    <!-- End: New comment form -->
 
     <div class="container-fluid p-0">
       <div class="row">

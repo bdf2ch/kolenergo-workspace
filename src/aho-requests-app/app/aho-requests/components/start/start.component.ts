@@ -68,4 +68,8 @@ export class StartComponent implements OnInit {
     //this.ahoRequestsService.setSelectedRequest(request);
     this.router.navigate(['/request', request.id]);
   }
+
+  showEmployeeRequests() {
+    this.ahoRequestsService.showEmployeeRequests();
+  }
 }

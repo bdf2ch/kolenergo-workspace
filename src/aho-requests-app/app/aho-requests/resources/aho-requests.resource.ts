@@ -16,6 +16,7 @@ import { environment } from '../../../../_common/environments/environment';
 import { IAhoRequestStatus } from '../interfaces/aho-request-status.interface';
 import { IAhoRequestTaskContent } from '../interfaces/aho-request-task-content.interface';
 import {IAhoRequestComment} from '../interfaces/aho-request-comment.interface';
+import {IAhoRequestNeed} from '../interfaces/aho-request-need.interface';
 
 
 @Injectable()
@@ -65,6 +66,13 @@ export class AhoRequestsResource extends Resource {
   getRequestStatuses: IResourceMethod<void, IAhoRequestStatus[]>;
 
   @ResourceAction({
+    path: '/needs',
+    method: ResourceRequestMethod.Get,
+    withCredentials: true
+  })
+  getNeeds: IResourceMethod<void, IAhoRequestNeed[]>;
+
+  @ResourceAction({
     path: '/requests',
     method: ResourceRequestMethod.Get,
     withCredentials: true
@@ -77,6 +85,13 @@ export class AhoRequestsResource extends Resource {
     withCredentials: true
   })
   getRequestsByStatusId: IResourceMethodStrict<void, {statusId: number}, void, IAhoRequest[]>;
+
+  @ResourceAction({
+    path: '/requests',
+    method: ResourceRequestMethod.Get,
+    withCredentials: true
+  })
+  getRequestsByEmployeeId: IResourceMethodStrict<void, {employeeId: number}, void, IAhoRequest[]>;
 
   @ResourceAction({
     path: '/requests/{!id}',

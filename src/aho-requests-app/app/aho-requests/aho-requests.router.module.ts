@@ -7,6 +7,7 @@ import { StartComponent } from './components/start/start.component';
 import { AuthenticationResolveGuard } from '@kolenergo/lib';
 import { AhoRequestsResolveGuard } from './guards/aho-requests-resolve.guard';
 import { AhoRequestResolveGuard } from './guards/aho-request-resolve.guard.';
+import { AdminComponent } from './components/notifications/admin.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,10 @@ const routes: Routes = [
         resolve: [
           AhoRequestResolveGuard
         ]
+      },
+      {
+        path: 'admin',
+        component: AdminComponent
       }
     ]
   }

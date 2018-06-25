@@ -14,6 +14,8 @@ import { AhoRequestResolveGuard } from './guards/aho-request-resolve.guard.';
 import { TaskContentByRequestTypePipe } from './pipes/task-content-by-request-type.pipe';
 import { MatIconRegistry } from '@angular/material/icon';
 import { EmployeeByRequestTypePipe } from './pipes/employee-by-request-type.pipe';
+import { AdminComponent } from './components/notifications/admin.component';
+import { NeedsByRequestTypeIdPipe } from './pipes/needs.pipe';
 
 @NgModule({
   imports: [
@@ -27,7 +29,9 @@ import { EmployeeByRequestTypePipe } from './pipes/employee-by-request-type.pipe
     AhoRequestComponent,
     NewRequestComponent,
     TaskContentByRequestTypePipe,
-    EmployeeByRequestTypePipe
+    EmployeeByRequestTypePipe,
+    AdminComponent,
+    NeedsByRequestTypeIdPipe
   ],
   providers: [
     AhoRequestsResource,

@@ -23,6 +23,38 @@
   </div>
   -->
 
+  <div class="row pt-1 pt-sm-2 pt-md-3">
+    <div class="col-12">
+      <!-- Start: Переход ко всем заявкам -->
+      <button mat-stroked-button
+              color="primary"
+              *ngIf="ahoRequestsService.isInEmployeeRequestsMode()"
+              (click)="ahoRequestsService.showAllRequests()">
+        &larr; Все заявки
+      </button>
+      <!-- End: Переход ко всем заявкам -->
+
+      <!-- Start: Переход к заявкам исполнителя -->
+      <button mat-stroked-button
+              color="primary"
+              *ngIf="!ahoRequestsService.isInEmployeeRequestsMode() && ahoRequestsService.getEmployeeRequests().length > 0"
+              (click)="ahoRequestsService.showEmployeeRequests()">
+        Вы назначены исполнителем
+        <span class="button-badge ml-1">{{ ahoRequestsService.getEmployeeRequests().length }}</span>
+      </button>
+      <!-- End: Переход к заявкам исполнителя -->
+
+      <!-- Start: Переход к заявкам исполнителя -->
+      <button mat-icon-button
+              class="align-self-end"
+              color="primary"
+              (click)="ahoRequestsService.showEmployeeRequests()">
+        <mat-icon fontSet="fa" fontIcon="fa-excel" color="primary"></mat-icon>
+      </button>
+      <!-- End: Переход к заявкам исполнителя -->
+    </div>
+  </div>
+
   <div class="row no-gutters pt-1 pt-sm-2 pt-md-3">
     <div class="col-12">
       <mat-table #table [dataSource]="ahoRequestsService.getDataSource()" class="aho-requests-table">

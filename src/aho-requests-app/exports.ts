@@ -10,6 +10,7 @@ export { IAhoRequestStatus } from './app/aho-requests/interfaces/aho-request-sta
 export { IAhoRequestTask } from './app/aho-requests/interfaces/aho-request-task.interface';
 export { IAhoRequestTaskContent } from './app/aho-requests/interfaces/aho-request-task-content.interface';
 export { IAhoRequestComment } from './app/aho-requests/interfaces/aho-request-comment.interface';
+export { IAhoRequestNeed } from './app/aho-requests/interfaces/aho-request-need.interface';
 
 
 /**

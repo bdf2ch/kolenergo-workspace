@@ -11,9 +11,10 @@ import { IAhoRequestStatus } from '../interfaces/aho-request-status.interface';
 import { MatTableDataSource } from '@angular/material';
 import { AhoRequestTaskContent } from '../models/aho-request-task-content.model';
 import { IAhoRequestTaskContent } from '../interfaces/aho-request-task-content.interface';
-import { User, UsersService } from '@kolenergo/lib';
-import {AhoRequestComment} from '../models/aho-request-comment.model';
-import {IAhoRequestComment} from '../interfaces/aho-request-comment.interface';
+import { AuthenticationService, User, UsersService } from '@kolenergo/lib';
+import { AhoRequestComment } from '../models/aho-request-comment.model';
+import { IAhoRequestComment } from '../interfaces/aho-request-comment.interface';
+import { IAhoRequestNeed } from '../interfaces/aho-request-need.interface';
 
 @Injectable()
 export class AhoRequestsService {
@@ -22,12 +23,18 @@ export class AhoRequestsService {
   private requestTasksContent: AhoRequestTaskContent[];
   private employees: User[];
   private requests: AhoRequest[];
+  private employeeRequests: AhoRequest[];
+  private needs: IAhoRequestNeed[];
   private selectedRequest: AhoRequest | null;
   private newRequestsCount: number;
   private addRequestInProgress: boolean;
+  private editRequestInProgess: boolean;
+  private deleteRequestInProgress: boolean;
+  private inEmployeeRequestsMode: boolean;
   private dataSource: MatTableDataSource<AhoRequest>;
 
   constructor(private readonly snackBar: MatSnackBar,
+              private readonly authenticationService: AuthenticationService,
               private readonly ahoRequestResource: AhoRequestsResource,
               private readonly usersService: UsersService) {
     this.requestTypes = [];
@@ -35,46 +42,15 @@ export class AhoRequestsService {
     this.requestTasksContent = [];
     this.employees = [];
     this.requests = [];
+    this.employeeRequests = [];
+    this.needs = [];
     this.selectedRequest = null;
     this.newRequestsCount = 0;
     this.addRequestInProgress = false;
+    this.editRequestInProgess = false;
+    this.deleteRequestInProgress = false;
+    this.inEmployeeRequestsMode = false;
     this.dataSource = new MatTableDataSource<AhoRequest>(this.requests);
-  }
-
-  /**
-   * Статус добавления заявки
-   * @returns {boolean}
-   */
-  isAddingRequest(): boolean {
-    return this.addRequestInProgress;
-  }
-
-  /**
-   * Возвращает текущую заявку
-   * @returns {AhoRequest | null}
-   */
-  getSelectedRequest(): AhoRequest | null {
-    return this.selectedRequest;
-  }
-
-  getNewRequestsCount(): number {
-    return this.newRequestsCount;
-  }
-
-  /**
-   * Возвращает DataSource для таблицы с заявками
-   * @returns {MatTableDataSource}
-   */
-  getDataSource(): MatTableDataSource<AhoRequest> {
-    return this.dataSource;
-  }
-
-  /**
-   * Устанавливает текущую заявку
-   * @param {AhoRequest | null} request
-   */
-  setSelectedRequest(request: AhoRequest | null) {
-   this.selectedRequest = request;
   }
 
   /**
@@ -92,6 +68,13 @@ export class AhoRequestsService {
           if (request.status.id === 1) {
             this.newRequestsCount += 1;
           }
+          /*
+          if (this.authenticationService.getCurrentUser()) {
+            if (request.employee && request.employee.id === this.authenticationService.getCurrentUser().id) {
+              this.employeeRequests.push(request);
+            }
+          }
+          */
         });
         this.dataSource = new MatTableDataSource<AhoRequest>(this.requests);
         return this.requests;
@@ -125,11 +108,28 @@ export class AhoRequestsService {
     }
   }
 
-
-  getRequests(): AhoRequest[] {
-    return this.requests;
+  /**
+   * Получение всех заявок с заданным исполнителем
+   * @param {number} id - Идентификатор исполнителя
+   * @returns {Promise<AhoRequest[] | null>}
+   */
+  async fetchRequestsByEmployeeId(id: number): Promise<AhoRequest[] | null> {
+    try {
+      const result = await this.ahoRequestResource.getRequestsByEmployeeId(null, {employeeId: id}, null);
+      if (result) {
+        this.employeeRequests = [];
+        result.forEach((item: IAhoRequest) => {
+          const request = new AhoRequest(item);
+          this.employeeRequests.push(request);
+        });
+        console.log(this.employeeRequests);
+        return this.employeeRequests;
+      }
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
   }
-
 
   /**
    * Полученеи заявки по идентификатору
@@ -145,7 +145,6 @@ export class AhoRequestsService {
       return null;
     }
   }
-
 
   /**
    * Получение типов заявок АХО с сервера
@@ -168,15 +167,6 @@ export class AhoRequestsService {
   }
 
   /**
-   * Возвращает все типы заявок АХО
-   * @returns {AhoRequestType[]}
-   */
-  getRequestTypes(): AhoRequestType[] {
-    return this.requestTypes;
-  }
-
-
-  /**
    * Получение статусов заявок АХО с сервера
    * @returns {Promise<IAhoRequestStatus[] | null>}
    */
@@ -196,7 +186,6 @@ export class AhoRequestsService {
     }
   }
 
-
   /**
    * Получение списка сотрудников, задействованных в приложении
    * @returns {Promise<User[] | null>}
@@ -210,7 +199,10 @@ export class AhoRequestsService {
     return result;
   }
 
-
+  /**
+   * Получение списка содержимого задач заявок АХО с сервера
+   * @returns {Promise<IAhoRequestTaskContent[] | null>}
+   */
   async fetchRequestTasksContent(): Promise<IAhoRequestTaskContent[] | null> {
     try {
       const result = await this.ahoRequestResource.getRequestTasksContent();
@@ -228,6 +220,52 @@ export class AhoRequestsService {
     }
   }
 
+  /**
+   * Получение списка потребностей в материалах
+   * @returns {Promise<IAhoRequestNeed[] | null>}
+   */
+  async fetchNeeds(): Promise<IAhoRequestNeed[] | null> {
+    try {
+      const result = await this.ahoRequestResource.getNeeds();
+      if (result) {
+        result.forEach((item: IAhoRequestNeed) => {
+          this.needs.push(item);
+        });
+        console.log(this.needs);
+        return this.needs;
+      }
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  getRequests(): AhoRequest[] {
+    return this.requests;
+  }
+
+  /**
+   * Получение заявок текущего пользователя, в случае, если он является исполнителем
+   * @returns {AhoRequest[]}
+   */
+  getEmployeeRequests(): AhoRequest[] {
+    return this.employeeRequests;
+  }
+
+  showAllRequests() {
+    this.dataSource = new MatTableDataSource<AhoRequest>(this.requests);
+    this.inEmployeeRequestsMode = false;
+  }
+
+  showEmployeeRequests() {
+    this.dataSource = new MatTableDataSource<AhoRequest>(this.employeeRequests);
+    this.inEmployeeRequestsMode = true;
+  }
+
+  /**
+   * Получение списка содержимого задач заявок АХО
+   * @returns {AhoRequestTaskContent[]}
+   */
   getRequestTasksContent(): AhoRequestTaskContent[] {
     return this.requestTasksContent;
   }
@@ -264,8 +302,8 @@ export class AhoRequestsService {
     try {
       this.addRequestInProgress = true;
       const result = await this.ahoRequestResource.addRequest(request);
-      this.addRequestInProgress = false;
       if (result) {
+        this.addRequestInProgress = false;
         const newRequest = new AhoRequest(result);
         this.requests.unshift(newRequest);
         this.newRequestsCount += 1;
@@ -279,13 +317,21 @@ export class AhoRequestsService {
       }
     } catch (error) {
       console.error(error);
+      this.addRequestInProgress = false;
       return null;
     }
   }
 
+  /**
+   * Изменение заявки
+   * @param {IAhoRequest} request - Редактируемая заявка
+   * @returns {Promise<AhoRequest | null>}
+   */
   async editRequest(request: IAhoRequest): Promise<AhoRequest | null> {
     try {
+      this.editRequestInProgess = true;
       const result = await this.ahoRequestResource.editRequest(request, null, {id: request.id});
+      this.editRequestInProgess = false;
       const request_ = new AhoRequest(result);
       this.snackBar.open(`Изменения в заявке #${request.id} сохранены`, 'Закрыть', {
         horizontalPosition: 'left',
@@ -296,6 +342,7 @@ export class AhoRequestsService {
       return request_;
     } catch (error) {
       console.error(error);
+      this.editRequestInProgess = false;
       return null;
     }
   }
@@ -328,6 +375,14 @@ export class AhoRequestsService {
     }
   }
 
+  /**
+   * Возвращает все типы заявок АХО
+   * @returns {AhoRequestType[]}
+   */
+  getRequestTypes(): AhoRequestType[] {
+    return this.requestTypes;
+  }
+
   getEmployees(): User[] {
     return this.employees;
   }
@@ -341,6 +396,54 @@ export class AhoRequestsService {
     const findRequestTypeById = (item: AhoRequestType) => item.id === requestTypeId;
     const requestType = this.requestTypes.find(findRequestTypeById);
     return requestType ? requestType : null;
+  }
+
+  /**
+   * Статус добавления заявки
+   * @returns {boolean}
+   */
+  isAddingRequest(): boolean {
+    return this.addRequestInProgress;
+  }
+
+  /**
+   * Находится ли приложени в режиме показа заявок исполнителя
+   * @returns {boolean}
+   */
+  isInEmployeeRequestsMode(): boolean {
+    return this.inEmployeeRequestsMode;
+  }
+
+  /**
+   * Возвращает текущую заявку
+   * @returns {AhoRequest | null}
+   */
+  getSelectedRequest(): AhoRequest | null {
+    return this.selectedRequest;
+  }
+
+  getNewRequestsCount(): number {
+    return this.newRequestsCount;
+  }
+
+  /**
+   * Возвращает DataSource для таблицы с заявками
+   * @returns {MatTableDataSource}
+   */
+  getDataSource(): MatTableDataSource<AhoRequest> {
+    return this.dataSource;
+  }
+
+  getNeeds(): IAhoRequestNeed[] {
+    return this.needs;
+  }
+
+  /**
+   * Устанавливает текущую заявку
+   * @param {AhoRequest | null} request
+   */
+  setSelectedRequest(request: AhoRequest | null) {
+    this.selectedRequest = request;
   }
 
   /**

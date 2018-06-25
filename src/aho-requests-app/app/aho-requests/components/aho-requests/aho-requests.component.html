@@ -5,8 +5,8 @@
         <div class="col-auto d-none d-sm-none d-md-flex align-content-center align-items-center align-content-center">
           <div class="app-title d-flex align-items-center">
             <a routerLink="/">
-              <span class="bold mr-1">Заявки</span>
-              <span class="regular">АХО</span>
+              <span class="bold">Заявки</span>
+              <span class="regular">&nbsp;АХО</span>
             </a>
           </div>
         </div>
@@ -18,23 +18,10 @@
         </div>
 
         <div class="col-auto d-none d-md-flex justify-content-end align-items-center">
-          <!--
-          <button type="button" mat-icon-button [color]="'primary'" class="mr-2">
-            <mat-icon fontSet="fa" fontIcon="fa-filter"></mat-icon>
+
+          <button mat-icon-button class="mr-3" routerLink="/admin">
+            <mat-icon color="primary">notifications</mat-icon>
           </button>
-          -->
-
-
-          <el-badge [model]="ahoRequestsService.getNewRequestsCount()" class="item mr-4">
-            <!--
-            <el-button>
-              <i class="fa fa-file-o"></i>
-            </el-button>
-            -->
-            <button mat-icon-button [color]="'primary'" matTooltip="Новые заявки" [matTooltipPosition]="'below'" (click)="getNewRequests()">
-              <mat-icon fontSet="fa" fontIcon="fa-file-o"></mat-icon>
-            </button>
-          </el-badge>
 
           <button mat-stroked-button
                   [color]="'primary'"

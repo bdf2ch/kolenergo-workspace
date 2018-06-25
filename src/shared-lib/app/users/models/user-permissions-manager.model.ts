@@ -36,9 +36,20 @@ export class UserPermissionsManager {
    * @returns {Role | null}
    */
   getRoleById(id: number): Role | null {
-    const findRoleById = (role: Role) => role.id === id;
+    const findRoleById = (item: Role) => item.id === id;
     const role = this.roles.find(findRoleById);
-    return role ? role : null
+    return role ? role : null;
+  }
+
+  /**
+   * Получение роли пользователя по коду
+   * @param {number} code - Код роли прользователя
+   * @returns {Role | null}
+   */
+  getRoleByCode(code: string): Role | null {
+    const findRoleByCode = (item: Role) => item.code === code;
+    const role = this.roles.find(findRoleByCode);
+    return role ? role : null;
   }
 
   /**

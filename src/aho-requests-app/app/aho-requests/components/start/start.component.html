@@ -2,7 +2,7 @@
 
   <!--
   <div class="row pt-1 pt-sm-2 pt-md-3 justify-content-between">
-    <div class=" col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 mb-2 mb-md-3" *ngFor="let requestType of ahoRequestsService.getRequestTypes()">
+    <div class=" col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 mb-2 mb-md-3" *ngFor="let requestType of aho.getRequestTypes()">
       <mat-card class="admin-type-card h-100">
         <span class="badge d-none d-md-inline">6</span>
         <div class="container-fluid">
@@ -23,41 +23,48 @@
   </div>
   -->
 
-  <div class="row pt-1 pt-sm-2 pt-md-3">
-    <div class="col-12">
-      <!-- Start: Переход ко всем заявкам -->
-      <button mat-flat-button
-              color="accent"
-              *ngIf="ahoRequestsService.isInEmployeeRequestsMode()"
-              (click)="ahoRequestsService.showAllRequests()">
-        &larr; Все заявки
-      </button>
-      <!-- End: Переход ко всем заявкам -->
+  <div class="row pt-1 pt-sm-2 pt-md-3"
+       *ngIf="authenticationService.getCurrentUser() && (aho.getEmployeeRequests().length > 0 || authenticationService.getCurrentUser().permissions.getRoleById(1))">
+    <div class="col-12 d-flex justify-content-between">
+      <div class="request-list-navigation">
+        <!-- Start: Переход ко всем заявкам -->
+        <button mat-stroked-button
+                color="primary"
+                *ngIf="aho.isInEmployeeRequestsMode()"
+                (click)="aho.showAllRequests()">
+          &larr; Все заявки
+        </button>
+        <!-- End: Переход ко всем заявкам -->
 
-      <!-- Start: Переход к заявкам исполнителя -->
-      <button mat-flat-button
-              color="accent"
-              *ngIf="!ahoRequestsService.isInEmployeeRequestsMode() && ahoRequestsService.getEmployeeRequests().length > 0"
-              (click)="ahoRequestsService.showEmployeeRequests()">
-        Вы назначены исполнителем
-        <span class="button-badge ml-1">{{ ahoRequestsService.getEmployeeRequests().length }}</span>
-      </button>
-      <!-- End: Переход к заявкам исполнителя -->
+        <!-- Start: Переход к заявкам исполнителя -->
+        <button mat-stroked-button
+                color="primary"
+                *ngIf="authenticationService.getCurrentUser() && !aho.isInEmployeeRequestsMode() && aho.getEmployeeRequests().length > 0"
+                (click)="aho.showEmployeeRequests()">
+          Вы назначены исполнителем
+          <span class="button-badge ml-1">{{ aho.getEmployeeRequests().length }}</span>
+        </button>
+        <!-- End: Переход к заявкам исполнителя -->
+      </div>
 
-      <!-- Start: Переход к заявкам исполнителя -->
-      <button mat-icon-button
-              class="align-self-end"
-              color="primary"
-              (click)="ahoRequestsService.showEmployeeRequests()">
-        <mat-icon fontSet="fa" fontIcon="fa-excel" color="primary"></mat-icon>
-      </button>
-      <!-- End: Переход к заявкам исполнителя -->
+      <div class="request-list-controls">
+        <!-- Start: Переход к заявкам исполнителя -->
+        <button mat-icon-button
+                class="align-self-end"
+                color="primary"
+                (click)="aho.showEmployeeRequests()"
+                matTooltip="Экспорт в Excel" matTooltipPosition="left">
+          <mat-icon fontSet="fa" fontIcon="fa-file-excel-o" color="primary"></mat-icon>
+        </button>
+        <!-- End: Переход к заявкам исполнителя -->
+      </div>
     </div>
   </div>
 
+
   <div class="row no-gutters pt-1 pt-sm-2 pt-md-3">
     <div class="col-12">
-      <mat-table #table [dataSource]="ahoRequestsService.getDataSource()" class="aho-requests-table">
+      <mat-table #table [dataSource]="aho.getDataSource()" class="aho-requests-table">
 
         <!-- Start: Request type column -->
         <ng-container matColumnDef="requestType">

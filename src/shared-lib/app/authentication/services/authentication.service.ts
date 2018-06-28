@@ -41,9 +41,12 @@ export class AuthenticationService {
    * Авторизация пользователя
    * @param {string} account - Учетная запись
    * @param {string} password - Пароль
+   * @param addIfNotExists - Создать нового пользователя в случае если он найден в AD
+   * @param appCode - Код приложения
+   * @param callbacks - Массив коллбэков
    * @returns {Promise<User | null>}
    */
-  async logIn(account: string, password: string, addIfNotExists?: boolean, appCode?: string): Promise<User | null> {
+  async logIn(account: string, password: string, addIfNotExists?: boolean, appCode?: string, callbacks?: Function[]): Promise<User | null> {
     try {
       const result = await this.authenticationResource.login({
         account: account,
@@ -53,6 +56,12 @@ export class AuthenticationService {
       });
       if (result) {
         this.currentUser = new User(result);
+        if (callbacks) {
+          console.log('auth callbacks', callbacks.length);
+          callbacks.forEach((callback: Function) => {
+            callback();
+          });
+        }
         return this.currentUser;
       }
     } catch (error) {

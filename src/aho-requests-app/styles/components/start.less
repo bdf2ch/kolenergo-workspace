@@ -67,3 +67,71 @@
       color: #7986CB !important;
   }
 }
+
+.app-search {
+  overflow: visible;
+  height: 40px;
+
+  .search-container {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    height: 40px;
+    padding-left: 15px;
+    padding-right: 15px;
+    background: #FFC107;
+    border-radius: 5px;
+
+    .prefix {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      padding-right: 10px;
+      .fa {
+        font-size: 15px;
+        color: #455A64;
+      }
+    }
+
+    .search-input {
+      flex: 1;
+      input {
+        width: 100%;
+        height: 100%;
+        font-family: "Segoe UI";
+        font-size: 16px;
+        background: #FFC107;
+        border: none;
+        outline: none;
+      }
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      .fa {
+        font-size: 15px;
+        color: #455A64;
+        cursor: pointer;
+        &:hover {
+          color: #263238;
+        }
+      }
+    }
+  }
+
+  .search-filters {
+    font-size: 15px;
+    .mat-card {
+      background: #FFF9C4;
+    }
+  }
+}
+
+
+.request-list-controls {
+  .fa {
+    font-size: 20px;
+  }
+}

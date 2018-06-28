@@ -25,6 +25,9 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from "@angular/material";
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { AuthenticationModule } from '@kolenergo/lib';
 
 @NgModule({
@@ -57,7 +60,10 @@ import { AuthenticationModule } from '@kolenergo/lib';
     MatChipsModule,
     MatDividerModule,
     MatListModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatProgressBarModule
   ],
   declarations: [],
   exports: [
@@ -87,7 +93,10 @@ import { AuthenticationModule } from '@kolenergo/lib';
     MatChipsModule,
     MatDividerModule,
     MatListModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatProgressBarModule
   ]
 })
 export class ExportsModule { }

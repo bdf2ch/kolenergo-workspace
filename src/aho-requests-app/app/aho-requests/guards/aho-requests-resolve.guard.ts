@@ -12,7 +12,7 @@ export class AhoRequestsResolveGuard implements Resolve<boolean> {
     await this.ahoRequestsService.fetchRequestTypes();
     await this.ahoRequestsService.fetchRequestStatuses();
     await this.ahoRequestsService.fetchEmployees();
-    await this.ahoRequestsService.fetchRequests();
+    await this.ahoRequestsService.fetchRequests(0, 0, 0, 0, 0);
     await this.ahoRequestsService.fetchRequestTasksContent();
     if (this.authenticationService.getCurrentUser()) {
       await this.ahoRequestsService.fetchRequestsByEmployeeId(this.authenticationService.getCurrentUser().id);

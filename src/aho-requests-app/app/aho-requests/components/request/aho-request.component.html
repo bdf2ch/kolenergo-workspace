@@ -2,8 +2,8 @@
   <div mat-dialog-title class="mb-0">
     <div class="text-center">
       <div class="request-title">
-        Заявка №{{ ahoRequestsService.getSelectedRequest().id }}
-        <span class="request-date">от {{ ahoRequestsService.getSelectedRequest().dateCreated | date:'dd.MM.yyyy, HH:mm' }}</span>
+        Заявка №{{ aho.getSelectedRequest().id }}
+        <span class="request-date">от {{ aho.getSelectedRequest().dateCreated | date:'dd.MM.yyyy, HH:mm' }}</span>
         <button class="float-right" mat-icon-button *ngIf="authenticationService.getCurrentUser() && authenticationService.getCurrentUser().permissions.getRoleById(1)" [matMenuTriggerFor]="requestMenu">
           <mat-icon [color]="'primary'">more_vert</mat-icon>
         </button>
@@ -15,11 +15,11 @@
         </mat-menu>
       </div>
       <div class="request-user">
-        Заявитель: {{ ahoRequestsService.getSelectedRequest().user.fio }}
+        Заявитель: {{ aho.getSelectedRequest().user.fio }}
       </div>
     </div>
     <!--
-    <div class="user">Автор: {{ ahoRequestsService.getSelectedRequest().user.fio }}</div>
+    <div class="user">Автор: {{ aho.getSelectedRequest().user.fio }}</div>
     -->
   </div>
   <mat-dialog-content>
@@ -31,20 +31,20 @@
         <div class="p-4">
 
           <div class="request-information d-flex justify-content-center align-items-center pb-3 pt-3 text-center">
-            <mat-icon fontSet="fa" fontIcon="{{ ahoRequestsService.getSelectedRequest().type.icon }}" class="mr-3"></mat-icon>
-            {{ ahoRequestsService.getRequestTypeById(ahoRequestsService.getSelectedRequest().type.id).title }}
-            <span *ngIf="ahoRequestsService.getSelectedRequest().type.id !== 1">&nbsp;в кабинете #{{ahoRequestsService.getSelectedRequest().room }}</span>
+            <mat-icon fontSet="fa" fontIcon="{{ aho.getSelectedRequest().type.icon }}" class="mr-3"></mat-icon>
+            {{ aho.getRequestTypeById(aho.getSelectedRequest().type.id).title }}
+            <span *ngIf="aho.getSelectedRequest().type.id !== 1">&nbsp;в кабинете #{{aho.getSelectedRequest().room }}</span>
           </div>
 
           <!-- Start: Список задач -->
-          <div *ngIf="ahoRequestsService.getSelectedRequest().tasks.length > 0">
+          <div *ngIf="aho.getSelectedRequest().tasks.length > 0">
             <mat-selection-list>
-              <mat-list-option *ngFor="let task of ahoRequestsService.getSelectedRequest().tasks"
+              <mat-list-option *ngFor="let task of aho.getSelectedRequest().tasks"
                                (selectionChange)="completeTask($event, task)"
                                [selected]="task.done"
                                [disabled]="!authenticationService.getCurrentUser() || !authenticationService.getCurrentUser().permissions.getPermissionByCode('allow_complete_tasks')">
                 <span matLine>{{ task.content.title }}</span>
-                <span matLine class="text-muted" *ngIf="ahoRequestsService.getSelectedRequest().type.isCountable">Количество: {{ task.content['boxing'] ? task.count + ' ' + task.content.boxing : task.count + ' шт' }}</span>
+                <span matLine class="text-muted" *ngIf="aho.getSelectedRequest().type.isCountable">Количество: {{ task.content['boxing'] ? task.count + ' ' + task.content.boxing : task.count + ' шт' }}</span>
               </mat-list-option>
             </mat-selection-list>
           </div>
@@ -59,25 +59,25 @@
         <ng-template mat-tab-label>
           <div class="d-flex">
             Комментарии
-            <span class="badge ml-2" *ngIf="ahoRequestsService.getSelectedRequest().comments.length > 0">
-          {{ ahoRequestsService.getSelectedRequest().comments.length }}
+            <span class="badge ml-2" *ngIf="aho.getSelectedRequest().comments.length > 0">
+          {{ aho.getSelectedRequest().comments.length }}
           </span>
           </div>
         </ng-template>
 
         <!-- Start: No comments placeholder -->
-        <div *ngIf="ahoRequestsService.getSelectedRequest().comments.length === 0" class="h-100 d-flex flex-column justify-content-center align-items-center">
+        <div *ngIf="aho.getSelectedRequest().comments.length === 0" class="h-100 d-flex flex-column justify-content-center align-items-center">
           <div class="no-comments text-muted mb-3 text-center">Комментарии отсутствуют</div>
         </div>
         <!-- End: No comments placeholder -->
 
-        <div class="pl-4 pr-4 d-flex flex-column justify-content-between" *ngIf="ahoRequestsService.getSelectedRequest().comments.length > 0">
+        <div class="pl-4 pr-4 d-flex flex-column justify-content-between" *ngIf="aho.getSelectedRequest().comments.length > 0">
           <div class="d-flex w-100 h-100 flex-column justify-content-center align-self-center">
             <!-- Start: Request comments -->
             <div class="request-comments w-100 h-100 d-flex flex-column justify-content-end pb-4">
               <div class="comment"
-                   [ngClass]="{'own': comment.userId === ahoRequestsService.getSelectedRequest().user.id}"
-                   *ngFor="let comment of ahoRequestsService.getSelectedRequest().comments">
+                   [ngClass]="{'own': comment.userId === aho.getSelectedRequest().user.id}"
+                   *ngFor="let comment of aho.getSelectedRequest().comments">
                 <div class="comment-content">
                   {{ comment.content }}
                 </div>
@@ -113,8 +113,8 @@
     <!-- Start: Request employee -->
     <div class="request-employee w-100" *ngIf="selectedTabIndex === 0 && authenticationService.getCurrentUser() && authenticationService.getCurrentUser().permissions.getPermissionByCode('allow_set_employee')">
       <mat-form-field class="w-100">
-        <mat-select placeholder="Исполнитель" [(value)]="ahoRequestsService.getSelectedRequest().employee" (selectionChange)="selectEmployee($event)">
-          <mat-option *ngFor="let employee of ahoRequestsService.getEmployees() | employeeByRequestType: ahoRequestsService.getSelectedRequest().type" [value]="employee">
+        <mat-select placeholder="Исполнитель" [(value)]="aho.getSelectedRequest().employee" (selectionChange)="selectEmployee($event)">
+          <mat-option *ngFor="let employee of aho.getEmployees() | employeeByRequestType: aho.getSelectedRequest().type" [value]="employee">
             {{ employee.fio }}
           </mat-option>
         </mat-select>
@@ -123,7 +123,7 @@
     <!-- End: Request employee -->
 
     <!-- Start: New comment form -->
-    <div class="new-comment-form w-100" *ngIf="selectedTabIndex === 1 && authenticationService.getCurrentUser() && (authenticationService.getCurrentUser().id === ahoRequestsService.getSelectedRequest().id || authenticationService.getCurrentUser().permissions.getPermissionByCode('allow_add_comments'))">
+    <div class="new-comment-form w-100" *ngIf="selectedTabIndex === 1 && authenticationService.getCurrentUser() && (authenticationService.getCurrentUser().id === aho.getSelectedRequest().id || authenticationService.getCurrentUser().permissions.getPermissionByCode('allow_add_comments'))">
       <form [formGroup]="newCommentForm" class="row no-gutters w-100 d-flex">
         <div class="col">
           <mat-form-field class="w-100" [floatLabel]="'never'">
@@ -155,7 +155,7 @@
                   [disabled]="!isRequestChanged"
                   [color]="'primary'"
                   (click)="editRequest()">
-            <div class="d-flex flex-row w-100 align-items-center" *ngIf="ahoRequestsService.isAddingRequest()">
+            <div class="d-flex flex-row w-100 align-items-center" *ngIf="aho.isAddingRequest()">
               <mat-progress-spinner
                 class="mr-2"
                 [diameter]="20"
@@ -164,7 +164,7 @@
               </mat-progress-spinner>
               Загрузка
             </div>
-            <span *ngIf="!ahoRequestsService.isAddingRequest()">Сохранить изменения</span>
+            <span *ngIf="!aho.isAddingRequest()">Сохранить изменения</span>
           </button>
         </div>
         <!-- End: Кнопка добавления заявки -->

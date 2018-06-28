@@ -1,4 +1,4 @@
-<mat-toolbar color="accent" class="border-bottom fixed-top">
+<mat-toolbar color="accent" class="border-bottom fixed-top d-flex flex-column">
   <mat-toolbar-row>
     <div class="container-fluid">
       <div class="row justify-content-around">
@@ -11,16 +11,29 @@
           </div>
         </div>
 
-        <div class="col">
-          <div class="form-inline d-flex w-100">
-            <input type="text" class="form-control form-control-lg w-100" placeholder="Поиск заявок">
+        <div class="col app-search mr-1 ml-1 mr-md-0 ml-md-0">
+          <div class="search-container">
+            <div class="prefix">
+              <i class="fa fa-search"></i>
+            </div>
+            <div class="search-input">
+              <input type="text" placeholder="Поиск заявок">
+            </div>
+            <div class="controls">
+              <i class="fa fa-filter" matTooltip="Фильтры" matTooltipPosition="below" (click)="filtersDialog()"></i>
+            </div>
           </div>
         </div>
 
         <div class="col-auto d-none d-md-flex justify-content-end align-items-center">
 
-          <button mat-icon-button class="mr-3" routerLink="/admin">
-            <mat-icon color="primary">notifications</mat-icon>
+          <button mat-icon-button
+                  *ngIf="authenticationService.getCurrentUser() && authenticationService.getCurrentUser().permissions.getRoleById(1)"
+                  class="mr-3"
+                  routerLink="/admin"
+                  matTooltip="Раздел администратора"
+                  matTooltipPosition="below">
+            <mat-icon color="primary">settings</mat-icon>
           </button>
 
           <button mat-stroked-button
@@ -51,7 +64,11 @@
       </div>
     </div>
   </mat-toolbar-row>
+  <!--
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  -->
 </mat-toolbar>
+
 
 
 <router-outlet></router-outlet>

@@ -24,14 +24,14 @@ export class AhoRequestComponent implements OnInit {
               private readonly formBuilder: FormBuilder,
               private readonly dialogRef: MatDialogRef<AhoRequestComponent>,
               public readonly authenticationService: AuthenticationService,
-              public readonly ahoRequestsService: AhoRequestsService) {
+              public readonly aho: AhoRequestsService) {
     this.selectedTabIndex = 0;
     this.isRequestChanged = false;
     this.newComment = new AhoRequestComment();
   }
 
   ngOnInit() {
-    this.newComment.requestId = this.ahoRequestsService.getSelectedRequest().id;
+    this.newComment.requestId = this.aho.getSelectedRequest().id;
     this.newComment.userId = this.authenticationService.getCurrentUser() ? this.authenticationService.getCurrentUser().id : 0;
     this.newCommentForm = this.formBuilder.group({
       comment: ['', Validators.required]
@@ -42,7 +42,7 @@ export class AhoRequestComponent implements OnInit {
     });
 
     this.dialogRef.afterClosed().subscribe(() => {
-      this.ahoRequestsService.setSelectedRequest(null);
+      this.aho.setSelectedRequest(null);
     });
   }
 
@@ -64,10 +64,10 @@ export class AhoRequestComponent implements OnInit {
 
   selectEmployee(value: any) {
     console.log(value);
-    this.ahoRequestsService.getSelectedRequest().employee = value.value;
+    this.aho.getSelectedRequest().employee = value.value;
     const findStatusById = (item: AhoRequestStatus) => item.id === 2;
-    const status = this.ahoRequestsService.getRequestStatuses().find(findStatusById);
-    this.ahoRequestsService.getSelectedRequest().status = status;
+    const status = this.aho.getRequestStatuses().find(findStatusById);
+    this.aho.getSelectedRequest().status = status;
     this.isRequestChanged = true;
   }
 
@@ -78,7 +78,7 @@ export class AhoRequestComponent implements OnInit {
   }
 
   async deleteRequest() {
-    await this.ahoRequestsService.deleteRequest(this.ahoRequestsService.getSelectedRequest().id)
+    await this.aho.deleteRequest(this.aho.getSelectedRequest().id)
       .then(() => {
         this.dialogRef.close();
         this.router.navigate(['']);
@@ -86,18 +86,18 @@ export class AhoRequestComponent implements OnInit {
   }
 
   async editRequest() {
-    if (this.ahoRequestsService.getSelectedRequest().isAllTasksCompleted()) {
+    if (this.aho.getSelectedRequest().isAllTasksCompleted()) {
       const findStatusById = (item: AhoRequestStatus) => item.id === 3;
-      const status = this.ahoRequestsService.getRequestStatuses().find(findStatusById);
-      this.ahoRequestsService.getSelectedRequest().status = status;
-      console.log(this.ahoRequestsService.getSelectedRequest());
+      const status = this.aho.getRequestStatuses().find(findStatusById);
+      this.aho.getSelectedRequest().status = status;
+      console.log(this.aho.getSelectedRequest());
     } else {
       const findStatusById = (item: AhoRequestStatus) => item.id === 2;
-      const status = this.ahoRequestsService.getRequestStatuses().find(findStatusById);
-      this.ahoRequestsService.getSelectedRequest().status = status;
+      const status = this.aho.getRequestStatuses().find(findStatusById);
+      this.aho.getSelectedRequest().status = status;
     }
 
-    await this.ahoRequestsService.editRequest(this.ahoRequestsService.getSelectedRequest())
+    await this.aho.editRequest(this.aho.getSelectedRequest())
       .then(() => {
         this.dialogRef.close();
         this.router.navigate(['']);
@@ -105,10 +105,10 @@ export class AhoRequestComponent implements OnInit {
     }
 
     async addComment() {
-      await this.ahoRequestsService.addComment(this.newComment, this.ahoRequestsService.getSelectedRequest().id)
+      await this.aho.addComment(this.newComment, this.aho.getSelectedRequest().id)
         .then(() => {
           this.newComment = new AhoRequestComment();
-          this.newComment.requestId = this.ahoRequestsService.getSelectedRequest().id;
+          this.newComment.requestId = this.aho.getSelectedRequest().id;
           this.newComment.userId = this.authenticationService.getCurrentUser() ? this.authenticationService.getCurrentUser().id : 0;
           this.newCommentForm.reset({
             comment: this.newComment.content

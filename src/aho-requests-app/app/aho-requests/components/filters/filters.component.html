@@ -1,0 +1,98 @@
+<div class="container">
+  <div mat-dialog-title>Фильтры</div>
+
+  <!-- Start: Фильтр по дате подачи заявки -->
+  <div class="row d-flex flex-column flex-md-row justify-content-center">
+
+    <!-- Start: Дата начала периода -->
+    <div class="col-12">
+      <mat-form-field class="w-100">
+        <input
+          matInput
+          [matDatepicker]="startDate"
+          [value]="aho.filters.startDate.getValue()"
+          placeholder="Начало периода"
+          (dateChange)="changeStartDate($event)"
+          [max]="now"
+          disabled>
+        <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+        <mat-datepicker #startDate disabled="false"></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <!-- End: Дата начала периода -->
+
+    <!-- Start: Дата окончания периода -->
+    <div class="col-12">
+      <mat-form-field class="w-100">
+        <input
+          matInput
+          [matDatepicker]="endDate"
+          [value]="aho.filters.endDate.getValue()"
+          placeholder="Конец периода"
+          (dateChange)="changeEndDate($event)"
+          [max]="now"
+          disabled>
+        <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+        <mat-datepicker #endDate disabled="false"></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <!-- End: Дата окончания периода -->
+
+  </div>
+  <!-- End: Фильтр по дате подачи заявки -->
+
+  <!-- Start: Фильтр по типу заявки -->
+  <div class="row d-flex justify-content-center">
+    <div class="col-12">
+      <mat-form-field class="w-100">
+        <mat-select placeholder="Тип заявки" [(ngModel)]="aho.filters.requestType.value">
+          <mat-option *ngFor="let requestType of aho.getRequestTypes()" [value]="requestType">
+            {{ requestType.title }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <!-- Ebd: Фильтр по типу заявки -->
+
+  <!-- Start: Фильтр по исполнителю -->
+  <div class="row d-flex justify-content-center">
+    <div class="col-12">
+      <mat-form-field class="w-100">
+        <mat-select placeholder="Исполнитель" [(ngModel)]="aho.filters.employee.value">
+          <mat-option *ngFor="let employee of aho.getEmployees()" [value]="employee">
+            {{ employee.fio }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <!-- End: Фильтр по исполнителю -->
+
+  <!-- Start: Фильтр по статусу заявки -->
+  <div class="row d-flex justify-content-center">
+    <div class="col-12">
+      <mat-form-field class="w-100">
+        <mat-select placeholder="Статус заявки" [(ngModel)]="aho.filters.requestStatus.value">
+          <mat-option *ngFor="let status of aho.getRequestStatuses()" [value]="status">
+            {{ status.title }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <!-- End: Фильтр по статусу заявки -->
+
+  <div class="row mb-2">
+    <div class="col-12">
+      <button class="w-100" mat-raised-button color="primary" (click)="applyFilters()">Применить фильтры</button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <button class="w-100" mat-raised-button color="warn" (click)="cancelFilters()">Очистить фильтры</button>
+    </div>
+  </div>
+
+</div>

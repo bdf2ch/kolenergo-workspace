@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA } from '@angular/material';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthenticationService } from '../../services/authentication.service';
 
@@ -17,6 +18,7 @@ export class AuthenticationDialogComponent implements OnInit {
   };
 
   constructor(private dialog: MatDialogRef<AuthenticationDialogComponent>,
+              @Inject(MAT_DIALOG_DATA) public callbacks: Function[],
               private snackBar: MatSnackBar,
               private formBuilder: FormBuilder,
               public authenticationService: AuthenticationService) {
@@ -56,7 +58,8 @@ export class AuthenticationDialogComponent implements OnInit {
       this.authData.account,
       this.authData.password,
       true,
-      window.localStorage && window.localStorage.getItem('app_code') ? window.localStorage.getItem('app_code') : null
+      window.localStorage && window.localStorage.getItem('app_code') ? window.localStorage.getItem('app_code') : null,
+      this.callbacks ? this.callbacks : undefined
     );
     if (result) {
       this.dialog.close();

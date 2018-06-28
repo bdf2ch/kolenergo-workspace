@@ -16,6 +16,8 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { EmployeeByRequestTypePipe } from './pipes/employee-by-request-type.pipe';
 import { AdminComponent } from './components/admin/admin.component';
 import { NeedsByRequestTypeIdPipe } from './pipes/needs.pipe';
+import { AhoRequestsAdminGuard } from "./guards/admin.can-activate.guard";
+import { FiltersComponent } from './components/filters/filters.component';
 
 @NgModule({
   imports: [
@@ -31,18 +33,21 @@ import { NeedsByRequestTypeIdPipe } from './pipes/needs.pipe';
     TaskContentByRequestTypePipe,
     EmployeeByRequestTypePipe,
     AdminComponent,
-    NeedsByRequestTypeIdPipe
+    NeedsByRequestTypeIdPipe,
+    FiltersComponent
   ],
   providers: [
     AhoRequestsResource,
     AhoRequestsService,
     AhoRequestsResolveGuard,
     AhoRequestResolveGuard,
+    AhoRequestsAdminGuard,
     MatIconRegistry,
   ],
   entryComponents: [
     AhoRequestComponent,
-    NewRequestComponent
+    NewRequestComponent,
+    FiltersComponent
   ],
   exports: []
 })

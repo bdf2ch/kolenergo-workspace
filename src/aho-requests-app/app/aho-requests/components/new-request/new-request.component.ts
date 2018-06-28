@@ -25,16 +25,16 @@ export class NewRequestComponent implements OnInit {
               private readonly dialogRef: MatDialogRef<NewRequestComponent>,
               private readonly formBuilder: FormBuilder,
               private readonly authenticationService: AuthenticationService,
-              public readonly ahoRequestsService: AhoRequestsService) {
+              public readonly aho: AhoRequestsService) {
     this.newRequest = new AhoRequest();
     this.newTask = new AhoRequestTask();
     this.headerColumns = [];
   }
 
   ngOnInit() {
-    this.newRequest.type = this.ahoRequestsService.getRequestTypes()[0];
+    this.newRequest.type = this.aho.getRequestTypes()[0];
     this.newRequest.user = this.authenticationService.getCurrentUser();
-    this.newRequest.status = this.ahoRequestsService.getRequestStatusById(1);
+    this.newRequest.status = this.aho.getRequestStatusById(1);
     this.headerColumns = this.newRequest.type.isCountable ? ['title', 'count', 'controls'] : ['title', 'controls'];
     this.newRequestForm = this.formBuilder.group({});
     this.newTaskForm = this.formBuilder.group({
@@ -174,7 +174,7 @@ export class NewRequestComponent implements OnInit {
    * @returns {Promise<void>}
    */
   async addRequest() {
-    await this.ahoRequestsService.addRequest(this.newRequest).then(() => {
+    await this.aho.addRequest(this.newRequest).then(() => {
       this.dialogRef.close();
     });
   }

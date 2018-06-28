@@ -15,6 +15,7 @@ import { AuthenticationService, User, UsersService } from '@kolenergo/lib';
 import { AhoRequestComment } from '../models/aho-request-comment.model';
 import { IAhoRequestComment } from '../interfaces/aho-request-comment.interface';
 import { IAhoRequestNeed } from '../interfaces/aho-request-need.interface';
+import {AhoRequestFilter} from "../models/aho-request-filter.model";
 
 @Injectable()
 export class AhoRequestsService {
@@ -31,6 +32,13 @@ export class AhoRequestsService {
   private editRequestInProgess: boolean;
   private deleteRequestInProgress: boolean;
   private inEmployeeRequestsMode: boolean;
+  public filters = {
+    startDate: new AhoRequestFilter<Date>(),
+    endDate: new AhoRequestFilter<Date>(),
+    requestType: new AhoRequestFilter<AhoRequestType>(),
+    requestStatus: new AhoRequestFilter<AhoRequestStatus>(),
+    employee: new AhoRequestFilter<User>()
+  };
   private dataSource: MatTableDataSource<AhoRequest>;
 
   constructor(private readonly snackBar: MatSnackBar,
@@ -57,9 +65,25 @@ export class AhoRequestsService {
    * Получение всех заявок с сервера
    * @returns {Promise<AhoRequest[] | null>}
    */
-  async fetchRequests(): Promise<AhoRequest[] | null> {
+  async fetchRequests(
+    start: number,
+    end: number,
+    employeeId: number,
+    requestTypeId: number,
+    requestStatusId: number
+  ): Promise<AhoRequest[] | null> {
     try {
-      const result = await this.ahoRequestResource.getRequests();
+      const result = await this.ahoRequestResource.getRequests(
+        {
+          start: start,
+          end: end,
+          employeeId: employeeId,
+          requestTypeId: requestTypeId,
+          requestStatusId: requestStatusId
+        },
+        null,
+        null
+      );
       if (result) {
         this.requests = [];
         result.forEach((item: IAhoRequest) => {
@@ -115,7 +139,7 @@ export class AhoRequestsService {
    */
   async fetchRequestsByEmployeeId(id: number): Promise<AhoRequest[] | null> {
     try {
-      const result = await this.ahoRequestResource.getRequestsByEmployeeId(null, {employeeId: id}, null);
+      const result = await this.ahoRequestResource.getRequests({start: 0, end: 0, employeeId: id, requestTypeId: 0, requestStatusId: 0});
       if (result) {
         this.employeeRequests = [];
         result.forEach((item: IAhoRequest) => {
@@ -343,6 +367,9 @@ export class AhoRequestsService {
       const result = await this.ahoRequestResource.editRequest(request, null, {id: request.id});
       this.editRequestInProgess = false;
       const request_ = new AhoRequest(result);
+      if (request_.employee.id === this.authenticationService.getCurrentUser().id) {
+        this.employeeRequests.push(request_);
+      }
       this.snackBar.open(`Изменения в заявке #${request.id} сохранены`, 'Закрыть', {
         horizontalPosition: 'left',
         verticalPosition: 'bottom',

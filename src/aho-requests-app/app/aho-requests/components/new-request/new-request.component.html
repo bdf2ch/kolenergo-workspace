@@ -8,7 +8,7 @@
         <mat-select placeholder="Категория заявки"
                     [(value)]="newRequest.type"
                     (selectionChange)="onRequestTypeChange($event)">
-          <mat-option *ngFor="let requestType of ahoRequestsService.getRequestTypes()"
+          <mat-option *ngFor="let requestType of aho.getRequestTypes()"
                       [value]="requestType">
             {{ requestType.title }}
           </mat-option>
@@ -108,7 +108,7 @@
                  required>
           <mat-autocomplete #content="matAutocomplete" [displayWith]="displayTaskContentTitle">
             <mat-option
-              *ngFor="let item of ahoRequestsService.getRequestTasksContent() | taskContentByRequestType : newRequest.type.id"
+              *ngFor="let item of aho.getRequestTasksContent() | taskContentByRequestType : newRequest.type.id"
               [value]="item">
               {{ item.title }}
             </mat-option>
@@ -158,10 +158,10 @@
           <button mat-raised-button
                   type="submit"
                   [color]="'primary'"
-                  [disabled]="newRequestForm.invalid ||newRequest.tasks.length < 2 || ahoRequestsService.isAddingRequest()"
+                  [disabled]="newRequestForm.invalid ||newRequest.tasks.length === 0 || aho.isAddingRequest()"
                   class="w-100"
                   (click)="addRequest()">
-            <div class="d-flex flex-row w-100 align-items-center" *ngIf="ahoRequestsService.isAddingRequest()">
+            <div class="d-flex flex-row w-100 align-items-center" *ngIf="aho.isAddingRequest()">
               <mat-progress-spinner
                 class="mr-2"
                 [diameter]="20"
@@ -170,7 +170,7 @@
               </mat-progress-spinner>
               Загрузка
             </div>
-            <span *ngIf="!ahoRequestsService.isAddingRequest()">Подать заявку</span>
+            <span *ngIf="!aho.isAddingRequest()">Подать заявку</span>
           </button>
         </div>
         <!-- End: Кнопка добавления заявки -->

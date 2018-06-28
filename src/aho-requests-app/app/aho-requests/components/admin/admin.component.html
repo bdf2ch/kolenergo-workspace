@@ -1,0 +1,65 @@
+<div class="container-fluid content-wrapper pb-3">
+
+  <div class="row pt-1 pt-sm-2 pt-md-3">
+      <div class="col-12">
+        <mat-card class="p-0">
+          <mat-tab-group>
+
+            <!-- Start: Вкладками с потребностть в материалах -->
+            <mat-tab label="{{ 'Потребность в материалах на ' + (now | date: 'dd.MM.yyyy')}}">
+              <div class="pl-4 pr-4">
+                <mat-table #table [dataSource]="dataSource" class="aho-requests-needs-table">
+                  <!-- Start: request task content column -->
+                  <ng-container matColumnDef="content">
+                    <mat-header-cell *matHeaderCellDef class="content-column"> Наименование </mat-header-cell>
+                    <mat-cell *matCellDef="let element" class="content-column"> {{ element.content.title }} </mat-cell>
+                  </ng-container>
+                  <!-- End: Request id column -->
+
+                  <!-- Start: Total column -->
+                  <ng-container matColumnDef="total">
+                    <mat-header-cell *matHeaderCellDef class="total-column"> Количество </mat-header-cell>
+                    <mat-cell *matCellDef="let element" class="total-column"> {{ element.total + ' ' + (element.content.boxing ? element.content.boxing : 'штук') }} </mat-cell>
+                  </ng-container>
+                  <!-- End: Total column -->
+
+                  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: displayedColumns; let i = index;" (click)="selectRequest(row)"></mat-row>
+                </mat-table>
+              </div>
+
+              <div class="p-4 text-left">
+                <button mat-stroked-button color="primary" (click)="exportNeeds()" download="test.xlsx">Экспорт в Excel</button>
+              </div>
+            </mat-tab>
+            <!-- End: Вкладка с потребностью в материалах-->
+
+            <mat-tab label="Номенклатура">
+              <div class="col-12 col-md-6">
+                <div>
+                  <mat-icon fontSet="fa" fontIcon="fa-pin"></mat-icon>
+                </div>
+                <mat-list>
+                  <mat-list-item>
+                    <div class="container-fluid">
+                      <div class="row">
+                        <div class="col">title</div>
+                        <div class="col-auto">
+                          <button mat-icon-button color="primary">
+                            <mat-icon>delete</mat-icon>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </mat-list-item>
+                  <mat-list-item> Salt </mat-list-item>
+                  <mat-list-item> Paprika </mat-list-item>
+                </mat-list>
+              </div>
+            </mat-tab>
+          </mat-tab-group>
+        </mat-card>
+      </div>
+  </div>
+
+</div>

@@ -240,6 +240,16 @@ export class AhoRequestsService {
     }
   }
 
+  async fetchNeedsExport(): Promise<any> {
+    try {
+      const result = await this.ahoRequestResource.exportNeeds();
+      window.open('http://localhost:3000/static/export.xlsx');
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
   getRequests(): AhoRequest[] {
     return this.requests;
   }

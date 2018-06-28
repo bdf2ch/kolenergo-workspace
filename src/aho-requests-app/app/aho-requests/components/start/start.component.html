@@ -26,8 +26,8 @@
   <div class="row pt-1 pt-sm-2 pt-md-3">
     <div class="col-12">
       <!-- Start: Переход ко всем заявкам -->
-      <button mat-stroked-button
-              color="primary"
+      <button mat-flat-button
+              color="accent"
               *ngIf="ahoRequestsService.isInEmployeeRequestsMode()"
               (click)="ahoRequestsService.showAllRequests()">
         &larr; Все заявки
@@ -35,8 +35,8 @@
       <!-- End: Переход ко всем заявкам -->
 
       <!-- Start: Переход к заявкам исполнителя -->
-      <button mat-stroked-button
-              color="primary"
+      <button mat-flat-button
+              color="accent"
               *ngIf="!ahoRequestsService.isInEmployeeRequestsMode() && ahoRequestsService.getEmployeeRequests().length > 0"
               (click)="ahoRequestsService.showEmployeeRequests()">
         Вы назначены исполнителем

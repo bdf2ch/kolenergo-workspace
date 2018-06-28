@@ -18,8 +18,11 @@ export class AdminComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('notifications');
+    console.log('admin');
     this.dataSource = new MatTableDataSource<IAhoRequestNeed>(this.ahoRequestsService.getNeeds());
   }
 
+  async exportNeeds() {
+    await this.ahoRequestsService.fetchNeedsExport();
+  }
 }

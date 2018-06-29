@@ -5,7 +5,7 @@ import {
   Resource,
   ResourceAction,
   ResourceHandler,
-  ResourceParams,
+  ResourceParams, ResourceRequestBodyType,
   ResourceRequestMethod, ResourceResponseBodyType
 } from '@ngx-resource/core';
 import { IAhoRequestType } from '../interfaces/aho-request-type.interface';
@@ -77,7 +77,7 @@ export class AhoRequestsResource extends Resource {
     method: ResourceRequestMethod.Get,
     withCredentials: true
   })
-  exportNeeds: IResourceMethod<void, any>;
+  exportNeeds: IResourceMethod<void, string>;
 
   @ResourceAction({
     path: '/requests',
@@ -85,6 +85,13 @@ export class AhoRequestsResource extends Resource {
     withCredentials: true
   })
   getRequests: IResourceMethod<{start: number, end: number, employeeId: number, requestTypeId: number, requestStatusId: number}, IAhoRequest[]>;
+
+  @ResourceAction({
+    path: '/requests/export',
+    method: ResourceRequestMethod.Get,
+    withCredentials: true
+  })
+  getRequestsExport: IResourceMethod<{start: number, end: number, employeeId: number, requestTypeId: number, requestStatusId: number}, string>;
 
   @ResourceAction({
     path: '/requests',

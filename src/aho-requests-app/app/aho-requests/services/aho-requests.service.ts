@@ -92,16 +92,42 @@ export class AhoRequestsService {
           if (request.status.id === 1) {
             this.newRequestsCount += 1;
           }
-          /*
-          if (this.authenticationService.getCurrentUser()) {
-            if (request.employee && request.employee.id === this.authenticationService.getCurrentUser().id) {
-              this.employeeRequests.push(request);
-            }
-          }
-          */
         });
         this.dataSource = new MatTableDataSource<AhoRequest>(this.requests);
         return this.requests;
+      }
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  /**
+   * Экспорт заявок в Excel
+   * @param {number} start - Дата начала периода
+   * @param {number} end - Дата окончания периода
+   * @param {number} employeeId - Идентификатор исполнителя
+   * @param {number} requestTypeId - Идентификатор типа заявки
+   * @param {number} requestStatusId - Идентификатор статуса заявки
+   * @returns {Promise<string | null>}
+   */
+  async fetchRequestsExport(
+    start: number,
+    end: number,
+    employeeId: number,
+    requestTypeId: number,
+    requestStatusId: number
+  ): Promise<string | null> {
+    try {
+      const result  = await this.ahoRequestResource.getRequestsExport({
+        start: start,
+        end: end,
+        employeeId: employeeId,
+        requestTypeId: requestTypeId,
+        requestStatusId: requestStatusId
+      });
+      if (result) {
+        window.open(`http://localhost:3000/${result}`);
       }
     } catch (error) {
       console.error(error);
@@ -264,16 +290,24 @@ export class AhoRequestsService {
     }
   }
 
+  /**
+   * Экспорт потребностей в материалах в Excel
+   * @returns {Promise<any>}
+   */
   async fetchNeedsExport(): Promise<any> {
     try {
       const result = await this.ahoRequestResource.exportNeeds();
-      window.open('http://localhost:3000/static/export.xlsx');
+      window.open(`http://localhost:3000/${result}`);
     } catch (error) {
       console.error(error);
       return null;
     }
   }
 
+  /**
+   * Получение списка загруженных заявок
+   * @returns {AhoRequest[]}
+   */
   getRequests(): AhoRequest[] {
     return this.requests;
   }

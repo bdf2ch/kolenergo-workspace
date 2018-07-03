@@ -1,7 +1,7 @@
 <mat-toolbar color="accent" class="border-bottom fixed-top d-flex flex-column">
   <mat-toolbar-row>
     <div class="container-fluid">
-      <div class="row justify-content-around">
+      <div class="row justify-content-between">
         <div class="col-auto d-none d-sm-none d-md-flex align-content-center align-items-center align-content-center">
           <div class="app-title d-flex align-items-center">
             <a routerLink="/">
@@ -16,11 +16,41 @@
             <div class="prefix">
               <i class="fa fa-search"></i>
             </div>
+            <div class="filters d-none d-xl-flex">
+              <span class="filter"
+                    *ngIf="aho.filters_.getFilterByTitle('startDate').getValue()"
+                    (click)="clearFilter(aho.filters_.filters.startDate)">
+                c {{ aho.filters_.getFilterByTitle('startDate').getValue() | date: 'dd.MM.yyyy' }}
+              </span>
+              <span class="filter"
+                    *ngIf="aho.filters_.getFilterByTitle('endDate').getValue()"
+                    (click)="clearFilter(aho.filters_.filters.endDate)">
+                по {{ aho.filters_.getFilterByTitle('endDate').getValue() | date: 'dd.MM.yyyy' }}
+              </span>
+              <span class="filter"
+                    *ngIf="aho.filters_.getFilterByTitle('requestType').getValue()"
+                    (click)="clearFilter(aho.filters_.filters.requestType)">
+                {{ aho.filters_.getFilterByTitle('requestType').getValue().title }}
+              </span>
+              <span class="filter"
+                    *ngIf="aho.filters_.getFilterByTitle('requestStatus').getValue()"
+                    (click)="clearFilter(aho.filters_.filters.requestStatus)">
+                {{ aho.filters_.getFilterByTitle('requestStatus').getValue().title }}
+              </span>
+              <span class="filter"
+                    *ngIf="aho.filters_.getFilterByTitle('requestEmployee').getValue()"
+                    (click)="clearFilter(aho.filters_.filters.requestEmployee)">
+                {{ aho.filters_.getFilterByTitle('requestEmployee').getValue().fio }}
+              </span>
+            </div>
             <div class="search-input">
-              <input type="text" placeholder="Поиск заявок">
+              <input type="text" placeholder="Поиск заявок" [(ngModel)]="search" #searchInput (keyup)="searchChange(searchInput.value)">
             </div>
             <div class="controls">
-              <i class="fa fa-filter" matTooltip="Фильтры" matTooltipPosition="below" (click)="filtersDialog()"></i>
+              <i class="fa fa-filter" matTooltip="Фильтры" matTooltipPosition="below" (click)="openFiltersDialog()" *ngIf="search === ''">
+                <span class="notification" *ngIf="aho.filters_.getSelectedFilters().length > 0"></span>
+              </i>
+              <i class="fa fa-times" matTooltip="Очистить" matTooltipPosition="below" (click)="clearSearch()" *ngIf="search !== ''"></i>
             </div>
           </div>
         </div>
@@ -64,11 +94,9 @@
       </div>
     </div>
   </mat-toolbar-row>
-  <!--
-  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-  -->
 </mat-toolbar>
 
 
-
-<router-outlet></router-outlet>
+<div class="pt-2 pt-sm-3 pt-md-4">
+  <router-outlet></router-outlet>
+</div>

@@ -8,6 +8,7 @@ import { MatTableDataSource } from '@angular/material';
 import { NewRequestComponent } from '../new-request/new-request.component';
 import { AhoRequestComponent } from '../request/aho-request.component';
 import { AhoRequest } from '../../models/aho-request.model';
+import {AhoRequestFilter} from '../../models/aho-request-filter.model';
 
 @Component({
   selector: 'app-start',
@@ -74,22 +75,22 @@ export class StartComponent implements OnInit {
   }
 
   async exportRequests() {
-    if (this.aho.filters.startDate.value) {
-      this.aho.filters.startDate.value.setHours(0);
-      this.aho.filters.startDate.value.setMinutes(0);
-      this.aho.filters.startDate.value.setSeconds(0);
+    if (this.aho.filters_.getFilterByTitle('startDate').getValue()) {
+      this.aho.filters_.getFilterByTitle('startDate').getValue().setHours(0);
+      this.aho.filters_.getFilterByTitle('startDate').getValue().setMinutes(0);
+      this.aho.filters_.getFilterByTitle('startDate').getValue().setSeconds(0);
     }
-    if (this.aho.filters.endDate.value) {
-      this.aho.filters.endDate.value.setHours(23);
-      this.aho.filters.endDate.value.setMinutes(59);
-      this.aho.filters.endDate.value.setSeconds(59);
+    if (this.aho.filters_.getFilterByTitle('endDate').getValue()) {
+      this.aho.filters_.getFilterByTitle('endDate').getValue().setHours(23);
+      this.aho.filters_.getFilterByTitle('endDate').getValue().setMinutes(59);
+      this.aho.filters_.getFilterByTitle('endDate').getValue().setSeconds(59);
     }
     this.aho.fetchRequestsExport(
-      this.aho.filters.startDate.value ? this.aho.filters.startDate.value.getTime() : 0,
-      this.aho.filters.endDate.value ? this.aho.filters.endDate.value.getTime() : 0,
-      this.aho.filters.employee.value ? this.aho.filters.employee.value.id : 0,
-      this.aho.filters.requestType.value ? this.aho.filters.requestType.value.id : 0,
-      this.aho.filters.requestStatus.value ? this.aho.filters.requestStatus.value.id : 0
+      this.aho.filters_.getFilterByTitle('startDate').getValue() ? this.aho.filters_.getFilterByTitle('startDate').getValue() : 0,
+      this.aho.filters_.getFilterByTitle('endDate').getValue() ? this.aho.filters_.getFilterByTitle('endDate').getValue().getTime() : 0,
+      this.aho.filters_.getFilterByTitle('requestEmployee').getValue() ? this.aho.filters_.getFilterByTitle('requestEmployee').getValue().id : 0,
+      this.aho.filters_.getFilterByTitle('requestType').getValue() ? this.aho.filters_.getFilterByTitle('requestType').getValue().id : 0,
+      this.aho.filters_.getFilterByTitle('requestStatus').getValue() ? this.aho.filters_.getFilterByTitle('requestStatus').getValue().id : 0
     );
   }
 }

@@ -16,6 +16,7 @@ import { AhoRequestComment } from '../models/aho-request-comment.model';
 import { IAhoRequestComment } from '../interfaces/aho-request-comment.interface';
 import { IAhoRequestNeed } from '../interfaces/aho-request-need.interface';
 import {AhoRequestFilter} from "../models/aho-request-filter.model";
+import {FilterManager} from '../models/filter-manager.model';
 
 @Injectable()
 export class AhoRequestsService {
@@ -28,17 +29,13 @@ export class AhoRequestsService {
   private needs: IAhoRequestNeed[];
   private selectedRequest: AhoRequest | null;
   private newRequestsCount: number;
+  private fetchingDataInProgress: boolean;
   private addRequestInProgress: boolean;
-  private editRequestInProgess: boolean;
+  private editRequestInProgress: boolean;
   private deleteRequestInProgress: boolean;
+  private searchRequestsInProgress: boolean;
   private inEmployeeRequestsMode: boolean;
-  public filters = {
-    startDate: new AhoRequestFilter<Date>(),
-    endDate: new AhoRequestFilter<Date>(),
-    requestType: new AhoRequestFilter<AhoRequestType>(),
-    requestStatus: new AhoRequestFilter<AhoRequestStatus>(),
-    employee: new AhoRequestFilter<User>()
-  };
+  public filters_: FilterManager;
   private dataSource: MatTableDataSource<AhoRequest>;
 
   constructor(private readonly snackBar: MatSnackBar,
@@ -55,9 +52,17 @@ export class AhoRequestsService {
     this.selectedRequest = null;
     this.newRequestsCount = 0;
     this.addRequestInProgress = false;
-    this.editRequestInProgess = false;
+    this.editRequestInProgress = false;
     this.deleteRequestInProgress = false;
+    this.searchRequestsInProgress = false;
+    this.fetchingDataInProgress = false;
     this.inEmployeeRequestsMode = false;
+    this.filters_ = new FilterManager();
+    this.filters_.addFilter(new AhoRequestFilter<Date>('startDate'));
+    this.filters_.addFilter(new AhoRequestFilter<Date>('endDate'));
+    this.filters_.addFilter(new AhoRequestFilter<AhoRequestType>('requestType'));
+    this.filters_.addFilter(new AhoRequestFilter<AhoRequestStatus>('requestStatus'));
+    this.filters_.addFilter(new AhoRequestFilter<User>('requestEmployee'));
     this.dataSource = new MatTableDataSource<AhoRequest>(this.requests);
   }
 
@@ -73,6 +78,7 @@ export class AhoRequestsService {
     requestStatusId: number
   ): Promise<AhoRequest[] | null> {
     try {
+      this.fetchingDataInProgress = true;
       const result = await this.ahoRequestResource.getRequests(
         {
           start: start,
@@ -85,6 +91,7 @@ export class AhoRequestsService {
         null
       );
       if (result) {
+        this.fetchingDataInProgress = false;
         this.requests = [];
         result.forEach((item: IAhoRequest) => {
           const request = new AhoRequest(item);
@@ -98,6 +105,7 @@ export class AhoRequestsService {
       }
     } catch (error) {
       console.error(error);
+      this.fetchingDataInProgress = false;
       return null;
     }
   }
@@ -119,6 +127,7 @@ export class AhoRequestsService {
     requestStatusId: number
   ): Promise<string | null> {
     try {
+      this.fetchingDataInProgress = true;
       const result  = await this.ahoRequestResource.getRequestsExport({
         start: start,
         end: end,
@@ -127,10 +136,53 @@ export class AhoRequestsService {
         requestStatusId: requestStatusId
       });
       if (result) {
+        this.fetchingDataInProgress = false;
         window.open(`http://localhost:3000/${result}`);
       }
     } catch (error) {
       console.error(error);
+      this.fetchingDataInProgress = false;
+      return null;
+    }
+  }
+
+  /**
+   * Поиск заявок
+   * @param {string} search - Условие поиска
+   * @returns {Promise<AhoRequest[] | null>}
+   */
+  async searchRequests(search: string): Promise<AhoRequest[] | null> {
+    try {
+      this.filters_.resetFilters();
+      this.fetchingDataInProgress = true;
+      const result = await this.ahoRequestResource.getRequests(
+        {
+          start: 0,
+          end: 0,
+          employeeId: 0,
+          requestTypeId: 0,
+          requestStatusId: 0,
+          search: search
+        },
+        null,
+        null
+      );
+      if (result) {
+        this.fetchingDataInProgress = false;
+        this.requests = [];
+        result.forEach((item: IAhoRequest) => {
+          const request = new AhoRequest(item);
+          this.requests.push(request);
+          if (request.status.id === 1) {
+            this.newRequestsCount += 1;
+          }
+        });
+        this.dataSource = new MatTableDataSource<AhoRequest>(this.requests);
+        return this.requests;
+      }
+    } catch (error) {
+      console.error(error);
+      this.fetchingDataInProgress = false;
       return null;
     }
   }
@@ -296,9 +348,13 @@ export class AhoRequestsService {
    */
   async fetchNeedsExport(): Promise<any> {
     try {
-      const result = await this.ahoRequestResource.exportNeeds();
+      this.fetchingDataInProgress = true;
+      const result = await this.ahoRequestResource.exportNeeds().then(() => {
+        this.fetchingDataInProgress = false;
+      });
       window.open(`http://localhost:3000/${result}`);
     } catch (error) {
+      this.fetchingDataInProgress = false;
       console.error(error);
       return null;
     }
@@ -397,9 +453,9 @@ export class AhoRequestsService {
    */
   async editRequest(request: IAhoRequest): Promise<AhoRequest | null> {
     try {
-      this.editRequestInProgess = true;
+      this.editRequestInProgress = true;
       const result = await this.ahoRequestResource.editRequest(request, null, {id: request.id});
-      this.editRequestInProgess = false;
+      this.editRequestInProgress = false;
       const request_ = new AhoRequest(result);
       if (request_.employee.id === this.authenticationService.getCurrentUser().id) {
         this.employeeRequests.push(request_);
@@ -413,7 +469,7 @@ export class AhoRequestsService {
       return request_;
     } catch (error) {
       console.error(error);
-      this.editRequestInProgess = false;
+      this.editRequestInProgress = false;
       return null;
     }
   }
@@ -470,11 +526,43 @@ export class AhoRequestsService {
   }
 
   /**
-   * Статус добавления заявки
+   * Выполняется ли загрузка данных
+   * @returns {boolean}
+   */
+  isFetchingData(): boolean {
+    return this.fetchingDataInProgress;
+  }
+
+  /**
+   * Выполняется ли добавление новой заявки
    * @returns {boolean}
    */
   isAddingRequest(): boolean {
     return this.addRequestInProgress;
+  }
+
+  /**
+   * Выполняется ли изменение заявки
+   * @returns {boolean}
+   */
+  isEditingRequest(): boolean {
+    return this.editRequestInProgress;
+  }
+
+  /**
+   * Выполняется ли удаление заявки
+   * @returns {boolean}
+   */
+  isDeletingRequest(): boolean {
+    return this.deleteRequestInProgress;
+  }
+
+  /**
+   * Выполняется ли поиск заявко
+   * @returns {boolean}
+   */
+  isSearchingRequests(): boolean {
+    return this.searchRequestsInProgress;
   }
 
   /**

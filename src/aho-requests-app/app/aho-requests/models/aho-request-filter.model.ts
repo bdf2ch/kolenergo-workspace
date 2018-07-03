@@ -1,8 +1,11 @@
 export class AhoRequestFilter<T> {
   public value: T | null;
+  title: string;
+  label: string;
 
-  constructor(config?: T) {
-    this.value = config ? config : null;
+  constructor(title: string, value?: T) {
+    this.title = title;
+    this.value = value ? value : null;
   }
 
   setValue(val: T | null) {

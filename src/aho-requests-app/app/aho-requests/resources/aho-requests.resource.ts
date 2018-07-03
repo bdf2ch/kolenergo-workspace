@@ -84,7 +84,7 @@ export class AhoRequestsResource extends Resource {
     method: ResourceRequestMethod.Get,
     withCredentials: true
   })
-  getRequests: IResourceMethod<{start: number, end: number, employeeId: number, requestTypeId: number, requestStatusId: number}, IAhoRequest[]>;
+  getRequests: IResourceMethod<{start: number, end: number, employeeId: number, requestTypeId: number, requestStatusId: number, search?: string}, IAhoRequest[]>;
 
   @ResourceAction({
     path: '/requests/export',

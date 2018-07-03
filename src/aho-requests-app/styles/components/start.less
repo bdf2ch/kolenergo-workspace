@@ -68,6 +68,8 @@
   }
 }
 
+
+
 .app-search {
   overflow: visible;
   height: 40px;
@@ -90,6 +92,27 @@
       .fa {
         font-size: 15px;
         color: #455A64;
+      }
+    }
+
+    .filters {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin-right: 10px;
+      .filter {
+        display: inline-flex;
+        height: 25px;
+        justify-content: center;
+        align-items: center;
+        margin-right: 6px;
+        padding: 5px 10px;
+        font-family: "Segoe UI Light";
+        font-size: 13px;
+        color: white;
+        background: #7E57C2;
+        border-radius: 4px;
+        cursor: pointer;
       }
     }
 
@@ -116,6 +139,17 @@
         cursor: pointer;
         &:hover {
           color: #263238;
+        }
+
+        .notification {
+          display: inline-block;
+          position: relative;
+          top: -12px;
+          left: -1px;
+          width: 7px;
+          height: 7px;
+          background: red;
+          border-radius: 50%;
         }
       }
     }

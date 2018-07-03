@@ -23,7 +23,7 @@
   </div>
   -->
 
-  <div class="row pt-1 pt-sm-2 pt-md-3"
+  <div class="row pb-2 pb-sm-3 pb-md-3"
        *ngIf="authenticationService.getCurrentUser() && (aho.getEmployeeRequests().length > 0 || authenticationService.getCurrentUser().permissions.getRoleById(1))">
     <div class="col-12 d-flex justify-content-between">
       <div class="request-list-navigation">
@@ -32,7 +32,7 @@
                 color="primary"
                 *ngIf="aho.isInEmployeeRequestsMode()"
                 (click)="aho.showAllRequests()">
-          &larr; Все заявки
+          &larr; &nbsp; Все заявки
         </button>
         <!-- End: Переход ко всем заявкам -->
 
@@ -62,7 +62,7 @@
   </div>
 
 
-  <div class="row no-gutters pt-1 pt-sm-2 pt-md-3">
+  <div class="row no-gutters">
     <div class="col-12">
       <mat-table #table [dataSource]="aho.getDataSource()" class="aho-requests-table">
 

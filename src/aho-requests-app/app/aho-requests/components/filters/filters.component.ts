@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { AhoRequestsService } from "../../services/aho-requests.service";
+import { AhoRequestsService } from '../../services/aho-requests.service';
 
 @Component({
   selector: 'app-filters',
@@ -20,48 +20,47 @@ export class FiltersComponent implements OnInit {
 
   changeStartDate(date: any) {
     console.log(date.value);
-    this.aho.filters.startDate.setValue(date.value);
+    this.aho.filters_.getFilterByTitle('startDate').setValue(date.value);
   }
 
   changeEndDate(date: any) {
     console.log(date.value);
-    this.aho.filters.endDate.setValue(date.value);
+    this.aho.filters_.getFilterByTitle('endDate').setValue(date.value);
   }
 
   applyFilters() {
-    console.log(this.aho.filters);
-    if (this.aho.filters.startDate.value) {
-      this.aho.filters.startDate.value.setHours(0);
-      this.aho.filters.startDate.value.setMinutes(0);
-      this.aho.filters.startDate.value.setSeconds(0);
+    console.log(this.aho.filters_);
+    if (this.aho.filters_.getFilterByTitle('startDate').getValue()) {
+      this.aho.filters_.getFilterByTitle('startDate').getValue().setHours(0);
+      this.aho.filters_.getFilterByTitle('startDate').getValue().setMinutes(0);
+      this.aho.filters_.getFilterByTitle('startDate').getValue().setSeconds(0);
     }
-    if (this.aho.filters.endDate.value) {
-      this.aho.filters.endDate.value.setHours(23);
-      this.aho.filters.endDate.value.setMinutes(59);
-      this.aho.filters.endDate.value.setSeconds(59);
+
+    if (this.aho.filters_.getFilterByTitle('endDate').getValue()) {
+      this.aho.filters_.getFilterByTitle('endDate').getValue().setHours(0);
+      this.aho.filters_.getFilterByTitle('endDate').getValue().setMinutes(0);
+      this.aho.filters_.getFilterByTitle('endDate').getValue().setSeconds(0);
     }
     this.aho.fetchRequests(
-      this.aho.filters.startDate.value ? this.aho.filters.startDate.value.getTime() : 0,
-      this.aho.filters.endDate.value ? this.aho.filters.endDate.value.getTime() : 0,
-      this.aho.filters.employee.value ? this.aho.filters.employee.value.id : 0,
-      this.aho.filters.requestType.value ? this.aho.filters.requestType.value.id : 0,
-      this.aho.filters.requestStatus.value ? this.aho.filters.requestStatus.value.id : 0
+      this.aho.filters_.getFilterByTitle('startDate').getValue() ? this.aho.filters_.getFilterByTitle('startDate').getValue().getTime() : 0,
+      this.aho.filters_.getFilterByTitle('endDate').getValue() ? this.aho.filters_.getFilterByTitle('endDate').getValue().getTime() : 0,
+      this.aho.filters_.getFilterByTitle('requestEmployee').getValue() ? this.aho.filters_.getFilterByTitle('requestEmployee').getValue().id : 0,
+      this.aho.filters_.getFilterByTitle('requestType').getValue() ? this.aho.filters_.getFilterByTitle('requestType').getValue().id : 0,
+      this.aho.filters_.getFilterByTitle('requestStatus').getValue() ? this.aho.filters_.getFilterByTitle('requestStatus').getValue().id : 0,
     ).then(() => {
       this.dialogRef.close();
     });
   }
 
   cancelFilters() {
+    /*
     for (const filter in this.aho.filters) {
       this.aho.filters[filter].clear();
     }
-    this.aho.fetchRequests(
-      this.aho.filters.startDate.value ? this.aho.filters.startDate.value.getTime() : 0,
-      this.aho.filters.endDate.value ? this.aho.filters.endDate.value.getTime() : 0,
-      this.aho.filters.employee.value ? this.aho.filters.employee.value.id : 0,
-      this.aho.filters.requestType.value ? this.aho.filters.requestType.value.id : 0,
-      this.aho.filters.requestStatus.value ? this.aho.filters.requestStatus.value.id : 0
-    );
-    console.log(this.aho.filters);
+    */
+    this.aho.filters_.resetFilters();
+
+    this.aho.fetchRequests(0, 0, 0, 0, 0);
+    console.log(this.aho.filters_);
   }
 }

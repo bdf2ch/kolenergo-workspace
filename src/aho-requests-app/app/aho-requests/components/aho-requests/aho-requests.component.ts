@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AuthenticationDialogComponent, AuthenticationService } from '@kolenergo/lib';
 import { AhoRequestsService } from '../../services/aho-requests.service';
 import { FiltersComponent } from "../filters/filters.component";
+import {AhoRequestFilter} from '../../models/aho-request-filter.model';
 
 @Component({
   selector: 'app-aho-requests',
@@ -11,10 +12,14 @@ import { FiltersComponent } from "../filters/filters.component";
   encapsulation: ViewEncapsulation.None
 })
 export class AhoRequestsComponent implements OnInit {
+  public search: string;
+  private searchInterval;
 
   constructor(private readonly dialog: MatDialog,
               public readonly authenticationService: AuthenticationService,
-              public readonly aho: AhoRequestsService) {}
+              public readonly aho: AhoRequestsService) {
+    this.search = '';
+  }
 
   ngOnInit() {}
 
@@ -29,7 +34,7 @@ export class AhoRequestsComponent implements OnInit {
     });
   }
 
- async getNewRequests() {
+  async getNewRequests() {
     await this.aho.fetchRequestsByStatusId(1);
   }
 
@@ -37,10 +42,58 @@ export class AhoRequestsComponent implements OnInit {
     this.authenticationService.logOut();
   }
 
-  filtersDialog() {
+  openFiltersDialog() {
     this.dialog.open(FiltersComponent, {
       width: '400px'
     });
+  }
+
+  async searchChange(value: string) {
+    console.log(value);
+
+    if (value.length >= 3) {
+      this.searchInterval = await setTimeout( async () => {
+        if (this.aho.isSearchingRequests()) {
+          return;
+        }
+        await this.aho.searchRequests(value);
+      }, 500);
+    } else {
+      await this.aho.fetchRequests(0, 0, 0, 0, 0);
+    }
+  }
+
+  /**
+   * Очистка результатов поиска
+   * @returns {Promise<void>}
+   */
+  async clearSearch() {
+    this.search = '';
+    await this.aho.fetchRequests(0, 0, 0, 0, 0);
+  }
+
+
+  clearFilter(filter: AhoRequestFilter<any>) {
+    filter.clear();
+    console.log(this.aho.filters_);
+    if (this.aho.filters_.getFilterByTitle('startDate').getValue()) {
+      this.aho.filters_.getFilterByTitle('startDate').getValue().setHours(0);
+      this.aho.filters_.getFilterByTitle('startDate').getValue().setMinutes(0);
+      this.aho.filters_.getFilterByTitle('startDate').getValue().setSeconds(0);
+    }
+
+    if (this.aho.filters_.getFilterByTitle('endDate').getValue()) {
+      this.aho.filters_.getFilterByTitle('endDate').getValue().setHours(0);
+      this.aho.filters_.getFilterByTitle('endDate').getValue().setMinutes(0);
+      this.aho.filters_.getFilterByTitle('endDate').getValue().setSeconds(0);
+    }
+    this.aho.fetchRequests(
+      this.aho.filters_.getFilterByTitle('startDate').getValue() ? this.aho.filters_.getFilterByTitle('startDate').getValue().getTime() : 0,
+      this.aho.filters_.getFilterByTitle('endDate').getValue() ? this.aho.filters_.getFilterByTitle('endDate').getValue().getTime() : 0,
+      this.aho.filters_.getFilterByTitle('requestEmployee').getValue() ? this.aho.filters_.getFilterByTitle('requestEmployee').getValue().id : 0,
+      this.aho.filters_.getFilterByTitle('requestType').getValue() ? this.aho.filters_.getFilterByTitle('requestType').getValue().id : 0,
+      this.aho.filters_.getFilterByTitle('requestStatus').getValue() ? this.aho.filters_.getFilterByTitle('requestStatus').getValue().id : 0,
+    );
   }
 
 }

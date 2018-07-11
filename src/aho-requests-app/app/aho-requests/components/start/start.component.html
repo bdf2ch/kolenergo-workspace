@@ -1,29 +1,7 @@
 <div class="container-fluid content-wrapper pb-3">
 
-  <!--
-  <div class="row pt-1 pt-sm-2 pt-md-3 justify-content-between">
-    <div class=" col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 mb-2 mb-md-3" *ngFor="let requestType of aho.getRequestTypes()">
-      <mat-card class="admin-type-card h-100">
-        <span class="badge d-none d-md-inline">6</span>
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-3 col-md-3">
-              <mat-icon fontSet="fa" fontIcon="{{ requestType.icon }}"></mat-icon>
-            </div>
-            <div class="col type-title">
-              <div>{{ requestType.title }}</div>
-              <div class="text-muted d-md-none">
-                <small>новых заявок: 5</small>
-              </div>
-            </div>
-          </div>
-        </div>
-      </mat-card>
-    </div>
-  </div>
-  -->
 
-  <div class="row pb-2 pb-sm-3 pb-md-3"
+  <div class="row pb-2 pb-sm-2 pb-md-2"
        *ngIf="authenticationService.getCurrentUser() && (aho.getEmployeeRequests().length > 0 || authenticationService.getCurrentUser().permissions.getRoleById(1))">
     <div class="col-12 d-flex justify-content-between">
       <div class="request-list-navigation">
@@ -39,16 +17,16 @@
         <!-- Start: Переход к заявкам исполнителя -->
         <button mat-stroked-button
                 color="primary"
-                *ngIf="authenticationService.getCurrentUser() && !aho.isInEmployeeRequestsMode() && aho.getEmployeeRequests().length > 0"
+                *ngIf="authenticationService.getCurrentUser() && !aho.isInEmployeeRequestsMode() && aho.getUnfinishedEmployeeRequests().length > 0"
                 (click)="aho.showEmployeeRequests()">
           Вы назначены исполнителем
-          <span class="button-badge ml-1">{{ aho.getEmployeeRequests().length }}</span>
+          <span class="button-badge ml-1">{{ aho.getUnfinishedEmployeeRequests().length }}</span>
         </button>
         <!-- End: Переход к заявкам исполнителя -->
       </div>
 
-      <div class="request-list-controls">
-        <!-- Start: Переход к заявкам исполнителя -->
+      <div class="request-list-controls d-none d-md-flex">
+        <!-- Start: Экспорт заявков а Excel -->
         <button mat-icon-button
                 class="align-self-end"
                 color="primary"
@@ -56,7 +34,7 @@
                 matTooltip="Экспорт в Excel" matTooltipPosition="left">
           <mat-icon fontSet="fa" fontIcon="fa-file-excel-o" color="primary"></mat-icon>
         </button>
-        <!-- End: Переход к заявкам исполнителя -->
+        <!-- End: Экспорт заявок в Excel -->
       </div>
     </div>
   </div>

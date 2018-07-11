@@ -35,6 +35,7 @@ export class AhoRequestsService {
   private deleteRequestInProgress: boolean;
   private searchRequestsInProgress: boolean;
   private inEmployeeRequestsMode: boolean;
+  private isShowCompletedRequests: boolean;
   public filters_: FilterManager;
   private dataSource: MatTableDataSource<AhoRequest>;
 
@@ -57,6 +58,7 @@ export class AhoRequestsService {
     this.searchRequestsInProgress = false;
     this.fetchingDataInProgress = false;
     this.inEmployeeRequestsMode = false;
+    this.isShowCompletedRequests = false;
     this.filters_ = new FilterManager();
     this.filters_.addFilter(new AhoRequestFilter<Date>('startDate'));
     this.filters_.addFilter(new AhoRequestFilter<Date>('endDate'));
@@ -79,6 +81,7 @@ export class AhoRequestsService {
   ): Promise<AhoRequest[] | null> {
     try {
       this.fetchingDataInProgress = true;
+      this.inEmployeeRequestsMode = false;
       const result = await this.ahoRequestResource.getRequests(
         {
           start: start,
@@ -169,6 +172,7 @@ export class AhoRequestsService {
       );
       if (result) {
         this.fetchingDataInProgress = false;
+        this.inEmployeeRequestsMode = false;
         this.requests = [];
         result.forEach((item: IAhoRequest) => {
           const request = new AhoRequest(item);
@@ -349,9 +353,8 @@ export class AhoRequestsService {
   async fetchNeedsExport(): Promise<any> {
     try {
       this.fetchingDataInProgress = true;
-      const result = await this.ahoRequestResource.exportNeeds().then(() => {
-        this.fetchingDataInProgress = false;
-      });
+      const result = await this.ahoRequestResource.exportNeeds();
+      this.fetchingDataInProgress = false;
       window.open(`http://localhost:3000/${result}`);
     } catch (error) {
       this.fetchingDataInProgress = false;
@@ -376,14 +379,27 @@ export class AhoRequestsService {
     return this.employeeRequests;
   }
 
+  getUnfinishedEmployeeRequests(): AhoRequest[] {
+    const result = [];
+    this.employeeRequests.forEach((request: AhoRequest) => {
+      if (request.status.id === 2) {
+        result.push(request);
+      }
+    });
+    return result;
+  }
+
   showAllRequests() {
     this.dataSource = new MatTableDataSource<AhoRequest>(this.requests);
     this.inEmployeeRequestsMode = false;
+    this.filters_.resetFilters();
+    this.fetchRequests(0, 0, 0, 0, 0);
   }
 
   showEmployeeRequests() {
     this.dataSource = new MatTableDataSource<AhoRequest>(this.employeeRequests);
     this.inEmployeeRequestsMode = true;
+    this.filters_.resetFilters();
   }
 
   /**
@@ -571,6 +587,10 @@ export class AhoRequestsService {
    */
   isInEmployeeRequestsMode(): boolean {
     return this.inEmployeeRequestsMode;
+  }
+
+  showCompletedRequests(): boolean {
+    return this.isShowCompletedRequests;
   }
 
   /**

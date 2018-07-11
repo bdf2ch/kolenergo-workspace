@@ -7,7 +7,7 @@ import {
   ResourceHandler,
   ResourceParams,
   ResourceRequestMethod
-} from "@ngx-resource/core";
+} from '@ngx-resource/core';
 import { IUser } from '../../users/interfaces/user.interface';
 import { WindowRef } from '../services/window.service';
 import { environment } from '../../../../_common/environments/environment';

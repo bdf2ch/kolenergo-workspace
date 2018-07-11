@@ -71,6 +71,7 @@ export class StartComponent implements OnInit {
   }
 
   showEmployeeRequests() {
+    this.aho.filters_.resetFilters();
     this.aho.showEmployeeRequests();
   }
 

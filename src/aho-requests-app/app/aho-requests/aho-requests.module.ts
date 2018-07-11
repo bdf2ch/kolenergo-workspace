@@ -16,8 +16,9 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { EmployeeByRequestTypePipe } from './pipes/employee-by-request-type.pipe';
 import { AdminComponent } from './components/admin/admin.component';
 import { NeedsByRequestTypeIdPipe } from './pipes/needs.pipe';
-import { AhoRequestsAdminGuard } from "./guards/admin.can-activate.guard";
+import { AhoRequestsAdminGuard } from './guards/admin.can-activate.guard';
 import { FiltersComponent } from './components/filters/filters.component';
+import { ShowCcompletedRequestsPipe } from './pipes/show-ccompleted-requests.pipe';
 
 @NgModule({
   imports: [
@@ -34,7 +35,8 @@ import { FiltersComponent } from './components/filters/filters.component';
     EmployeeByRequestTypePipe,
     AdminComponent,
     NeedsByRequestTypeIdPipe,
-    FiltersComponent
+    FiltersComponent,
+    ShowCcompletedRequestsPipe
   ],
   providers: [
     AhoRequestsResource,

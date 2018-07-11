@@ -6,7 +6,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { ResourceModule } from '@ngx-resource/handler-ngx-http';
-import { ElModule } from 'element-angular';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material';
 import { MatIconModule } from '@angular/material/icon';
@@ -26,7 +25,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from "@angular/material";
+import { MatNativeDateModule } from '@angular/material';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { AuthenticationModule } from '@kolenergo/lib';
 
@@ -41,7 +40,6 @@ import { AuthenticationModule } from '@kolenergo/lib';
     RouterModule,
     HttpClientModule,
     ResourceModule.forRoot(),
-    ElModule.forRoot(),
     AuthenticationModule,
     MatDialogModule,
     MatButtonModule,
@@ -74,7 +72,6 @@ import { AuthenticationModule } from '@kolenergo/lib';
     RouterModule,
     HttpClientModule,
     ResourceModule,
-    ElModule,
     AuthenticationModule,
     MatDialogModule,
     MatButtonModule,

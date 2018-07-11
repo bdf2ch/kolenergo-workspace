@@ -38,7 +38,7 @@ export class UserPermissionsManager {
   getRoleById(id: number): Role | null {
     const findRoleById = (item: Role) => item.id === id;
     const role = this.roles.find(findRoleById);
-    return role ? role : null;
+    return role ? (role.isEnabled ? role : null) : null;
   }
 
   /**

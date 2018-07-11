@@ -1,10 +1,10 @@
 <div class="container-fluid content-wrapper pb-3">
 
 
-  <div class="row pb-2 pb-sm-2 pb-md-2"
-       *ngIf="authenticationService.getCurrentUser() && (aho.getEmployeeRequests().length > 0 || authenticationService.getCurrentUser().permissions.getRoleById(1))">
+  <div class="row pb-2 pb-sm-2 pb-md-2">
     <div class="col-12 d-flex justify-content-between">
-      <div class="request-list-navigation">
+      <div class="request-list-navigation d-flex flex-row align-items-center"
+           *ngIf="authenticationService.getCurrentUser() && (aho.getEmployeeRequests().length > 0 || authenticationService.getCurrentUser().permissions.getRoleById(1))">
         <!-- Start: Переход ко всем заявкам -->
         <button mat-stroked-button
                 color="primary"
@@ -23,6 +23,12 @@
           <span class="button-badge ml-1">{{ aho.getUnfinishedEmployeeRequests().length }}</span>
         </button>
         <!-- End: Переход к заявкам исполнителя -->
+
+        <mat-slide-toggle
+          color="primary"
+          [checked]="aho.showCompletedRequests()" (change)="onShowCompletedRequestsToggle($event)">
+          Показать выполненные
+        </mat-slide-toggle>
       </div>
 
       <div class="request-list-controls d-none d-md-flex">

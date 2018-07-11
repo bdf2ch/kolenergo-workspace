@@ -17,6 +17,7 @@ import { IAhoRequestComment } from '../interfaces/aho-request-comment.interface'
 import { IAhoRequestNeed } from '../interfaces/aho-request-need.interface';
 import {AhoRequestFilter} from "../models/aho-request-filter.model";
 import {FilterManager} from '../models/filter-manager.model';
+import { ShowCompletedRequestsPipe } from "../pipes/show-completed-requests.pipe";
 
 @Injectable()
 export class AhoRequestsService {
@@ -42,7 +43,8 @@ export class AhoRequestsService {
   constructor(private readonly snackBar: MatSnackBar,
               private readonly authenticationService: AuthenticationService,
               private readonly ahoRequestResource: AhoRequestsResource,
-              private readonly usersService: UsersService) {
+              private readonly usersService: UsersService,
+              private readonly showCompletedRequestsPipe: ShowCompletedRequestsPipe) {
     this.requestTypes = [];
     this.requestStatuses = [];
     this.requestTasksContent = [];
@@ -589,8 +591,9 @@ export class AhoRequestsService {
     return this.inEmployeeRequestsMode;
   }
 
-  showCompletedRequests(): boolean {
-    return this.isShowCompletedRequests;
+  showCompletedRequests(value: boolean){
+    const requests = this.showCompletedRequestsPipe.transform(this.requests, value);
+    this.dataSource = new MatTableDataSource<AhoRequest>(requests);
   }
 
   /**

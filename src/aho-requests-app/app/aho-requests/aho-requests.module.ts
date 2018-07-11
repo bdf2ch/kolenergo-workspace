@@ -18,7 +18,7 @@ import { AdminComponent } from './components/admin/admin.component';
 import { NeedsByRequestTypeIdPipe } from './pipes/needs.pipe';
 import { AhoRequestsAdminGuard } from './guards/admin.can-activate.guard';
 import { FiltersComponent } from './components/filters/filters.component';
-import { ShowCcompletedRequestsPipe } from './pipes/show-ccompleted-requests.pipe';
+import { ShowCompletedRequestsPipe } from './pipes/show-completed-requests.pipe';
 
 @NgModule({
   imports: [
@@ -36,7 +36,7 @@ import { ShowCcompletedRequestsPipe } from './pipes/show-ccompleted-requests.pip
     AdminComponent,
     NeedsByRequestTypeIdPipe,
     FiltersComponent,
-    ShowCcompletedRequestsPipe
+    ShowCompletedRequestsPipe
   ],
   providers: [
     AhoRequestsResource,
@@ -45,6 +45,7 @@ import { ShowCcompletedRequestsPipe } from './pipes/show-ccompleted-requests.pip
     AhoRequestResolveGuard,
     AhoRequestsAdminGuard,
     MatIconRegistry,
+    ShowCompletedRequestsPipe
   ],
   entryComponents: [
     AhoRequestComponent,

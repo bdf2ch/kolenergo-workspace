@@ -30,7 +30,7 @@
       <mat-tab label="Содержание" class="mh-100">
         <div class="p-4">
 
-          <div class="request-information d-flex justify-content-center align-items-center pb-3 pt-3 text-center">
+          <div class="request-information d-flex justify-content-center align-items-center pb-3 pt-3 pl-4 pr-4 text-center">
             <mat-icon fontSet="fa" fontIcon="{{ aho.getSelectedRequest().type.icon }}" class="mr-3"></mat-icon>
             {{ aho.getRequestTypeById(aho.getSelectedRequest().type.id).title }}
             <span *ngIf="aho.getSelectedRequest().type.id !== 1">&nbsp;в кабинете #{{aho.getSelectedRequest().room }}</span>
@@ -82,7 +82,7 @@
                   {{ comment.content }}
                 </div>
                 <div class="comment-user">
-                  {{ comment.user.firstName + ' ' + comment.user.lastName + ' в ' + (comment.dateCreated |  date:'dd.MM.yyyy в HH:mm') }}
+                  {{ comment.user.firstName + ' ' + comment.user.lastName + ' ' + (comment.dateCreated |  date:'dd.MM.yyyy в HH:mm') }}
                 </div>
               </div>
             </div>

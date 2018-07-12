@@ -16,7 +16,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class AhoRequestComponent implements OnInit {
   public isRequestChanged: boolean;
   public newComment: AhoRequestComment;
-  private newCommentForm: FormGroup;
+  public newCommentForm: FormGroup;
   public selectedTabIndex: number;
   // @ViewChild('commentsContainer') commentsContainer: ElementRef;
 

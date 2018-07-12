@@ -172,7 +172,10 @@ export class NewRequestComponent implements OnInit {
     return taskContent ? taskContent.title : null;
   }
 
-  changeExpirationDate(value: any) {}
+  changeExpirationDate(value: any) {
+    console.log(value);
+    this.newRequest.dateExpires = value.value;
+  }
 
   /**
    * Добавление новой заявки

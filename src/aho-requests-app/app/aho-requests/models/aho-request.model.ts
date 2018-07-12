@@ -17,6 +17,7 @@ export class AhoRequest implements IAhoRequest {
   room: string;                               // Кабинет
   dateCreated: Date;                          // Дата создания заявки
   dateExpires: Date;                          // Дата исполнения заявки
+  isExpired: boolean;                         // Просрочен ли срок исполнения заявки
   user: User;                                 // Пользователь, создавший заявку
   employee: User;                             // Исполнитель заявки
   tasks: IAhoRequestTask[];                   // Список задач
@@ -32,8 +33,9 @@ export class AhoRequest implements IAhoRequest {
     this.type = config ? new AhoRequestType(config.type) : new AhoRequestType();
     this.status = config ? new AhoRequestStatus(config.status) : new AhoRequestStatus();
     this.room = config && config.room ? config.room : '';
-    this.dateCreated = config ? new Date(config.dateCreated) : new Date();
-    this.dateExpires = config ? new Date(config.dateExpires) : null;
+    this.dateCreated = config ? new Date(config.dateCreated) : null;
+    this.dateExpires = config && config.dateExpires ? new Date(config.dateExpires) : null;
+    this.isExpired = config ? config.isExpired : false;
     this.user = config && config.user ? new User(config.user) : null;
     this.employee = config && config.employee ? new User(config.employee) : null;
     this.tasks = [];

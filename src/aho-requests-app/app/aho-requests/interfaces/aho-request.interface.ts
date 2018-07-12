@@ -14,6 +14,7 @@ export interface IAhoRequest {
   room?: string;                                  // Кабинет
   dateCreated: Date;                              // Дата создания заявки
   dateExpires?: Date;                             // Дата исполнения заявки
+  isExpired?: boolean;                            // Просрочен ли срок исполнения заявки
   user: IUser;                                    // Пользователь, создавший заявку
   employee?: IUser | null;                        // Исполнитель заявки
   tasks: IAhoRequestTask[];                       // Список задач

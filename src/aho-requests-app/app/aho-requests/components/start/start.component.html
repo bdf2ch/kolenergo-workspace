@@ -94,8 +94,10 @@
 
         <!-- Start: Request date expires column -->
         <ng-container matColumnDef="dateExpires">
-          <mat-header-cell *matHeaderCellDef class="request-room-column"> Срок выполнения </mat-header-cell>
-          <mat-cell *matCellDef="let element" class="request-room-column">{{ element.dateExpires ? (element.dateExpires | date:'dd.MM.yyyy') : '' }}</mat-cell>
+          <mat-header-cell *matHeaderCellDef class="request-expires-column"> Срок исполнения </mat-header-cell>
+          <mat-cell *matCellDef="let element" class="request-expires-column">
+            <span [ngClass]="{'expired': element.isExpired}">{{ element.dateExpires ? (element.dateExpires | date:'dd.MM.yyyy') : '' }}</span>
+          </mat-cell>
         </ng-container>
         <!-- End: Request date expires column -->
 

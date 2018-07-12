@@ -12,5 +12,6 @@ export interface IAddAhoRequest {
   status: IAhoRequestStatus;                  // Статус заявки
   comment?: string;                           // Содержание заявки
   room?: string;                              // Кабинет
+  dateExpires?: Date;                         // Срок исполнения заявки
   tasks: IAhoRequestTask[];                   // Список задач
 }

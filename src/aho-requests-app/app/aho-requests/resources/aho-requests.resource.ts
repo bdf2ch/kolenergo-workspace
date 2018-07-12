@@ -75,9 +75,10 @@ export class AhoRequestsResource extends Resource {
   @ResourceAction({
     path: '/needs/export',
     method: ResourceRequestMethod.Get,
-    withCredentials: true
+    withCredentials: true,
+    responseBodyType: ResourceResponseBodyType.Blob
   })
-  exportNeeds: IResourceMethod<void, string>;
+  exportNeeds: IResourceMethod<void, Blob>;
 
   @ResourceAction({
     path: '/requests',
@@ -89,9 +90,10 @@ export class AhoRequestsResource extends Resource {
   @ResourceAction({
     path: '/requests/export',
     method: ResourceRequestMethod.Get,
-    withCredentials: true
+    withCredentials: true,
+    responseBodyType: ResourceResponseBodyType.Blob
   })
-  getRequestsExport: IResourceMethod<{start: number, end: number, employeeId: number, requestTypeId: number, requestStatusId: number}, string>;
+  getRequestsExport: IResourceMethod<{start: number, end: number, employeeId: number, requestTypeId: number, requestStatusId: number}, Blob>;
 
   @ResourceAction({
     path: '/requests',

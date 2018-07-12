@@ -8,16 +8,17 @@ import { IAhoRequest } from '../interfaces/aho-request.interface';
 import { IAddAhoRequest } from '../interfaces/aho-request.add.interface';
 import { AhoRequestStatus } from '../models/aho-request-status.model';
 import { IAhoRequestStatus } from '../interfaces/aho-request-status.interface';
-import { MatTableDataSource } from '@angular/material';
+import {MatSlideToggleChange, MatTableDataSource} from '@angular/material';
 import { AhoRequestTaskContent } from '../models/aho-request-task-content.model';
 import { IAhoRequestTaskContent } from '../interfaces/aho-request-task-content.interface';
 import { AuthenticationService, User, UsersService } from '@kolenergo/lib';
 import { AhoRequestComment } from '../models/aho-request-comment.model';
 import { IAhoRequestComment } from '../interfaces/aho-request-comment.interface';
 import { IAhoRequestNeed } from '../interfaces/aho-request-need.interface';
-import {AhoRequestFilter} from "../models/aho-request-filter.model";
-import {FilterManager} from '../models/filter-manager.model';
-import { ShowCompletedRequestsPipe } from "../pipes/show-completed-requests.pipe";
+import { AhoRequestFilter } from '../models/aho-request-filter.model';
+import { FilterManager } from '../models/filter-manager.model';
+import { ShowCompletedRequestsPipe } from '../pipes/show-completed-requests.pipe';
+import * as saver from 'file-saver';
 
 @Injectable()
 export class AhoRequestsService {
@@ -36,7 +37,7 @@ export class AhoRequestsService {
   private deleteRequestInProgress: boolean;
   private searchRequestsInProgress: boolean;
   private inEmployeeRequestsMode: boolean;
-  private isShowCompletedRequests: boolean;
+  private inShowCompletedRequestsMode: boolean;
   public filters_: FilterManager;
   private dataSource: MatTableDataSource<AhoRequest>;
 
@@ -60,14 +61,14 @@ export class AhoRequestsService {
     this.searchRequestsInProgress = false;
     this.fetchingDataInProgress = false;
     this.inEmployeeRequestsMode = false;
-    this.isShowCompletedRequests = false;
+    this.inShowCompletedRequestsMode = false;
     this.filters_ = new FilterManager();
     this.filters_.addFilter(new AhoRequestFilter<Date>('startDate'));
     this.filters_.addFilter(new AhoRequestFilter<Date>('endDate'));
     this.filters_.addFilter(new AhoRequestFilter<AhoRequestType>('requestType'));
     this.filters_.addFilter(new AhoRequestFilter<AhoRequestStatus>('requestStatus'));
     this.filters_.addFilter(new AhoRequestFilter<User>('requestEmployee'));
-    this.dataSource = new MatTableDataSource<AhoRequest>(this.requests);
+    this.dataSource = new MatTableDataSource<AhoRequest>(this.showCompletedRequestsPipe.transform(this.requests, this.inShowCompletedRequestsMode));
   }
 
   /**
@@ -105,7 +106,9 @@ export class AhoRequestsService {
             this.newRequestsCount += 1;
           }
         });
-        this.dataSource = new MatTableDataSource<AhoRequest>(this.requests);
+        this.dataSource = new MatTableDataSource<AhoRequest>(
+          this.showCompletedRequestsPipe.transform(this.requests, this.inShowCompletedRequestsMode)
+        );
         return this.requests;
       }
     } catch (error) {
@@ -142,7 +145,7 @@ export class AhoRequestsService {
       });
       if (result) {
         this.fetchingDataInProgress = false;
-        window.open(`http://localhost:3000/${result}`);
+        saver.saveAs(result, 'export.xlsx');
       }
     } catch (error) {
       console.error(error);
@@ -198,6 +201,7 @@ export class AhoRequestsService {
    * @param {number} id - Идентификатор статуса заявки
    * @returns {Promise<AhoRequest[] | null>}
    */
+  // TODO - Unused method
   async fetchRequestsByStatusId(id: number): Promise<AhoRequest[] | null> {
     try {
       const result = await this.ahoRequestResource.getRequestsByStatusId(null, {statusId: id}, null);
@@ -357,7 +361,7 @@ export class AhoRequestsService {
       this.fetchingDataInProgress = true;
       const result = await this.ahoRequestResource.exportNeeds();
       this.fetchingDataInProgress = false;
-      window.open(`http://localhost:3000/${result}`);
+      saver.saveAs(result, 'needs.xlsx');
     } catch (error) {
       this.fetchingDataInProgress = false;
       console.error(error);
@@ -591,8 +595,14 @@ export class AhoRequestsService {
     return this.inEmployeeRequestsMode;
   }
 
-  showCompletedRequests(value: boolean){
+  isInShowCompletedRequestsMode(): boolean {
+    return this.inShowCompletedRequestsMode;
+  }
+
+  showCompletedRequests(value: boolean) {
+    console.log(value);
     const requests = this.showCompletedRequestsPipe.transform(this.requests, value);
+    console.log(requests);
     this.dataSource = new MatTableDataSource<AhoRequest>(requests);
   }
 

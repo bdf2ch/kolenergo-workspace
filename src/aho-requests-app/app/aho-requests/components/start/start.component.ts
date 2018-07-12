@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AuthenticationDialogComponent } from '@kolenergo/lib';
 import { AuthenticationService } from '@kolenergo/lib';
 import { AhoRequestsService } from '../../services/aho-requests.service';
-import { MatTableDataSource } from '@angular/material';
+import {MatSlideToggleChange, MatTableDataSource} from '@angular/material';
 import { NewRequestComponent } from '../new-request/new-request.component';
 import { AhoRequestComponent } from '../request/aho-request.component';
 import { AhoRequest } from '../../models/aho-request.model';
@@ -18,7 +18,7 @@ import { ShowCompletedRequestsPipe } from "../../pipes/show-completed-requests.p
 })
 export class StartComponent implements OnInit {
   dataSource: any;
-  displayedColumns = ['requestType', 'id', 'dateCreated', 'user', 'room', 'description', 'employee', 'requestStatus'];
+  displayedColumns = ['requestType', 'id', 'dateCreated', 'user', 'room', 'description', 'dateExpires', 'employee', 'requestStatus'];
 
   constructor(private readonly router: Router,
               private readonly route: ActivatedRoute,
@@ -97,7 +97,7 @@ export class StartComponent implements OnInit {
     );
   }
 
-  onShowCompletedRequestsToggle(value: any) {
+  onShowCompletedRequestsToggle(value: MatSlideToggleChange) {
     this.aho.showCompletedRequests(value.checked);
   }
 }

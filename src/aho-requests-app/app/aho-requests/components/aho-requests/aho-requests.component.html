@@ -19,27 +19,37 @@
             <div class="filters d-none d-xl-flex">
               <span class="filter"
                     *ngIf="aho.filters_.getFilterByTitle('startDate').getValue()"
-                    (click)="clearFilter(aho.filters_.filters.startDate)">
+                    (click)="clearFilter(aho.filters_.filters.startDate)"
+                    matTooltip="Очистить фильтр"
+                    matTooltipPosition="below">
                 c {{ aho.filters_.getFilterByTitle('startDate').getValue() | date: 'dd.MM.yyyy' }}
               </span>
               <span class="filter"
                     *ngIf="aho.filters_.getFilterByTitle('endDate').getValue()"
-                    (click)="clearFilter(aho.filters_.filters.endDate)">
+                    (click)="clearFilter(aho.filters_.filters.endDate)"
+                    matTooltip="Очистить фильтр"
+                    matTooltipPosition="below">
                 по {{ aho.filters_.getFilterByTitle('endDate').getValue() | date: 'dd.MM.yyyy' }}
               </span>
               <span class="filter"
                     *ngIf="aho.filters_.getFilterByTitle('requestType').getValue()"
-                    (click)="clearFilter(aho.filters_.filters.requestType)">
+                    (click)="clearFilter(aho.filters_.filters.requestType)"
+                    matTooltip="Очистить фильтр"
+                    matTooltipPosition="below">
                 {{ aho.filters_.getFilterByTitle('requestType').getValue().title }}
               </span>
               <span class="filter"
                     *ngIf="aho.filters_.getFilterByTitle('requestStatus').getValue()"
-                    (click)="clearFilter(aho.filters_.filters.requestStatus)">
+                    (click)="clearFilter(aho.filters_.filters.requestStatus)"
+                    matTooltip="Очистить фильтр"
+                    matTooltipPosition="below">
                 {{ aho.filters_.getFilterByTitle('requestStatus').getValue().title }}
               </span>
               <span class="filter"
                     *ngIf="aho.filters_.getFilterByTitle('requestEmployee').getValue()"
-                    (click)="clearFilter(aho.filters_.filters.requestEmployee)">
+                    (click)="clearFilter(aho.filters_.filters.requestEmployee)"
+                    matTooltip="Очистить фильтр"
+                    matTooltipPosition="below">
                 {{ aho.filters_.getFilterByTitle('requestEmployee').getValue().fio }}
               </span>
             </div>

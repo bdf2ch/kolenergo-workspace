@@ -6,6 +6,7 @@
       <!-- Start: Категория заявки -->
       <mat-form-field class="w-100">
         <mat-select placeholder="Категория заявки"
+                    [required]="true"
                     [(value)]="newRequest.type"
                     (selectionChange)="onRequestTypeChange($event)">
           <mat-option *ngFor="let requestType of aho.getRequestTypes()"
@@ -27,6 +28,21 @@
         <mat-error *ngIf="newRequestForm.get('room').invalid">{{ getRoomErrorMessage() }}</mat-error>
       </mat-form-field>
       <!-- End: # Кабинета -->
+
+      <!-- Start: Срок исполнения -->
+      <mat-form-field class="w-100" *ngIf="newRequest.type.id === 10 || newRequest.type.id === 3">
+        <input
+          matInput
+          [matDatepicker]="dateExpires"
+          [value]="newRequest.dateExpires"
+          placeholder="Срок исполнения (необязательно)"
+          (dateChange)="changeExpirationDate($event)"
+          [min]="now"
+          disabled>
+        <mat-datepicker-toggle matSuffix [for]="dateExpires"></mat-datepicker-toggle>
+        <mat-datepicker #dateExpires disabled="false"></mat-datepicker>
+      </mat-form-field>
+      <!-- End: Срок исполнения -->
 
       <!-- Start: Комментарий -->
       <!--

@@ -3,12 +3,11 @@
 
   <div class="row pb-2 pb-sm-2 pb-md-2">
     <div class="col-12 d-flex justify-content-between">
-      <div class="request-list-navigation d-flex flex-row align-items-center"
-           *ngIf="authenticationService.getCurrentUser() && (aho.getEmployeeRequests().length > 0 || authenticationService.getCurrentUser().permissions.getRoleById(1))">
+      <div class="request-list-navigation d-flex flex-row align-items-center">
         <!-- Start: Переход ко всем заявкам -->
         <button mat-stroked-button
+                *ngIf="authenticationService.getCurrentUser() && aho.isInEmployeeRequestsMode() && (aho.getEmployeeRequests().length > 0 || authenticationService.getCurrentUser().permissions.getRoleById(1))"
                 color="primary"
-                *ngIf="aho.isInEmployeeRequestsMode()"
                 (click)="aho.showAllRequests()">
           &larr; &nbsp; Все заявки
         </button>
@@ -24,14 +23,6 @@
         </button>
         <!-- End: Переход к заявкам исполнителя -->
 
-        <mat-slide-toggle
-          color="primary"
-          [checked]="aho.showCompletedRequests()" (change)="onShowCompletedRequestsToggle($event)">
-          Показать выполненные
-        </mat-slide-toggle>
-      </div>
-
-      <div class="request-list-controls d-none d-md-flex">
         <!-- Start: Экспорт заявков а Excel -->
         <button mat-icon-button
                 class="align-self-end"
@@ -41,6 +32,17 @@
           <mat-icon fontSet="fa" fontIcon="fa-file-excel-o" color="primary"></mat-icon>
         </button>
         <!-- End: Экспорт заявок в Excel -->
+      </div>
+
+      <div class="request-list-controls d-none d-md-flex flex-row align-items-end">
+        <!-- Start: Переключатель показа выполненных заявок -->
+        <mat-slide-toggle
+          color="primary"
+          labelPosition="before"
+          [checked]="aho.isInShowCompletedRequestsMode()" (change)="onShowCompletedRequestsToggle($event)">
+          Показать выполненные
+        </mat-slide-toggle>
+        <!-- End: Переключатель показа выполненных заявок -->
       </div>
     </div>
   </div>
@@ -90,6 +92,13 @@
         </ng-container>
         <!-- End: Request tasks column -->
 
+        <!-- Start: Request date expires column -->
+        <ng-container matColumnDef="dateExpires">
+          <mat-header-cell *matHeaderCellDef class="request-room-column"> Срок выполнения </mat-header-cell>
+          <mat-cell *matCellDef="let element" class="request-room-column">{{ element.dateExpires ? (element.dateExpires | date:'dd.MM.yyyy') : '' }}</mat-cell>
+        </ng-container>
+        <!-- End: Request date expires column -->
+
         <!-- Start: Request room column -->
         <ng-container matColumnDef="room">
           <mat-header-cell *matHeaderCellDef class="request-room-column"> Кабинет </mat-header-cell>
@@ -132,6 +141,12 @@
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns; let i = index;" (click)="selectRequest(row)"></mat-row>
       </mat-table>
+      <mat-paginator [length]="100"
+                     [pageSize]="10"
+                     [pageSizeOptions]="[5, 10, 25, 100]">
+        gdfgdfg
+        dfgdfg
+      </mat-paginator>
 
 
     </div>

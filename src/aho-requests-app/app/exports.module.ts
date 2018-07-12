@@ -28,6 +28,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { AuthenticationModule } from '@kolenergo/lib';
 
 @NgModule({
@@ -63,7 +64,8 @@ import { AuthenticationModule } from '@kolenergo/lib';
     MatDatepickerModule,
     MatNativeDateModule,
     MatProgressBarModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatPaginatorModule
   ],
   declarations: [],
   exports: [
@@ -96,7 +98,8 @@ import { AuthenticationModule } from '@kolenergo/lib';
     MatDatepickerModule,
     MatNativeDateModule,
     MatProgressBarModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatPaginatorModule
   ]
 })
 export class ExportsModule { }

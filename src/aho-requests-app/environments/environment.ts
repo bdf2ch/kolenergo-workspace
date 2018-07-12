@@ -5,5 +5,8 @@
 
 export const environment = {
   production: false,
-  appCode: 'AHO_REQUESTS_APP'
+  appCode: 'AHO_REQUESTS_APP',
+  settings: {
+    requestsOnPage: 30
+  }
 };

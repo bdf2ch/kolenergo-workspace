@@ -20,6 +20,7 @@ export class NewRequestComponent implements OnInit {
   newTask: AhoRequestTask;
   tasksDataSource: MatTableDataSource<AhoRequestTask>;
   headerColumns: string[];
+  now: Date;
 
   constructor(private readonly dialog: MatDialog,
               private readonly dialogRef: MatDialogRef<NewRequestComponent>,
@@ -29,6 +30,7 @@ export class NewRequestComponent implements OnInit {
     this.newRequest = new AhoRequest();
     this.newTask = new AhoRequestTask();
     this.headerColumns = [];
+    this.now = new Date();
   }
 
   ngOnInit() {
@@ -90,6 +92,7 @@ export class NewRequestComponent implements OnInit {
           break;
       default:
         this.newRequestForm.addControl('room', new FormControl('', Validators.required));
+        this.newRequestForm.addControl('expires', new FormControl(null));
         console.log(this.newRequestForm);
         break;
     }
@@ -168,6 +171,8 @@ export class NewRequestComponent implements OnInit {
   displayTaskContentTitle(taskContent: AhoRequestTaskContent | null): string {
     return taskContent ? taskContent.title : null;
   }
+
+  changeExpirationDate(value: any) {}
 
   /**
    * Добавление новой заявки

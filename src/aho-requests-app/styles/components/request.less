@@ -7,11 +7,65 @@
     background: #FFD740;
   }
 
+  .request-dialog-header {
+    height: 50px;
+    font-family: "Segoe UI Light" !important;
+    box-sizing: content-box !important;
+
+    .request-icon {
+      width: 50px;
+      height: 50px;
+      background: #FFA000;
+      border-radius: 50%;
+      box-shadow: inset 0px 1px 1px #FF6F00;
+      .fa {
+        font-size: 25px;
+        color: #FFD740;
+      }
+    }
+
+    .request-title {
+      height: 50px;
+      font-family: "Segoe UI Light";
+      .request-number {
+        .bold {
+          font-weight: bolder;
+        }
+      }
+    }
+
+    .request-type {
+      font-family: "Segoe UI Light";
+      font-size: 17px;
+      line-height: 25px;
+    }
+  }
+
   .mat-dialog-content {
     display: flex;
     flex-direction: column;
     flex: 1;
     padding: 0px;
+
+
+    .attribute {
+      .attribute-icon {
+        width: 50px;
+        height: 50px;
+        .mat-icon {
+          width: 35px;
+          height: 35px;
+          font-size: 35px;
+          color: #BDBDBD;
+        }
+      }
+      .attribute-value {
+        flex: 1;
+        font-family: "Segoe UI";
+      }
+    }
+
+
 
     .mat-tab-labels {
       justify-content: space-between;
@@ -35,12 +89,22 @@
         width: 40px;
         height: 40px;
         //padding: 10px;
+        color: #ECEFF1 !important;
         background: #B0BEC5;
         border-radius: 50%;
       }
 
       .fa {
         color: #ECEFF1 !important;
+      }
+
+      .summary {
+        height: 40px;
+        line-height: 22px;
+      }
+
+      .expiration-date {
+        font-size: 16px;
       }
     }
 
@@ -85,21 +149,25 @@
     font-size: 16px;
   }
 
+  /*
   .request-title {
     font-family: "Segoe UI Semibold";
     font-size: 20px;
   }
+  */
 
   .request-date {
     font-family: "Segoe UI Light";
     font-size: 20px;
   }
 
+  /*
   .request-type {
     .fa {
       font-size: 25px;
     }
   }
+  */
 
   .request-user {
     font-family: "Segoe UI Light";

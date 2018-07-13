@@ -23,7 +23,7 @@ export class AhoRequestComponent implements OnInit {
   constructor(private readonly router: Router,
               private readonly formBuilder: FormBuilder,
               private readonly dialogRef: MatDialogRef<AhoRequestComponent>,
-              public readonly authenticationService: AuthenticationService,
+              public readonly auth: AuthenticationService,
               public readonly aho: AhoRequestsService) {
     this.selectedTabIndex = 0;
     this.isRequestChanged = false;
@@ -32,7 +32,7 @@ export class AhoRequestComponent implements OnInit {
 
   ngOnInit() {
     this.newComment.requestId = this.aho.getSelectedRequest().id;
-    this.newComment.userId = this.authenticationService.getCurrentUser() ? this.authenticationService.getCurrentUser().id : 0;
+    this.newComment.userId = this.auth.getCurrentUser() ? this.auth.getCurrentUser().id : 0;
     this.newCommentForm = this.formBuilder.group({
       comment: ['', Validators.required]
     });
@@ -109,7 +109,7 @@ export class AhoRequestComponent implements OnInit {
         .then(() => {
           this.newComment = new AhoRequestComment();
           this.newComment.requestId = this.aho.getSelectedRequest().id;
-          this.newComment.userId = this.authenticationService.getCurrentUser() ? this.authenticationService.getCurrentUser().id : 0;
+          this.newComment.userId = this.auth.getCurrentUser() ? this.auth.getCurrentUser().id : 0;
           this.newCommentForm.reset({
             comment: this.newComment.content
           });

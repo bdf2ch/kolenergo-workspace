@@ -65,7 +65,8 @@ import { AuthenticationModule } from '@kolenergo/lib';
     MatNativeDateModule,
     MatProgressBarModule,
     MatSlideToggleModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatChipsModule
   ],
   declarations: [],
   exports: [

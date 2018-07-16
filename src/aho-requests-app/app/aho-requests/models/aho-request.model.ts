@@ -1,5 +1,5 @@
 import { IAhoRequest } from '../interfaces/aho-request.interface';
-import { User } from '@kolenergo/lib';
+import { IUser, User } from '@kolenergo/lib';
 import { AhoRequestType } from './aho-request-type.model';
 import { AhoRequestStatus } from './aho-request-status.model';
 import { IAhoRequestTask } from '../interfaces/aho-request-task.interface';
@@ -19,7 +19,7 @@ export class AhoRequest implements IAhoRequest {
   dateExpires: Date;                          // Дата исполнения заявки
   isExpired: boolean;                         // Просрочен ли срок исполнения заявки
   user: User;                                 // Пользователь, создавший заявку
-  employee: User;                             // Исполнитель заявки
+  employees: User[];                          // Исполнитель заявки
   tasks: IAhoRequestTask[];                   // Список задач
   comments: AhoRequestComment[];              // Список комментариеа к заявке
   label: string;                              // Представление списка задач одной строкой
@@ -37,12 +37,16 @@ export class AhoRequest implements IAhoRequest {
     this.dateExpires = config && config.dateExpires ? new Date(config.dateExpires) : null;
     this.isExpired = config ? config.isExpired : false;
     this.user = config && config.user ? new User(config.user) : null;
-    this.employee = config && config.employee ? new User(config.employee) : null;
+    this.employees = [];
     this.tasks = [];
     this.comments = [];
     this.label = '';
 
     if (config) {
+      config.employees.forEach((item: IUser) => {
+        const employee = new User(item);
+        this.employees.push(employee);
+      });
       config.tasks.forEach((item: IAhoRequestTask, index: number) => {
         const task = new AhoRequestTask(item);
         this.tasks.push(task);

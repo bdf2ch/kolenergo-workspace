@@ -118,9 +118,9 @@
         <!-- Start: Request employee column -->
         <ng-container matColumnDef="employee">
           <mat-header-cell *matHeaderCellDef class="request-employee-column d-none d-sm-none d-md-flex"> Исполнитель </mat-header-cell>
-          <mat-cell *matCellDef="let task" class="request-employee-column d-none d-sm-none d-md-flex">
-            <span class="no-employee text-muted" *ngIf="!task.employee">Не назначен</span>
-            <span *ngIf="task.employee">{{ task.employee.firstName + ' ' + task.employee.lastName }}</span>
+          <mat-cell *matCellDef="let element" class="request-employee-column d-none d-sm-none flex-column d-md-flex">
+            <span class="no-employee text-muted" *ngIf="element.employees.length === 0">Не назначен</span>
+            <div *ngFor="let employee of element.employees">{{ employee.firstName + ' ' + employee.lastName }}</div>
           </mat-cell>
         </ng-container>
         <!-- End: Request employee column -->

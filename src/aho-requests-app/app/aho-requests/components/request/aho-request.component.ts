@@ -2,11 +2,12 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialogRef } from '@angular/material/dialog';
 import { AhoRequestsService } from '../../services/aho-requests.service';
-import { AuthenticationService } from '@kolenergo/lib';
+import {AuthenticationService, User} from '@kolenergo/lib';
 import { AhoRequestStatus } from '../../models/aho-request-status.model';
 import { AhoRequestTask } from '../../models/aho-request-task.model';
 import { AhoRequestComment } from '../../models/aho-request-comment.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {MatAutocompleteSelectedEvent} from '@angular/material';
 
 @Component({
   selector: 'app-request',
@@ -64,11 +65,39 @@ export class AhoRequestComponent implements OnInit {
 
   selectEmployee(value: any) {
     console.log(value);
-    this.aho.getSelectedRequest().employee = value.value;
+    this.aho.getSelectedRequest().employees.push(value.value);
     const findStatusById = (item: AhoRequestStatus) => item.id === 2;
     const status = this.aho.getRequestStatuses().find(findStatusById);
     this.aho.getSelectedRequest().status = status;
     this.isRequestChanged = true;
+  }
+
+  /**
+   * Удаление исполнителя заявки
+   * @param {User} employee - Исполнитель заявки
+   */
+  removeRequestEmployee(employee: User) {
+    console.log('removed employee', employee);
+    this.aho.getSelectedRequest().employees.forEach((item: User, index: number, array: User[]) => {
+      if (item.id === employee.id) {
+        array.splice(index, 1);
+      }
+    });
+  }
+
+  /**
+   * Выбор исполнителя заявки
+   * @param {MatAutocompleteSelectedEvent} data - Информация о событии
+   */
+  selectRequestEmployee(data: MatAutocompleteSelectedEvent) {
+    console.log(data);
+    this.aho.getSelectedRequest().employees.push(data.option.value);
+    this.isRequestChanged = true;
+  }
+
+
+  displayEmployee(employee: User | null): string {
+    return employee ? employee.fio : '';
   }
 
   completeTask(value: any, task: AhoRequestTask) {
@@ -114,6 +143,11 @@ export class AhoRequestComponent implements OnInit {
             comment: this.newComment.content
           });
         });
+    }
+
+
+    addEmployee(data: any) {
+    console.log(data);
     }
 
 }

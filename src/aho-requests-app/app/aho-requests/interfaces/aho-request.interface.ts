@@ -16,7 +16,7 @@ export interface IAhoRequest {
   dateExpires?: Date;                             // Дата исполнения заявки
   isExpired?: boolean;                            // Просрочен ли срок исполнения заявки
   user: IUser;                                    // Пользователь, создавший заявку
-  employee?: IUser | null;                        // Исполнитель заявки
+  employees: IUser[];                             // Исполнители заявки
   tasks: IAhoRequestTask[];                       // Список задач
   comments: IAhoRequestComment[];                 // Список комментариев к заявке
 }

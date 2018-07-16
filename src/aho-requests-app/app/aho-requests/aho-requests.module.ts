@@ -19,6 +19,7 @@ import { NeedsByRequestTypeIdPipe } from './pipes/needs.pipe';
 import { AhoRequestsAdminGuard } from './guards/admin.can-activate.guard';
 import { FiltersComponent } from './components/filters/filters.component';
 import { ShowCompletedRequestsPipe } from './pipes/show-completed-requests.pipe';
+import { ExceptSelectedEmployeesPipe } from './pipes/except-selected-employees.pipe';
 
 @NgModule({
   imports: [
@@ -36,7 +37,8 @@ import { ShowCompletedRequestsPipe } from './pipes/show-completed-requests.pipe'
     AdminComponent,
     NeedsByRequestTypeIdPipe,
     FiltersComponent,
-    ShowCompletedRequestsPipe
+    ShowCompletedRequestsPipe,
+    ExceptSelectedEmployeesPipe
   ],
   providers: [
     AhoRequestsResource,

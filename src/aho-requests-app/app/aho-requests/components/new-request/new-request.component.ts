@@ -177,6 +177,10 @@ export class NewRequestComponent implements OnInit {
     this.newRequest.dateExpires = value.value;
   }
 
+  addEmployee(data: any) {
+    console.log(data);
+  }
+
   /**
    * Добавление новой заявки
    * @returns {Promise<void>}

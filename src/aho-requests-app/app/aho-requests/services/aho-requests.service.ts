@@ -479,7 +479,9 @@ export class AhoRequestsService {
       const result = await this.ahoRequestResource.editRequest(request, null, {id: request.id});
       this.editRequestInProgress = false;
       const request_ = new AhoRequest(result);
-      if (request_.employee.id === this.authenticationService.getCurrentUser().id) {
+      const findEmployeeById = (empl: User) => empl.id === this.authenticationService.getCurrentUser().id;
+      const employee = request_.employees.find(findEmployeeById);
+      if (employee) {
         this.employeeRequests.push(request_);
       }
       this.snackBar.open(`Изменения в заявке #${request.id} сохранены`, 'Закрыть', {

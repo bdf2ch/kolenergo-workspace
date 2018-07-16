@@ -97,106 +97,53 @@
 
   <mat-dialog-content>
 
-    <mat-tab-group class="demo-tab-group" [dynamicHeight]="false" ngClass="h-100" (selectedIndexChange)="tabChange($event)">
+    <mat-tab-group [dynamicHeight]="false" ngClass="h-100" (selectedIndexChange)="tabChange($event)">
 
       <!-- Start: Содкржание заявки -->
       <mat-tab label="Содержание" class="mh-100">
         <div class="p-4">
 
+          <div class="container-fluid">
 
-          <div>
-            <div class="attribute-value d-flex align-items-center">
-              <mat-selection-list class="w-100">
-                <mat-list-option *ngFor="let task of aho.getSelectedRequest().tasks"
-                                 (selectionChange)="completeTask($event, task)"
-                                 [selected]="task.done"
-                                 [disabled]="!auth.getCurrentUser() || !auth.getCurrentUser().permissions.getPermissionByCode('allow_complete_tasks')">
-                  <span matLine>{{ task.content.title }}</span>
-                  <span matLine class="text-muted" *ngIf="aho.getSelectedRequest().type.isCountable">Количество: {{ task.content['boxing'] ? task.count + ' ' + task.content.boxing : task.count + ' шт' }}</span>
-                </mat-list-option>
-              </mat-selection-list>
-            </div>
-          </div>
-
-
-          <mat-form-field hintLabel="Заявитель" class="w-100">
-            <input matInput #input maxlength="10" [value]="aho.getSelectedRequest().user.fio">
-            <mat-icon matPrefix class="mr-3">account_circle</mat-icon>
-            <mat-hint align="end"></mat-hint>
-          </mat-form-field>
-
-
-          <div class="attribute d-flex pb-3">
-
-            <!--
-            <div class="attribute-icon d-flex justify-content-center align-items-center mr-3">
-              <mat-icon>account_circle</mat-icon>
-            </div>
-            <div class="attribute-value d-flex align-items-center">
-              {{ aho.getSelectedRequest().user.fio }}
-            </div>
-            -->
-          </div>
-
-
-          <div class="attribute d-flex pb-3" *ngIf="aho.getSelectedRequest().dateExpires">
-            <div class="attribute-icon d-flex justify-content-center align-items-center mr-3">
-              <mat-icon>calendar_today</mat-icon>
-            </div>
-            <div class="attribute-value d-flex align-items-center">
-              {{ aho.getSelectedRequest().dateExpires | date: 'dd.MM.yyyy' }}
-            </div>
-          </div>
-
-
-          <div class="attribute d-flex pb-3" *ngIf="aho.getSelectedRequest().room">
-            <div class="attribute-icon d-flex justify-content-center align-items-center mr-3">
-              <mat-icon>room</mat-icon>
-            </div>
-            <div class="attribute-value d-flex align-items-center">
-              {{ aho.getSelectedRequest().room }}
-            </div>
-          </div>
-
-
-
-
-
-          <!-- Start: Общая информация о заявке -->
-          <div class="request-information d-flex flex-row justify-content-start align-items-start p-4">
-
-            <div class="h-100">
-              <mat-icon fontSet="fa" fontIcon="{{ aho.getSelectedRequest().type.icon }}" class="mr-3"></mat-icon>
-            </div>
-
-            <div class="d-flex flex-column w-100 justify-content-start align-items-start">
-              <div class="d-flex">
-                <div class="summary d-flex align-items-center">{{ aho.getRequestTypeById(aho.getSelectedRequest().type.id).title + (aho.getSelectedRequest().room ? ' в кабинете #' + aho.getSelectedRequest().room : '')}}</div>
-              </div>
-              <div class="d-flex flex-row w-100 mt-3">
-                <div class="expiration-date w-100 border-top pt-1">Срок исполнения: {{ aho.getSelectedRequest().dateExpires | date:'dd.MM.yyyy' }}</div>
+            <!-- Start: Заявитель -->
+            <div class="row">
+              <div class="request-attribute col-12 d-flex align-items-center pt-2 pb-2 pl-3 pr-3">
+                <mat-icon class="mr-3">account_circle</mat-icon>
+                <div class="d-flex flex-column">
+                  <span class="label">Заявитель</span>
+                  <span>{{ aho.getSelectedRequest().user.fio }}</span>
+                </div>
               </div>
             </div>
+            <!-- End: Заявитель -->
 
+            <div class="row mt-2">
+              <!-- Start: Срок исполнения -->
+              <div class="request-attribute col-6 d-flex align-items-center pt-2 pb-2 pl-3 pr-3" *ngIf="aho.getSelectedRequest().dateExpires">
+                <mat-icon class="mr-3">calendar_today</mat-icon>
+                <div class="d-flex flex-column">
+                  <span class="label">Срок исполнения</span>
+                  <span>{{ aho.getSelectedRequest().dateExpires | date:'dd.MM.yyyy' }}</span>
+                </div>
+              </div>
+              <!-- End: Срок исполнения -->
 
+              <!-- Start: Кабинет -->
+              <div class="request-attribute col-6 d-flex align-items-center pt-2 pb-2 pl-3 pr-3" *ngIf="aho.getSelectedRequest().room">
+                <mat-icon class="mr-3">room</mat-icon>
+                <div class="d-flex flex-column">
+                  <span class="label">Кабинет</span>
+                  <span>{{ aho.getSelectedRequest().room }}</span>
+                </div>
+              </div>
+              <!-- End: Кабинет -->
 
-            <!--
-            <mat-icon fontSet="fa" fontIcon="{{ aho.getSelectedRequest().type.icon }}" class="mr-3"></mat-icon>
-            {{ aho.getRequestTypeById(aho.getSelectedRequest().type.id).title }}
-            <span *ngIf="aho.getSelectedRequest().type.id !== 1">&nbsp;в кабинете #{{aho.getSelectedRequest().room }}</span>
-            -->
+            </div>
           </div>
-          <!-- End: Общая информация о заявке -->
 
-          <!-- Start: Срок исполнения заяки -->
-          <div class="request-expiration-date pt-2 d-flex flex-row align-items-center" *ngIf="aho.getSelectedRequest().dateExpires">
-            <mat-icon color="primary">calendar_today</mat-icon>
-            Срок исполнения: {{ aho.getSelectedRequest().dateExpires | date:'dd.MM.yyyy' }}
-          </div>
-          <!-- End: Срок исполнения заявки -->
 
           <!-- Start: Список задач -->
-          <div *ngIf="aho.getSelectedRequest().tasks.length > 0">
+          <div class="mt-2" *ngIf="aho.getSelectedRequest().tasks.length > 0">
             <mat-selection-list>
               <mat-list-option *ngFor="let task of aho.getSelectedRequest().tasks"
                                (selectionChange)="completeTask($event, task)"
@@ -267,12 +214,46 @@
 
     <!-- Start: Request employee -->
     <div class="request-employee w-100" *ngIf="selectedTabIndex === 0 && auth.getCurrentUser() && auth.getCurrentUser().permissions.getPermissionByCode('allow_set_employee')">
+      <!--
       <mat-form-field class="w-100">
         <mat-select placeholder="Исполнитель" [(value)]="aho.getSelectedRequest().employee" (selectionChange)="selectEmployee($event)">
           <mat-option *ngFor="let employee of aho.getEmployees() | employeeByRequestType: aho.getSelectedRequest().type" [value]="employee">
             {{ employee.fio }}
           </mat-option>
         </mat-select>
+      </mat-form-field>
+      -->
+
+
+      <mat-form-field class="w-100" [floatLabel]="'never'">
+        <mat-chip-list #chipList>
+          <mat-chip *ngFor="let employee of aho.getSelectedRequest().employees"
+                    color="primary"
+                    selected="true"
+                    [removable]="true"
+                    (remove)="removeRequestEmployee(employee)">
+            {{employee.fio}}
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+          <input placeholder="Выберите исполнителя"
+                 floa
+                 [matChipInputFor]="chipList"
+                 [matChipInputSeparatorKeyCodes]="['ENTER', 'COMMA']"
+                 [matChipInputAddOnBlur]="false"
+                 (matChipInputTokenEnd)="addEmployee($event)"
+                 [matAutocomplete]="employees"/>
+        </mat-chip-list>
+
+        <mat-autocomplete
+          #employees="matAutocomplete"
+          [displayWith]="displayEmployee"
+          (optionSelected)="selectRequestEmployee($event)">
+          <mat-option
+            *ngFor="let employee of aho.getEmployees() | employeeByRequestType: aho.getSelectedRequest().type | exceptSelectedEmployees: aho.getSelectedRequest()"
+            [value]="employee">
+            {{ employee.fio }}
+          </mat-option>
+        </mat-autocomplete>
       </mat-form-field>
     </div>
     <!-- End: Request employee -->

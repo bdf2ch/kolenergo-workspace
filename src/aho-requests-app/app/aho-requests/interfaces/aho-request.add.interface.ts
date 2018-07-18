@@ -1,6 +1,6 @@
 import { IAhoRequestType } from './aho-request-type.interface';
 import { IAhoRequestStatus } from './aho-request-status.interface';
-import { IUser } from '@kolenergo/lib';
+import {IUser, User} from '@kolenergo/lib';
 import { IAhoRequestTask } from './aho-request-task.interface';
 
 /**
@@ -14,4 +14,5 @@ export interface IAddAhoRequest {
   room?: string;                              // Кабинет
   dateExpires?: Date;                         // Срок исполнения заявки
   tasks: IAhoRequestTask[];                   // Список задач
+  employees: User[];                          // Список исполнителей
 }

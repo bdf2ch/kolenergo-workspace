@@ -6,11 +6,12 @@ import { IAhoRequestTask } from '../interfaces/aho-request-task.interface';
 import { AhoRequestTask } from './aho-request-task.model';
 import { AhoRequestComment } from './aho-request-comment.model';
 import { IAhoRequestComment } from '../interfaces/aho-request-comment.interface';
+import { Backup } from '@kolenergo/lib';
 
 /**
  * Класс, реализующий интерфейс заявки АХО
  */
-export class AhoRequest implements IAhoRequest {
+export class AhoRequest extends Backup implements IAhoRequest {
   id: number;                                 // Идентификатор заявки
   type: AhoRequestType;                       // Тип заявки
   status: AhoRequestStatus;                   // Статус заявки
@@ -19,8 +20,8 @@ export class AhoRequest implements IAhoRequest {
   dateExpires: Date;                          // Дата исполнения заявки
   isExpired: boolean;                         // Просрочен ли срок исполнения заявки
   user: User;                                 // Пользователь, создавший заявку
-  employees: User[];                          // Исполнитель заявки
-  tasks: IAhoRequestTask[];                   // Список задач
+  employees: User[];                  // Исполнитель заявки
+  tasks: IAhoRequestTask[];           // Список задач
   comments: AhoRequestComment[];              // Список комментариеа к заявке
   label: string;                              // Представление списка задач одной строкой
 
@@ -29,6 +30,7 @@ export class AhoRequest implements IAhoRequest {
    * @param {IAhoRequest} config - Параметры инициализации
    */
   constructor(config?: IAhoRequest) {
+    super();
     this.id = config ? config.id : 0;
     this.type = config ? new AhoRequestType(config.type) : new AhoRequestType();
     this.status = config ? new AhoRequestStatus(config.status) : new AhoRequestStatus();
@@ -58,6 +60,20 @@ export class AhoRequest implements IAhoRequest {
         this.comments.push(comment);
       });
     }
+  }
+
+  fromAnother(request: AhoRequest) {
+    this.id = request.id;
+    this.type = request.type;
+    this.status = request.status;
+    this.dateCreated = request.dateCreated;
+    this.dateExpires = request.dateExpires;
+    this.isExpired = request.isExpired;
+    this.user = request.user;
+    this.employees = request.employees;
+    this.tasks = request.tasks;
+    this.comments = request.comments;
+    this.label = request.label;
   }
 
   isAllTasksCompleted(): boolean {

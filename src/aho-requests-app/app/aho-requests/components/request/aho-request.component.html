@@ -28,7 +28,7 @@
           <button mat-icon-button
                   *ngIf="auth.getCurrentUser() && auth.getCurrentUser().permissions.getRoleById(1)"
                   [matMenuTriggerFor]="requestMenu">
-            <mat-icon [color]="'primary'">more_vert</mat-icon>
+            <mat-icon>more_vert</mat-icon>
           </button>
           <mat-menu #requestMenu="matMenu" [yPosition]="'below'">
             <button mat-menu-item (click)="deleteRequest()">
@@ -123,7 +123,10 @@
                 <mat-icon class="mr-3">calendar_today</mat-icon>
                 <div class="d-flex flex-column">
                   <span class="label">Срок исполнения</span>
-                  <span>{{ aho.getSelectedRequest().dateExpires | date:'dd.MM.yyyy' }}</span>
+                  <div class="d-flex flex-row align-items-center">
+                    <span class="mr-2">{{ aho.getSelectedRequest().dateExpires | date:'dd.MM.yyyy' }}</span>
+                    <mat-icon *ngIf="aho.getSelectedRequest().isExpired" class="expired" matTooltip="Заявка просрочена" matTooltipPosition="below">error_outline</mat-icon>
+                  </div>
                 </div>
               </div>
               <!-- End: Срок исполнения -->

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { AuthenticationService } from '@kolenergo/lib';
+import { AuthenticationService, User } from '@kolenergo/lib';
 import { AhoRequestsService } from '../../services/aho-requests.service';
 import { AhoRequest } from '../../models/aho-request.model';
 import { MatTableDataSource } from '@angular/material';
@@ -71,6 +71,7 @@ export class NewRequestComponent implements OnInit {
       new FormControl('', Validators.required)
     );
     */
+
 
     switch (event.value.isCountable) {
       case true:
@@ -177,15 +178,23 @@ export class NewRequestComponent implements OnInit {
     this.newRequest.dateExpires = value.value;
   }
 
-  addEmployee(data: any) {
-    console.log(data);
-  }
-
   /**
    * Добавление новой заявки
    * @returns {Promise<void>}
    */
   async addRequest() {
+    let employee = null;
+    switch (this.newRequest.type.id) {
+      case 3:
+        employee = this.aho.getEmployeeById(18);
+        break;
+      case 10:
+        employee = this.aho.getEmployeeById(20);
+        break;
+    }
+    if (employee) {
+      this.newRequest.employees.push(employee);
+    }
     await this.aho.addRequest(this.newRequest).then(() => {
       this.dialogRef.close();
     });

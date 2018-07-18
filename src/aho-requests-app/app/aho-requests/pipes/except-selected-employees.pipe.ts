@@ -17,8 +17,6 @@ export class ExceptSelectedEmployeesPipe implements PipeTransform {
         result.push(item);
       }
     });
-    console.log(request.employees);
-    console.log('except', result);
     return result;
   }
 

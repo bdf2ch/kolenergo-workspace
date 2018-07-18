@@ -8,7 +8,7 @@ import { IAhoRequest } from '../interfaces/aho-request.interface';
 import { IAddAhoRequest } from '../interfaces/aho-request.add.interface';
 import { AhoRequestStatus } from '../models/aho-request-status.model';
 import { IAhoRequestStatus } from '../interfaces/aho-request-status.interface';
-import {MatSlideToggleChange, MatTableDataSource} from '@angular/material';
+import { MatSlideToggleChange, MatTableDataSource } from '@angular/material';
 import { AhoRequestTaskContent } from '../models/aho-request-task-content.model';
 import { IAhoRequestTaskContent } from '../interfaces/aho-request-task-content.interface';
 import { AuthenticationService, User, UsersService } from '@kolenergo/lib';
@@ -101,6 +101,7 @@ export class AhoRequestsService {
         this.requests = [];
         result.forEach((item: IAhoRequest) => {
           const request = new AhoRequest(item);
+          request.backup.setup(['tasks', 'employees']);
           this.requests.push(request);
           if (request.status.id === 1) {
             this.newRequestsCount += 1;
@@ -323,7 +324,6 @@ export class AhoRequestsService {
           const taskContent = new AhoRequestTaskContent(item);
           this.requestTasksContent.push(taskContent);
         });
-        console.log(this.getRequestTasksContent());
         return this.requestTasksContent;
       }
     } catch (error) {
@@ -343,7 +343,6 @@ export class AhoRequestsService {
         result.forEach((item: IAhoRequestNeed) => {
           this.needs.push(item);
         });
-        console.log(this.needs);
         return this.needs;
       }
     } catch (error) {
@@ -536,6 +535,17 @@ export class AhoRequestsService {
 
   getEmployees(): User[] {
     return this.employees;
+  }
+
+  /**
+   * Поиск сотрудника по идентификатору
+   * @param {number} id - Идентификатор сотрудника
+   * @returns {User | null}
+   */
+  getEmployeeById(id: number): User | null {
+    const findEmployeeById = (employee: User) => employee.id === id;
+    const result = this.employees.find(findEmployeeById);
+    return result ? result : null;
   }
 
   /**

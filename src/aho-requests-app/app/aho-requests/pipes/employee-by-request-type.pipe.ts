@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { User } from "@kolenergo/lib";
-import { AhoRequestType } from "../models/aho-request-type.model";
+import { User } from '@kolenergo/lib';
+import { AhoRequestType } from '../models/aho-request-type.model';
 
 @Pipe({
   name: 'employeeByRequestType'
@@ -29,14 +29,19 @@ export class EmployeeByRequestTypePipe implements PipeTransform {
           if (employee.permissions.getRoleById(2)) {
             result.push(employee);
           }
+          break;
         case 8:
           if (employee.permissions.getRoleById(4)) {
             result.push(employee);
           }
           break;
+        case 10:
+          if (employee.permissions.getRoleById(6)) {
+            result.push(employee);
+          }
+          break;
       }
     });
-    console.log('evployees', result);
     return result;
   }
 

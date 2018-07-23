@@ -1,0 +1,24 @@
+<div class="container">
+  <div mat-dialog-title>Отклонение заявки</div>
+  <div class="row">
+    <div class="col-12">
+     <mat-form-field class="w-100">
+       <mat-select placeholder="Причина отклонения заявки" [(value)]="aho.getSelectedRequest().rejectReason" (selectionChange)="selectRejectReason($event)">
+         <mat-option *ngFor="let reason of aho.getRequestRejectReasons() | rejectReasonsByRequestType: aho.getSelectedRequest().type" [value]="reason">
+           {{ reason.content}}
+         </mat-option>
+       </mat-select>
+     </mat-form-field>
+   </div>
+ </div>
+ <div class="row mb-2">
+   <div class="col-12">
+     <button mat-raised-button color="primary" class="w-100" [disabled]="!aho.getSelectedRequest().rejectReason">Отклонить заявку</button>
+   </div>
+ </div>
+  <div class="row">
+    <div class="col-12">
+      <button mat-raised-button color="warn" class="w-100" (click)="closeDialog()">Отмена</button>
+    </div>
+  </div>
+</div>

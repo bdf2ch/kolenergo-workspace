@@ -17,6 +17,7 @@ import { IAhoRequestStatus } from '../interfaces/aho-request-status.interface';
 import { IAhoRequestTaskContent } from '../interfaces/aho-request-task-content.interface';
 import {IAhoRequestComment} from '../interfaces/aho-request-comment.interface';
 import {IAhoRequestNeed} from '../interfaces/aho-request-need.interface';
+import {IAhoRequestRejectReason} from '../interfaces/aho-request-reject-reason.interface';
 
 
 @Injectable()
@@ -52,6 +53,13 @@ export class AhoRequestsResource extends Resource {
   editType: IResourceMethod<{ id: number, requestType: IAddAhoRequestType }, IAhoRequestType>;
 
   @ResourceAction({
+    path: '/reject-reasons',
+    method: ResourceRequestMethod.Get,
+    withCredentials: true
+  })
+  getRequestRejectReasons: IResourceMethod<void, IAhoRequestRejectReason[]>;
+
+  @ResourceAction({
     path: '/tasks',
     method: ResourceRequestMethod.Get,
     withCredentials: true
@@ -85,7 +93,14 @@ export class AhoRequestsResource extends Resource {
     method: ResourceRequestMethod.Get,
     withCredentials: true
   })
-  getRequests: IResourceMethod<{start: number, end: number, employeeId: number, requestTypeId: number, requestStatusId: number, search?: string}, IAhoRequest[]>;
+  getRequests: IResourceMethod<{
+    start: number,
+    end: number,
+    employeeId: number,
+    requestTypeId: number,
+    requestStatusId: number,
+    search?: string
+  }, IAhoRequest[]>;
 
   @ResourceAction({
     path: '/requests/export',
@@ -93,7 +108,12 @@ export class AhoRequestsResource extends Resource {
     withCredentials: true,
     responseBodyType: ResourceResponseBodyType.Blob
   })
-  getRequestsExport: IResourceMethod<{start: number, end: number, employeeId: number, requestTypeId: number, requestStatusId: number}, Blob>;
+  getRequestsExport: IResourceMethod<{
+    start: number,
+    end: number,
+    employeeId: number,
+    requestTypeId: number,
+    requestStatusId: number}, Blob>;
 
   @ResourceAction({
     path: '/requests',

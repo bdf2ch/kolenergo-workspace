@@ -11,6 +11,7 @@ export class AhoRequestsResolveGuard implements Resolve<boolean> {
   async resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
     await this.ahoRequestsService.fetchRequestTypes();
     await this.ahoRequestsService.fetchRequestStatuses();
+    await this.ahoRequestsService.fetchRequestRejectReasons();
     await this.ahoRequestsService.fetchEmployees();
     await this.ahoRequestsService.fetchRequests(0, 0, 0, 0, 0);
     await this.ahoRequestsService.fetchRequestTasksContent();

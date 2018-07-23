@@ -20,6 +20,8 @@ import { AhoRequestsAdminGuard } from './guards/admin.can-activate.guard';
 import { FiltersComponent } from './components/filters/filters.component';
 import { ShowCompletedRequestsPipe } from './pipes/show-completed-requests.pipe';
 import { ExceptSelectedEmployeesPipe } from './pipes/except-selected-employees.pipe';
+import { RejectRequestComponent } from './components/reject-request/reject-request.component';
+import { RejectReasonsByRequestTypePipe } from './pipes/reject-reasons-by-request-type.pipe';
 
 @NgModule({
   imports: [
@@ -38,7 +40,9 @@ import { ExceptSelectedEmployeesPipe } from './pipes/except-selected-employees.p
     NeedsByRequestTypeIdPipe,
     FiltersComponent,
     ShowCompletedRequestsPipe,
-    ExceptSelectedEmployeesPipe
+    ExceptSelectedEmployeesPipe,
+    RejectRequestComponent,
+    RejectReasonsByRequestTypePipe
   ],
   providers: [
     AhoRequestsResource,
@@ -52,7 +56,8 @@ import { ExceptSelectedEmployeesPipe } from './pipes/except-selected-employees.p
   entryComponents: [
     AhoRequestComponent,
     NewRequestComponent,
-    FiltersComponent
+    FiltersComponent,
+    RejectRequestComponent
   ],
   exports: []
 })

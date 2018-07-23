@@ -19,11 +19,14 @@ import { AhoRequestFilter } from '../models/aho-request-filter.model';
 import { FilterManager } from '../models/filter-manager.model';
 import { ShowCompletedRequestsPipe } from '../pipes/show-completed-requests.pipe';
 import * as saver from 'file-saver';
+import {IAhoRequestRejectReason} from '../interfaces/aho-request-reject-reason.interface';
+import {AhoRequestRejectReason} from '../models/aho-request-reject-reason.model';
 
 @Injectable()
 export class AhoRequestsService {
   private requestTypes: AhoRequestType[];
   private requestStatuses: AhoRequestStatus[];
+  private requestRejectReasons: AhoRequestRejectReason[];
   private requestTasksContent: AhoRequestTaskContent[];
   private employees: User[];
   private requests: AhoRequest[];
@@ -48,6 +51,7 @@ export class AhoRequestsService {
               private readonly showCompletedRequestsPipe: ShowCompletedRequestsPipe) {
     this.requestTypes = [];
     this.requestStatuses = [];
+    this.requestRejectReasons = [];
     this.requestTasksContent = [];
     this.employees = [];
     this.requests = [];
@@ -101,7 +105,7 @@ export class AhoRequestsService {
         this.requests = [];
         result.forEach((item: IAhoRequest) => {
           const request = new AhoRequest(item);
-          request.backup.setup(['tasks', 'employees']);
+          request.backup.setup(['tasks', 'employees', 'rejectReason']);
           this.requests.push(request);
           if (request.status.id === 1) {
             this.newRequestsCount += 1;
@@ -292,6 +296,26 @@ export class AhoRequestsService {
           this.requestStatuses.push(requestStatus);
         });
         return this.requestStatuses;
+      }
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
+  /**
+   * Получение причин отклоенния заявок АХО с сервера
+   * @returns {Promise<IAhoRequestRejectReason[] | null>}
+   */
+  async fetchRequestRejectReasons(): Promise<IAhoRequestRejectReason[] | null> {
+    try {
+      const result = await this.ahoRequestResource.getRequestRejectReasons();
+      if (result) {
+        result.forEach((item: IAhoRequestRejectReason) => {
+          const rejectReason = new AhoRequestRejectReason(item);
+          this.requestRejectReasons.push(rejectReason);
+        });
+        return this.requestRejectReasons;
       }
     } catch (error) {
       console.error(error);
@@ -672,6 +696,15 @@ export class AhoRequestsService {
       console.error(error);
       return null;
     }
+  }
+
+
+  /**
+   * Получение списка причир отклонения заявки
+   * @returns {AhoRequestRejectReason[]}
+   */
+  getRequestRejectReasons(): AhoRequestRejectReason[] {
+    return this.requestRejectReasons;
   }
 
 }

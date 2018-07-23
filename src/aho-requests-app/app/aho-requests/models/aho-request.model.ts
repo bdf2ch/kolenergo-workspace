@@ -6,24 +6,26 @@ import { IAhoRequestTask } from '../interfaces/aho-request-task.interface';
 import { AhoRequestTask } from './aho-request-task.model';
 import { AhoRequestComment } from './aho-request-comment.model';
 import { IAhoRequestComment } from '../interfaces/aho-request-comment.interface';
+import { AhoRequestRejectReason } from './aho-request-reject-reason.model';
 import { Backup } from '@kolenergo/lib';
 
 /**
  * Класс, реализующий интерфейс заявки АХО
  */
 export class AhoRequest extends Backup implements IAhoRequest {
-  id: number;                                 // Идентификатор заявки
-  type: AhoRequestType;                       // Тип заявки
-  status: AhoRequestStatus;                   // Статус заявки
-  room: string;                               // Кабинет
-  dateCreated: Date;                          // Дата создания заявки
-  dateExpires: Date;                          // Дата исполнения заявки
-  isExpired: boolean;                         // Просрочен ли срок исполнения заявки
-  user: User;                                 // Пользователь, создавший заявку
-  employees: User[];                  // Исполнитель заявки
-  tasks: IAhoRequestTask[];           // Список задач
-  comments: AhoRequestComment[];              // Список комментариеа к заявке
-  label: string;                              // Представление списка задач одной строкой
+  id: number;                                     // Идентификатор заявки
+  type: AhoRequestType;                           // Тип заявки
+  status: AhoRequestStatus;                       // Статус заявки
+  rejectReason: AhoRequestRejectReason | null;    // Причина отклоенния заявки
+  room: string;                                   // Кабинет
+  dateCreated: Date;                              // Дата создания заявки
+  dateExpires: Date;                              // Дата исполнения заявки
+  isExpired: boolean;                             // Просрочен ли срок исполнения заявки
+  user: User;                                     // Пользователь, создавший заявку
+  employees: User[];                              // Исполнитель заявки
+  tasks: IAhoRequestTask[];                       // Список задач
+  comments: AhoRequestComment[];                  // Список комментариеа к заявке
+  label: string;                                  // Представление списка задач одной строкой
 
   /**
    * Конструктор
@@ -34,6 +36,7 @@ export class AhoRequest extends Backup implements IAhoRequest {
     this.id = config ? config.id : 0;
     this.type = config ? new AhoRequestType(config.type) : new AhoRequestType();
     this.status = config ? new AhoRequestStatus(config.status) : new AhoRequestStatus();
+    this.rejectReason = config && config.rejectReason ? new AhoRequestRejectReason(config.rejectReason) : null;
     this.room = config && config.room ? config.room : '';
     this.dateCreated = config ? new Date(config.dateCreated) : null;
     this.dateExpires = config && config.dateExpires ? new Date(config.dateExpires) : null;

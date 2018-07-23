@@ -1,14 +1,15 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AhoRequestsService } from '../../services/aho-requests.service';
-import {AuthenticationService, User} from '@kolenergo/lib';
+import { AuthenticationService, User } from '@kolenergo/lib';
 import { AhoRequestStatus } from '../../models/aho-request-status.model';
 import { AhoRequestTask } from '../../models/aho-request-task.model';
 import { AhoRequestComment } from '../../models/aho-request-comment.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {MatAutocompleteSelectedEvent} from '@angular/material';
-import {AhoRequest} from '../../models/aho-request.model';
+import { MatAutocompleteSelectedEvent } from '@angular/material';
+import { AhoRequest } from '../../models/aho-request.model';
+import { RejectRequestComponent } from '../reject-request/reject-request.component';
 
 @Component({
   selector: 'app-request',
@@ -25,6 +26,7 @@ export class AhoRequestComponent implements OnInit {
 
   constructor(private readonly router: Router,
               private readonly formBuilder: FormBuilder,
+              private readonly dialog: MatDialog,
               private readonly dialogRef: MatDialogRef<AhoRequestComponent>,
               public readonly auth: AuthenticationService,
               public readonly aho: AhoRequestsService) {
@@ -162,5 +164,16 @@ export class AhoRequestComponent implements OnInit {
     addEmployee(data: any) {
     console.log(data);
     }
+
+
+  /**
+   * Показ диалогового окна отклонения заявки
+   */
+  rejectRequest() {
+    console.log('rejectReason', this.aho.getSelectedRequest().rejectReason);
+    this.dialog.open(RejectRequestComponent, {
+      width: '400px'
+    });
+  }
 
 }

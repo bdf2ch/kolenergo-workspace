@@ -11,7 +11,7 @@ export class Backup {
        */
       setup: (fields: string[]) => {
         fields.forEach((field: string) => {
-          if (this[field]) {
+          if (this.hasOwnProperty(field)) {
              this.backup.data[field] = JSON.stringify(this[field]);
           }
         });

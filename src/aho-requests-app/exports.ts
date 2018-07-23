@@ -11,6 +11,7 @@ export { IAhoRequestTask } from './app/aho-requests/interfaces/aho-request-task.
 export { IAhoRequestTaskContent } from './app/aho-requests/interfaces/aho-request-task-content.interface';
 export { IAhoRequestComment } from './app/aho-requests/interfaces/aho-request-comment.interface';
 export { IAhoRequestNeed } from './app/aho-requests/interfaces/aho-request-need.interface';
+export { IAhoRequestRejectReason } from './app/aho-requests/interfaces/aho-request-reject-reason.interface';
 
 
 /**
@@ -22,3 +23,4 @@ export { AhoRequestStatus } from './app/aho-requests/models/aho-request-status.m
 export { AhoRequestTask } from './app/aho-requests/models/aho-request-task.model';
 export { AhoRequestTaskContent } from './app/aho-requests/models/aho-request-task-content.model';
 export { AhoRequestComment } from './app/aho-requests/models/aho-request-comment.model';
+export { AhoRequestRejectReason } from './app/aho-requests/models/aho-request-reject-reason.model';

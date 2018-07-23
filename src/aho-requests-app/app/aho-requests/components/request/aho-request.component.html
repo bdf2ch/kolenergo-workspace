@@ -32,11 +32,15 @@
           </button>
           <mat-menu #requestMenu="matMenu" [yPosition]="'below'">
             <button mat-menu-item (click)="deleteRequest()">
-              <mat-icon color="'primary'">print</mat-icon>
+              <mat-icon color="primary">print</mat-icon>
               Печать заявки
             </button>
+            <button mat-menu-item (click)="rejectRequest()">
+              <mat-icon fontSet="fa" fontIcon="fa-times-circle-o" color="primary"></mat-icon>
+              Отклонить заявку
+            </button>
             <button mat-menu-item (click)="deleteRequest()">
-              <mat-icon color="'primary'">delete</mat-icon>
+              <mat-icon color="primary">delete</mat-icon>
               Удалить заявку
             </button>
           </mat-menu>
@@ -103,7 +107,7 @@
       <mat-tab label="Содержание" class="mh-100">
         <div class="p-4">
 
-          <div class="container-fluid">
+          <div class="container">
 
             <!-- Start: Заявитель -->
             <div class="row">

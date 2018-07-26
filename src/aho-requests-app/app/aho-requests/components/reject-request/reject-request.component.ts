@@ -23,10 +23,20 @@ export class RejectRequestComponent implements OnInit {
     console.log(event.value);
   }
 
+  /**
+   * Закрытие модального окна отклоенния заявки
+   */
   closeDialog() {
     this.aho.getSelectedRequest().backup.restore();
     console.log(this.aho.getSelectedRequest().rejectReason);
     this.dialogRef.close();
+  }
+
+  async rejectRequest() {
+    await this.aho.rejectRequest(this.aho.getSelectedRequest())
+      .then(() => {
+        this.dialogRef.close();
+      });
   }
 
 }

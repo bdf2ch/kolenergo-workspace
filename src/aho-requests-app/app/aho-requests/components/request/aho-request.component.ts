@@ -130,6 +130,7 @@ export class AhoRequestComponent implements OnInit {
   }
 
   async editRequest() {
+    /*
     if (this.aho.getSelectedRequest().isAllTasksCompleted()) {
       const findStatusById = (item: AhoRequestStatus) => item.id === 3;
       const status = this.aho.getRequestStatuses().find(findStatusById);
@@ -140,6 +141,7 @@ export class AhoRequestComponent implements OnInit {
       const status = this.aho.getRequestStatuses().find(findStatusById);
       this.aho.getSelectedRequest().status = status;
     }
+    */
 
     await this.aho.editRequest(this.aho.getSelectedRequest())
       .then(() => {
@@ -174,6 +176,13 @@ export class AhoRequestComponent implements OnInit {
     this.dialog.open(RejectRequestComponent, {
       width: '400px'
     });
+  }
+
+  /**
+   * Возобновление заявки АХО
+   */
+  async resumeRequest() {
+    await this.aho.resumeRequest(this.aho.getSelectedRequest());
   }
 
 }

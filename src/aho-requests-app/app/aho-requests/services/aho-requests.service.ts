@@ -19,8 +19,8 @@ import { AhoRequestFilter } from '../models/aho-request-filter.model';
 import { FilterManager } from '../models/filter-manager.model';
 import { ShowCompletedRequestsPipe } from '../pipes/show-completed-requests.pipe';
 import * as saver from 'file-saver';
-import {IAhoRequestRejectReason} from '../interfaces/aho-request-reject-reason.interface';
-import {AhoRequestRejectReason} from '../models/aho-request-reject-reason.model';
+import { IAhoRequestRejectReason } from '../interfaces/aho-request-reject-reason.interface';
+import { AhoRequestRejectReason } from '../models/aho-request-reject-reason.model';
 
 @Injectable()
 export class AhoRequestsService {
@@ -38,6 +38,8 @@ export class AhoRequestsService {
   private addRequestInProgress: boolean;
   private editRequestInProgress: boolean;
   private deleteRequestInProgress: boolean;
+  private rejectRequestInProgress: boolean;
+  private resumeRequestInProgress: boolean;
   private searchRequestsInProgress: boolean;
   private inEmployeeRequestsMode: boolean;
   private inShowCompletedRequestsMode: boolean;
@@ -62,6 +64,8 @@ export class AhoRequestsService {
     this.addRequestInProgress = false;
     this.editRequestInProgress = false;
     this.deleteRequestInProgress = false;
+    this.rejectRequestInProgress = false;
+    this.resumeRequestInProgress = false;
     this.searchRequestsInProgress = false;
     this.fetchingDataInProgress = false;
     this.inEmployeeRequestsMode = false;
@@ -105,7 +109,7 @@ export class AhoRequestsService {
         this.requests = [];
         result.forEach((item: IAhoRequest) => {
           const request = new AhoRequest(item);
-          request.backup.setup(['tasks', 'employees', 'rejectReason']);
+          request.backup.setup(['status', 'tasks', 'employees', 'rejectReason']);
           this.requests.push(request);
           if (request.status.id === 1) {
             this.newRequestsCount += 1;
@@ -392,75 +396,7 @@ export class AhoRequestsService {
     }
   }
 
-  /**
-   * Получение списка загруженных заявок
-   * @returns {AhoRequest[]}
-   */
-  getRequests(): AhoRequest[] {
-    return this.requests;
-  }
 
-  /**
-   * Получение заявок текущего пользователя, в случае, если он является исполнителем
-   * @returns {AhoRequest[]}
-   */
-  getEmployeeRequests(): AhoRequest[] {
-    return this.employeeRequests;
-  }
-
-  getUnfinishedEmployeeRequests(): AhoRequest[] {
-    const result = [];
-    this.employeeRequests.forEach((request: AhoRequest) => {
-      if (request.status.id === 2) {
-        result.push(request);
-      }
-    });
-    return result;
-  }
-
-  showAllRequests() {
-    this.dataSource = new MatTableDataSource<AhoRequest>(this.requests);
-    this.inEmployeeRequestsMode = false;
-    this.filters_.resetFilters();
-    this.fetchRequests(0, 0, 0, 0, 0);
-  }
-
-  showEmployeeRequests() {
-    this.dataSource = new MatTableDataSource<AhoRequest>(this.employeeRequests);
-    this.inEmployeeRequestsMode = true;
-    this.filters_.resetFilters();
-  }
-
-  /**
-   * Получение списка содержимого задач заявок АХО
-   * @returns {AhoRequestTaskContent[]}
-   */
-  getRequestTasksContent(): AhoRequestTaskContent[] {
-    return this.requestTasksContent;
-  }
-
-  /**
-   * Поиск статуса заявки по идентификатору статуса
-   * @param {number} id - Идентификатор статуса
-   * @returns {AhoRequestStatus | null}
-   */
-  getRequestStatusById(id: number): AhoRequestStatus | null {
-    let result: AhoRequestStatus | null = null;
-    this.requestStatuses.forEach((item: AhoRequestStatus) => {
-      if (item.id === id) {
-        result = item;
-      }
-    });
-    return result;
-  }
-
-  /**
-   * Возвращает все статусы заявок АХО
-   * @returns {AhoRequestStatus[]}
-   */
-  getRequestStatuses(): AhoRequestStatus[] {
-    return this.requestStatuses;
-  }
 
   /**
    * Добавление новой заявки
@@ -496,12 +432,14 @@ export class AhoRequestsService {
    * @param {IAhoRequest} request - Редактируемая заявка
    * @returns {Promise<AhoRequest | null>}
    */
-  async editRequest(request: IAhoRequest): Promise<AhoRequest | null> {
+  async editRequest(request: AhoRequest): Promise<AhoRequest | null> {
     try {
       this.editRequestInProgress = true;
       const result = await this.ahoRequestResource.editRequest(request, null, {id: request.id});
       this.editRequestInProgress = false;
       const request_ = new AhoRequest(result);
+      request.fromAnother(request_);
+      request.backup.setup(['status', 'employees', 'tasks', 'rejectReason']);
       const findEmployeeById = (empl: User) => empl.id === this.authenticationService.getCurrentUser().id;
       const employee = request_.employees.find(findEmployeeById);
       if (employee) {
@@ -547,6 +485,78 @@ export class AhoRequestsService {
       console.error(error);
       return false;
     }
+  }
+
+  /**
+   * Отклонение заявки АХО
+   * @param {AhoRequest} request - Отклоняемая заявка
+   * @returns {Promise<boolean>}
+   */
+  async rejectRequest(request: AhoRequest): Promise<boolean> {
+    try {
+      this.rejectRequestInProgress = true;
+      const result = await this.ahoRequestResource.rejectRequest(request);
+      this.rejectRequestInProgress = false;
+      if (result) {
+        const req_ = new AhoRequest(result);
+        request.fromAnother(req_);
+        request.backup.setup(['status', 'tasks', 'employees', 'rejectReason']);
+        this.snackBar.open(`Заявка #${request.id} отклонена`, 'Закрыть', {
+          horizontalPosition: 'left',
+          verticalPosition: 'bottom',
+          duration: 3000
+        });
+        return true;
+      }
+    } catch (error) {
+      console.error(error);
+      this.rejectRequestInProgress = false;
+      return false;
+    }
+  }
+
+  /**
+   * Возобновление заявки АХО
+   * @param request (AhoRequest) - Заявка АХО
+   * @returns {Promise<boolean>}
+   */
+  async resumeRequest(request: AhoRequest): Promise<boolean> {
+    try {
+      this.resumeRequestInProgress = true;
+      const result = await this.ahoRequestResource.resumeRequest(request);
+      if (result) {
+        const request_ = new AhoRequest(result);
+        request.fromAnother(request_);
+        request.backup.setup(['status', 'tasks', 'employees', 'rejectReason']);
+        this.snackBar.open(`Заявка #${request.id} возобновлена`, 'Закрыть', {
+          horizontalPosition: 'left',
+          verticalPosition: 'bottom',
+          duration: 3000
+        });
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error(error);
+      this.resumeRequestInProgress = false;
+      return false;
+    }
+  }
+
+  /**
+   * Выполняется ли возобновление заявки
+   * @returns {boolean}
+   */
+  isResumingRequest(): boolean {
+    return this.resumeRequestInProgress;
+  }
+
+  /**
+   * Выполняется ли отклонение заявки
+   * @returns {boolean}
+   */
+  isRejectingRequest(): boolean {
+    return this.rejectRequestInProgress;
   }
 
   /**
@@ -698,6 +708,76 @@ export class AhoRequestsService {
     }
   }
 
+
+  /**
+   * Получение списка загруженных заявок
+   * @returns {AhoRequest[]}
+   */
+  getRequests(): AhoRequest[] {
+    return this.requests;
+  }
+
+  /**
+   * Получение заявок текущего пользователя, в случае, если он является исполнителем
+   * @returns {AhoRequest[]}
+   */
+  getEmployeeRequests(): AhoRequest[] {
+    return this.employeeRequests;
+  }
+
+  getUnfinishedEmployeeRequests(): AhoRequest[] {
+    const result = [];
+    this.employeeRequests.forEach((request: AhoRequest) => {
+      if (request.status.id === 2) {
+        result.push(request);
+      }
+    });
+    return result;
+  }
+
+  showAllRequests() {
+    this.dataSource = new MatTableDataSource<AhoRequest>(this.requests);
+    this.inEmployeeRequestsMode = false;
+    this.filters_.resetFilters();
+    this.fetchRequests(0, 0, 0, 0, 0);
+  }
+
+  showEmployeeRequests() {
+    this.dataSource = new MatTableDataSource<AhoRequest>(this.employeeRequests);
+    this.inEmployeeRequestsMode = true;
+    this.filters_.resetFilters();
+  }
+
+  /**
+   * Получение списка содержимого задач заявок АХО
+   * @returns {AhoRequestTaskContent[]}
+   */
+  getRequestTasksContent(): AhoRequestTaskContent[] {
+    return this.requestTasksContent;
+  }
+
+  /**
+   * Поиск статуса заявки по идентификатору статуса
+   * @param {number} id - Идентификатор статуса
+   * @returns {AhoRequestStatus | null}
+   */
+  getRequestStatusById(id: number): AhoRequestStatus | null {
+    let result: AhoRequestStatus | null = null;
+    this.requestStatuses.forEach((item: AhoRequestStatus) => {
+      if (item.id === id) {
+        result = item;
+      }
+    });
+    return result;
+  }
+
+  /**
+   * Возвращает все статусы заявок АХО
+   * @returns {AhoRequestStatus[]}
+   */
+  getRequestStatuses(): AhoRequestStatus[] {
+    return this.requestStatuses;
+  }
 
   /**
    * Получение списка причир отклонения заявки

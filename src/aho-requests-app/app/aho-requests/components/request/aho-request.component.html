@@ -35,9 +35,13 @@
               <mat-icon color="primary">print</mat-icon>
               Печать заявки
             </button>
-            <button mat-menu-item (click)="rejectRequest()">
-              <mat-icon fontSet="fa" fontIcon="fa-times-circle-o" color="primary"></mat-icon>
+            <button mat-menu-item (click)="rejectRequest()" *ngIf="aho.getSelectedRequest().status.id !== 4">
+              <mat-icon color="primary">cancel</mat-icon>
               Отклонить заявку
+            </button>
+            <button mat-menu-item (click)="resumeRequest()" *ngIf="aho.getSelectedRequest().status.id === 4">
+              <mat-icon color="primary">replay</mat-icon>
+              Возобновить заявку
             </button>
             <button mat-menu-item (click)="deleteRequest()">
               <mat-icon color="primary">delete</mat-icon>
@@ -295,19 +299,13 @@
           <button mat-raised-button
                   type="submit"
                   class="w-100"
-                  [disabled]="!isRequestChanged"
+                  [disabled]="!isRequestChanged || aho.isEditingRequest()"
                   [color]="'primary'"
                   (click)="editRequest()">
-            <div class="d-flex flex-row w-100 align-items-center" *ngIf="aho.isAddingRequest()">
-              <mat-progress-spinner
-                class="mr-2"
-                [diameter]="20"
-                [color]="'success'"
-                [mode]="'indeterminate'">
-              </mat-progress-spinner>
-              Загрузка
+            <div class="d-flex justify-content-center align-items-center">
+              <mat-progress-spinner class="mr-2" [diameter]="20" *ngIf="aho.isEditingRequest()"></mat-progress-spinner>
+              <span>Сохранить изменения</span>
             </div>
-            <span *ngIf="!aho.isAddingRequest()">Сохранить изменения</span>
           </button>
         </div>
         <!-- End: Кнопка добавления заявки -->
@@ -317,8 +315,9 @@
         <div class="col-12 col-md-6 pt-2 pt-md-0">
           <button mat-raised-button
                   routerLink="/"
-                  [color]="'warn'"
-                  class="w-100">
+                  color="warn"
+                  class="w-100"
+                  [disabled]="aho.isEditingRequest()">
             Отмена
           </button>
         </div>

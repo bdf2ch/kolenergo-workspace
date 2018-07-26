@@ -69,6 +69,8 @@ export class AhoRequest extends Backup implements IAhoRequest {
     this.id = request.id;
     this.type = request.type;
     this.status = request.status;
+    this.rejectReason = request.rejectReason;
+    this.room = request.room;
     this.dateCreated = request.dateCreated;
     this.dateExpires = request.dateExpires;
     this.isExpired = request.isExpired;

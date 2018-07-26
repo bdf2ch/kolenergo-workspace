@@ -43,7 +43,6 @@ export class NewRequestComponent implements OnInit {
       title: ['', Validators.required],
       count: [1, Validators.required]
     });
-    //this.addTask();
     this.tasksDataSource = new MatTableDataSource<AhoRequestTask>(this.newRequest.tasks);
   }
 
@@ -53,7 +52,6 @@ export class NewRequestComponent implements OnInit {
    */
   onRequestTypeChange(event: any) {
     this.newRequest.tasks = [];
-    //this.newRequest.tasks.push(new AhoRequestTask());
     this.headerColumns = this.newRequest.type.isCountable ? ['title', 'count', 'controls'] : ['title', 'controls'];
     for (const control in this.newRequestForm.controls) {
       this.newRequestForm.removeControl(control);
@@ -73,21 +71,29 @@ export class NewRequestComponent implements OnInit {
     */
 
 
+    switch (event.value.id) {
+      case 2:
+        this.newRequestForm.addControl('room', new FormControl('', Validators.required));
+        break;
+      case 3:
+        this.newRequestForm.addControl('room', new FormControl('', Validators.required));
+        this.newRequestForm.addControl('expires', new FormControl(null));
+        break;
+      case 8:
+        this.newRequestForm.addControl('room', new FormControl('', Validators.required));
+        break;
+      case 10:
+        this.newRequestForm.addControl('room', new FormControl('', Validators.required));
+        this.newRequestForm.addControl('expires', new FormControl(null));
+        break;
+    }
+    this.tasksDataSource = new MatTableDataSource<AhoRequestTask>(this.newRequest.tasks);
+
+    /*
     switch (event.value.isCountable) {
       case true:
         this.newRequestForm.removeControl('room');
-        /*
-        this.newTaskForm.addControl(
-          `taskCount${this.newRequest.tasks[this.newRequest.tasks.length - 1].timeAdded}`,
-          new FormControl('', Validators.required)
-        );
-        */
-        /*
-        this.newRequestForm.addControl(
-          `taskCount${this.newRequest.tasks[this.newRequest.tasks.length - 1].timeAdded}`,
-          new FormControl('', Validators.required)
-        );
-        */
+
           console.log(this.newRequestForm);
           console.log(this.newTaskForm);
           break;
@@ -98,6 +104,7 @@ export class NewRequestComponent implements OnInit {
         break;
     }
     this.tasksDataSource = new MatTableDataSource<AhoRequestTask>(this.newRequest.tasks);
+    */
   }
 
   /**

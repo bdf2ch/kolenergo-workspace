@@ -103,6 +103,20 @@ export class AhoRequestsResource extends Resource {
   }, IAhoRequest[]>;
 
   @ResourceAction({
+    path: '/requests/reject',
+    method: ResourceRequestMethod.Post,
+    withCredentials: true
+  })
+  rejectRequest: IResourceMethod<IAhoRequest, IAhoRequest>;
+
+  @ResourceAction({
+    path: '/requests/resume',
+    method: ResourceRequestMethod.Post,
+    withCredentials: true
+  })
+  resumeRequest: IResourceMethod<IAhoRequest, IAhoRequest>;
+
+  @ResourceAction({
     path: '/requests/export',
     method: ResourceRequestMethod.Get,
     withCredentials: true,

@@ -76,7 +76,7 @@
 
             <!-- Start: Колонка количественного измерения задачи -->
             <ng-container matColumnDef="count" *ngIf="newRequest.type.isCountable">
-              <mat-header-cell *matHeaderCellDef class="task-item-count-column"> Количество </mat-header-cell>
+              <mat-header-cell *matHeaderCellDef class="task-item-count-column pl-3"> {{ newRequest.type.countTitle ? newRequest.type.countTitle : 'Количество' }} </mat-header-cell>
               <mat-cell *matCellDef="let task;" class="task-item-count-column">
                 {{ task.content.boxing ? task.count + ' ' + task.content.boxing : task.count + ' штук' }}
               </mat-cell>

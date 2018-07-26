@@ -55,9 +55,9 @@
         <!-- Start: Request type column -->
         <ng-container matColumnDef="requestType">
           <mat-header-cell *matHeaderCellDef class="request-type-column d-none d-sm-flex"></mat-header-cell>
-          <mat-cell *matCellDef="let element" class="request-type-column d-none d-sm-flex">
+          <mat-cell *matCellDef="let element" class="request-type-column d-none d-sm-flex pt-2 pb-2">
             <mat-icon
-              [color]="'accent'"
+              color="accent"
               fontSet="fa"
               fontIcon="{{ element.type.icon }}"
               matTooltip="{{ element.type.title }}"
@@ -70,14 +70,14 @@
         <!-- Start: Request id column -->
         <ng-container matColumnDef="id">
           <mat-header-cell *matHeaderCellDef class="request-id-column d-none d-sm-flex"> # </mat-header-cell>
-          <mat-cell *matCellDef="let element" class="request-id-column d-none d-sm-flex"> {{ element.id }} </mat-cell>
+          <mat-cell *matCellDef="let element" class="request-id-column d-none d-sm-flex pt-2 pb-2"> {{ element.id }} </mat-cell>
         </ng-container>
         <!-- End: Request id column -->
 
         <!-- Start: Request user column -->
         <ng-container matColumnDef="user">
           <mat-header-cell *matHeaderCellDef class="request-user-column d-none d-sm-none d-md-flex ml-md-5"> Заявитель </mat-header-cell>
-          <mat-cell *matCellDef="let element" class="request-user-column d-none d-sm-none d-md-flex ml-md-5"> {{ element.user.firstName + ' ' + element.user.lastName }} </mat-cell>
+          <mat-cell *matCellDef="let element" class="request-user-column d-none d-sm-none d-md-flex ml-md-5 pt-2 pb-2"> {{ element.user.firstName + ' ' + element.user.lastName }} </mat-cell>
         </ng-container>
         <!-- End: Request user column -->
 
@@ -95,7 +95,7 @@
         <!-- Start: Request date expires column -->
         <ng-container matColumnDef="dateExpires">
           <mat-header-cell *matHeaderCellDef class="request-expires-column"> Срок исполнения </mat-header-cell>
-          <mat-cell *matCellDef="let element" class="request-expires-column">
+          <mat-cell *matCellDef="let element" class="request-expires-column pt-2 pb-2">
             <div class="d-flex flex-row align-items-center">
               <span class="mr-2">{{ element.dateExpires ? (element.dateExpires | date:'dd.MM.yyyy') : '' }}</span>
               <mat-icon *ngIf="element.isExpired" class="expired" matTooltip="Заявка просрочена" matTooltipPosition="below">error_outline</mat-icon>
@@ -107,21 +107,21 @@
         <!-- Start: Request room column -->
         <ng-container matColumnDef="room">
           <mat-header-cell *matHeaderCellDef class="request-room-column"> Кабинет </mat-header-cell>
-          <mat-cell *matCellDef="let element" class="request-room-column">{{ element.room !== '' ? element.room : '' }}</mat-cell>
+          <mat-cell *matCellDef="let element" class="request-room-column pt-2 pb-2">{{ element.room !== '' ? element.room : '' }}</mat-cell>
         </ng-container>
         <!-- End: Request room column -->
 
         <!-- Start: Request date column -->
         <ng-container matColumnDef="dateCreated">
           <mat-header-cell *matHeaderCellDef class="request-date-created-column d-none d-sm-none d-md-flex"> Дата подачи заявки </mat-header-cell>
-          <mat-cell *matCellDef="let element" class="request-date-created-column d-none d-sm-none d-md-flex"> {{ element.dateCreated | date:'dd.MM.yyyy, HH:mm' }} </mat-cell>
+          <mat-cell *matCellDef="let element" class="request-date-created-column d-none d-sm-none d-md-flex pt-2 pb-2"> {{ element.dateCreated | date:'dd.MM.yyyy, HH:mm' }} </mat-cell>
         </ng-container>
         <!-- End: Request end column -->
 
         <!-- Start: Request employee column -->
         <ng-container matColumnDef="employee">
           <mat-header-cell *matHeaderCellDef class="request-employee-column d-none d-sm-none d-md-flex"> Исполнитель </mat-header-cell>
-          <mat-cell *matCellDef="let element" class="request-employee-column d-none d-sm-none flex-column d-md-flex">
+          <mat-cell *matCellDef="let element" class="request-employee-column d-none d-sm-none flex-column d-md-flex pt-2 pb-2">
             <span class="no-employee text-muted" *ngIf="element.employees.length === 0">Не назначен</span>
             <div *ngFor="let employee of element.employees">{{ employee.firstName + ' ' + employee.lastName }}</div>
           </mat-cell>
@@ -131,12 +131,12 @@
         <!-- Start: Request status column -->
         <ng-container matColumnDef="requestStatus">
           <mat-header-cell *matHeaderCellDef class="request-status-column d-none d-sm-none d-md-flex"> Статус </mat-header-cell>
-          <mat-cell *matCellDef="let element" class="request-status-column d-none d-sm-none d-md-flex justify-content-center">
+          <mat-cell *matCellDef="let element" class="request-status-column d-none d-sm-none d-md-flex justify-content-center pt-2 pb-2">
             <mat-icon fontSet="fa"
                       fontIcon="{{ element.status.icon }}"
                       [style.color]="element.status.iconColor ? element.status.iconColor : 'black'"
                       *ngIf="element.status.icon"
-                      matTooltip="{{element.status.title}}"
+                      matTooltip="{{element.status.id !== 4 ? element.status.title : element.status.title + ' (' + element.rejectReason.content + ')'}}"
                       [matTooltipPosition]="'left'">
             </mat-icon>
           </mat-cell>

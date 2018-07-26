@@ -10,6 +10,7 @@ export class AhoRequestType implements IAhoRequestType {
   order: number;              // Порядок следования
   listTitle: string | null;   // Заголовок сиска задач типа
   itemTitle: string | null;   // Заголовок поля ввлода задачи типа
+  countTitle: string | null;  // Заголовок поля исчисления задачи
   isCountable: boolean;       // Измеряются ли задачи типа количественно
 
   /**
@@ -23,6 +24,7 @@ export class AhoRequestType implements IAhoRequestType {
     this.order = config && config.order ? config.order : 0;
     this.listTitle = config ? config.listTitle : null;
     this.itemTitle = config ? config.itemTitle : null;
+    this.countTitle = config ? config.countTitle: null;
     this.isCountable = config ? config.isCountable : false;
   }
 }

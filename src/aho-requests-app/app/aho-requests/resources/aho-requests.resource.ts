@@ -18,6 +18,7 @@ import { IAhoRequestTaskContent } from '../interfaces/aho-request-task-content.i
 import {IAhoRequestComment} from '../interfaces/aho-request-comment.interface';
 import {IAhoRequestNeed} from '../interfaces/aho-request-need.interface';
 import {IAhoRequestRejectReason} from '../interfaces/aho-request-reject-reason.interface';
+import {IServerResponse} from '@kolenergo/lib';
 
 
 @Injectable()
@@ -99,8 +100,10 @@ export class AhoRequestsResource extends Resource {
     employeeId: number,
     requestTypeId: number,
     requestStatusId: number,
+    page: number,
+    itemsOnPage: number,
     search?: string
-  }, IAhoRequest[]>;
+  }, IServerResponse<IAhoRequest[]>>;
 
   @ResourceAction({
     path: '/requests/reject',

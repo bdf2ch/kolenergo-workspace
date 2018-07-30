@@ -7,12 +7,15 @@
  */
 
 export { IMobilePhone } from './app/users/interfaces/mobile-phone.interface';
+export { IServerResponse } from './app/common/interfaces/server-response.interface';
+export { IPagination } from './app/common/interfaces/pagination.interface';
 
 /**
  * Models
  */
 export { Backup} from './app/common/models/backup.model';
 export { MobilePhone } from './app/users/models/mobile-phone.model';
+export { Pagination } from './app/common/models/pagination.model';
 
 /**
  * Authentication module

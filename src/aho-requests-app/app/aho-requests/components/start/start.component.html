@@ -146,16 +146,21 @@
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns; let i = index;" (click)="selectRequest(row)"></mat-row>
       </mat-table>
-      <mat-paginator [length]="100"
-                     [pageSize]="10"
-                     [pageSizeOptions]="[5, 10, 25, 100]">
-        gdfgdfg
-        dfgdfg
-      </mat-paginator>
-
-
     </div>
   </div>
+
+  <!-- Start: Загрузка следующей страницы заявок -->
+  <div class="row" *ngIf="!aho.getPagination().isOnTheLastPage()">
+    <div class="col-12 d-flex justify-content-center align-items-center pt-3">
+      <button mat-raised-button class="pt-2 pb-2 pl-3 pr-3" [disabled]="aho.isFetchingData()" (click)="loadNextPage()">
+        <div class="d-flex justify-content-center align-items-center">
+          <mat-icon class="mr-2">refresh</mat-icon>
+          <span>Загрузить еще</span>
+        </div>
+      </button>
+    </div>
+  </div>
+  <!-- End: Загрузка следующей страницы заявок -->
 </div>
 
 

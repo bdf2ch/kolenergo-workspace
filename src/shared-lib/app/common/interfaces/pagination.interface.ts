@@ -1,9 +1,7 @@
 /**
- * Интерфейс, описывающий пагинацию
+ * Интерфейс, описывающий пагинацию элементов
  */
 export interface IPagination {
-  total: number;            // Общее количество записей
-  pageSize: number;         // Количество зпаписей на одной странице
-  totalPages: number;       // Общее количество страниц
-  currentPage: number;      // Текущая страница
+  totalItems: number;       // Общее количество записей
+  itemsOnPage: number;      // Количество зпаписей на одной странице
 }

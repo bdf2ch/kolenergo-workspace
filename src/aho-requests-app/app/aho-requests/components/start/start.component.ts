@@ -4,12 +4,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { AuthenticationDialogComponent } from '@kolenergo/lib';
 import { AuthenticationService } from '@kolenergo/lib';
 import { AhoRequestsService } from '../../services/aho-requests.service';
-import {MatSlideToggleChange, MatTableDataSource} from '@angular/material';
+import { MatSlideToggleChange, MatTableDataSource } from '@angular/material';
 import { NewRequestComponent } from '../new-request/new-request.component';
 import { AhoRequestComponent } from '../request/aho-request.component';
 import { AhoRequest } from '../../models/aho-request.model';
-import { AhoRequestFilter } from '../../models/aho-request-filter.model';
-import { ShowCompletedRequestsPipe } from "../../pipes/show-completed-requests.pipe";
+import { ShowCompletedRequestsPipe } from '../../pipes/show-completed-requests.pipe';
 
 @Component({
   selector: 'app-start',
@@ -99,5 +98,22 @@ export class StartComponent implements OnInit {
 
   onShowCompletedRequestsToggle(value: MatSlideToggleChange) {
     this.aho.showCompletedRequests(value.checked);
+  }
+
+  /**
+   * Загрузка следующей страницы заявок
+   */
+  loadNextPage() {
+    this.aho.fetchNextPage(
+      this.aho.filters_.getFilterByTitle('startDate').getValue()
+        ? this.aho.filters_.getFilterByTitle('startDate').getValue() : 0,
+      this.aho.filters_.getFilterByTitle('endDate').getValue()
+        ? this.aho.filters_.getFilterByTitle('endDate').getValue().getTime() : 0,
+      this.aho.filters_.getFilterByTitle('requestEmployee').getValue()
+        ? this.aho.filters_.getFilterByTitle('requestEmployee').getValue().id : 0,
+      this.aho.filters_.getFilterByTitle('requestType').getValue()
+        ? this.aho.filters_.getFilterByTitle('requestType').getValue().id : 0,
+      this.aho.filters_.getFilterByTitle('requestStatus').getValue()
+        ? this.aho.filters_.getFilterByTitle('requestStatus').getValue().id : 0);
   }
 }

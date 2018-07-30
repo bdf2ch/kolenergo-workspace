@@ -11,7 +11,7 @@ import { IAhoRequestStatus } from '../interfaces/aho-request-status.interface';
 import { MatSlideToggleChange, MatTableDataSource } from '@angular/material';
 import { AhoRequestTaskContent } from '../models/aho-request-task-content.model';
 import { IAhoRequestTaskContent } from '../interfaces/aho-request-task-content.interface';
-import { AuthenticationService, User, UsersService } from '@kolenergo/lib';
+import {AuthenticationService, IPagination, IServerResponse, User, UsersService} from '@kolenergo/lib';
 import { AhoRequestComment } from '../models/aho-request-comment.model';
 import { IAhoRequestComment } from '../interfaces/aho-request-comment.interface';
 import { IAhoRequestNeed } from '../interfaces/aho-request-need.interface';
@@ -21,9 +21,12 @@ import { ShowCompletedRequestsPipe } from '../pipes/show-completed-requests.pipe
 import * as saver from 'file-saver';
 import { IAhoRequestRejectReason } from '../interfaces/aho-request-reject-reason.interface';
 import { AhoRequestRejectReason } from '../models/aho-request-reject-reason.model';
+import { environment } from '../../../environments/environment';
+import { Pagination } from '@kolenergo/lib';
 
 @Injectable()
 export class AhoRequestsService {
+  private pagination: Pagination;
   private requestTypes: AhoRequestType[];
   private requestStatuses: AhoRequestStatus[];
   private requestRejectReasons: AhoRequestRejectReason[];
@@ -51,6 +54,7 @@ export class AhoRequestsService {
               private readonly ahoRequestResource: AhoRequestsResource,
               private readonly usersService: UsersService,
               private readonly showCompletedRequestsPipe: ShowCompletedRequestsPipe) {
+    this.pagination = new Pagination();
     this.requestTypes = [];
     this.requestStatuses = [];
     this.requestRejectReasons = [];
@@ -88,7 +92,9 @@ export class AhoRequestsService {
     end: number,
     employeeId: number,
     requestTypeId: number,
-    requestStatusId: number
+    requestStatusId: number,
+    page: number = this.pagination.currentPage,
+    itemsOnPage: number = environment.settings.requestsOnPage
   ): Promise<AhoRequest[] | null> {
     try {
       this.fetchingDataInProgress = true;
@@ -99,15 +105,19 @@ export class AhoRequestsService {
           end: end,
           employeeId: employeeId,
           requestTypeId: requestTypeId,
-          requestStatusId: requestStatusId
+          requestStatusId: requestStatusId,
+          page: page,
+          itemsOnPage: itemsOnPage
         },
         null,
         null
       );
       if (result) {
         this.fetchingDataInProgress = false;
-        this.requests = [];
-        result.forEach((item: IAhoRequest) => {
+        this.pagination = new Pagination({totalItems: result.meta.totalRequests, itemsOnPage: environment.settings.requestsOnPage});
+        this.pagination.setPage(page);
+        console.log('pagination', this.pagination);
+        result.data.forEach((item: IAhoRequest) => {
           const request = new AhoRequest(item);
           request.backup.setup(['status', 'tasks', 'employees', 'rejectReason']);
           this.requests.push(request);
@@ -126,6 +136,35 @@ export class AhoRequestsService {
       return null;
     }
   }
+
+  /**
+   * Получение следующей страницы заявок с сервера
+   * @param start - Дата начала периода
+   * @param end  - Дата окончания периода
+   * @param employeeId - Идентификатор сотрудника
+   * @param requestTypeId - Идентификатор типа заявки
+   * @param requestStatusId - Идентификатор статуса заявки
+   */
+  async fetchNextPage(
+    start: number,
+    end: number,
+    employeeId: number,
+    requestTypeId: number,
+    requestStatusId: number): Promise<AhoRequest[] | null> {
+    this.pagination.nextPage();
+    const result = await this.fetchRequests(
+      start,
+      end,
+      employeeId,
+      requestTypeId,
+      requestStatusId,
+      this.pagination.currentPage,
+      this.pagination.itemsOnPage
+    );
+    return result;
+  }
+
+
 
   /**
    * Экспорт заявок в Excel
@@ -179,6 +218,8 @@ export class AhoRequestsService {
           employeeId: 0,
           requestTypeId: 0,
           requestStatusId: 0,
+          page: 0,
+          itemsOnPage: 0,
           search: search
         },
         null,
@@ -188,7 +229,7 @@ export class AhoRequestsService {
         this.fetchingDataInProgress = false;
         this.inEmployeeRequestsMode = false;
         this.requests = [];
-        result.forEach((item: IAhoRequest) => {
+        result.data.forEach((item: IAhoRequest) => {
           const request = new AhoRequest(item);
           this.requests.push(request);
           if (request.status.id === 1) {
@@ -236,10 +277,10 @@ export class AhoRequestsService {
    */
   async fetchRequestsByEmployeeId(id: number): Promise<AhoRequest[] | null> {
     try {
-      const result = await this.ahoRequestResource.getRequests({start: 0, end: 0, employeeId: id, requestTypeId: 0, requestStatusId: 0});
+      const result = await this.ahoRequestResource.getRequests({start: 0, end: 0, employeeId: id, requestTypeId: 0, requestStatusId: 0, page: 0, itemsOnPage: 0});
       if (result) {
         this.employeeRequests = [];
-        result.forEach((item: IAhoRequest) => {
+        result.data.forEach((item: IAhoRequest) => {
           const request = new AhoRequest(item);
           this.employeeRequests.push(request);
         });
@@ -787,4 +828,7 @@ export class AhoRequestsService {
     return this.requestRejectReasons;
   }
 
+  getPagination(): Pagination {
+    return this.pagination;
+  }
 }

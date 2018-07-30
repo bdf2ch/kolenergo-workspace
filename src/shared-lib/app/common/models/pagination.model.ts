@@ -4,20 +4,20 @@ import { IPagination } from '../interfaces/pagination.interface';
  * Класс, реализующий интрефейс паинации
  */
 export class Pagination implements IPagination {
-  total: number;                // Общее количество записей
-  pageSize: number;             // Количество записей на странице
-  totalPages: number;           // Общее количество страниц
-  currentPage: number;          // Текущая страница
+  totalItems: number;                 // Общее количество записей
+  itemsOnPage: number;                // Количество записей на странице
+  totalPages: number;                 // Общее количество страниц
+  currentPage: number;                // Текущая страница
 
   /**
    * Конструктор
    * @param {IPagination} config - Параметры инициализации
    */
   constructor(config?: IPagination) {
-    this.total = config ? config.total : 0;
-    this.pageSize = config ? config.pageSize : 0;
-    this.totalPages = config ? config.totalPages : 0;
-    this.currentPage = config ? config.currentPage : 1;
+    this.totalItems = config ? config.totalItems : 0;
+    this.itemsOnPage = config ? config.itemsOnPage : 0;
+    this.totalPages = this.itemsOnPage > 0 ? Math.floor(this.totalItems / this.itemsOnPage) : 0;
+    this.currentPage = 0;
   }
 
   /**
@@ -25,7 +25,7 @@ export class Pagination implements IPagination {
    * @returns {number}
    */
   nextPage(): number {
-    this.currentPage++;
+    this.currentPage += 1;
     return this.currentPage;
   }
 
@@ -34,7 +34,23 @@ export class Pagination implements IPagination {
    * @returns {number}
    */
   previousPage(): number {
-    this.currentPage--;
+    this.currentPage -= 1;
     return this.currentPage;
+  }
+
+  /**
+   * Переход на указанную страницу
+   * @param page {Number} - Номер страницы
+   */
+  setPage(page: number): number {
+    this.currentPage = page <= this.totalPages && page >= 0 ? page : this.currentPage;
+    return this.currentPage;
+  }
+
+  /**
+   * Открыта ли последняя страница
+   */
+  isOnTheLastPage(): boolean {
+    return this.currentPage === this.totalPages;
   }
 }

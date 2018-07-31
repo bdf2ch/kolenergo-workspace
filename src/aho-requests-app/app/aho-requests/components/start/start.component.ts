@@ -71,10 +71,12 @@ export class StartComponent implements OnInit {
     this.router.navigate(['/request', request.id]);
   }
 
+  /*
   showEmployeeRequests() {
     this.aho.filters_.resetFilters();
     this.aho.showEmployeeRequests();
   }
+  */
 
   async exportRequests() {
     if (this.aho.filters_.getFilterByTitle('startDate').getValue()) {
@@ -115,5 +117,13 @@ export class StartComponent implements OnInit {
         ? this.aho.filters_.getFilterByTitle('requestType').getValue().id : 0,
       this.aho.filters_.getFilterByTitle('requestStatus').getValue()
         ? this.aho.filters_.getFilterByTitle('requestStatus').getValue().id : 0);
+  }
+
+  /**
+   * Переход к заявкам сотрудника
+   */
+  async showEmployeeRequests() {
+    this.aho.filters_.resetFilters();
+    await this.aho.fetchEmployeeRequests(this.authenticationService.getCurrentUser().id);
   }
 }

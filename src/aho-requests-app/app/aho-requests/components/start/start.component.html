@@ -16,12 +16,22 @@
         <!-- Start: Переход к заявкам исполнителя -->
         <button mat-stroked-button
                 color="primary"
-                *ngIf="authenticationService.getCurrentUser() && !aho.isInEmployeeRequestsMode() && aho.getUnfinishedEmployeeRequests().length > 0"
-                (click)="aho.showEmployeeRequests()">
+                *ngIf="authenticationService.getCurrentUser() && aho.getEmployeeRequestsCount() > 0"
+                (click)="showEmployeeRequests()">
           Вы назначены исполнителем
-          <span class="button-badge ml-1">{{ aho.getUnfinishedEmployeeRequests().length }}</span>
+          <span class="button-badge ml-1">{{ aho.getEmployeeRequestsCount() }}</span>
         </button>
         <!-- End: Переход к заявкам исполнителя -->
+
+        <!-- Start: Переход к просроченным заявкам -->
+        <button mat-stroked-button
+                color="primary"
+                *ngIf="authenticationService.getCurrentUser() && aho.getExpiredRequestsCount() > 0"
+                (click)="aho.showEmployeeRequests()">
+          Просроченные заявки
+          <span class="button-badge ml-1">{{ aho.getExpiredRequestsCount() }}</span>
+        </button>
+        <!-- End: Переход к просроченным заявкам -->
 
         <!-- Start: Экспорт заявков а Excel -->
         <button mat-icon-button
@@ -152,7 +162,7 @@
   <!-- Start: Загрузка следующей страницы заявок -->
   <div class="row" *ngIf="!aho.getPagination().isOnTheLastPage()">
     <div class="col-12 d-flex justify-content-center align-items-center pt-3">
-      <button mat-raised-button class="pt-2 pb-2 pl-3 pr-3" [disabled]="aho.isFetchingData()" (click)="loadNextPage()">
+      <button mat-stroked-button class="col-12 col-sm-auto pt-2 pb-2 pl-3 pr-3" color="primary" [disabled]="aho.isFetchingData()" (click)="loadNextPage()">
         <div class="d-flex justify-content-center align-items-center">
           <mat-icon class="mr-2">refresh</mat-icon>
           <span>Загрузить еще</span>

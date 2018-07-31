@@ -2,25 +2,33 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Resolve } from '@angular/router';
 import { AhoRequestsService } from '../services/aho-requests.service';
 import { AuthenticationService } from '@kolenergo/lib';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class AhoRequestsResolveGuard implements Resolve<boolean> {
-  constructor(private readonly authenticationService: AuthenticationService,
-              private readonly ahoRequestsService: AhoRequestsService) {}
+  constructor(private readonly auth: AuthenticationService,
+              private readonly aho: AhoRequestsService) {}
 
   async resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
-    await this.ahoRequestsService.fetchRequestTypes();
-    await this.ahoRequestsService.fetchRequestStatuses();
-    await this.ahoRequestsService.fetchRequestRejectReasons();
-    await this.ahoRequestsService.fetchEmployees();
-    await this.ahoRequestsService.fetchRequests(0, 0, 0, 0, 0);
-    await this.ahoRequestsService.fetchRequestTasksContent();
-    if (this.authenticationService.getCurrentUser()) {
-      await this.ahoRequestsService.fetchRequestsByEmployeeId(this.authenticationService.getCurrentUser().id);
-      if (this.authenticationService.getCurrentUser().permissions.getRoleById(1)) {
-        await this.ahoRequestsService.fetchNeeds();
+    console.log('CURRENT USER', this.auth.getCurrentUser());
+    console.log('start resolving requests');
+    await this.auth.check(window.localStorage && window.localStorage.getItem('app_code') ? window.localStorage.getItem('app_code') : null);
+    await this.aho.fetchInitialData(this.auth.getCurrentUser() ? this.auth.getCurrentUser().id : 0, environment.settings.requestsOnPage);
+
+    // await this.aho.fetchRequestTypes();
+    // await this.aho.fetchRequestStatuses();
+    // await this.aho.fetchRequestRejectReasons();
+    // await this.aho.fetchEmployees();
+    // await this.aho.fetchRequests(0, 0, 0, 0, 0);
+    // await this.aho.fetchRequestTasksContent();
+    /*
+    if (this.auth.getCurrentUser()) {
+      await this.aho.fetchRequestsByEmployeeId(this.auth.getCurrentUser().id);
+      if (this.auth.getCurrentUser().permissions.getRoleById(1)) {
+        await this.aho.fetchNeeds();
       }
     }
+    */
     return true;
   }
 }

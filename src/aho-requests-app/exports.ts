@@ -1,6 +1,8 @@
 /**
  * Intefaces
  */
+export { IAhoServerResponse } from './app/aho-requests/interfaces/aho-server-response.interface';
+export { IAhoRequestsInitialData } from './app/aho-requests/interfaces/aho-requests-initial-data.interface';
 export { IAhoRequest } from './app/aho-requests/interfaces/aho-request.interface';
 export { IAddAhoRequest } from './app/aho-requests/interfaces/aho-request.add.interface';
 export { IAhoRequestType } from './app/aho-requests/interfaces/aho-request-type.interface';

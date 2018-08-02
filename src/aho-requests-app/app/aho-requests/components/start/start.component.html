@@ -1,59 +1,86 @@
-<div class="container-fluid content-wrapper pb-3">
+<div class="container-fluid no-padding content-wrapper pb-3">
 
 
-  <div class="row pb-2 pb-sm-2 pb-md-2">
-    <div class="col-12 d-flex justify-content-between">
-      <div class="request-list-navigation d-flex flex-row align-items-center">
-        <!-- Start: Переход ко всем заявкам -->
-        <button mat-stroked-button
-                *ngIf="authenticationService.getCurrentUser() && aho.isInEmployeeRequestsMode() && (aho.getEmployeeRequests().length > 0 || authenticationService.getCurrentUser().permissions.getRoleById(1))"
-                color="primary"
-                (click)="aho.showAllRequests()">
-          &larr; &nbsp; Все заявки
-        </button>
-        <!-- End: Переход ко всем заявкам -->
+  <div class="row no-gutters">
+    <div class="request-list-navigation col-12 d-flex justify-content-between p-3 border-bottom">
+        <div class="d-flex flex-row align-items-center">
+          <!-- Start: Переход ко всем заявкам -->
+          <button mat-stroked-button
+                  *ngIf="authenticationService.getCurrentUser() && aho.isInEmployeeRequestsMode() && (aho.getEmployeeRequests().length > 0 || authenticationService.getCurrentUser().permissions.getRoleById(1))"
+                  color="primary"
+                  [disabled]="aho.isFetchingData()"
+                  (click)="aho.showAllRequests()">
+            &larr; &nbsp; Все заявки
+          </button>
+          <!-- End: Переход ко всем заявкам -->
 
-        <!-- Start: Переход к заявкам исполнителя -->
-        <button mat-stroked-button
-                color="primary"
-                *ngIf="authenticationService.getCurrentUser() && aho.getEmployeeRequestsCount() > 0"
-                (click)="showEmployeeRequests()">
-          Вы назначены исполнителем
-          <span class="button-badge ml-1">{{ aho.getEmployeeRequestsCount() }}</span>
-        </button>
-        <!-- End: Переход к заявкам исполнителя -->
+          <!-- Start: Переход к заявкам исполнителя -->
+          <button mat-stroked-button
+                  color="primary"
+                  *ngIf="authenticationService.getCurrentUser() && aho.getEmployeeRequestsCount() > 0 && !aho.isInEmployeeRequestsMode()"
+                  [disabled]="aho.isFetchingData()"
+                  (click)="showEmployeeRequests()">
+            Вы назначены исполнителем
+            <span class="button-badge ml-1">{{ aho.getEmployeeRequestsCount() }}</span>
+          </button>
+          <!-- End: Переход к заявкам исполнителя -->
 
-        <!-- Start: Переход к просроченным заявкам -->
-        <button mat-stroked-button
-                color="primary"
-                *ngIf="authenticationService.getCurrentUser() && aho.getExpiredRequestsCount() > 0"
-                (click)="aho.showEmployeeRequests()">
-          Просроченные заявки
-          <span class="button-badge ml-1">{{ aho.getExpiredRequestsCount() }}</span>
-        </button>
-        <!-- End: Переход к просроченным заявкам -->
+          <!-- Start: Переход к просроченным заявкам -->
+          <button mat-stroked-button
+                  color="primary"
+                  class="ml-0 ml-md-3"
+                  *ngIf="authenticationService.getCurrentUser() && aho.getExpiredRequestsCount() > 0 && !aho.isInEmployeeRequestsMode()"
+                  [disabled]="aho.isFetchingData()"
+                  (click)="aho.showEmployeeRequests()">
+            Просроченные заявки
+            <span class="button-badge ml-1">{{ aho.getExpiredRequestsCount() }}</span>
+          </button>
+          <!-- End: Переход к просроченным заявкам -->
 
-        <!-- Start: Экспорт заявков а Excel -->
-        <button mat-icon-button
-                class="align-self-end"
-                color="primary"
-                (click)="exportRequests()"
-                matTooltip="Экспорт в Excel" matTooltipPosition="left">
-          <mat-icon fontSet="fa" fontIcon="fa-file-excel-o" color="primary"></mat-icon>
-        </button>
-        <!-- End: Экспорт заявок в Excel -->
-      </div>
+          <!-- Start: Переключатель показа выполненных заявок -->
+          <mat-slide-toggle
+            color="primary"
+            class="ml-0 ml-md-3"
+            labelPosition="after"
+            [checked]="aho.isInShowCompletedRequestsMode()" (change)="onShowCompletedRequestsToggle($event)">
+            Показывать выполненные
+          </mat-slide-toggle>
+          <!-- End: Переключатель показа выполненных заявок -->
 
-      <div class="request-list-controls d-none d-md-flex flex-row align-items-end">
-        <!-- Start: Переключатель показа выполненных заявок -->
-        <mat-slide-toggle
-          color="primary"
-          labelPosition="before"
-          [checked]="aho.isInShowCompletedRequestsMode()" (change)="onShowCompletedRequestsToggle($event)">
-          Показать выполненные
-        </mat-slide-toggle>
-        <!-- End: Переключатель показа выполненных заявок -->
-      </div>
+          <!-- Start: Экспорт заявков а Excel -->
+          <!--
+          <button mat-icon-button
+                  class="align-self-end"
+                  color="primary"
+                  (click)="exportRequests()"
+                  matTooltip="Экспорт в Excel" matTooltipPosition="left">
+            <mat-icon fontSet="fa" fontIcon="fa-file-excel-o" color="primary"></mat-icon>
+          </button>
+          -->
+          <!-- End: Экспорт заявок в Excel -->
+        </div>
+
+        <div class="request-list-controls d-none d-md-flex flex-row align-items-end">
+          <!-- Start: Переключатель показа выполненных заявок -->
+          <!--
+          <mat-slide-toggle
+            color="primary"
+            labelPosition="before"
+            [checked]="aho.isInShowCompletedRequestsMode()" (change)="onShowCompletedRequestsToggle($event)">
+            Показать выполненные
+          </mat-slide-toggle>
+          -->
+          <!-- End: Переключатель показа выполненных заявок -->
+          <button mat-icon-button [matMenuTriggerFor]="requestsListMenu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #requestsListMenu="matMenu" [yPosition]="'below'">
+            <button mat-menu-item (click)="exportRequests()">
+              <mat-icon color="primary">import_export</mat-icon>
+              Экспорт в Excel
+            </button>
+          </mat-menu>
+        </div>
     </div>
   </div>
 

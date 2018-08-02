@@ -44,6 +44,7 @@ export class NewRequestComponent implements OnInit {
       count: [1, Validators.required]
     });
     this.tasksDataSource = new MatTableDataSource<AhoRequestTask>(this.newRequest.tasks);
+    console.log(this.newRequest);
   }
 
   /**

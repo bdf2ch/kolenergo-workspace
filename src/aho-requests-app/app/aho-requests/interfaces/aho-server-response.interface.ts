@@ -1,6 +1,14 @@
-import {IServerResponse} from '@kolenergo/lib';
+import { IUser } from '@kolenergo/lib';
+import { IAhoRequest, IAhoRequestRejectReason, IAhoRequestStatus, IAhoRequestTaskContent, IAhoRequestType } from '../../../exports';
 
-export interface IAhoServerResponse<T> extends IServerResponse<T>  {
-  data: T;
-  totalRequests?: number;
+export interface IAhoServerResponse  {
+  types?: IAhoRequestType[];
+  statuses?: IAhoRequestStatus[];
+  tasks?: IAhoRequestTaskContent[];
+  rejectReasons?: IAhoRequestRejectReason[];
+  employees?: IUser[];
+  requests: IAhoRequest[];
+  employeeRequests?: number;
+  expiredRequests?: number;
+  totalRequests: number;
 }

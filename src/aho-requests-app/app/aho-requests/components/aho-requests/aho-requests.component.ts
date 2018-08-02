@@ -2,8 +2,9 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthenticationDialogComponent, AuthenticationService } from '@kolenergo/lib';
 import { AhoRequestsService } from '../../services/aho-requests.service';
-import { FiltersComponent } from "../filters/filters.component";
-import {AhoRequestFilter} from '../../models/aho-request-filter.model';
+import { FiltersComponent } from '../filters/filters.component';
+import { AhoRequestFilter } from '../../models/aho-request-filter.model';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-aho-requests',
@@ -69,7 +70,7 @@ export class AhoRequestsComponent implements OnInit {
    */
   async clearSearch() {
     this.search = '';
-    await this.aho.fetchRequests(0, 0, 0, 0, 0);
+    await this.aho.fetchRequests(0, 0, 0, 0, 0, 0, environment.settings.requestsOnPage, true);
   }
 
 

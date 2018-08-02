@@ -9,6 +9,7 @@ import { NewRequestComponent } from '../new-request/new-request.component';
 import { AhoRequestComponent } from '../request/aho-request.component';
 import { AhoRequest } from '../../models/aho-request.model';
 import { ShowCompletedRequestsPipe } from '../../pipes/show-completed-requests.pipe';
+import {environment} from '../../../../environments/environment';
 
 @Component({
   selector: 'app-start',

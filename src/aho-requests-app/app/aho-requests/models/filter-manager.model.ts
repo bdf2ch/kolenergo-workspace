@@ -54,4 +54,18 @@ export class FilterManager {
       filter.clear();
     });
   }
+
+  /**
+   * Применены ли какие-либо фильтры
+   */
+  isFiltersApplied(): boolean {
+   let result = false;
+    this.filters_.forEach((filter: AhoRequestFilter<any>) => {
+      if (filter.getValue()) {
+        result = true;
+      }
+    });
+    console.log('IS FILTERS APPLIED', result);
+    return result;
+  }
 }

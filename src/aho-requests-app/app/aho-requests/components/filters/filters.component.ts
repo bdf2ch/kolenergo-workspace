@@ -41,6 +41,7 @@ export class FiltersComponent implements OnInit {
       this.aho.filters_.getFilterByTitle('endDate').getValue().setMinutes(0);
       this.aho.filters_.getFilterByTitle('endDate').getValue().setSeconds(0);
     }
+    this.aho.getPagination().setPage(0);
     this.aho.fetchRequests(
       this.aho.filters_.getFilterByTitle('startDate').getValue() ? this.aho.filters_.getFilterByTitle('startDate').getValue().getTime() : 0,
       this.aho.filters_.getFilterByTitle('endDate').getValue() ? this.aho.filters_.getFilterByTitle('endDate').getValue().getTime() : 0,

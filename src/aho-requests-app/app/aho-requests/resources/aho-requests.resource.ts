@@ -21,6 +21,7 @@ import {IAhoRequestNeed} from '../interfaces/aho-request-need.interface';
 import {IAhoRequestRejectReason} from '../interfaces/aho-request-reject-reason.interface';
 import {IServerResponse} from '@kolenergo/lib';
 import {IAhoRequestsInitialData} from '../interfaces/aho-requests-initial-data.interface';
+import {IAhoServerResponse} from '../interfaces/aho-server-response.interface';
 
 
 @Injectable()
@@ -38,7 +39,7 @@ export class AhoRequestsResource extends Resource {
     method: ResourceRequestMethod.Get,
     withCredentials: true
   })
-  getInitialData: IResourceMethod<{userId: number, itemsOnPage: number}, IServerResponse<IAhoRequestsInitialData>>;
+  getInitialData: IResourceMethod<{userId: number, itemsOnPage: number}, IServerResponse<IAhoServerResponse>>;
 
   @ResourceAction({
     path: '/types',
@@ -111,7 +112,7 @@ export class AhoRequestsResource extends Resource {
     page: number,
     itemsOnPage: number,
     search?: string
-  }, IServerResponse<IAhoRequest[]>>;
+  }, IServerResponse<IAhoServerResponse>>;
 
   @ResourceAction({
     path: '/requests/reject',

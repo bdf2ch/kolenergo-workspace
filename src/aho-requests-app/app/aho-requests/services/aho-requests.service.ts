@@ -24,6 +24,7 @@ import { AhoRequestRejectReason } from '../models/aho-request-reject-reason.mode
 import { environment } from '../../../environments/environment';
 import { Pagination, IUser } from '@kolenergo/lib';
 import {IAhoRequestsInitialData} from '../interfaces/aho-requests-initial-data.interface';
+import {IAhoServerResponse} from '../interfaces/aho-server-response.interface';
 
 @Injectable()
 export class AhoRequestsService {
@@ -49,6 +50,7 @@ export class AhoRequestsService {
   private resumeRequestInProgress: boolean;
   private searchRequestsInProgress: boolean;
   private inEmployeeRequestsMode: boolean;
+  private inExpiredRequestsMode: boolean;
   private inShowCompletedRequestsMode: boolean;
   public filters_: FilterManager;
   private dataSource: MatTableDataSource<AhoRequest>;
@@ -80,6 +82,7 @@ export class AhoRequestsService {
     this.searchRequestsInProgress = false;
     this.fetchingDataInProgress = false;
     this.inEmployeeRequestsMode = false;
+    this.inExpiredRequestsMode = false;
     this.inShowCompletedRequestsMode = true;
     this.filters_ = new FilterManager();
     this.filters_.addFilter(new AhoRequestFilter<Date>('startDate'));
@@ -96,7 +99,7 @@ export class AhoRequestsService {
    * @param userId - Идентификатор пользователя
    * @param itemsOnPage - Количество заявок на странице
    */
-  async fetchInitialData(userId: number, itemsOnPage: number): Promise<IAhoRequestsInitialData | null> {
+  async fetchInitialData(userId: number, itemsOnPage: number): Promise<IAhoServerResponse | null> {
     try {
       this.fetchingDataInProgress = true;
       const result = await this.ahoRequestResource.getInitialData({userId: userId, itemsOnPage: itemsOnPage});
@@ -158,10 +161,14 @@ export class AhoRequestsService {
     requestTypeId: number,
     requestStatusId: number,
     page: number = this.pagination.currentPage,
-    itemsOnPage: number = environment.settings.requestsOnPage
+    itemsOnPage: number = environment.settings.requestsOnPage,
+    clear?: boolean
   ): Promise<AhoRequest[] | null> {
     try {
       this.fetchingDataInProgress = true;
+      if (clear && clear === true) {
+        this.requests = [];
+      }
       const result = await this.ahoRequestResource.getRequests(
         {
           start: start,
@@ -178,18 +185,16 @@ export class AhoRequestsService {
       if (result) {
         this.fetchingDataInProgress = false;
         this.pagination = new Pagination({
-          totalItems: result.meta.totalRequests,
+          totalItems: result.data.totalRequests,
           itemsOnPage: environment.settings.requestsOnPage
         });
         this.pagination.setPage(page);
         console.log('pagination', this.pagination);
-        result.data['requests'].forEach((item: IAhoRequest) => {
+        result.data.requests.forEach((item: IAhoRequest) => {
           const request = new AhoRequest(item);
           request.backup.setup(['status', 'tasks', 'employees', 'rejectReason']);
           this.requests.push(request);
-          if (request.status.id === 1) {
-            this.newRequestsCount += 1;
-          }
+          this.newRequestsCount += request.status.id === 1 ? 1 : 0;
         });
         this.dataSource = new MatTableDataSource<AhoRequest>(
           this.showCompletedRequestsPipe.transform(this.requests, this.inShowCompletedRequestsMode)
@@ -207,7 +212,7 @@ export class AhoRequestsService {
   async fetchEmployeeRequests(employeeId: number): Promise<AhoRequest[] | null> {
     try {
       this.fetchingDataInProgress = true;
-      const result = await this.fetchRequests(0, 0, employeeId, 0, 0, 0, environment.settings.requestsOnPage);
+      const result = await this.fetchRequests(0, 0, employeeId, 0, 0, 0, environment.settings.requestsOnPage, true);
       this.fetchingDataInProgress = false;
       if (result) {
         this.requests = [];
@@ -319,8 +324,9 @@ export class AhoRequestsService {
       if (result) {
         this.fetchingDataInProgress = false;
         this.inEmployeeRequestsMode = false;
+        this.pagination = new Pagination({itemsOnPage: environment.settings.requestsOnPage, totalItems: result.data.totalRequests});
         this.requests = [];
-        result.data.forEach((item: IAhoRequest) => {
+        result.data.requests.forEach((item: IAhoRequest) => {
           const request = new AhoRequest(item);
           this.requests.push(request);
           if (request.status.id === 1) {
@@ -368,10 +374,18 @@ export class AhoRequestsService {
    */
   async fetchRequestsByEmployeeId(id: number): Promise<AhoRequest[] | null> {
     try {
-      const result = await this.ahoRequestResource.getRequests({start: 0, end: 0, employeeId: id, requestTypeId: 0, requestStatusId: 0, page: 0, itemsOnPage: 0});
+      const result = await this.ahoRequestResource.getRequests({
+        start: 0,
+        end: 0,
+        employeeId: id,
+        requestTypeId: 0,
+        requestStatusId: 0,
+        page: 0,
+        itemsOnPage: 0
+      });
       if (result) {
         this.employeeRequests = [];
-        result.data.forEach((item: IAhoRequest) => {
+        result.data.requests.forEach((item: IAhoRequest) => {
           const request = new AhoRequest(item);
           this.employeeRequests.push(request);
         });
@@ -777,6 +791,13 @@ export class AhoRequestsService {
     return this.inShowCompletedRequestsMode;
   }
 
+  /**
+   * Находится ли приложение в режиме показа просроченных заявок
+   */
+  isInShowExpiredRequestsMode(): boolean {
+    return this.inExpiredRequestsMode;
+  }
+
   showCompletedRequests(value: boolean) {
     console.log(value);
     const requests = this.showCompletedRequestsPipe.transform(this.requests, value);
@@ -871,7 +892,7 @@ export class AhoRequestsService {
     this.dataSource = new MatTableDataSource<AhoRequest>(this.requests);
     this.inEmployeeRequestsMode = false;
     this.filters_.resetFilters();
-    this.fetchRequests(0, 0, 0, 0, 0);
+    this.fetchRequests(0, 0, 0, 0, 0, 0, environment.settings.requestsOnPage, true);
   }
 
   showEmployeeRequests() {

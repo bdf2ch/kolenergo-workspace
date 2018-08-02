@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AhoRequestsService } from '../../services/aho-requests.service';
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: 'app-filters',
@@ -48,6 +49,9 @@ export class FiltersComponent implements OnInit {
       this.aho.filters_.getFilterByTitle('requestEmployee').getValue() ? this.aho.filters_.getFilterByTitle('requestEmployee').getValue().id : 0,
       this.aho.filters_.getFilterByTitle('requestType').getValue() ? this.aho.filters_.getFilterByTitle('requestType').getValue().id : 0,
       this.aho.filters_.getFilterByTitle('requestStatus').getValue() ? this.aho.filters_.getFilterByTitle('requestStatus').getValue().id : 0,
+      0,
+      environment.settings.requestsOnPage,
+      true
     ).then(() => {
       this.dialogRef.close();
     });
@@ -61,7 +65,7 @@ export class FiltersComponent implements OnInit {
     */
     this.aho.filters_.resetFilters();
 
-    this.aho.fetchRequests(0, 0, 0, 0, 0);
+    this.aho.fetchRequests(0, 0, 0, 0, 0, 0, environment.settings.requestsOnPage, true);
     console.log(this.aho.filters_);
   }
 }

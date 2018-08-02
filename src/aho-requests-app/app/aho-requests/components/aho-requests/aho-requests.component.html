@@ -67,6 +67,7 @@
 
         <div class="col-auto d-none d-md-flex justify-content-end align-items-center">
 
+          <!--
           <button mat-icon-button
                   *ngIf="authenticationService.getCurrentUser() && authenticationService.getCurrentUser().permissions.getRoleById(1)"
                   class="mr-3"
@@ -75,6 +76,7 @@
                   matTooltipPosition="below">
             <mat-icon color="primary">settings</mat-icon>
           </button>
+          -->
 
           <button mat-stroked-button
                   [color]="'primary'"
@@ -84,12 +86,17 @@
           </button>
           <mat-menu #userMenu="matMenu" [yPosition]="'below'" class="user-menu">
             <button mat-menu-item>
-              <mat-icon color="'primary'" fontSet="fa" fontIcon="fa-user-circle-o"></mat-icon>
+              <mat-icon color="primary"tIcon="fa-user-circle-o">account_circle</mat-icon>
               Мои заявки
             </button>
             <button mat-menu-item
+                    *ngIf="authenticationService.getCurrentUser() && authenticationService.getCurrentUser().permissions.getRoleById(1)">
+              <mat-icon color="primary">settings</mat-icon>
+              Панель управления
+            </button>
+            <button mat-menu-item
                     (click)="logOut()">
-              <mat-icon color="'primary'" fontSet="fa" fontIcon="fa-sign-out"></mat-icon>
+              <mat-icon color="primary">exit_to_app</mat-icon>
               Выход из системы
             </button>
           </mat-menu>

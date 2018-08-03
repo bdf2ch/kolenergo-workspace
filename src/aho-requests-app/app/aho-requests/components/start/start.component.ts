@@ -23,7 +23,7 @@ export class StartComponent implements OnInit {
   constructor(private readonly router: Router,
               private readonly route: ActivatedRoute,
               private readonly dialog: MatDialog,
-              public readonly authenticationService: AuthenticationService,
+              public readonly auth: AuthenticationService,
               public readonly aho: AhoRequestsService,
               private readonly showCompletedRequestsPipe: ShowCompletedRequestsPipe) {
     this.dataSource = new MatTableDataSource<AhoRequest>(this.aho.getRequests());
@@ -57,7 +57,7 @@ export class StartComponent implements OnInit {
 
 
   logOut(): void {
-    this.authenticationService.logOut();
+    this.auth.logOut();
   }
 
   openNewRequestDialog() {
@@ -125,6 +125,14 @@ export class StartComponent implements OnInit {
    */
   async showEmployeeRequests() {
     this.aho.filters_.resetFilters();
-    await this.aho.fetchEmployeeRequests(this.authenticationService.getCurrentUser().id);
+    await this.aho.fetchEmployeeRequests(this.auth.getCurrentUser().id);
+  }
+
+  /**
+   * Переход к просроченным заявкам
+   */
+  async showExpiredRequests() {
+    this.aho.filters_.resetFilters();
+    await this.aho.fetchExpiredRequests(this.auth.getCurrentUser().permissions.getRoleById(1) ? 0 : this.auth.getCurrentUser().id);
   }
 }

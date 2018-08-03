@@ -22,6 +22,7 @@ import { ShowCompletedRequestsPipe } from './pipes/show-completed-requests.pipe'
 import { ExceptSelectedEmployeesPipe } from './pipes/except-selected-employees.pipe';
 import { RejectRequestComponent } from './components/reject-request/reject-request.component';
 import { RejectReasonsByRequestTypePipe } from './pipes/reject-reasons-by-request-type.pipe';
+import { ExceptSelectedTasksPipe } from './pipes/except-selected-tasks.pipe';
 
 @NgModule({
   imports: [
@@ -42,7 +43,8 @@ import { RejectReasonsByRequestTypePipe } from './pipes/reject-reasons-by-reques
     ShowCompletedRequestsPipe,
     ExceptSelectedEmployeesPipe,
     RejectRequestComponent,
-    RejectReasonsByRequestTypePipe
+    RejectReasonsByRequestTypePipe,
+    ExceptSelectedTasksPipe
   ],
   providers: [
     AhoRequestsResource,
@@ -64,5 +66,6 @@ import { RejectReasonsByRequestTypePipe } from './pipes/reject-reasons-by-reques
 export class AhoRequestsModule {
   constructor(private readonly matIconRegistry: MatIconRegistry) {
     matIconRegistry.registerFontClassAlias('fontawesome', 'fa');
+    matIconRegistry.registerFontClassAlias('fortawesome', 'fas');
   }
 }

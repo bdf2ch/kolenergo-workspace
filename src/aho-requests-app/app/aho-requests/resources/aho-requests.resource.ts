@@ -109,6 +109,7 @@ export class AhoRequestsResource extends Resource {
     employeeId: number,
     requestTypeId: number,
     requestStatusId: number,
+    onlyExpired: boolean,
     page: number,
     itemsOnPage: number,
     search?: string

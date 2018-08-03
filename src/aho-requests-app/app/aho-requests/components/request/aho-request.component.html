@@ -26,7 +26,7 @@
         <!-- Start: Кнопка вызова меню управления завякой -->
         <div class="d-flex align-items-start">
           <button mat-icon-button
-                  *ngIf="auth.getCurrentUser() && auth.getCurrentUser().permissions.getRoleById(1)"
+                  *ngIf="auth.getCurrentUser() && aho.isUserIsEmployee(auth.getCurrentUser())"
                   [matMenuTriggerFor]="requestMenu">
             <mat-icon>more_vert</mat-icon>
           </button>
@@ -43,7 +43,7 @@
               <mat-icon color="primary">replay</mat-icon>
               Возобновить заявку
             </button>
-            <button mat-menu-item (click)="deleteRequest()">
+            <button mat-menu-item (click)="deleteRequest()" *ngIf="auth.getCurrentUser().permissions.getPermissionByCode('allow_delete_requests')">
               <mat-icon color="primary">delete</mat-icon>
               Удалить заявку
             </button>

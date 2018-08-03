@@ -21,7 +21,7 @@ export class AuthenticationDialogComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public callbacks: Function[],
               private snackBar: MatSnackBar,
               private formBuilder: FormBuilder,
-              public authenticationService: AuthenticationService) {
+              public auth: AuthenticationService) {
     this.authForm = this.formBuilder.group({
       account: ['', Validators.required],
       password: ['', Validators.required]
@@ -54,7 +54,7 @@ export class AuthenticationDialogComponent implements OnInit {
    * @returns {Promise<any>}
    */
   async submit(): Promise<any> {
-    const result = await this.authenticationService.logIn(
+    const result = await this.auth.logIn(
       this.authData.account,
       this.authData.password,
       true,

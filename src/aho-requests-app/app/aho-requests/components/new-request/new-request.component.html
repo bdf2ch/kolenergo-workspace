@@ -124,7 +124,7 @@
                  required>
           <mat-autocomplete #content="matAutocomplete" [displayWith]="displayTaskContentTitle">
             <mat-option
-              *ngFor="let item of aho.getRequestTasksContent() | taskContentByRequestType : newRequest.type.id"
+              *ngFor="let item of aho.getRequestTasksContent() | taskContentByRequestType : newRequest.type.id | exceptSelectedTasks: newRequest.getTasksContent()"
               [value]="item">
               {{ item.title }}
             </mat-option>

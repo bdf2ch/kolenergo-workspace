@@ -2,13 +2,13 @@
   <div class="row no-gutters">
 
     <div class="request-list-navigation col-12 d-flex flex-column justify-content-between p-3 border-bottom">
-      <mat-progress-bar mode="query" class="w-100" *ngIf="aho.isFetchingData()"></mat-progress-bar>
+      <mat-progress-bar mode="indeterminate" class="w-100" *ngIf="aho.isFetchingData()"></mat-progress-bar>
 
       <div class="d-flex flex-row justify-content-between">
         <div class="d-flex flex-row align-items-center">
           <!-- Start: Переход ко всем заявкам -->
           <button mat-stroked-button
-                  *ngIf="authenticationService.getCurrentUser() && aho.isInEmployeeRequestsMode() && (aho.getEmployeeRequests().length > 0 || authenticationService.getCurrentUser().permissions.getRoleById(1))"
+                  *ngIf="aho.isInEmployeeRequestsMode() || aho.isInShowExpiredRequestsMode()"
                   color="primary"
                   [disabled]="aho.isFetchingData()"
                   (click)="aho.showAllRequests()">
@@ -19,7 +19,8 @@
           <!-- Start: Переход к заявкам исполнителя -->
           <button mat-stroked-button
                   color="primary"
-                  *ngIf="authenticationService.getCurrentUser() && aho.getEmployeeRequestsCount() > 0 && !aho.isInEmployeeRequestsMode()"
+                  class="ml-0 ml-md-3"
+                  *ngIf="auth.getCurrentUser() && aho.getEmployeeRequestsCount() > 0 && !aho.isInEmployeeRequestsMode()"
                   [disabled]="aho.isFetchingData()"
                   (click)="showEmployeeRequests()">
             Вы назначены исполнителем
@@ -31,9 +32,9 @@
           <button mat-stroked-button
                   color="primary"
                   class="ml-0 ml-md-3"
-                  *ngIf="authenticationService.getCurrentUser() && aho.getExpiredRequestsCount() > 0 && !aho.isInEmployeeRequestsMode()"
+                  *ngIf="auth.getCurrentUser() && aho.getExpiredRequestsCount() > 0 && !aho.isInEmployeeRequestsMode()"
                   [disabled]="aho.isFetchingData()"
-                  (click)="aho.showEmployeeRequests()">
+                  (click)="showExpiredRequests()">
             Просроченные заявки
             <span class="button-badge ml-1">{{ aho.getExpiredRequestsCount() }}</span>
           </button>
@@ -50,18 +51,6 @@
             Показывать выполненные
           </mat-slide-toggle>
           <!-- End: Переключатель показа выполненных заявок -->
-
-          <!-- Start: Экспорт заявков а Excel -->
-          <!--
-          <button mat-icon-button
-                  class="align-self-end"
-                  color="primary"
-                  (click)="exportRequests()"
-                  matTooltip="Экспорт в Excel" matTooltipPosition="left">
-            <mat-icon fontSet="fa" fontIcon="fa-file-excel-o" color="primary"></mat-icon>
-          </button>
-          -->
-          <!-- End: Экспорт заявок в Excel -->
         </div>
 
         <div class="request-list-controls d-none d-md-flex flex-row align-items-end">
@@ -201,7 +190,7 @@
         [color]="'primary'"
         id="add-request-button"
         (click)="openNewRequestDialog()"
-        *ngIf="authenticationService.getCurrentUser()"
+        *ngIf="auth.getCurrentUser()"
         matTooltip="Подать заявку"
         [matTooltipPosition]="'left'">
   <mat-icon fontSet="fa" fontIcon="fa-plus"></mat-icon>

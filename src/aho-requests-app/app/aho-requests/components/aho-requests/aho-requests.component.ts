@@ -17,7 +17,7 @@ export class AhoRequestsComponent implements OnInit {
   private searchInterval;
 
   constructor(private readonly dialog: MatDialog,
-              public readonly authenticationService: AuthenticationService,
+              public readonly auth: AuthenticationService,
               public readonly aho: AhoRequestsService) {
     this.search = '';
   }
@@ -29,8 +29,10 @@ export class AhoRequestsComponent implements OnInit {
       width: '350px'
     }).afterClosed().subscribe((data: any) => {
       console.log('data', data);
-      if (this.authenticationService.getCurrentUser()) {
-        this.aho.fetchRequestsByEmployeeId(this.authenticationService.getCurrentUser().id);
+      if (this.auth.getCurrentUser()) {
+        if (this.auth.getCurrentUser()) {
+          this.aho.fetchInitialData(this.auth.getCurrentUser().id, environment.settings.requestsOnPage);
+        }
       }
     });
   }
@@ -40,7 +42,7 @@ export class AhoRequestsComponent implements OnInit {
   }
 
   logOut(): void {
-    this.authenticationService.logOut();
+    this.auth.logOut();
   }
 
   openFiltersDialog() {
@@ -60,7 +62,17 @@ export class AhoRequestsComponent implements OnInit {
         await this.aho.searchRequests(value);
       }, 500);
     } else {
-      await this.aho.fetchRequests(0, 0, 0, 0, 0);
+      await this.aho.fetchRequests(
+        0,
+        0,
+        0,
+        0,
+        0,
+        false,
+        0,
+        environment.settings.requestsOnPage,
+        true
+      );
     }
   }
 
@@ -70,7 +82,17 @@ export class AhoRequestsComponent implements OnInit {
    */
   async clearSearch() {
     this.search = '';
-    await this.aho.fetchRequests(0, 0, 0, 0, 0, 0, environment.settings.requestsOnPage, true);
+    await this.aho.fetchRequests(
+      0,
+      0,
+      0,
+      0,
+      0,
+      false,
+      0,
+      environment.settings.requestsOnPage,
+      true
+    );
   }
 
 
@@ -89,11 +111,17 @@ export class AhoRequestsComponent implements OnInit {
       this.aho.filters_.getFilterByTitle('endDate').getValue().setSeconds(0);
     }
     this.aho.fetchRequests(
-      this.aho.filters_.getFilterByTitle('startDate').getValue() ? this.aho.filters_.getFilterByTitle('startDate').getValue().getTime() : 0,
-      this.aho.filters_.getFilterByTitle('endDate').getValue() ? this.aho.filters_.getFilterByTitle('endDate').getValue().getTime() : 0,
-      this.aho.filters_.getFilterByTitle('requestEmployee').getValue() ? this.aho.filters_.getFilterByTitle('requestEmployee').getValue().id : 0,
-      this.aho.filters_.getFilterByTitle('requestType').getValue() ? this.aho.filters_.getFilterByTitle('requestType').getValue().id : 0,
-      this.aho.filters_.getFilterByTitle('requestStatus').getValue() ? this.aho.filters_.getFilterByTitle('requestStatus').getValue().id : 0,
+      this.aho.filters_.getFilterByTitle('startDate').getValue()
+        ? this.aho.filters_.getFilterByTitle('startDate').getValue().getTime() : 0,
+      this.aho.filters_.getFilterByTitle('endDate').getValue()
+        ? this.aho.filters_.getFilterByTitle('endDate').getValue().getTime() : 0,
+      this.aho.filters_.getFilterByTitle('requestEmployee').getValue()
+        ? this.aho.filters_.getFilterByTitle('requestEmployee').getValue().id : 0,
+      this.aho.filters_.getFilterByTitle('requestType').getValue()
+        ? this.aho.filters_.getFilterByTitle('requestType').getValue().id : 0,
+      this.aho.filters_.getFilterByTitle('requestStatus').getValue()
+        ? this.aho.filters_.getFilterByTitle('requestStatus').getValue().id : 0,
+      false,
       0,
       environment.settings.requestsOnPage,
       true,

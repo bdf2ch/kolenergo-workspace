@@ -104,34 +104,47 @@ export class AhoRequestsService {
       this.fetchingDataInProgress = true;
       const result = await this.ahoRequestResource.getInitialData({userId: userId, itemsOnPage: itemsOnPage});
       if (result) {
-        result.data.types.forEach((item: IAhoRequestType) => {
-          const type = new AhoRequestType(item);
-          this.requestTypes.push(type);
-        });
-        result.data.statuses.forEach((item: IAhoRequestStatus) => {
-          const status = new AhoRequestStatus(item);
-          this.requestStatuses.push(status);
-        });
-        result.data.tasks.forEach((item: IAhoRequestTaskContent) => {
-          const content = new AhoRequestTaskContent(item);
-          this.requestTasksContent.push(content);
-        });
-        result.data.rejectReasons.forEach((item: IAhoRequestRejectReason) => {
-          const reason = new AhoRequestRejectReason(item);
-          this.requestRejectReasons.push(reason);
-        });
-        result.data.employees.forEach((item: IUser) => {
-          const employee = new User(item);
-          this.employees.push(employee);
-        });
-        result.data.requests.forEach((item: IAhoRequest) => {
-          const request = new AhoRequest(item);
-          request.backup.setup(['tasks', 'employees', 'status', 'rejectReason', 'comments']);
-          this.requests.push(request);
-        });
-        this.dataSource = new MatTableDataSource<AhoRequest>(
-          this.showCompletedRequestsPipe.transform(this.requests, this.inShowCompletedRequestsMode)
-        );
+        if (this.requestTypes.length === 0) {
+          result.data.types.forEach((item: IAhoRequestType) => {
+            const type = new AhoRequestType(item);
+            this.requestTypes.push(type);
+          });
+        }
+        if (this.requestStatuses.length === 0) {
+          result.data.statuses.forEach((item: IAhoRequestStatus) => {
+            const status = new AhoRequestStatus(item);
+            this.requestStatuses.push(status);
+          });
+        }
+        if (this.requestTasksContent.length === 0) {
+          result.data.tasks.forEach((item: IAhoRequestTaskContent) => {
+            const content = new AhoRequestTaskContent(item);
+            this.requestTasksContent.push(content);
+          });
+        }
+        if (this.requestRejectReasons.length === 0) {
+          result.data.rejectReasons.forEach((item: IAhoRequestRejectReason) => {
+            const reason = new AhoRequestRejectReason(item);
+            this.requestRejectReasons.push(reason);
+          });
+        }
+        if (this.employees.length === 0) {
+          result.data.employees.forEach((item: IUser) => {
+            const employee = new User(item);
+            this.employees.push(employee);
+          });
+          console.log(this.employees);
+        }
+        if (this.requests.length === 0) {
+          result.data.requests.forEach((item: IAhoRequest) => {
+            const request = new AhoRequest(item);
+            request.backup.setup(['tasks', 'employees', 'status', 'rejectReason', 'comments']);
+            this.requests.push(request);
+          });
+          this.dataSource = new MatTableDataSource<AhoRequest>(
+            this.showCompletedRequestsPipe.transform(this.requests, this.inShowCompletedRequestsMode)
+          );
+        }
         this.employeeRequestsCount = result.data.employeeRequests;
         this.expiredRequestsCount = result.data.expiredRequests;
         this.totalRequestsCount = result.data.totalRequests;
@@ -160,6 +173,7 @@ export class AhoRequestsService {
     employeeId: number,
     requestTypeId: number,
     requestStatusId: number,
+    onlyExpired: boolean = false,
     page: number = this.pagination.currentPage,
     itemsOnPage: number = environment.settings.requestsOnPage,
     clear?: boolean
@@ -176,6 +190,7 @@ export class AhoRequestsService {
           employeeId: employeeId,
           requestTypeId: requestTypeId,
           requestStatusId: requestStatusId,
+          onlyExpired: onlyExpired,
           page: page,
           itemsOnPage: itemsOnPage
         },
@@ -212,7 +227,53 @@ export class AhoRequestsService {
   async fetchEmployeeRequests(employeeId: number): Promise<AhoRequest[] | null> {
     try {
       this.fetchingDataInProgress = true;
-      const result = await this.fetchRequests(0, 0, employeeId, 0, 0, 0, environment.settings.requestsOnPage, true);
+      this.inExpiredRequestsMode = true;
+      const result = await this.fetchRequests(
+        0,
+        0,
+        employeeId,
+        0,
+        0,
+        false,
+        0,
+        environment.settings.requestsOnPage,
+        true,
+      );
+      this.fetchingDataInProgress = false;
+      if (result) {
+        this.requests = [];
+        this.pagination.setPage(0);
+        result.forEach((request: AhoRequest) => {
+          this.requests.push(request);
+        });
+      }
+      this.inEmployeeRequestsMode = true;
+      this.dataSource = new MatTableDataSource<AhoRequest>(
+        this.showCompletedRequestsPipe.transform(this.requests, this.inShowCompletedRequestsMode)
+      );
+      return this.requests;
+    } catch (error) {
+      console.error(error);
+      this.fetchingDataInProgress = false;
+      return null;
+    }
+  }
+
+  async fetchExpiredRequests(employeeId: number = 0): Promise<AhoRequest[] | null> {
+    try {
+      this.fetchingDataInProgress = true;
+      this.inExpiredRequestsMode = true;
+      const result = await this.fetchRequests(
+        0,
+        0,
+        employeeId,
+        0,
+        0,
+        true,
+        0,
+        environment.settings.requestsOnPage,
+        true,
+      );
       this.fetchingDataInProgress = false;
       if (result) {
         this.requests = [];
@@ -254,6 +315,7 @@ export class AhoRequestsService {
       employeeId,
       requestTypeId,
       requestStatusId,
+      false,
       this.pagination.currentPage,
       this.pagination.itemsOnPage
     );
@@ -315,6 +377,7 @@ export class AhoRequestsService {
           requestTypeId: 0,
           requestStatusId: 0,
           page: 0,
+          onlyExpired: false,
           itemsOnPage: 0,
           search: search
         },
@@ -380,6 +443,7 @@ export class AhoRequestsService {
         employeeId: id,
         requestTypeId: 0,
         requestStatusId: 0,
+        onlyExpired: false,
         page: 0,
         itemsOnPage: 0
       });
@@ -564,6 +628,13 @@ export class AhoRequestsService {
           duration: 3000
         });
         this.dataSource = new MatTableDataSource<AhoRequest>(this.requests);
+        newRequest.getTasksContent().forEach((content: AhoRequestTaskContent) => {
+          const findTaskContentById = (item: AhoRequestTaskContent) => item.id === content.id;
+          const taskContent = this.requestTasksContent.find(findTaskContentById);
+          if (!taskContent) {
+            this.requestTasksContent.push(content);
+          }
+        });
         return newRequest;
       }
     } catch (error) {
@@ -891,14 +962,35 @@ export class AhoRequestsService {
   showAllRequests() {
     this.dataSource = new MatTableDataSource<AhoRequest>(this.requests);
     this.inEmployeeRequestsMode = false;
+    this.inExpiredRequestsMode = false;
     this.filters_.resetFilters();
-    this.fetchRequests(0, 0, 0, 0, 0, 0, environment.settings.requestsOnPage, true);
+    this.fetchRequests(
+      0,
+      0,
+      0,
+      0,
+      0,
+      false,
+      0,
+      environment.settings.requestsOnPage,
+      true
+    );
   }
 
   showEmployeeRequests() {
     this.dataSource = new MatTableDataSource<AhoRequest>(this.employeeRequests);
     this.inEmployeeRequestsMode = true;
     this.filters_.resetFilters();
+  }
+
+  /**
+   * Является ли пользователь сотрудником
+   * @param user - Пользователь
+   */
+  isUserIsEmployee(user: User): boolean {
+    const findEmployeeById = (item: User) => item.id === user.id;
+    const result = this.employees.find(findEmployeeById);
+    return result ? true : false;
   }
 
   /**

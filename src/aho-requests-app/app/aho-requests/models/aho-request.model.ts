@@ -8,6 +8,7 @@ import { AhoRequestComment } from './aho-request-comment.model';
 import { IAhoRequestComment } from '../interfaces/aho-request-comment.interface';
 import { AhoRequestRejectReason } from './aho-request-reject-reason.model';
 import { Backup } from '@kolenergo/lib';
+import {AhoRequestTaskContent} from './aho-request-task-content.model';
 
 /**
  * Класс, реализующий интерфейс заявки АХО
@@ -87,6 +88,14 @@ export class AhoRequest extends Backup implements IAhoRequest {
       if (!task.done) {
         result = false;
       }
+    });
+    return result;
+  }
+
+  getTasksContent(): AhoRequestTaskContent[] {
+    const result = [];
+    this.tasks.forEach((task: AhoRequestTask) => {
+      result.push(task.content);
     });
     return result;
   }

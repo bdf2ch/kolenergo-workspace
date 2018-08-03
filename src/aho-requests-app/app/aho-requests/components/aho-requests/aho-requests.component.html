@@ -69,7 +69,7 @@
 
           <!--
           <button mat-icon-button
-                  *ngIf="authenticationService.getCurrentUser() && authenticationService.getCurrentUser().permissions.getRoleById(1)"
+                  *ngIf="auth.getCurrentUser() && auth.getCurrentUser().permissions.getRoleById(1)"
                   class="mr-3"
                   routerLink="/admin"
                   matTooltip="Раздел администратора"
@@ -80,9 +80,9 @@
 
           <button mat-stroked-button
                   [color]="'primary'"
-                  *ngIf="authenticationService.getCurrentUser()"
+                  *ngIf="auth.getCurrentUser()"
                   [matMenuTriggerFor]="userMenu">
-            {{ authenticationService.getCurrentUser().firstName + ' ' + authenticationService.getCurrentUser().lastName }}
+            {{ auth.getCurrentUser().firstName + ' ' + auth.getCurrentUser().lastName }}
           </button>
           <mat-menu #userMenu="matMenu" [yPosition]="'below'" class="user-menu">
             <button mat-menu-item>
@@ -90,7 +90,7 @@
               Мои заявки
             </button>
             <button mat-menu-item
-                    *ngIf="authenticationService.getCurrentUser() && authenticationService.getCurrentUser().permissions.getRoleById(1)">
+                    *ngIf="auth.getCurrentUser() && auth.getCurrentUser().permissions.getRoleById(1)">
               <mat-icon color="primary">settings</mat-icon>
               Панель управления
             </button>
@@ -103,7 +103,7 @@
 
           <button mat-stroked-button
                   [color]="'primary'"
-                  *ngIf="!authenticationService.getCurrentUser()"
+                  *ngIf="!auth.getCurrentUser()"
                   (click)="openAuthDialog()">
             Войти
           </button>

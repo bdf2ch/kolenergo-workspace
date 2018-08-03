@@ -131,33 +131,11 @@ export class NewRequestComponent implements OnInit {
     console.log(this.newRequestForm);
     console.log(this.newTaskForm);
     console.log(this.newRequest.tasks);
-    /*
-    for (const control in this.newRequestForm.controls) {
-      if (control.indexOf('task') !== -1) {
-        this.newRequestForm.controls[control].disable();
-      }
-    }
-    */
     this.newRequest.tasks.push(this.newTask);
     this.newTask = new AhoRequestTask();
-    this.newTaskForm.reset({
-      title: '',
-      count: 1
-    });
-    /*
-    this.newRequestForm.addControl(
-      `taskTitle${this.newRequest.tasks[this.newRequest.tasks.length - 1].timeAdded.toString()}`,
-      new FormControl('', Validators.required)
-    );
-    if (this.newRequest.type.isCountable) {
-      this.newRequestForm.addControl(
-        `taskCount${this.newRequest.tasks[this.newRequest.tasks.length - 1].timeAdded.toString()}`,
-        new FormControl('', Validators.required)
-      );
-    }
-    */
+    this.newTaskForm.reset({ title: '', count: 1 });
     this.tasksDataSource = new MatTableDataSource<AhoRequestTask>(this.newRequest.tasks);
-}
+  }
 
   /**
    * Удаление задачи в заявке

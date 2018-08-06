@@ -140,7 +140,7 @@
               <!-- End: Срок исполнения -->
 
               <!-- Start: Кабинет -->
-              <div class="request-attribute col-6 d-flex align-items-center pt-2 pb-2 pl-3 pr-3" *ngIf="aho.getSelectedRequest().room">
+              <div class="request-attribute col-6 d-flex align-items-center pt-2 pb-2 pl-3 pr-3" *ngIf="aho.getSelectedRequest().room" [ngClass]="{'col-12': !aho.getSelectedRequest().dateExpires}">
                 <mat-icon class="mr-3">room</mat-icon>
                 <div class="d-flex flex-column">
                   <span class="label">Кабинет</span>
@@ -148,8 +148,19 @@
                 </div>
               </div>
               <!-- End: Кабинет -->
-
             </div>
+
+            <!-- Start: Причина отклонения -->
+            <div class="row mt-2" *ngIf="aho.getSelectedRequest().rejectReason">
+              <div class="request-attribute warning col-12 d-flex align-items-center pt-2 pb-2 pl-3 pr-3">
+                <mat-icon class="mr-3">cancel</mat-icon>
+                <div class="d-flex flex-column">
+                  <span class="label">Причина отклонения завки</span>
+                  <span>{{ aho.getSelectedRequest().rejectReason.content }}</span>
+                </div>
+              </div>
+            </div>
+            <!-- End: Причина отклонения -->
           </div>
 
 

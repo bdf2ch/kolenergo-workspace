@@ -49,7 +49,7 @@ export class NewRequestComponent implements OnInit {
 
   /**
    * Изменение типа заявки АХО
-   * @param event - Выбранный типа заявки
+   * @param event - Выбранный тип заявки
    */
   onRequestTypeChange(event: any) {
     this.newRequest.tasks = [];
@@ -57,21 +57,6 @@ export class NewRequestComponent implements OnInit {
     for (const control in this.newRequestForm.controls) {
       this.newRequestForm.removeControl(control);
     }
-
-    /*
-    this.newRequestForm.addControl(
-      `taskTitle${this.newRequest.tasks[this.newRequest.tasks.length - 1].timeAdded}`,
-      new FormControl('', Validators.required)
-    );
-    */
-    /*
-    this.newTaskForm.addControl(
-      `taskTitle${this.newRequest.tasks[this.newRequest.tasks.length - 1].timeAdded}`,
-      new FormControl('', Validators.required)
-    );
-    */
-
-
     switch (event.value.id) {
       case 2:
         this.newRequestForm.addControl('room', new FormControl('', Validators.required));
@@ -85,27 +70,11 @@ export class NewRequestComponent implements OnInit {
         break;
       case 10:
         this.newRequestForm.addControl('room', new FormControl('', Validators.required));
+        this.newRequestForm.addControl('numberOfLoaders', new FormControl(null));
         this.newRequestForm.addControl('expires', new FormControl(null));
         break;
     }
     this.tasksDataSource = new MatTableDataSource<AhoRequestTask>(this.newRequest.tasks);
-
-    /*
-    switch (event.value.isCountable) {
-      case true:
-        this.newRequestForm.removeControl('room');
-
-          console.log(this.newRequestForm);
-          console.log(this.newTaskForm);
-          break;
-      default:
-        this.newRequestForm.addControl('room', new FormControl('', Validators.required));
-        this.newRequestForm.addControl('expires', new FormControl(null));
-        console.log(this.newRequestForm);
-        break;
-    }
-    this.tasksDataSource = new MatTableDataSource<AhoRequestTask>(this.newRequest.tasks);
-    */
   }
 
   /**

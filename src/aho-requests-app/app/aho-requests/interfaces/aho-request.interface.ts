@@ -14,6 +14,7 @@ export interface IAhoRequest {
   status: IAhoRequestStatus;                        // Статус заявки
   rejectReason?: AhoRequestRejectReason | null;     // Причина отклоенения заявки
   room?: string;                                    // Кабинет
+  numberOfLoaders?: number;                         // Количество грузчиков
   dateCreated: Date;                                // Дата создания заявки
   dateExpires?: Date;                               // Дата исполнения заявки
   isExpired?: boolean;                              // Просрочен ли срок исполнения заявки

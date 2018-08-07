@@ -8,7 +8,7 @@ import { AhoRequestComment } from './aho-request-comment.model';
 import { IAhoRequestComment } from '../interfaces/aho-request-comment.interface';
 import { AhoRequestRejectReason } from './aho-request-reject-reason.model';
 import { Backup } from '@kolenergo/lib';
-import {AhoRequestTaskContent} from './aho-request-task-content.model';
+import { AhoRequestTaskContent } from './aho-request-task-content.model';
 
 /**
  * Класс, реализующий интерфейс заявки АХО
@@ -19,6 +19,7 @@ export class AhoRequest extends Backup implements IAhoRequest {
   status: AhoRequestStatus;                       // Статус заявки
   rejectReason: AhoRequestRejectReason | null;    // Причина отклоенния заявки
   room: string;                                   // Кабинет
+  numberOfLoaders: number;                        // Количество грузчиков
   dateCreated: Date;                              // Дата создания заявки
   dateExpires: Date;                              // Дата исполнения заявки
   isExpired: boolean;                             // Просрочен ли срок исполнения заявки
@@ -39,6 +40,7 @@ export class AhoRequest extends Backup implements IAhoRequest {
     this.status = config ? new AhoRequestStatus(config.status) : new AhoRequestStatus();
     this.rejectReason = config && config.rejectReason ? new AhoRequestRejectReason(config.rejectReason) : null;
     this.room = config && config.room ? config.room : '';
+    this.numberOfLoaders = config && config.numberOfLoaders ? config.numberOfLoaders : null;
     this.dateCreated = config ? new Date(config.dateCreated) : null;
     this.dateExpires = config && config.dateExpires ? new Date(config.dateExpires) : null;
     this.isExpired = config ? config.isExpired : false;

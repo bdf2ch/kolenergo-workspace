@@ -110,6 +110,7 @@
             <div *ngFor="let task of request.tasks">
               {{ task.content.title }} <span class="task-count text-muted" *ngIf="request.type.isCountable">&nbsp; &mdash; &nbsp; {{task.content.boxing ? task.count  + ' ' + task.content.boxing : task.count  + ' штук' }}</span>
             </div>
+            <div class="text-muted" *ngIf="request.numberOfLoaders">Требуется грузчиков &mdash; {{ request.numberOfLoaders }}</div>
           </mat-cell>
         </ng-container>
         <!-- End: Request tasks column -->

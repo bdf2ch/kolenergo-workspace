@@ -32,8 +32,8 @@
           </button>
           <mat-menu #requestMenu="matMenu" [yPosition]="'below'">
             <button mat-menu-item (click)="deleteRequest()">
-              <mat-icon color="primary">print</mat-icon>
-              Печать заявки
+              <mat-icon color="primary">export</mat-icon>
+              Экспорт в Excel
             </button>
             <button mat-menu-item (click)="rejectRequest()" *ngIf="aho.getSelectedRequest().status.id !== 4">
               <mat-icon color="primary">cancel</mat-icon>
@@ -43,7 +43,7 @@
               <mat-icon color="primary">replay</mat-icon>
               Возобновить заявку
             </button>
-            <button mat-menu-item (click)="deleteRequest()" *ngIf="auth.getCurrentUser().permissions.getPermissionByCode('allow_delete_requests')">
+            <button mat-menu-item (click)="deleteRequest()" *ngIf="auth.getCurrentUser() && auth.getCurrentUser().permissions.getPermissionByCode('allow_delete_requests')">
               <mat-icon color="primary">delete</mat-icon>
               Удалить заявку
             </button>

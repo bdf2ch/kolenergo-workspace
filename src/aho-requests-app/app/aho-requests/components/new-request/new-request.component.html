@@ -29,6 +29,16 @@
       </mat-form-field>
       <!-- End: # Кабинета -->
 
+      <!-- Start: Количество грузчиков -->
+      <mat-form-field class="w-100" *ngIf="newRequest.type.id === 10">
+        <input type="text"
+               matInput
+               placeholder="Количество грузчиков (необязательно)"
+               formControlName="numberOfLoaders"
+               [(ngModel)]="newRequest.numberOfLoaders">
+      </mat-form-field>
+      <!-- End: Количество грузчиков -->
+
       <!-- Start: Срок исполнения -->
       <mat-form-field class="w-100" *ngIf="newRequest.type.id === 10 || newRequest.type.id === 3">
         <input

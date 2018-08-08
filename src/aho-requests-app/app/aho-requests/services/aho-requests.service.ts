@@ -133,7 +133,6 @@ export class AhoRequestsService {
             const employee = new User(item);
             this.employees.push(employee);
           });
-          console.log(this.employees);
         }
         if (this.requests.length === 0) {
           result.data.requests.forEach((item: IAhoRequest) => {
@@ -211,6 +210,7 @@ export class AhoRequestsService {
           this.requests.push(request);
           this.newRequestsCount += request.status.id === 1 ? 1 : 0;
         });
+        console.log('show completed requests', this.inShowCompletedRequestsMode);
         this.dataSource = new MatTableDataSource<AhoRequest>(
           this.showCompletedRequestsPipe.transform(this.requests, this.inShowCompletedRequestsMode)
         );
@@ -224,10 +224,14 @@ export class AhoRequestsService {
   }
 
 
+  /**
+   * Получение заявок исполнителя
+   * @param employeeId - Идентификатор исполнителя
+   */
   async fetchEmployeeRequests(employeeId: number): Promise<AhoRequest[] | null> {
     try {
       this.fetchingDataInProgress = true;
-      this.inExpiredRequestsMode = true;
+      this.inExpiredRequestsMode = false;
       const result = await this.fetchRequests(
         0,
         0,
@@ -240,17 +244,7 @@ export class AhoRequestsService {
         true,
       );
       this.fetchingDataInProgress = false;
-      if (result) {
-        this.requests = [];
-        this.pagination.setPage(0);
-        result.forEach((request: AhoRequest) => {
-          this.requests.push(request);
-        });
-      }
       this.inEmployeeRequestsMode = true;
-      this.dataSource = new MatTableDataSource<AhoRequest>(
-        this.showCompletedRequestsPipe.transform(this.requests, this.inShowCompletedRequestsMode)
-      );
       return this.requests;
     } catch (error) {
       console.error(error);
@@ -259,6 +253,10 @@ export class AhoRequestsService {
     }
   }
 
+  /**
+   * Получение просроченных заявок
+   * @param employeeId - Идентификатор сотрудника
+   */
   async fetchExpiredRequests(employeeId: number = 0): Promise<AhoRequest[] | null> {
     try {
       this.fetchingDataInProgress = true;
@@ -274,18 +272,8 @@ export class AhoRequestsService {
         environment.settings.requestsOnPage,
         true,
       );
-      this.fetchingDataInProgress = false;
-      if (result) {
-        this.requests = [];
-        this.pagination.setPage(0);
-        result.forEach((request: AhoRequest) => {
-          this.requests.push(request);
-        });
-      }
+      this.fetchingDataInProgress = false
       this.inEmployeeRequestsMode = true;
-      this.dataSource = new MatTableDataSource<AhoRequest>(
-        this.showCompletedRequestsPipe.transform(this.requests, this.inShowCompletedRequestsMode)
-      );
       return this.requests;
     } catch (error) {
       console.error(error);
@@ -463,7 +451,7 @@ export class AhoRequestsService {
   }
 
   /**
-   * Полученеи заявки по идентификатору
+   * Получение заявки по идентификатору
    * @param {number} id - Идентификатор заявки
    * @returns {Promise<AhoRequest | null>}
    */
@@ -473,6 +461,25 @@ export class AhoRequestsService {
       return result ? new AhoRequest(result) : null;
     } catch (error) {
       console.error(error);
+      return null;
+    }
+  }
+
+  /**
+   * Экспорт заявки в Excel
+   * @param requestId - Идентификатор заявки
+   */
+  async fetchRequestExport(requestId: number): Promise<string | null> {
+    try {
+      this.fetchingDataInProgress = true;
+      const result  = await this.ahoRequestResource.getRequestExport({id: requestId});
+      if (result) {
+        this.fetchingDataInProgress = false;
+        saver.saveAs(result, `${requestId}.xlsx`);
+      }
+    } catch (error) {
+      console.error(error);
+      this.fetchingDataInProgress = false;
       return null;
     }
   }
@@ -870,10 +877,8 @@ export class AhoRequestsService {
   }
 
   showCompletedRequests(value: boolean) {
-    console.log(value);
-    const requests = this.showCompletedRequestsPipe.transform(this.requests, value);
-    console.log(requests);
-    this.dataSource = new MatTableDataSource<AhoRequest>(requests);
+    this.inShowCompletedRequestsMode = value;
+    this.dataSource = new MatTableDataSource<AhoRequest>(this.showCompletedRequestsPipe.transform(this.requests, value));
   }
 
   /**

@@ -54,23 +54,6 @@
       </mat-form-field>
       <!-- End: Срок исполнения -->
 
-      <!-- Start: Комментарий -->
-      <!--
-      <mat-form-field class="w-100 pt-2" *ngIf="newRequest.type.id !== 1">
-        <textarea matInput
-                  placeholder="Комментарий к заявке"
-                  formControlName="comment"
-                  [(ngModel)]="newRequest.description"
-                  matTextareaAutosize
-                  matAutosizeMinRows="1"
-                  matAutosizeMaxRows="5"
-                required>
-        </textarea>
-        <mat-error *ngIf="newRequestForm.get('room').invalid">{{ getCommentErrorMessage() }}</mat-error>
-      </mat-form-field>
-      -->
-      <!-- End: Комментарий -->
-
       <!-- Start: Список задач -->
       <div class="mt-2">
           <mat-table [dataSource]="tasksDataSource">

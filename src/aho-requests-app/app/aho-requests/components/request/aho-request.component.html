@@ -31,8 +31,8 @@
             <mat-icon>more_vert</mat-icon>
           </button>
           <mat-menu #requestMenu="matMenu" [yPosition]="'below'">
-            <button mat-menu-item (click)="deleteRequest()">
-              <mat-icon color="primary">export</mat-icon>
+            <button mat-menu-item (click)="exportRequest()">
+              <mat-icon color="primary">import_export</mat-icon>
               Экспорт в Excel
             </button>
             <button mat-menu-item (click)="rejectRequest()" *ngIf="aho.getSelectedRequest().status.id !== 4">
@@ -111,7 +111,7 @@
       <mat-tab label="Содержание" class="mh-100">
         <div class="p-4">
 
-          <div class="container">
+          <div class="container-fluid">
 
             <!-- Start: Заявитель -->
             <div class="row">
@@ -127,27 +127,45 @@
 
             <div class="row mt-2">
               <!-- Start: Срок исполнения -->
-              <div class="request-attribute col-6 d-flex align-items-center pt-2 pb-2 pl-3 pr-3" *ngIf="aho.getSelectedRequest().dateExpires">
-                <mat-icon class="mr-3">calendar_today</mat-icon>
+              <div class="request-attribute d-flex align-items-center pt-2 pb-2 pl-3 pr-3"
+                   [ngClass]="{'col-12': !aho.getSelectedRequest().numberOfLoaders && !aho.getSelectedRequest().room, 'col-6': (aho.getSelectedRequest().numberOfLoaders && !aho.getSelectedRequest().room) || (!aho.getSelectedRequest().numberOfLoaders && aho.getSelectedRequest().room),'col-4': aho.getSelectedRequest().numberOfLoaders && aho.getSelectedRequest().room, 'col-3': aho.getSelectedRequest().numberOfLoaders || aho.getSelectedRequest().room}"
+                   *ngIf="aho.getSelectedRequest().dateExpires">
+                <mat-icon class="mr-2">calendar_today</mat-icon>
                 <div class="d-flex flex-column">
-                  <span class="label">Срок исполнения</span>
+                  <span class="label">{{ aho.getSelectedRequest().room && aho.getSelectedRequest().numberOfLoaders ? 'Срок исполн.' : 'Срок исполнения' }}</span>
                   <div class="d-flex flex-row align-items-center">
                     <span class="mr-2">{{ aho.getSelectedRequest().dateExpires | date:'dd.MM.yyyy' }}</span>
-                    <mat-icon *ngIf="aho.getSelectedRequest().isExpired" class="expired" matTooltip="Заявка просрочена" matTooltipPosition="below">error_outline</mat-icon>
+                    <mat-icon *ngIf="aho.getSelectedRequest().isExpired" class="expired" matTooltip="Заявка просрочена"
+                              matTooltipPosition="below">error_outline
+                    </mat-icon>
                   </div>
                 </div>
               </div>
               <!-- End: Срок исполнения -->
 
               <!-- Start: Кабинет -->
-              <div class="request-attribute col-6 d-flex align-items-center pt-2 pb-2 pl-3 pr-3" *ngIf="aho.getSelectedRequest().room" [ngClass]="{'col-12': !aho.getSelectedRequest().dateExpires}">
-                <mat-icon class="mr-3">room</mat-icon>
+              <div class="request-attribute d-flex align-items-center pt-2 pb-2 pl-3 pr-3"
+                   [ngClass]="{'col-12': !aho.getSelectedRequest().numberOfLoaders && !aho.getSelectedRequest().dateExpires, 'col-6': (aho.getSelectedRequest().numberOfLoaders && !aho.getSelectedRequest().dateExpires) || (!aho.getSelectedRequest().numberOfLoaders && aho.getSelectedRequest().dateExpires),'col-4': aho.getSelectedRequest().numberOfLoaders && aho.getSelectedRequest().dateExpires, 'col-3': aho.getSelectedRequest().numberOfLoaders || aho.getSelectedRequest().dateExpires}"
+                   *ngIf="aho.getSelectedRequest().room" [ngClass]="{'col-12': !aho.getSelectedRequest().dateExpires}">
+                <mat-icon class="mr-2">room</mat-icon>
                 <div class="d-flex flex-column">
                   <span class="label">Кабинет</span>
                   <span>{{ aho.getSelectedRequest().room }}</span>
                 </div>
               </div>
               <!-- End: Кабинет -->
+
+              <!-- Start: Количество грузчиков -->
+              <div class="request-attribute d-flex align-items-center pt-2 pb-2 pl-3 pr-3"
+                   [ngClass]="{'col-12': !aho.getSelectedRequest().dateExpires && !aho.getSelectedRequest().room, 'col-6': (aho.getSelectedRequest().dateExpires && !aho.getSelectedRequest().room) || (!aho.getSelectedRequest().dateExpires && aho.getSelectedRequest().room),'col-4': aho.getSelectedRequest().dateExpires && aho.getSelectedRequest().room, 'col-3': aho.getSelectedRequest().dateExpires || aho.getSelectedRequest().room}"
+                   *ngIf="aho.getSelectedRequest().numberOfLoaders">
+                <mat-icon class="mr-2">directions_walk</mat-icon>
+                <div class="d-flex flex-column">
+                  <span class="label">Грузчиков</span>
+                  <span>{{ aho.getSelectedRequest().numberOfLoaders }}</span>
+                </div>
+              </div>
+              <!-- End: Количество грузчиков -->
             </div>
 
             <!-- Start: Причина отклонения -->

@@ -185,4 +185,11 @@ export class AhoRequestComponent implements OnInit {
     await this.aho.resumeRequest(this.aho.getSelectedRequest());
   }
 
+  /**
+   * Экспорт заявки в Excel
+   */
+  async exportRequest() {
+    await this.aho.fetchRequestExport(this.aho.getSelectedRequest().id);
+  }
+
 }

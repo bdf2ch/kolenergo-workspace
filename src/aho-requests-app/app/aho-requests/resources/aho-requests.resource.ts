@@ -164,6 +164,14 @@ export class AhoRequestsResource extends Resource {
   getRequestById: IResourceMethod<{id: number}, IAhoRequest>;
 
   @ResourceAction({
+    path: '/requests/{!id}/export',
+    method: ResourceRequestMethod.Get,
+    withCredentials: true,
+    responseBodyType: ResourceResponseBodyType.Blob
+  })
+  getRequestExport: IResourceMethod<{id: number}, Blob>;
+
+  @ResourceAction({
     path: '/requests',
     method: ResourceRequestMethod.Post,
     withCredentials: true

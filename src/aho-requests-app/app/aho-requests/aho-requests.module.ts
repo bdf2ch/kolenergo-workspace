@@ -23,6 +23,11 @@ import { ExceptSelectedEmployeesPipe } from './pipes/except-selected-employees.p
 import { RejectRequestComponent } from './components/reject-request/reject-request.component';
 import { RejectReasonsByRequestTypePipe } from './pipes/reject-reasons-by-request-type.pipe';
 import { ExceptSelectedTasksPipe } from './pipes/except-selected-tasks.pipe';
+import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import * as _moment from 'moment';
+import {default as _rollupMoment} from 'moment';
+const moment = _rollupMoment || _moment;
 
 @NgModule({
   imports: [
@@ -47,6 +52,8 @@ import { ExceptSelectedTasksPipe } from './pipes/except-selected-tasks.pipe';
     ExceptSelectedTasksPipe
   ],
   providers: [
+    {provide: MAT_DATE_LOCALE, useValue: 'ru-RU'},
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
     AhoRequestsResource,
     AhoRequestsService,
     AhoRequestsResolveGuard,

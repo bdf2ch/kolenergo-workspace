@@ -16,7 +16,7 @@ export class AhoRequestTaskContent implements IAhoRequestTaskContent {
   constructor(config?: IAhoRequestTaskContent) {
     this.id = config ? config.id : 0;
     this.requestTypeId = config ? config.requestTypeId : 0;
-    this.title = config ? config.title : '';
+    this.title = config ? config.title : null;
     this.boxing = config ? config.boxing : null;
   }
 }

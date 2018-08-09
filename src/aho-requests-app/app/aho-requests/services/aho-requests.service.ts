@@ -23,8 +23,7 @@ import { IAhoRequestRejectReason } from '../interfaces/aho-request-reject-reason
 import { AhoRequestRejectReason } from '../models/aho-request-reject-reason.model';
 import { environment } from '../../../environments/environment';
 import { Pagination, IUser } from '@kolenergo/lib';
-import {IAhoRequestsInitialData} from '../interfaces/aho-requests-initial-data.interface';
-import {IAhoServerResponse} from '../interfaces/aho-server-response.interface';
+import { IAhoServerResponse } from '../interfaces/aho-server-response.interface';
 
 @Injectable()
 export class AhoRequestsService {
@@ -39,6 +38,7 @@ export class AhoRequestsService {
   private expiredRequestsCount: number;
   private employeeRequestsCount: number;
   private employeeRequests: AhoRequest[];
+  public search: string;
   private needs: IAhoRequestNeed[];
   private selectedRequest: AhoRequest | null;
   private newRequestsCount: number;
@@ -72,6 +72,7 @@ export class AhoRequestsService {
     this.requests = [];
     this.employeeRequests = [];
     this.needs = [];
+    this.search = null;
     this.selectedRequest = null;
     this.newRequestsCount = 0;
     this.addRequestInProgress = false;
@@ -232,6 +233,7 @@ export class AhoRequestsService {
     try {
       this.fetchingDataInProgress = true;
       this.inExpiredRequestsMode = false;
+      this.search = null;
       const result = await this.fetchRequests(
         0,
         0,
@@ -261,6 +263,7 @@ export class AhoRequestsService {
     try {
       this.fetchingDataInProgress = true;
       this.inExpiredRequestsMode = true;
+      this.search = null;
       const result = await this.fetchRequests(
         0,
         0,
@@ -375,6 +378,7 @@ export class AhoRequestsService {
       if (result) {
         this.fetchingDataInProgress = false;
         this.inEmployeeRequestsMode = false;
+        this.inExpiredRequestsMode = false;
         this.pagination = new Pagination({itemsOnPage: environment.settings.requestsOnPage, totalItems: result.data.totalRequests});
         this.requests = [];
         result.data.requests.forEach((item: IAhoRequest) => {
@@ -613,8 +617,6 @@ export class AhoRequestsService {
     }
   }
 
-
-
   /**
    * Добавление новой заявки
    * @param {IAddAhoRequest} request - Добавляемая заявка
@@ -690,7 +692,9 @@ export class AhoRequestsService {
    */
   async deleteRequest(requestId: number): Promise<boolean> {
     try {
+      this.deleteRequestInProgress = true;
       const result = await this.ahoRequestResource.deleteRequest({id: requestId});
+      this.deleteRequestInProgress = false;
       if (result === true) {
         this.requests.forEach((request: AhoRequest, index: number, array: AhoRequest[]) => {
           if (request.id === requestId) {
@@ -707,6 +711,7 @@ export class AhoRequestsService {
       }
     } catch (error) {
       console.error(error);
+      this.deleteRequestInProgress = false;
       return false;
     }
   }
@@ -748,6 +753,7 @@ export class AhoRequestsService {
     try {
       this.resumeRequestInProgress = true;
       const result = await this.ahoRequestResource.resumeRequest(request);
+      this.resumeRequestInProgress = false;
       if (result) {
         const request_ = new AhoRequest(result);
         request.fromAnother(request_);
@@ -968,6 +974,7 @@ export class AhoRequestsService {
     this.dataSource = new MatTableDataSource<AhoRequest>(this.requests);
     this.inEmployeeRequestsMode = false;
     this.inExpiredRequestsMode = false;
+    this.search = null;
     this.filters_.resetFilters();
     this.fetchRequests(
       0,

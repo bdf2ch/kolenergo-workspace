@@ -1,0 +1,54 @@
+<div class="resume-request-dialog">
+  <!-- Start: Заголовок диалогового окна -->
+  <h2 mat-dialog-title>Возобновление заявки</h2>
+  <!-- End: Заголовок диалогового окна -->
+
+  <!-- Start: Содержимое диалогового окна -->
+  <mat-dialog-content class="text-center">
+    Заявка #{{ aho.getSelectedRequest().id }} будет возобновлена. Продолжить?
+  </mat-dialog-content>
+  <!-- End: Содержимое диалогового окна -->
+
+  <!-- Start: Элементы управления -->
+  <mat-dialog-actions class="pt-3">
+    <div class="container-fluid p-0">
+      <div class="row">
+        <!-- End: Кнопка возобновления заявки -->
+        <div class="col-12 col-md-6">
+          <button mat-raised-button
+                  type="button"
+                  color="primary"
+                  [disabled]="aho.isResumingRequest()"
+                  class="w-100"
+                  (click)="resumeRequest()">
+            <div class="d-flex flex-row w-100 align-items-center" *ngIf="aho.isResumingRequest()">
+              <mat-progress-spinner
+                class="mr-2"
+                [diameter]="20"
+                color="primary"
+                mode="indeterminate">
+              </mat-progress-spinner>
+              Загрузка
+            </div>
+            <span *ngIf="!aho.isResumingRequest()">Возобновить заявку</span>
+          </button>
+        </div>
+        <!-- End: Кнопка возобновления заявки -->
+
+        <!-- Start: Кнопка отмены -->
+        <div class="col-12 col-md-6 pt-2 pt-md-0">
+          <button mat-raised-button
+                  mat-dialog-close
+                  color="warn"
+                  [disabled]="aho.isResumingRequest()"
+                  class="w-100">
+            Отмена
+          </button>
+        </div>
+        <!-- End: Кнопка отмены -->
+
+      </div>
+    </div>
+  </mat-dialog-actions>
+  <!-- End: Элементы управления -->
+</div>

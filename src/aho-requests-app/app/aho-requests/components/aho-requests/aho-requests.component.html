@@ -54,30 +54,18 @@
               </span>
             </div>
             <div class="search-input">
-              <input type="text" placeholder="Поиск заявок" [(ngModel)]="search" #searchInput (keyup)="searchChange(searchInput.value)">
+              <input type="text" placeholder="Поиск заявок" [(ngModel)]="aho.search" (keyup)="searchChange(aho.search)">
             </div>
             <div class="controls">
-              <i class="fa fa-filter" matTooltip="Фильтры" matTooltipPosition="below" (click)="openFiltersDialog()" *ngIf="search === ''">
+              <i class="fa fa-filter" matTooltip="Фильтры" matTooltipPosition="below" (click)="openFiltersDialog()" *ngIf="!aho.search || aho.search === ''">
                 <span class="notification" *ngIf="aho.filters_.getSelectedFilters().length > 0"></span>
               </i>
-              <i class="fa fa-times" matTooltip="Очистить" matTooltipPosition="below" (click)="clearSearch()" *ngIf="search !== ''"></i>
+              <i class="fa fa-times" matTooltip="Очистить" matTooltipPosition="below" (click)="clearSearch()" *ngIf="aho.search && aho.search !== ''"></i>
             </div>
           </div>
         </div>
 
         <div class="col-auto d-none d-md-flex justify-content-end align-items-center">
-
-          <!--
-          <button mat-icon-button
-                  *ngIf="auth.getCurrentUser() && auth.getCurrentUser().permissions.getRoleById(1)"
-                  class="mr-3"
-                  routerLink="/admin"
-                  matTooltip="Раздел администратора"
-                  matTooltipPosition="below">
-            <mat-icon color="primary">settings</mat-icon>
-          </button>
-          -->
-
           <button mat-stroked-button
                   [color]="'primary'"
                   *ngIf="auth.getCurrentUser()"
@@ -90,6 +78,7 @@
               Мои заявки
             </button>
             <button mat-menu-item
+                    routerLink="/admin"
                     *ngIf="auth.getCurrentUser() && auth.getCurrentUser().permissions.getRoleById(1)">
               <mat-icon color="primary">settings</mat-icon>
               Панель управления

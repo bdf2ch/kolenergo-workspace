@@ -8,6 +8,7 @@
         <div class="d-flex flex-row align-items-center">
           <!-- Start: Переход ко всем заявкам -->
           <button mat-stroked-button
+                  class="mr-0 mr-md-3"
                   *ngIf="aho.isInEmployeeRequestsMode() || aho.isInShowExpiredRequestsMode()"
                   color="primary"
                   [disabled]="aho.isFetchingData()"
@@ -19,7 +20,7 @@
           <!-- Start: Переход к заявкам исполнителя -->
           <button mat-stroked-button
                   color="primary"
-                  class="ml-0 ml-md-3"
+                  class="mr-0 mr-md-3"
                   *ngIf="auth.getCurrentUser() && aho.getEmployeeRequestsCount() > 0 && !aho.isInEmployeeRequestsMode()"
                   [disabled]="aho.isFetchingData()"
                   (click)="showEmployeeRequests()">
@@ -31,7 +32,7 @@
           <!-- Start: Переход к просроченным заявкам -->
           <button mat-stroked-button
                   color="primary"
-                  class="ml-0 ml-md-3"
+                  class="mr-0 mr-md-3"
                   *ngIf="auth.getCurrentUser() && aho.getExpiredRequestsCount() > 0 && !aho.isInEmployeeRequestsMode()"
                   [disabled]="aho.isFetchingData()"
                   (click)="showExpiredRequests()">
@@ -43,7 +44,7 @@
           <!-- Start: Переключатель показа выполненных заявок -->
           <mat-slide-toggle
             color="primary"
-            class="ml-0 ml-md-3"
+            class="mr-0 mr-md-3"
             labelPosition="after"
             [checked]="aho.isInShowCompletedRequestsMode()"
             [disabled]="aho.isFetchingData()"
@@ -155,7 +156,7 @@
         <ng-container matColumnDef="requestStatus">
           <mat-header-cell *matHeaderCellDef class="request-status-column d-none d-sm-none d-md-flex"> Статус </mat-header-cell>
           <mat-cell *matCellDef="let element" class="request-status-column d-none d-sm-none d-md-flex justify-content-center pt-2 pb-2">
-            <mat-icon fontSet="fa"
+            <mat-icon fontSet="far"
                       fontIcon="{{ element.status.icon }}"
                       [style.color]="element.status.iconColor ? element.status.iconColor : 'black'"
                       *ngIf="element.status.icon"

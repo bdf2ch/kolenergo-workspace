@@ -27,6 +27,8 @@ import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-mo
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import * as _moment from 'moment';
 import {default as _rollupMoment} from 'moment';
+import { ResumeRequestComponent } from './components/request/resume-request/resume-request.component';
+import { DeleteRequestComponent } from './components/request/delete-request/delete-request.component';
 const moment = _rollupMoment || _moment;
 
 @NgModule({
@@ -49,7 +51,9 @@ const moment = _rollupMoment || _moment;
     ExceptSelectedEmployeesPipe,
     RejectRequestComponent,
     RejectReasonsByRequestTypePipe,
-    ExceptSelectedTasksPipe
+    ExceptSelectedTasksPipe,
+    ResumeRequestComponent,
+    DeleteRequestComponent
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'ru-RU'},
@@ -66,7 +70,9 @@ const moment = _rollupMoment || _moment;
     AhoRequestComponent,
     NewRequestComponent,
     FiltersComponent,
-    RejectRequestComponent
+    RejectRequestComponent,
+    ResumeRequestComponent,
+    DeleteRequestComponent
   ],
   exports: []
 })
@@ -74,5 +80,7 @@ export class AhoRequestsModule {
   constructor(private readonly matIconRegistry: MatIconRegistry) {
     matIconRegistry.registerFontClassAlias('fontawesome', 'fa');
     matIconRegistry.registerFontClassAlias('fortawesome', 'fas');
+    matIconRegistry.registerFontClassAlias('fortawesome', 'far');
+
   }
 }

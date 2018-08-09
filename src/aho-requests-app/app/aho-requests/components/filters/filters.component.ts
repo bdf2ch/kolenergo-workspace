@@ -38,9 +38,9 @@ export class FiltersComponent implements OnInit {
     }
 
     if (this.aho.filters_.getFilterByTitle('endDate').getValue()) {
-      this.aho.filters_.getFilterByTitle('endDate').getValue().setHours(0);
-      this.aho.filters_.getFilterByTitle('endDate').getValue().setMinutes(0);
-      this.aho.filters_.getFilterByTitle('endDate').getValue().setSeconds(0);
+      this.aho.filters_.getFilterByTitle('endDate').getValue().setHours(23);
+      this.aho.filters_.getFilterByTitle('endDate').getValue().setMinutes(59);
+      this.aho.filters_.getFilterByTitle('endDate').getValue().setSeconds(59);
     }
     this.aho.getPagination().setPage(0);
     this.aho.fetchRequests(

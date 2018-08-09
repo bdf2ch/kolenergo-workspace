@@ -136,7 +136,7 @@
                  formControlName="count"
                  [(ngModel)]="newTask.count"
                  required>
-          <mat-hint align="end">{{ newTask.content && newTask.content.boxing ? newTask.content.boxing : null }}
+          <mat-hint align="end">{{ newTask.content && newTask.content.boxing ? newTask.content.boxing : 'штук' }}
           </mat-hint>
         </mat-form-field>
       </div>
@@ -198,10 +198,6 @@
 
       </div>
     </div>
-
-
-
-
 
   </mat-dialog-actions>
 

@@ -13,13 +13,13 @@ import { environment } from '../../../../environments/environment';
   encapsulation: ViewEncapsulation.None
 })
 export class AhoRequestsComponent implements OnInit {
-  public search: string;
+  // public search: string;
   private searchInterval;
 
   constructor(private readonly dialog: MatDialog,
               public readonly auth: AuthenticationService,
               public readonly aho: AhoRequestsService) {
-    this.search = '';
+    // this.search = '';
   }
 
   ngOnInit() {}
@@ -81,7 +81,7 @@ export class AhoRequestsComponent implements OnInit {
    * @returns {Promise<void>}
    */
   async clearSearch() {
-    this.search = '';
+    // this.search = '';
     await this.aho.fetchRequests(
       0,
       0,

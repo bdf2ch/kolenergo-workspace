@@ -10,6 +10,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
 import { AhoRequest } from '../../models/aho-request.model';
 import { RejectRequestComponent } from '../reject-request/reject-request.component';
+import {ResumeRequestComponent} from './resume-request/resume-request.component';
+import {DeleteRequestComponent} from './delete-request/delete-request.component';
 
 @Component({
   selector: 'app-request',
@@ -121,12 +123,13 @@ export class AhoRequestComponent implements OnInit {
     this.isRequestChanged = true;
   }
 
+  /**
+   * Удаление заявки
+   */
   async deleteRequest() {
-    await this.aho.deleteRequest(this.aho.getSelectedRequest().id)
-      .then(() => {
-        this.dialogRef.close();
-        this.router.navigate(['']);
-      });
+    this.dialog.open(DeleteRequestComponent, {
+      width: '400px'
+    });
   }
 
   async editRequest() {
@@ -179,10 +182,12 @@ export class AhoRequestComponent implements OnInit {
   }
 
   /**
-   * Возобновление заявки АХО
+   * Открытие диалогового окна подтверждения возобновления заявки
    */
   async resumeRequest() {
-    await this.aho.resumeRequest(this.aho.getSelectedRequest());
+    this.dialog.open(ResumeRequestComponent, {
+      width: '400px'
+    });
   }
 
   /**

@@ -53,7 +53,6 @@ export class AhoRequestsComponent implements OnInit {
 
   async searchChange(value: string) {
     console.log(value);
-
     if (value.length >= 3) {
       this.searchInterval = await setTimeout( async () => {
         if (this.aho.isSearchingRequests()) {
@@ -63,6 +62,7 @@ export class AhoRequestsComponent implements OnInit {
       }, 500);
     } else {
       await this.aho.fetchRequests(
+        0,
         0,
         0,
         0,
@@ -83,6 +83,7 @@ export class AhoRequestsComponent implements OnInit {
   async clearSearch() {
     // this.search = '';
     await this.aho.fetchRequests(
+      0,
       0,
       0,
       0,
@@ -115,6 +116,7 @@ export class AhoRequestsComponent implements OnInit {
         ? this.aho.filters_.getFilterByTitle('startDate').getValue().getTime() : 0,
       this.aho.filters_.getFilterByTitle('endDate').getValue()
         ? this.aho.filters_.getFilterByTitle('endDate').getValue().getTime() : 0,
+      this.auth.getCurrentUser() ? this.auth.getCurrentUser().id : 0,
       this.aho.filters_.getFilterByTitle('requestEmployee').getValue()
         ? this.aho.filters_.getFilterByTitle('requestEmployee').getValue().id : 0,
       this.aho.filters_.getFilterByTitle('requestType').getValue()

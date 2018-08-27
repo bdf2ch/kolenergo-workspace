@@ -1,4 +1,4 @@
-<div class="container-fluid no-padding content-wrapper pb-3">
+<div class="container-fluid no-padding content-wrapper pb-3" *ngIf="auth.getCurrentUser()">
   <div class="row no-gutters">
 
     <div class="request-list-navigation col-12 d-flex flex-column justify-content-between p-3 border-bottom">
@@ -185,6 +185,29 @@
     </div>
   </div>
   <!-- End: Загрузка следующей страницы заявок -->
+</div>
+
+<div class="container no-padding app-intro content-wrapper h-100 pb-3 d-flex flex-column justify-content-center align-self-center" *ngIf="!auth.getCurrentUser()">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-xl-6 d-flex justify-content-center align-items-center p-4 text-center pt-3">
+      <h4>Добро пожаловать в систему заявок АХО!</h4>
+    </div>
+  </div>
+
+  <div class="row justify-content-center mb-md-1" *ngFor="let requestType of aho.getRequestTypes()">
+    <div class="col-12 col-md-7 col-xl-5 d-flex justify-content-start align-items-center pl-4 pr-4 pt-1 pb-1 text-center">
+      <span class="icon ml-4 mr-4">
+        <i class="fa {{ requestType.icon }}"></i>
+      </span>
+      <span class="d-flex justify-content-start text-left"><h5>{{ requestType.title }}</h5></span>
+    </div>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-xl-6 d-flex flex-row justify-content-center align-items-center p-4 text-muted text-center">
+      <div>Для того, чтобы подать заявку на требующуюся Вам услугу, необходимо <span class="link" (click)="openAuthDialog()">авторизоваться</span> в системе используя Вашу учетную запись Windows.</div>
+    </div>
+  </div>
 </div>
 
 

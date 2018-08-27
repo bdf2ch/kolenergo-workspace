@@ -134,7 +134,7 @@
                 <div class="d-flex flex-column">
                   <span class="label">{{ aho.getSelectedRequest().room && aho.getSelectedRequest().numberOfLoaders ? 'Срок исполн.' : 'Срок исполнения' }}</span>
                   <div class="d-flex flex-row align-items-center">
-                    <span class="mr-2">{{ aho.getSelectedRequest().dateExpires | date:'dd.MM.yyyy' }}</span>
+                    <span class="mr-1">{{ aho.getSelectedRequest().dateExpires | date:'dd.MM.yyyy' }}</span>
                     <mat-icon *ngIf="aho.getSelectedRequest().isExpired" class="expired" matTooltip="Заявка просрочена"
                               matTooltipPosition="below">error_outline
                     </mat-icon>

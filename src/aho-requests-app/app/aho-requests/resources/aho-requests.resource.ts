@@ -106,6 +106,7 @@ export class AhoRequestsResource extends Resource {
   getRequests: IResourceMethod<{
     start: number,
     end: number,
+    userId: number,
     employeeId: number,
     requestTypeId: number,
     requestStatusId: number,
@@ -138,6 +139,7 @@ export class AhoRequestsResource extends Resource {
   getRequestsExport: IResourceMethod<{
     start: number,
     end: number,
+    userId: number,
     employeeId: number,
     requestTypeId: number,
     requestStatusId: number}, Blob>;

@@ -31,7 +31,7 @@ export class StartComponent implements OnInit {
 
   ngOnInit() {
     setTimeout(() => {
-      //this.aho.setSelectedRequest(null);
+      // this.aho.setSelectedRequest(null);
       this.route.params.subscribe((params: any) => {
         console.log('route params', params);
         if (params['id']) {
@@ -68,7 +68,7 @@ export class StartComponent implements OnInit {
 
   selectRequest(request: AhoRequest) {
     console.log(request);
-    //this.aho.setSelectedRequest(request);
+    // this.aho.setSelectedRequest(request);
     this.router.navigate(['/request', request.id]);
   }
 
@@ -91,11 +91,17 @@ export class StartComponent implements OnInit {
       this.aho.filters_.getFilterByTitle('endDate').getValue().setSeconds(59);
     }
     this.aho.fetchRequestsExport(
-      this.aho.filters_.getFilterByTitle('startDate').getValue() ? this.aho.filters_.getFilterByTitle('startDate').getValue() : 0,
-      this.aho.filters_.getFilterByTitle('endDate').getValue() ? this.aho.filters_.getFilterByTitle('endDate').getValue().getTime() : 0,
-      this.aho.filters_.getFilterByTitle('requestEmployee').getValue() ? this.aho.filters_.getFilterByTitle('requestEmployee').getValue().id : 0,
-      this.aho.filters_.getFilterByTitle('requestType').getValue() ? this.aho.filters_.getFilterByTitle('requestType').getValue().id : 0,
-      this.aho.filters_.getFilterByTitle('requestStatus').getValue() ? this.aho.filters_.getFilterByTitle('requestStatus').getValue().id : 0
+      this.aho.filters_.getFilterByTitle('startDate').getValue() ?
+        this.aho.filters_.getFilterByTitle('startDate').getValue() : 0,
+      this.aho.filters_.getFilterByTitle('endDate').getValue() ?
+        this.aho.filters_.getFilterByTitle('endDate').getValue().getTime() : 0,
+      0,
+      this.aho.filters_.getFilterByTitle('requestEmployee').getValue() ?
+        this.aho.filters_.getFilterByTitle('requestEmployee').getValue().id : 0,
+      this.aho.filters_.getFilterByTitle('requestType').getValue() ?
+        this.aho.filters_.getFilterByTitle('requestType').getValue().id : 0,
+      this.aho.filters_.getFilterByTitle('requestStatus').getValue() ?
+        this.aho.filters_.getFilterByTitle('requestStatus').getValue().id : 0
     );
   }
 
@@ -112,6 +118,7 @@ export class StartComponent implements OnInit {
         ? this.aho.filters_.getFilterByTitle('startDate').getValue() : 0,
       this.aho.filters_.getFilterByTitle('endDate').getValue()
         ? this.aho.filters_.getFilterByTitle('endDate').getValue().getTime() : 0,
+      this.auth.getCurrentUser() ? this.auth.getCurrentUser().id : 0,
       this.aho.filters_.getFilterByTitle('requestEmployee').getValue()
         ? this.aho.filters_.getFilterByTitle('requestEmployee').getValue().id : 0,
       this.aho.filters_.getFilterByTitle('requestType').getValue()

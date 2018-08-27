@@ -91,7 +91,8 @@ export class AhoRequestsService {
     this.filters_.addFilter(new AhoRequestFilter<AhoRequestType>('requestType'));
     this.filters_.addFilter(new AhoRequestFilter<AhoRequestStatus>('requestStatus'));
     this.filters_.addFilter(new AhoRequestFilter<User>('requestEmployee'));
-    this.dataSource = new MatTableDataSource<AhoRequest>(this.showCompletedRequestsPipe.transform(this.requests, this.inShowCompletedRequestsMode));
+    this.dataSource =
+      new MatTableDataSource<AhoRequest>(this.showCompletedRequestsPipe.transform(this.requests, this.inShowCompletedRequestsMode));
   }
 
 
@@ -103,6 +104,7 @@ export class AhoRequestsService {
   async fetchInitialData(userId: number, itemsOnPage: number): Promise<IAhoServerResponse | null> {
     try {
       this.fetchingDataInProgress = true;
+      this.requests = [];
       const result = await this.ahoRequestResource.getInitialData({userId: userId, itemsOnPage: itemsOnPage});
       if (result) {
         if (this.requestTypes.length === 0) {
@@ -170,6 +172,7 @@ export class AhoRequestsService {
   async fetchRequests(
     start: number,
     end: number,
+    userId: number,
     employeeId: number,
     requestTypeId: number,
     requestStatusId: number,
@@ -187,6 +190,7 @@ export class AhoRequestsService {
         {
           start: start,
           end: end,
+          userId: userId,
           employeeId: employeeId,
           requestTypeId: requestTypeId,
           requestStatusId: requestStatusId,
@@ -212,9 +216,8 @@ export class AhoRequestsService {
           this.newRequestsCount += request.status.id === 1 ? 1 : 0;
         });
         console.log('show completed requests', this.inShowCompletedRequestsMode);
-        this.dataSource = new MatTableDataSource<AhoRequest>(
-          this.showCompletedRequestsPipe.transform(this.requests, this.inShowCompletedRequestsMode)
-        );
+        this.dataSource =
+          new MatTableDataSource<AhoRequest>(this.showCompletedRequestsPipe.transform(this.requests, this.inShowCompletedRequestsMode));
         return this.requests;
       }
     } catch (error) {
@@ -235,6 +238,7 @@ export class AhoRequestsService {
       this.inExpiredRequestsMode = false;
       this.search = null;
       const result = await this.fetchRequests(
+        0,
         0,
         0,
         employeeId,
@@ -267,6 +271,7 @@ export class AhoRequestsService {
       const result = await this.fetchRequests(
         0,
         0,
+        0,
         employeeId,
         0,
         0,
@@ -275,7 +280,7 @@ export class AhoRequestsService {
         environment.settings.requestsOnPage,
         true,
       );
-      this.fetchingDataInProgress = false
+      this.fetchingDataInProgress = false;
       this.inEmployeeRequestsMode = true;
       return this.requests;
     } catch (error) {
@@ -296,6 +301,7 @@ export class AhoRequestsService {
   async fetchNextPage(
     start: number,
     end: number,
+    userId: number,
     employeeId: number,
     requestTypeId: number,
     requestStatusId: number): Promise<AhoRequest[] | null> {
@@ -303,6 +309,7 @@ export class AhoRequestsService {
     const result = await this.fetchRequests(
       start,
       end,
+      userId,
       employeeId,
       requestTypeId,
       requestStatusId,
@@ -327,6 +334,7 @@ export class AhoRequestsService {
   async fetchRequestsExport(
     start: number,
     end: number,
+    userId: number,
     employeeId: number,
     requestTypeId: number,
     requestStatusId: number
@@ -336,6 +344,7 @@ export class AhoRequestsService {
       const result  = await this.ahoRequestResource.getRequestsExport({
         start: start,
         end: end,
+        userId: userId,
         employeeId: employeeId,
         requestTypeId: requestTypeId,
         requestStatusId: requestStatusId
@@ -364,6 +373,7 @@ export class AhoRequestsService {
         {
           start: 0,
           end: 0,
+          userId: 0,
           employeeId: 0,
           requestTypeId: 0,
           requestStatusId: 0,
@@ -422,37 +432,6 @@ export class AhoRequestsService {
     }
   }
 
-  /**
-   * Получение всех заявок с заданным исполнителем
-   * @param {number} id - Идентификатор исполнителя
-   * @returns {Promise<AhoRequest[] | null>}
-   */
-  async fetchRequestsByEmployeeId(id: number): Promise<AhoRequest[] | null> {
-    try {
-      const result = await this.ahoRequestResource.getRequests({
-        start: 0,
-        end: 0,
-        employeeId: id,
-        requestTypeId: 0,
-        requestStatusId: 0,
-        onlyExpired: false,
-        page: 0,
-        itemsOnPage: 0
-      });
-      if (result) {
-        this.employeeRequests = [];
-        result.data.requests.forEach((item: IAhoRequest) => {
-          const request = new AhoRequest(item);
-          this.employeeRequests.push(request);
-        });
-        console.log(this.employeeRequests);
-        return this.employeeRequests;
-      }
-    } catch (error) {
-      console.error(error);
-      return null;
-    }
-  }
 
   /**
    * Получение заявки по идентификатору
@@ -484,99 +463,6 @@ export class AhoRequestsService {
     } catch (error) {
       console.error(error);
       this.fetchingDataInProgress = false;
-      return null;
-    }
-  }
-
-  /**
-   * Получение типов заявок АХО с сервера
-   * @returns {Promise<IAhoRequestType[] | null>}
-   */
-  async fetchRequestTypes(): Promise<IAhoRequestType[] | null> {
-    try {
-      const result = await this.ahoRequestResource.getRequestTypes();
-      if (result) {
-        result.forEach((item: IAhoRequestType) => {
-          const requestType = new AhoRequestType(item);
-          this.requestTypes.push(requestType);
-        });
-        return this.getRequestTypes();
-      }
-    } catch (error) {
-      console.error(error);
-      return null;
-    }
-  }
-
-  /**
-   * Получение статусов заявок АХО с сервера
-   * @returns {Promise<IAhoRequestStatus[] | null>}
-   */
-  async fetchRequestStatuses(): Promise<IAhoRequestStatus[] | null> {
-    try {
-      const result = await this.ahoRequestResource.getRequestStatuses();
-      if (result) {
-        result.forEach((item: IAhoRequestStatus) => {
-          const requestStatus = new AhoRequestStatus(item);
-          this.requestStatuses.push(requestStatus);
-        });
-        return this.requestStatuses;
-      }
-    } catch (error) {
-      console.error(error);
-      return null;
-    }
-  }
-
-  /**
-   * Получение причин отклоенния заявок АХО с сервера
-   * @returns {Promise<IAhoRequestRejectReason[] | null>}
-   */
-  async fetchRequestRejectReasons(): Promise<IAhoRequestRejectReason[] | null> {
-    try {
-      const result = await this.ahoRequestResource.getRequestRejectReasons();
-      if (result) {
-        result.forEach((item: IAhoRequestRejectReason) => {
-          const rejectReason = new AhoRequestRejectReason(item);
-          this.requestRejectReasons.push(rejectReason);
-        });
-        return this.requestRejectReasons;
-      }
-    } catch (error) {
-      console.error(error);
-      return null;
-    }
-  }
-
-  /**
-   * Получение списка сотрудников, задействованных в приложении
-   * @returns {Promise<User[] | null>}
-   */
-  async fetchEmployees(): Promise<User[] | null> {
-    const result = await this.usersService.getByAppCode(
-      window.localStorage && window.localStorage.getItem('app_code') ? window.localStorage.getItem('app_code') : null
-    );
-    this.employees = result ? result : [];
-    console.log(this.employees);
-    return result;
-  }
-
-  /**
-   * Получение списка содержимого задач заявок АХО с сервера
-   * @returns {Promise<IAhoRequestTaskContent[] | null>}
-   */
-  async fetchRequestTasksContent(): Promise<IAhoRequestTaskContent[] | null> {
-    try {
-      const result = await this.ahoRequestResource.getRequestTasksContent();
-      if (result) {
-        result.forEach((item: IAhoRequestTaskContent) => {
-          const taskContent = new AhoRequestTaskContent(item);
-          this.requestTasksContent.push(taskContent);
-        });
-        return this.requestTasksContent;
-      }
-    } catch (error) {
-      console.error(error);
       return null;
     }
   }
@@ -979,6 +865,7 @@ export class AhoRequestsService {
     this.fetchRequests(
       0,
       0,
+      this.authenticationService.getCurrentUser() ? this.authenticationService.getCurrentUser().id : 0,
       0,
       0,
       0,

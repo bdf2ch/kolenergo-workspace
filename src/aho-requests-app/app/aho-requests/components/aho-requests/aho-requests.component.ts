@@ -55,12 +55,15 @@ export class AhoRequestsComponent implements OnInit {
     console.log(value);
     if (value.length >= 3) {
       this.searchInterval = await setTimeout( async () => {
-        if (this.aho.isSearchingRequests()) {
+        if (this.aho.isSearchingRequests() || !this.auth.getCurrentUser()) {
           return;
         }
         await this.aho.searchRequests(value);
       }, 500);
     } else {
+      if (!this.auth.getCurrentUser()) {
+        return;
+      }
       await this.aho.fetchRequests(
         0,
         0,

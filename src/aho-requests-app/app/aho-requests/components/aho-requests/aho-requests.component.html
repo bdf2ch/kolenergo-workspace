@@ -56,7 +56,7 @@
             <div class="search-input">
               <input type="text" placeholder="Поиск заявок" [(ngModel)]="aho.search" (keyup)="searchChange(aho.search)">
             </div>
-            <div class="controls">
+            <div class="controls" *ngIf="auth.getCurrentUser()">
               <i class="fa fa-filter" matTooltip="Фильтры" matTooltipPosition="below" (click)="openFiltersDialog()" *ngIf="!aho.search || aho.search === ''">
                 <span class="notification" *ngIf="aho.filters_.getSelectedFilters().length > 0"></span>
               </i>

@@ -23,6 +23,7 @@ export class AhoRequest extends Backup implements IAhoRequest {
   dateCreated: Date;                              // Дата создания заявки
   dateExpires: Date;                              // Дата исполнения заявки
   isExpired: boolean;                             // Просрочен ли срок исполнения заявки
+  initiator: string;                              // Инициатор заявки
   user: User;                                     // Пользователь, создавший заявку
   employees: User[];                              // Исполнитель заявки
   tasks: IAhoRequestTask[];                       // Список задач
@@ -44,6 +45,7 @@ export class AhoRequest extends Backup implements IAhoRequest {
     this.dateCreated = config ? new Date(config.dateCreated) : null;
     this.dateExpires = config && config.dateExpires ? new Date(config.dateExpires) : null;
     this.isExpired = config ? config.isExpired : false;
+    this.initiator = config && config.initiator ? config.initiator : null;
     this.user = config && config.user ? new User(config.user) : null;
     this.employees = [];
     this.tasks = [];
@@ -77,6 +79,7 @@ export class AhoRequest extends Backup implements IAhoRequest {
     this.dateCreated = request.dateCreated;
     this.dateExpires = request.dateExpires;
     this.isExpired = request.isExpired;
+    this.initiator = request.initiator;
     this.user = request.user;
     this.employees = request.employees;
     this.tasks = request.tasks;

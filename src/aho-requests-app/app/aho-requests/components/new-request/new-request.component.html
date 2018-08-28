@@ -17,6 +17,16 @@
       </mat-form-field>
       <!-- End: Категория заявки -->
 
+      <!-- Start: Инициатор заявки -->
+      <mat-form-field class="w-100">
+        <input type="text"
+               matInput
+               placeholder="Инициатор заявки (необязательно)"
+               formControlName="initiator"
+               [(ngModel)]="newRequest.initiator">
+      </mat-form-field>
+      <!-- End: Инициатор заявки -->
+
       <!-- Start: # Кабинета -->
       <mat-form-field class="w-100" *ngIf="newRequest.type.id !== 1">
         <input type="text"

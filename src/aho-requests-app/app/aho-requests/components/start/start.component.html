@@ -99,8 +99,11 @@
 
         <!-- Start: Request user column -->
         <ng-container matColumnDef="user">
-          <mat-header-cell *matHeaderCellDef class="request-user-column d-none d-sm-none d-md-flex ml-md-5"> Заявитель </mat-header-cell>
-          <mat-cell *matCellDef="let element" class="request-user-column d-none d-sm-none d-md-flex ml-md-5 pt-2 pb-2"> {{ element.user.firstName + ' ' + element.user.lastName }} </mat-cell>
+          <mat-header-cell *matHeaderCellDef class="request-user-column d-none d-sm-none  d-md-flex ml-md-5"> Заявитель </mat-header-cell>
+          <mat-cell *matCellDef="let element" class="request-user-column d-flex flex-column  d-none d-sm-none d-md-flex ml-md-5 pt-2 pb-2">
+            <div *ngIf="element.initiator">{{ element.initiator }}</div>
+            <div>{{ element.user.firstName + ' ' + element.user.lastName }}</div>
+          </mat-cell>
         </ng-container>
         <!-- End: Request user column -->
 
@@ -189,8 +192,9 @@
 
 <div class="container no-padding app-intro content-wrapper h-100 pb-3 d-flex flex-column justify-content-center align-self-center" *ngIf="!auth.getCurrentUser()">
   <div class="row justify-content-center">
-    <div class="col-12 col-md-8 col-xl-6 d-flex justify-content-center align-items-center p-4 text-center pt-3">
+    <div class="col-12 col-md-8 col-xl-6 d-flex flex-column justify-content-center align-items-center p-4 text-center pt-3">
       <h4>Добро пожаловать в систему заявок АХО!</h4>
+      <h4 class="text-muted">Вы можете подать заявку на следующие услуги:</h4>
     </div>
   </div>
 
@@ -205,7 +209,7 @@
 
   <div class="row justify-content-center">
     <div class="col-12 col-md-8 col-xl-6 d-flex flex-row justify-content-center align-items-center p-4 text-muted text-center">
-      <div>Для того, чтобы подать заявку на требующуюся Вам услугу, необходимо <span class="link" (click)="openAuthDialog()">авторизоваться</span> в системе используя Вашу учетную запись Windows.</div>
+      <div>Для того, чтобы подать заявку на требующуюся Вам услугу, необходимо <span class="link" (click)="openAuthDialog()">авторизоваться</span> в системе, используя Вашу учетную запись Windows.</div>
     </div>
   </div>
 </div>
@@ -217,6 +221,6 @@
         (click)="openNewRequestDialog()"
         *ngIf="auth.getCurrentUser()"
         matTooltip="Подать заявку"
-        [matTooltipPosition]="'left'">
+        matTooltipPosition="left">
   <mat-icon fontSet="fa" fontIcon="fa-plus"></mat-icon>
 </button>

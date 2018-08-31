@@ -99,7 +99,7 @@
 
         <!-- Start: Request user column -->
         <ng-container matColumnDef="user">
-          <mat-header-cell *matHeaderCellDef class="request-user-column d-none d-sm-none  d-md-flex ml-md-5"> Заявитель </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef class="request-user-column d-none d-sm-none  d-md-flex ml-md-5"> Инициатор / Заявитель </mat-header-cell>
           <mat-cell *matCellDef="let element" class="request-user-column d-flex flex-column  d-none d-sm-none d-md-flex ml-md-5 pt-2 pb-2">
             <div *ngIf="element.initiator">{{ element.initiator }}</div>
             <div>{{ element.user.firstName + ' ' + element.user.lastName }}</div>

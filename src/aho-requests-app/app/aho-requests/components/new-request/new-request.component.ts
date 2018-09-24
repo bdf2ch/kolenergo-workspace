@@ -38,7 +38,9 @@ export class NewRequestComponent implements OnInit {
     this.newRequest.user = this.authenticationService.getCurrentUser();
     this.newRequest.status = this.aho.getRequestStatusById(1);
     this.headerColumns = this.newRequest.type.isCountable ? ['title', 'count', 'controls'] : ['title', 'controls'];
-    this.newRequestForm = this.formBuilder.group({});
+    this.newRequestForm = this.formBuilder.group({
+      initiator: [null]
+    });
     this.newTaskForm = this.formBuilder.group({
       title: ['', Validators.required],
       count: [1, Validators.required]
@@ -59,16 +61,20 @@ export class NewRequestComponent implements OnInit {
     }
     switch (event.value.id) {
       case 2:
+        this.newRequestForm.addControl('initiator', new FormControl(null));
         this.newRequestForm.addControl('room', new FormControl('', Validators.required));
         break;
       case 3:
+        this.newRequestForm.addControl('initiator', new FormControl(null));
         this.newRequestForm.addControl('room', new FormControl('', Validators.required));
         this.newRequestForm.addControl('expires', new FormControl(null));
         break;
       case 8:
+        this.newRequestForm.addControl('initiator', new FormControl(null));
         this.newRequestForm.addControl('room', new FormControl('', Validators.required));
         break;
       case 10:
+        this.newRequestForm.addControl('initiator', new FormControl(null));
         this.newRequestForm.addControl('room', new FormControl('', Validators.required));
         this.newRequestForm.addControl('numberOfLoaders', new FormControl(null));
         this.newRequestForm.addControl('expires', new FormControl(null));

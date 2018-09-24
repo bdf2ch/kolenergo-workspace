@@ -113,6 +113,18 @@
 
           <div class="container-fluid">
 
+            <!-- Start: Инициатор -->
+            <div class="row mb-2" *ngIf="aho.getSelectedRequest().initiator">
+              <div class="request-attribute col-12 d-flex align-items-center pt-2 pb-2 pl-3 pr-3">
+                <mat-icon class="mr-3">account_circle</mat-icon>
+                <div class="d-flex flex-column">
+                  <span class="label">Инициатор</span>
+                  <span>{{ aho.getSelectedRequest().initiator }}</span>
+                </div>
+              </div>
+            </div>
+            <!-- End: Инициатор -->
+
             <!-- Start: Заявитель -->
             <div class="row">
               <div class="request-attribute col-12 d-flex align-items-center pt-2 pb-2 pl-3 pr-3">

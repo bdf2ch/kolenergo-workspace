@@ -67,7 +67,7 @@ export class AhoRequestsComponent implements OnInit {
       await this.aho.fetchRequests(
         0,
         0,
-        0,
+        this.auth.getCurrentUser().permissions.getRoleById(1) ? 0 : this.auth.getCurrentUser().id,
         0,
         0,
         0,
@@ -85,18 +85,20 @@ export class AhoRequestsComponent implements OnInit {
    */
   async clearSearch() {
     // this.search = '';
-    await this.aho.fetchRequests(
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      false,
-      0,
-      environment.settings.requestsOnPage,
-      true
-    );
+    if (this.auth.getCurrentUser()) {
+      await this.aho.fetchRequests(
+        0,
+        0,
+        this.auth.getCurrentUser().permissions.getRoleById(1) ? 0 : this.auth.getCurrentUser().id,
+        0,
+        0,
+        0,
+        false,
+        0,
+        environment.settings.requestsOnPage,
+        true
+      );
+    }
   }
 
 

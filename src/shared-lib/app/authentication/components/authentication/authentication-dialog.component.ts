@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from "@angular/core";
+import { Component, Inject, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 import { MAT_DIALOG_DATA } from '@angular/material';
@@ -13,8 +13,8 @@ import { AuthenticationService } from '../../services/authentication.service';
 export class AuthenticationDialogComponent implements OnInit {
   public authForm: FormGroup;
   public authData: any = {
-    account: 'kolu0897',
-    password: 'zx12!@#$'
+    account: '',
+    password: ''
   };
 
   constructor(private dialog: MatDialogRef<AuthenticationDialogComponent>,

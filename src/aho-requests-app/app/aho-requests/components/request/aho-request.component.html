@@ -311,7 +311,7 @@
     <!-- End: Request employee -->
 
     <!-- Start: New comment form -->
-    <div class="new-comment-form w-100" *ngIf="selectedTabIndex === 1 && auth.getCurrentUser() && (auth.getCurrentUser().id === aho.getSelectedRequest().id || auth.getCurrentUser().permissions.getPermissionByCode('allow_add_comments'))">
+    <div class="new-comment-form w-100" *ngIf="selectedTabIndex === 1 && auth.getCurrentUser() && (auth.getCurrentUser().id === aho.getSelectedRequest().user.id || auth.getCurrentUser().permissions.getPermissionByCode('allow_add_comments'))">
       <form [formGroup]="newCommentForm" class="row no-gutters w-100 d-flex">
         <div class="col">
           <mat-form-field class="w-100" [floatLabel]="'never'">
@@ -359,7 +359,7 @@
                   color="warn"
                   class="w-100"
                   [disabled]="aho.isEditingRequest()">
-            Отмена
+            Закрыть
           </button>
         </div>
         <!-- End: Кнопка отмены -->

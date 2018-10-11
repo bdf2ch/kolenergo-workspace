@@ -197,4 +197,10 @@ export class AhoRequestComponent implements OnInit {
     await this.aho.fetchRequestExport(this.aho.getSelectedRequest().id);
   }
 
+  onExpirationDateChange(value: any) {
+    console.log('date', value);
+    this.aho.getSelectedRequest().dateExpires = value.value;
+    this.isRequestChanged = true;
+  }
+
 }

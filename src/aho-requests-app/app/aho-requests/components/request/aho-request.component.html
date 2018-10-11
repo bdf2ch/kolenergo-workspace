@@ -142,7 +142,11 @@
               <div class="request-attribute d-flex align-items-center pt-2 pb-2 pl-3 pr-3"
                    [ngClass]="{'col-12': !aho.getSelectedRequest().numberOfLoaders && !aho.getSelectedRequest().room, 'col-6': (aho.getSelectedRequest().numberOfLoaders && !aho.getSelectedRequest().room) || (!aho.getSelectedRequest().numberOfLoaders && aho.getSelectedRequest().room),'col-4': aho.getSelectedRequest().numberOfLoaders && aho.getSelectedRequest().room, 'col-3': aho.getSelectedRequest().numberOfLoaders || aho.getSelectedRequest().room}"
                    *ngIf="aho.getSelectedRequest().dateExpires">
-                <mat-icon class="mr-2">calendar_today</mat-icon>
+                <mat-icon class="mr-2" [ngClass]="{'editable': auth.getCurrentUser() && auth.getCurrentUser().permissions.getRoleById(1)}" (click)="dateExpires.open()">calendar_today</mat-icon>
+                <mat-form-field style="width: 0px;">
+                  <input matInput [matDatepicker]="dateExpires" (dateChange)="onExpirationDateChange($event)">
+                  <mat-datepicker #dateExpires></mat-datepicker>
+                </mat-form-field>
                 <div class="d-flex flex-column">
                   <span class="label">{{ aho.getSelectedRequest().room && aho.getSelectedRequest().numberOfLoaders ? 'Срок исполн.' : 'Срок исполнения' }}</span>
                   <div class="d-flex flex-row align-items-center">

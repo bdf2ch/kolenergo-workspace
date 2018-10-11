@@ -73,10 +73,6 @@
             {{ auth.getCurrentUser().firstName + ' ' + auth.getCurrentUser().lastName }}
           </button>
           <mat-menu #userMenu="matMenu" [yPosition]="'below'" class="user-menu">
-            <button mat-menu-item>
-              <mat-icon color="primary"tIcon="fa-user-circle-o">account_circle</mat-icon>
-              Мои заявки
-            </button>
             <button mat-menu-item
                     routerLink="/admin"
                     *ngIf="auth.getCurrentUser() && auth.getCurrentUser().permissions.getRoleById(1)">

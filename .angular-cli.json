@@ -27,6 +27,35 @@
       }
     },
     {
+      "name": "control-panel-app",
+      "root": "src/control-panel-app",
+      "outDir": "dist/control-panel-app",
+      "assets": [
+        "assets",
+        "favicon.ico"
+      ],
+      "index": "index.html",
+      "main": "main.ts",
+      "polyfills": "../_common/polyfills.ts",
+      "test": "../test.ts",
+      "tsconfig": "../tsconfig.app.json",
+      "testTsconfig": "../tsconfig.spec.json",
+      "prefix": "app",
+      "styles": [
+        "styles/styles.less",
+        "../../node_modules/bootstrap/dist/css/bootstrap.css",
+        "../../node_modules/font-awesome/css/font-awesome.min.css",
+        "../../node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+        "../../node_modules/element-angular/theme/index.css"
+      ],
+      "scripts": [],
+      "environmentSource": "environments/environment.ts",
+      "environments": {
+        "dev": "environments/environment.ts",
+        "prod": "environments/environment.prod.ts"
+      }
+    },
+    {
       "name": "portal-app",
       "root": "src/portal-app",
       "outDir": "dist/portal-app",

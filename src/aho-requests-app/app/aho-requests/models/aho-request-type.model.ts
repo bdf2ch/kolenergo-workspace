@@ -12,6 +12,7 @@ export class AhoRequestType implements IAhoRequestType {
   itemTitle: string | null;   // Заголовок поля ввлода задачи типа
   countTitle: string | null;  // Заголовок поля исчисления задачи
   isCountable: boolean;       // Измеряются ли задачи типа количественно
+  imageUrl: string;           // URL фонового изображения
 
   /**
    * Конструктор
@@ -24,7 +25,8 @@ export class AhoRequestType implements IAhoRequestType {
     this.order = config && config.order ? config.order : 0;
     this.listTitle = config ? config.listTitle : null;
     this.itemTitle = config ? config.itemTitle : null;
-    this.countTitle = config ? config.countTitle: null;
+    this.countTitle = config ? config.countTitle : null;
     this.isCountable = config ? config.isCountable : false;
+    this.imageUrl = config ? config.imageUrl : null;
   }
 }

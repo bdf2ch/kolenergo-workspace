@@ -3,25 +3,34 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { AhoRequestsComponent } from './components/aho-requests/aho-requests.component';
 import { StartComponent } from './components/start/start.component';
-import { AuthenticationResolveGuard } from '@kolenergo/lib';
 import { AhoRequestsResolveGuard } from './guards/aho-requests-resolve.guard';
 import { AhoRequestResolveGuard } from './guards/aho-request-resolve.guard.';
 import { AdminComponent } from './components/admin/admin.component';
 import { AhoRequestsAdminGuard } from './guards/admin.can-activate.guard';
+import { WelcomeComponent } from './components/welcome/welcome.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: AhoRequestsComponent,
-    resolve: [AhoRequestsResolveGuard],
+    resolve: [
+      AhoRequestsResolveGuard
+    ],
     children: [
       {
         path: '',
         component: StartComponent,
+        canActivate: [
+          AuthGuard
+        ]
       },
       {
         path: 'request/:id',
         component: StartComponent,
+        canActivate: [
+          AuthGuard
+        ],
         resolve: [
           AhoRequestResolveGuard
         ]
@@ -29,9 +38,24 @@ const routes: Routes = [
       {
         path: 'admin',
         component: AdminComponent,
-        canActivate: [AhoRequestsAdminGuard]
+        canActivate: [
+          AhoRequestsAdminGuard
+        ]
+      },
+      /*
+      {
+        path: 'welcome',
+        component: WelcomeComponent,
       }
+      */
     ]
+  },
+  {
+    path: 'welcome',
+    component: WelcomeComponent,
+    resolve: [
+      AhoRequestsResolveGuard
+    ],
   }
 ];
 

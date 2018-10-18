@@ -10,4 +10,5 @@ export interface IAhoRequestType {
   itemTitle: string | null;   // Заголовок поля ввода задачи типа
   countTitle: string | null;  // Заголовок поля исчисления задачи
   isCountable: boolean;       // Измеряются ли задачи типа количественно
+  imageUrl: string;      // URL фонового изображения
 }

@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, RouterStateSnapshot, Resolve } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot, Resolve, Router } from '@angular/router';
 import { AhoRequestsService } from '../services/aho-requests.service';
 import { AuthenticationService } from '@kolenergo/lib';
 import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class AhoRequestsResolveGuard implements Resolve<boolean> {
-  constructor(private readonly auth: AuthenticationService,
+  constructor(private readonly router: Router,
+              private readonly auth: AuthenticationService,
               private readonly aho: AhoRequestsService) {}
 
   async resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
@@ -14,6 +15,12 @@ export class AhoRequestsResolveGuard implements Resolve<boolean> {
     console.log('start resolving requests');
     await this.auth.check(window.localStorage && window.localStorage.getItem('app_code') ? window.localStorage.getItem('app_code') : null);
     await this.aho.fetchInitialData(this.auth.getCurrentUser() ? this.auth.getCurrentUser().id : 0, environment.settings.requestsOnPage);
+
+    /*
+    if (!this.auth.getCurrentUser()) {
+      this.router.navigate(['/welcome']);
+    }
+    */
 
     // await this.aho.fetchRequestTypes();
     // await this.aho.fetchRequestStatuses();

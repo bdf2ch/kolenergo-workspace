@@ -1,20 +1,18 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { AuthenticationDialogComponent, AuthenticationService } from '@kolenergo/lib';
 import { AhoRequestsService } from '../../services/aho-requests.service';
+import { environment } from '../../../../environments/environment';
 import { FiltersComponent } from '../filters/filters.component';
 import { AhoRequestFilter } from '../../models/aho-request-filter.model';
-import { environment } from '../../../../environments/environment';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-aho-requests',
-  templateUrl: './aho-requests.component.html',
-  styleUrls: ['./aho-requests.component.less'],
-  encapsulation: ViewEncapsulation.None
+  selector: 'app-aho-requests-wrapper',
+  templateUrl: './aho-requests-wrapper.component.html',
+  styleUrls: ['./aho-requests-wrapper.component.less']
 })
-export class AhoRequestsComponent implements OnInit {
-  // public search: string;
+export class AhoRequestsWrapperComponent implements OnInit {
   private searchInterval;
 
   constructor(private readonly router: Router,
@@ -44,8 +42,9 @@ export class AhoRequestsComponent implements OnInit {
   }
 
   logOut(): void {
-    this.auth.logOut();
-    this.router.navigate(['/welcome']);
+    this.auth.logOut().then(() => {
+      this.router.navigate(['/welcome']);
+    });
   }
 
   openFiltersDialog() {
@@ -87,8 +86,9 @@ export class AhoRequestsComponent implements OnInit {
    * @returns {Promise<void>}
    */
   async clearSearch() {
-    // this.search = '';
+    //this.search = '';
     if (this.auth.getCurrentUser()) {
+      this.aho.search = null;
       await this.aho.fetchRequests(
         0,
         0,

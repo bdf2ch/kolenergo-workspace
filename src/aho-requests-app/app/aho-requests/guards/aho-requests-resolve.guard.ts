@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, RouterStateSnapshot, Resolve, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot, Resolve, Router, CanActivate, CanActivateChild } from '@angular/router';
 import { AhoRequestsService } from '../services/aho-requests.service';
 import { AuthenticationService } from '@kolenergo/lib';
 import { environment } from '../../../environments/environment';
 
 @Injectable()
-export class AhoRequestsResolveGuard implements Resolve<boolean> {
+export class AhoRequestsResolveGuard implements Resolve<boolean>, CanActivate, CanActivateChild {
   constructor(private readonly router: Router,
               private readonly auth: AuthenticationService,
               private readonly aho: AhoRequestsService) {}
@@ -36,6 +36,22 @@ export class AhoRequestsResolveGuard implements Resolve<boolean> {
       }
     }
     */
+    return true;
+  }
+
+  async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
+    console.log('CURRENT USER', this.auth.getCurrentUser());
+    console.log('start resolving requests');
+    await this.auth.check(window.localStorage && window.localStorage.getItem('app_code') ? window.localStorage.getItem('app_code') : null);
+    await this.aho.fetchInitialData(this.auth.getCurrentUser() ? this.auth.getCurrentUser().id : 0, environment.settings.requestsOnPage);
+    return true;
+  }
+
+  async canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
+    console.log('CURRENT USER', this.auth.getCurrentUser());
+    console.log('start resolving requests');
+    await this.auth.check(window.localStorage && window.localStorage.getItem('app_code') ? window.localStorage.getItem('app_code') : null);
+    await this.aho.fetchInitialData(this.auth.getCurrentUser() ? this.auth.getCurrentUser().id : 0, environment.settings.requestsOnPage);
     return true;
   }
 }

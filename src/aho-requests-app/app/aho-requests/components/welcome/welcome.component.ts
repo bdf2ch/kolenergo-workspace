@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { AhoRequestsService } from '../../services/aho-requests.service';
-import { AuthenticationDialogComponent } from '@kolenergo/lib';
+import { AuthenticationDialogComponent, AuthenticationService } from '@kolenergo/lib';
+import { environment } from '../../../../environments/environment';
+import { Router } from '@angular/router';
+import { AhoRequestsService } from '../../../aho-requests/services/aho-requests.service';
 
 @Component({
   selector: 'app-welcome',
@@ -10,14 +12,24 @@ import { AuthenticationDialogComponent } from '@kolenergo/lib';
 })
 export class WelcomeComponent implements OnInit {
 
-  constructor(public readonly aho: AhoRequestsService,
-              private readonly dialog: MatDialog) {}
+  constructor(private readonly auth: AuthenticationService,
+              public readonly aho: AhoRequestsService,
+              private readonly dialog: MatDialog,
+              private readonly router: Router) {}
 
   ngOnInit() {}
 
   openAuthDialog() {
     this.dialog.open(AuthenticationDialogComponent, {
       width: '350px'
+    }).afterClosed().subscribe((data: any) => {
+      console.log('data', data);
+      if (this.auth.getCurrentUser()) {
+        if (this.auth.getCurrentUser()) {
+          this.aho.fetchInitialData(this.auth.getCurrentUser().id, environment.settings.requestsOnPage);
+          this.router.navigate(['/']);
+        }
+      }
     });
   }
 }

@@ -29,8 +29,10 @@ import * as _moment from 'moment';
 import {default as _rollupMoment} from 'moment';
 import { ResumeRequestComponent } from './components/request/resume-request/resume-request.component';
 import { DeleteRequestComponent } from './components/request/delete-request/delete-request.component';
+import { AuthGuard } from './guards/auth.guard';
 import { WelcomeComponent } from './components/welcome/welcome.component';
-import {AuthGuard} from './guards/auth.guard';
+import { AhoRequestsWrapperComponent } from './components/aho-requests-wrapper/aho-requests-wrapper.component';
+
 const moment = _rollupMoment || _moment;
 
 @NgModule({
@@ -56,7 +58,8 @@ const moment = _rollupMoment || _moment;
     ExceptSelectedTasksPipe,
     ResumeRequestComponent,
     DeleteRequestComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    AhoRequestsWrapperComponent
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'ru-RU'},

@@ -9,47 +9,58 @@ import { AdminComponent } from './components/admin/admin.component';
 import { AhoRequestsAdminGuard } from './guards/admin.can-activate.guard';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { AuthGuard } from './guards/auth.guard';
+import { AhoRequestsWrapperComponent } from './components/aho-requests-wrapper/aho-requests-wrapper.component';
 
 const routes: Routes = [
   {
     path: '',
     component: AhoRequestsComponent,
+   /*
     resolve: [
+      AhoRequestsResolveGuard
+    ],
+    */
+    canActivate: [
       AhoRequestsResolveGuard
     ],
     children: [
       {
         path: '',
-        component: StartComponent,
-        canActivate: [
-          AuthGuard
+        component: AhoRequestsWrapperComponent,
+        children: [
+          {
+            path: '',
+            component: StartComponent,
+            canActivate: [
+              AuthGuard
+            ]
+          },
+          {
+            path: 'request/:id',
+            component: StartComponent,
+            canActivate: [
+              AuthGuard
+            ],
+            resolve: [
+              AhoRequestResolveGuard
+            ]
+          },
+          {
+            path: 'admin',
+            component: AdminComponent,
+            canActivate: [
+              AhoRequestsAdminGuard
+            ]
+          }
         ]
       },
-      {
-        path: 'request/:id',
-        component: StartComponent,
-        canActivate: [
-          AuthGuard
-        ],
-        resolve: [
-          AhoRequestResolveGuard
-        ]
-      },
-      {
-        path: 'admin',
-        component: AdminComponent,
-        canActivate: [
-          AhoRequestsAdminGuard
-        ]
-      },
-      /*
       {
         path: 'welcome',
-        component: WelcomeComponent,
+        component: WelcomeComponent
       }
-      */
     ]
-  },
+  }
+  /*
   {
     path: 'welcome',
     component: WelcomeComponent,
@@ -57,6 +68,7 @@ const routes: Routes = [
       AhoRequestsResolveGuard
     ],
   }
+  */
 ];
 
 @NgModule({

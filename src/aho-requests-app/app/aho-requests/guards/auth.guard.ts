@@ -8,10 +8,14 @@ export class AuthGuard implements CanActivate {
               private readonly auth: AuthenticationService) {}
 
   canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): boolean {
+    next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    console.log('AUTH GUARD', this.auth.getCurrentUser());
+
     if (!this.auth.getCurrentUser()) {
       this.router.navigate(['/welcome']);
+      return false;
+    } else {
+      // this.router.navigate(['/']);
       return true;
     }
   }

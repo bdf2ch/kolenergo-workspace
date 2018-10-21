@@ -1,4 +1,4 @@
-<div class="container-fluid no-padding content-wrapper pb-3" *ngIf="auth.getCurrentUser() && aho.getRequests().length > 0">
+<div class="container-fluid no-padding content-wrapper pb-3" *ngIf="!aho.search || (aho.getRequests().length > 0 && aho.search)">
   <div class="row no-gutters">
 
     <div class="request-list-navigation col-12 d-flex flex-column justify-content-between p-3 border-bottom">
@@ -217,7 +217,7 @@
 <!-- End: Заглушка, отображающаяся если пользователь не авторизован -->
 
 <!-- Start: Заглушка, отображающаяся если пользователь еще не подавал заявок -->
-<div class="container content-wrapper app-intro h-100 pb-3 d-flex flex-column justify-content-center text-center align-self-center" *ngIf="auth.getCurrentUser() && aho.getRequests().length === 0 && !aho.search">
+<div class="container content-wrapper app-intro h-100 pb-3 d-flex flex-column justify-content-center text-center align-self-center" *ngIf="aho.getRequests().length === 0 && !aho.search && !aho.isFetchingData()">
   <div class="row">
     <div class="col">
       <h4 class="text-muted mb-3">Вы пока еще не подавали заявок</h4>
@@ -228,10 +228,10 @@
 <!-- End: Заглушка, отображающаяся если пользователь еще не подавал заявок -->
 
 <!-- Start: Заглушка, отображающаяся при отсутствии найденных заявок -->
-<div class="container content-wrapper app-intro h-100 pb-3 d-flex flex-column justify-content-center text-center align-self-center" *ngIf="auth.getCurrentUser() && aho.getRequests().length === 0 && aho.search">
+<div class="container content-wrapper app-intro h-100 pb-3 d-flex flex-column justify-content-center text-center align-self-center" *ngIf="aho.getRequests().length === 0 && aho.search && !aho.isSearchingRequests()">
   <div class="row">
     <div class="col">
-      <h4 class="text-muted mb-3">Заявки не найдены</h4>
+      <h4 class="text-muted mb-3">По вашему запросу заявки не найдены</h4>
     </div>
   </div>
 </div>

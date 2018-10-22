@@ -36,8 +36,9 @@ export class StartComponent implements OnInit {
         console.log('route params', params);
         if (params['id']) {
           this.dialog.open(AhoRequestComponent, {
-            width: '550px',
-            height: '620px'
+            width: '800px',
+            //height: '620px'
+            minHeight: '400px'
           });
         } else {
           this.dialog.closeAll();
@@ -62,7 +63,7 @@ export class StartComponent implements OnInit {
 
   openNewRequestDialog() {
     this.dialog.open(NewRequestComponent, {
-      width: '500px'
+      width: '800px'
     });
   }
 

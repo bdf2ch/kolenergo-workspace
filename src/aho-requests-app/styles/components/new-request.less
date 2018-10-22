@@ -1,12 +1,24 @@
 .new-request {
 
   .mat-dialog-title {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 200px;
     margin-left: -24px;
     margin-right: -24px;
     margin-top: -25px;
-    padding: 20px;
-    font-family: "Segoe UI Light";
-    background: #FFD740;
+    padding: 40px;
+    font-family: "Segoe UI Light" !important;
+    color: white;
+    // background: #FFD740;
+    background-size: cover !important;
+    background-position-x: -50px;
+
+    h2 {
+      margin-bottom: 0px !important;
+      font-weight: bold;
+    }
   }
 
   .mat-dialog-content {
@@ -26,6 +38,11 @@
       //margin-bottom: 10px;
       border-top: 1px dashed #ECEFF1;
       border-bottom: 1px dashed #ECEFF1;
+    }
+
+    h6 {
+      font-family: "Segoe UI Light";
+      font-size: 1.1rem !important;
     }
   }
 

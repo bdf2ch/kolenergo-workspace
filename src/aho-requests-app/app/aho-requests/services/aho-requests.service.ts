@@ -34,7 +34,7 @@ export class AhoRequestsService {
   private requestTasksContent: AhoRequestTaskContent[];
   private employees: User[];
   private requests: AhoRequest[];
-  private totalRequestsCount: number;
+  public totalRequestsCount: number;
   private expiredRequestsCount: number;
   private employeeRequestsCount: number;
   private employeeRequests: AhoRequest[];
@@ -203,6 +203,7 @@ export class AhoRequestsService {
       );
       if (result) {
         this.fetchingDataInProgress = false;
+        this.totalRequestsCount = result.data.totalRequests;
         this.pagination = new Pagination({
           totalItems: result.data.totalRequests,
           itemsOnPage: environment.settings.requestsOnPage
@@ -389,6 +390,7 @@ export class AhoRequestsService {
         this.fetchingDataInProgress = false;
         this.inEmployeeRequestsMode = false;
         this.inExpiredRequestsMode = false;
+        this.totalRequestsCount = result.data.totalRequests;
         this.pagination = new Pagination({itemsOnPage: environment.settings.requestsOnPage, totalItems: result.data.totalRequests});
         this.requests = [];
         result.data.requests.forEach((item: IAhoRequest) => {

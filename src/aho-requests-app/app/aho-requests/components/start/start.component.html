@@ -1,4 +1,4 @@
-<div class="container-fluid no-padding content-wrapper pb-3" *ngIf="!aho.search || (aho.getRequests().length > 0 && aho.search)">
+<div class="container-fluid no-padding content-wrapper pb-3" *ngIf="aho.totalRequestsCount !== 0">
   <div class="row no-gutters">
 
     <div class="request-list-navigation col-12 d-flex flex-column justify-content-between p-3 border-bottom">
@@ -221,7 +221,6 @@
   <div class="row">
     <div class="col">
       <h4 class="text-muted mb-3">Вы пока еще не подавали заявок</h4>
-      <button mat-stroked-button color="primary" (click)="openNewRequestDialog()">Подать заявку</button>
     </div>
   </div>
 </div>

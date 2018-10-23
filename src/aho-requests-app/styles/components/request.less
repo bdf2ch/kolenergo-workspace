@@ -9,7 +9,7 @@
     font-family: "Segoe UI Light" !important;
     color: white;
     background-size: cover !important;
-    background-position-x: -50px;
+    background-position-x: -70px;
 
     h2 {
       margin-bottom: 0px !important;
@@ -107,8 +107,21 @@
       justify-content: space-between;
     }
 
+    .mat-tab-label {
+      display: flex;
+      flex: 1;
+    }
+
+    .mat-tab-group{
+      height: 100%;
+    }
+    .mat-tab-group .mat-tab-body {
+      flex-grow: 1;
+    }
+
     .mat-tab-body-wrapper {
       height: 100%;
+      flex-grow: 1;
     }
 
     .request-information {

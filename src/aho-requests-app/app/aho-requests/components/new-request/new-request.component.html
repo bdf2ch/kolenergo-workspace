@@ -5,76 +5,76 @@
   </div>
   <mat-dialog-content class="d-flex flex-column flex-md-row">
 
+    <div #detailsTab>
+      <div class="d-flex flex-column col-12 col-md-6 pt-2 mb-3">
+        <h6 class="mb-4 pl-4">Детали заявки</h6>
 
-    <div class="d-flex flex-column col-12 col-md-6 pt-2 mb-3">
-      <h6 class="mb-4 pl-4">Детали заявки</h6>
+        <form [formGroup]="newRequestForm" class="pl-4 pr-4">
+          <!-- Start: Категория заявки -->
+          <mat-form-field class="w-100">
+            <mat-select placeholder="Категория заявки"
+                        [required]="true"
+                        [(value)]="newRequest.type"
+                        (selectionChange)="onRequestTypeChange($event)">
+              <mat-option *ngFor="let requestType of aho.getRequestTypes()"
+                          [value]="requestType">
+                {{ requestType.title }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <!-- End: Категория заявки -->
 
-      <form [formGroup]="newRequestForm" class="pl-4 pr-4">
-        <!-- Start: Категория заявки -->
-        <mat-form-field class="w-100">
-          <mat-select placeholder="Категория заявки"
-                      [required]="true"
-                      [(value)]="newRequest.type"
-                      (selectionChange)="onRequestTypeChange($event)">
-            <mat-option *ngFor="let requestType of aho.getRequestTypes()"
-                        [value]="requestType">
-              {{ requestType.title }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <!-- End: Категория заявки -->
+          <!-- Start: Инициатор заявки -->
+          <mat-form-field class="w-100">
+            <input type="text"
+                   matInput
+                   placeholder="Инициатор заявки (необязательно)"
+                   formControlName="initiator"
+                   [(ngModel)]="newRequest.initiator">
+          </mat-form-field>
+          <!-- End: Инициатор заявки -->
 
-        <!-- Start: Инициатор заявки -->
-        <mat-form-field class="w-100">
-          <input type="text"
-                 matInput
-                 placeholder="Инициатор заявки (необязательно)"
-                 formControlName="initiator"
-                 [(ngModel)]="newRequest.initiator">
-        </mat-form-field>
-        <!-- End: Инициатор заявки -->
+          <!-- Start: # Кабинета -->
+          <mat-form-field class="w-100" *ngIf="newRequest.type.id !== 1">
+            <input type="text"
+                   matInput
+                   placeholder="Введите № кабинета"
+                   formControlName="room"
+                   [(ngModel)]="newRequest.room"
+                   required>
+            <mat-error *ngIf="newRequestForm.get('room').invalid">{{ getRoomErrorMessage() }}</mat-error>
+          </mat-form-field>
+          <!-- End: # Кабинета -->
 
-        <!-- Start: # Кабинета -->
-        <mat-form-field class="w-100" *ngIf="newRequest.type.id !== 1">
-          <input type="text"
-                 matInput
-                 placeholder="Введите № кабинета"
-                 formControlName="room"
-                 [(ngModel)]="newRequest.room"
-                 required>
-          <mat-error *ngIf="newRequestForm.get('room').invalid">{{ getRoomErrorMessage() }}</mat-error>
-        </mat-form-field>
-        <!-- End: # Кабинета -->
+          <!-- Start: Количество грузчиков -->
+          <mat-form-field class="w-100" *ngIf="newRequest.type.id === 10">
+            <input type="text"
+                   matInput
+                   placeholder="Количество грузчиков (необязательно)"
+                   formControlName="numberOfLoaders"
+                   [(ngModel)]="newRequest.numberOfLoaders">
+          </mat-form-field>
+          <!-- End: Количество грузчиков -->
 
-        <!-- Start: Количество грузчиков -->
-        <mat-form-field class="w-100" *ngIf="newRequest.type.id === 10">
-          <input type="text"
-                 matInput
-                 placeholder="Количество грузчиков (необязательно)"
-                 formControlName="numberOfLoaders"
-                 [(ngModel)]="newRequest.numberOfLoaders">
-        </mat-form-field>
-        <!-- End: Количество грузчиков -->
+          <!-- Start: Срок исполнения -->
+          <mat-form-field class="w-100" *ngIf="newRequest.type.id === 10 || newRequest.type.id === 3">
+            <input
+              matInput
+              [matDatepicker]="dateExpires"
+              [value]="newRequest.dateExpires"
+              placeholder="Срок исполнения (необязательно)"
+              (dateChange)="changeExpirationDate($event)"
+              [min]="now"
+              disabled>
+            <mat-datepicker-toggle matSuffix [for]="dateExpires"></mat-datepicker-toggle>
+            <mat-datepicker #dateExpires disabled="false"></mat-datepicker>
+          </mat-form-field>
+          <!-- End: Срок исполнения -->
+        </form>
+      </div>
 
-        <!-- Start: Срок исполнения -->
-        <mat-form-field class="w-100" *ngIf="newRequest.type.id === 10 || newRequest.type.id === 3">
-          <input
-            matInput
-            [matDatepicker]="dateExpires"
-            [value]="newRequest.dateExpires"
-            placeholder="Срок исполнения (необязательно)"
-            (dateChange)="changeExpirationDate($event)"
-            [min]="now"
-            disabled>
-          <mat-datepicker-toggle matSuffix [for]="dateExpires"></mat-datepicker-toggle>
-          <mat-datepicker #dateExpires disabled="false"></mat-datepicker>
-        </mat-form-field>
-        <!-- End: Срок исполнения -->
-      </form>
-    </div>
-
-    <div class="d-flex flex-column col-12 col-md-6 pt-2">
-      <h6 class="mb-4">{{ newRequest.type.listTitle }}</h6>
+      <div class="d-flex flex-column col-12 col-md-6 pt-2">
+        <h6 class="mb-4">{{ newRequest.type.listTitle }}</h6>
 
         <!-- Start: Список задач -->
         <div class="mb-4 pr-4" *ngIf="newRequest.tasks.length > 0">
@@ -136,7 +136,7 @@
                      [matAutocomplete]="content"
                      required>
               <mat-hint align="start">Выберите из списка или введите</mat-hint>
-                <mat-autocomplete #content="matAutocomplete" [displayWith]="displayTaskContentTitle">
+              <mat-autocomplete #content="matAutocomplete" [displayWith]="displayTaskContentTitle">
                 <mat-option
                   *ngFor="let item of aho.getRequestTasksContent() | taskContentByRequestType : newRequest.type.id | exceptSelectedTasks: newRequest.getTasksContent()"
                   [value]="item">
@@ -178,6 +178,7 @@
         </form>
         <!-- End: New task form-->
       </div>
+    </div>
 
 
   </mat-dialog-content>

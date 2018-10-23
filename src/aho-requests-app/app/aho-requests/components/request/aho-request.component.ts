@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AhoRequestsService } from '../../services/aho-requests.service';
@@ -7,11 +7,11 @@ import { AhoRequestStatus } from '../../models/aho-request-status.model';
 import { AhoRequestTask } from '../../models/aho-request-task.model';
 import { AhoRequestComment } from '../../models/aho-request-comment.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatAutocompleteSelectedEvent } from '@angular/material';
+import { MatAutocompleteSelectedEvent, MatTabChangeEvent } from '@angular/material';
 import { AhoRequest } from '../../models/aho-request.model';
 import { RejectRequestComponent } from '../reject-request/reject-request.component';
-import {ResumeRequestComponent} from './resume-request/resume-request.component';
-import {DeleteRequestComponent} from './delete-request/delete-request.component';
+import { ResumeRequestComponent } from './resume-request/resume-request.component';
+import { DeleteRequestComponent } from './delete-request/delete-request.component';
 
 @Component({
   selector: 'app-request',
@@ -24,12 +24,14 @@ export class AhoRequestComponent implements OnInit {
   public newCommentForm: FormGroup;
   public selectedTabIndex: number;
   private backup: AhoRequest;
-  // @ViewChild('commentsContainer') commentsContainer: ElementRef;
+  @ViewChild('detailsTab') detailsTab: ElementRef;
+  @ViewChild('commentsTab') commentsTab: ElementRef;
 
   constructor(private readonly router: Router,
               private readonly formBuilder: FormBuilder,
               private readonly dialog: MatDialog,
               private readonly dialogRef: MatDialogRef<AhoRequestComponent>,
+              private readonly renderer: Renderer2,
               public readonly auth: AuthenticationService,
               public readonly aho: AhoRequestsService) {
     this.selectedTabIndex = 0;
@@ -60,6 +62,9 @@ export class AhoRequestComponent implements OnInit {
     this.dialogRef.afterClosed().subscribe(() => {
       this.aho.setSelectedRequest(null);
     });
+
+
+    console.log(this.commentsTab.nativeElement.style.height);
   }
 
   tabChange(index: number) {
@@ -67,14 +72,15 @@ export class AhoRequestComponent implements OnInit {
     this.selectedTabIndex = index;
     switch (index) {
       case 1:
-        //console.log(this.commentsContainer);
-        //setTimeout(() => {
-        //  console.log('scrollHeight', this.commentsContainer.nativeElement.scrollHeight);
-        //  this.commentsContainer.nativeElement.scrollTop = this.commentsContainer.nativeElement.scrollHeight;
-        //  console.log('scrollTop', this.commentsContainer.nativeElement.scrollTop);
-        //  return;
-        //}, 0);
-            break;
+        // this.commentsTab.nativeElement.style.height = this.height + 'px';
+        break;
+    }
+  }
+
+
+  onTabChange(event: MatTabChangeEvent) {
+    if (event.index === 1) {
+      this.renderer.setStyle(this.commentsTab.nativeElement, 'height', this.detailsTab.nativeElement.offsetHeight + 10 + 'px');
     }
   }
 
@@ -202,5 +208,4 @@ export class AhoRequestComponent implements OnInit {
     this.aho.getSelectedRequest().dateExpires = value.value;
     this.isRequestChanged = true;
   }
-
 }

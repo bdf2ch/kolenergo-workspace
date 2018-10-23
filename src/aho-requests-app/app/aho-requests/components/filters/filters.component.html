@@ -45,7 +45,7 @@
   <div class="row d-flex justify-content-center">
     <div class="col-12">
       <mat-form-field class="w-100">
-        <mat-select placeholder="Тип заявки" [(ngModel)]="aho.filters_.filters.requestType.value">
+        <mat-select placeholder="Категория заявки" [(ngModel)]="aho.filters_.filters.requestType.value">
           <mat-option *ngFor="let requestType of aho.getRequestTypes()" [value]="requestType">
             {{ requestType.title }}
           </mat-option>

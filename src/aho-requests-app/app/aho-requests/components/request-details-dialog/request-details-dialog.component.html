@@ -84,15 +84,14 @@
                     </mat-form-field>
                     <div class="d-flex flex-column w-100">
                       <span class="label">Срок исполнения</span>
-                      <div class="d-flex flex-row justify-content-between align-items-center w-100">
+                      <div class="d-flex flex-row justify-content-around align-items-center w-100">
                         <div>
-                          <span class="mr-1">{{ aho.getSelectedRequest().dateExpires | date:'dd.MM.yyyy' }}</span>
+                          <span class="mr-1 d-flex">{{ aho.getSelectedRequest().dateExpires | date:'dd.MM.yyyy' }}</span>
                           <mat-icon *ngIf="aho.getSelectedRequest().isExpired" class="expired" matTooltip="Заявка просрочена"
                                     matTooltipPosition="below">error_outline
                           </mat-icon>
                         </div>
                         <button mat-icon-button
-                                class="align-self-end"
                                 matTooltip="Изменить срок исполнения"
                                 matTooltipPosition="below"
                                 (click)="dateExpires.open()"

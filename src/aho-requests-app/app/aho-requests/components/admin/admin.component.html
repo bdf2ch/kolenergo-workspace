@@ -9,7 +9,7 @@
             <mat-tab label="{{ 'Потребность в материалах на ' + (now | date: 'dd.MM.yyyy')}}">
               <div class="pl-4 pr-4">
                 <mat-table #table [dataSource]="dataSource" class="aho-requests-needs-table">
-                  <!-- Start: request task content column -->
+                  <!-- Start: request-details-dialog task content column -->
                   <ng-container matColumnDef="content">
                     <mat-header-cell *matHeaderCellDef class="content-column"> Наименование </mat-header-cell>
                     <mat-cell *matCellDef="let element" class="content-column"> {{ element.content.title }} </mat-cell>

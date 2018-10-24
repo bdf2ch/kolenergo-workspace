@@ -6,14 +6,14 @@ import {AuthenticationService} from '@kolenergo/lib';
 
 @Component({
   selector: 'app-filters',
-  templateUrl: './filters.component.html',
-  styleUrls: ['./filters.component.less']
+  templateUrl: './filters-dialog.component.html',
+  styleUrls: ['./filters-dialog.component.less']
 })
-export class FiltersComponent implements OnInit {
+export class FiltersDialogComponent implements OnInit {
   public now: Date;
 
   constructor(private readonly dialog: MatDialog,
-              private readonly dialogRef: MatDialogRef<FiltersComponent>,
+              private readonly dialogRef: MatDialogRef<FiltersDialogComponent>,
               private readonly auth: AuthenticationService,
               public readonly aho: AhoRequestsService) {
     this.now = new Date();
@@ -68,8 +68,8 @@ export class FiltersComponent implements OnInit {
 
   cancelFilters() {
     /*
-    for (const filter in this.aho.filters) {
-      this.aho.filters[filter].clear();
+    for (const filter in this.aho.filters-dialog) {
+      this.aho.filters-dialog[filter].clear();
     }
     */
     this.aho.filters_.resetFilters();

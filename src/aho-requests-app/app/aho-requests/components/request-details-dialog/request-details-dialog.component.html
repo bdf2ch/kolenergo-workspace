@@ -4,111 +4,14 @@
   <div mat-dialog-title class="d-flex flex-column" [ngStyle]="{'background': 'linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(' + aho.getSelectedRequest().type.imageUrl + ')'}">
     <h2>Заявка #{{ aho.getSelectedRequest().id  + ' от ' + (aho.getSelectedRequest().dateCreated | date:'dd.MM.yyyy, HH:mm') }}</h2>
     <h5>{{ aho.getSelectedRequest().type.title | lowercase }}</h5>
-    <!-- Start: Иконка типа заявки -->
-    <!--
-    <div class="d-flex">
-      <div class="request-icon d-flex justify-content-center text-center align-items-center align-content-center mr-2">
-        <mat-icon fontSet="fa" fontIcon="{{ aho.getSelectedRequest().type.icon }}"></mat-icon>
-      </div>
-    </div>
-    -->
-    <!-- End: Иконка типа заявки -->
-
-
-    <!--
-    <div class="d-flex flex-column justify-content-center" style="flex: 1;">
-
-
-      <div class="request-title d-flex flex-row justify-content-between">
-        <div class="request-number">
-          <span class="bold mb-1">Заявка №{{ aho.getSelectedRequest().id }}</span>
-          <span>от {{ aho.getSelectedRequest().dateCreated | date:'dd.MM.yyyy, HH:mm' }}</span>
-        </div>
-
-        <div class="d-flex align-items-start">
-          <button mat-icon-button
-                  *ngIf="auth.getCurrentUser() && aho.isUserIsEmployee(auth.getCurrentUser())"
-                  [matMenuTriggerFor]="requestMenu">
-            <mat-icon>more_vert</mat-icon>
-          </button>
-          <mat-menu #requestMenu="matMenu" [yPosition]="'below'">
-            <button mat-menu-item (click)="exportRequest()">
-              <mat-icon color="primary">import_export</mat-icon>
-              Экспорт в Excel
-            </button>
-            <button mat-menu-item (click)="rejectRequest()" *ngIf="aho.getSelectedRequest().status.id !== 4">
-              <mat-icon color="primary">cancel</mat-icon>
-              Отклонить заявку
-            </button>
-            <button mat-menu-item (click)="resumeRequest()" *ngIf="aho.getSelectedRequest().status.id === 4">
-              <mat-icon color="primary">replay</mat-icon>
-              Возобновить заявку
-            </button>
-            <button mat-menu-item (click)="deleteRequest()" *ngIf="auth.getCurrentUser() && auth.getCurrentUser().permissions.getPermissionByCode('allow_delete_requests')">
-              <mat-icon color="primary">delete</mat-icon>
-              Удалить заявку
-            </button>
-          </mat-menu>
-        </div>
-      </div>
-
-      <div class="request-type">
-        {{ aho.getRequestTypeById(aho.getSelectedRequest().type.id).title + (aho.getSelectedRequest().room ? ' в кабинете #' + aho.getSelectedRequest().room : '')}}
-      </div>
-    </div>
-    -->
-
-    <!--
-    <div class="d-flex flex-column justify-content-around">
-      <div class="request-title d-flex align-content-start">
-        <span>Заявка №{{ aho.getSelectedRequest().id }}</span>
-        <span class="request-date">от {{ aho.getSelectedRequest().dateCreated | date:'dd.MM.yyyy, HH:mm' }}</span>
-        <button class="float-right" mat-icon-button *ngIf="auth.getCurrentUser() && auth.getCurrentUser().permissions.getRoleById(1)" [matMenuTriggerFor]="requestMenu">
-          <mat-icon [color]="'primary'">more_vert</mat-icon>
-        </button>
-        <mat-menu #requestMenu="matMenu" [yPosition]="'below'">
-          <button mat-menu-item (click)="deleteRequest()">
-            <mat-icon color="'primary'">delete</mat-icon>
-            Удалить заявку
-          </button>
-        </mat-menu>
-      </div>
-      <div class="request-user">
-        {{ aho.getRequestTypeById(aho.getSelectedRequest().type.id).title + (aho.getSelectedRequest().room ? ' в кабинете #' + aho.getSelectedRequest().room : '')}}
-      </div>
-    </div>
-    -->
-
-
-    <!--
-    <div class="text-center">
-      <div class="request-title">
-        Заявка №{{ aho.getSelectedRequest().id }}
-        <span class="request-date">от {{ aho.getSelectedRequest().dateCreated | date:'dd.MM.yyyy, HH:mm' }}</span>
-        <button class="float-right" mat-icon-button *ngIf="auth.getCurrentUser() && auth.getCurrentUser().permissions.getRoleById(1)" [matMenuTriggerFor]="requestMenu">
-          <mat-icon [color]="'primary'">more_vert</mat-icon>
-        </button>
-        <mat-menu #requestMenu="matMenu" [yPosition]="'below'">
-          <button mat-menu-item (click)="deleteRequest()">
-            <mat-icon color="'primary'">delete</mat-icon>
-            Удалить заявку
-          </button>
-        </mat-menu>
-      </div>
-      <div class="request-user">
-        Заявитель: {{ aho.getSelectedRequest().user.fio }}
-      </div>
-    </div>
-    -->
   </div>
   <!-- End: Заголовок диалогового окна с информацией о заявке -->
 
-
+  <!-- Start: Содержимое диалогового окна -->
   <mat-dialog-content>
-
     <mat-tab-group [dynamicHeight]="false" class="d-flex h-100" (selectedIndexChange)="tabChange($event)" (selectedTabChange)="onTabChange($event)">
 
-        <!-- Start: Содкржание заявки -->
+        <!-- Start: Вкладка с содержанием заявки -->
         <mat-tab label="Содержание" class="d-flex flex-row col-12 mh-100">
 
           <div class="d-flex flex-column flex-md-row" #detailsTab>
@@ -134,11 +37,10 @@
               <h6 class="mb-4">Детали заявки</h6>
 
               <div class="container-fluid">
-
                 <!-- Start: Инициатор -->
                 <div class="row" *ngIf="aho.getSelectedRequest().initiator">
                   <div class="request-attribute col-12 d-flex align-items-center pt-2 pb-2 pl-3 pr-3">
-                    <mat-icon class="mr-3">account_circle</mat-icon>
+                    <mat-icon class="big mr-3">account_circle</mat-icon>
                     <div class="d-flex flex-column">
                       <span class="label">Инициатор</span>
                       <span>{{ aho.getSelectedRequest().initiator }}</span>
@@ -150,7 +52,7 @@
                 <!-- Start: Заявитель -->
                 <div class="row mt-2">
                   <div class="request-attribute col-12 d-flex align-items-center pt-2 pb-2 pl-3 pr-3">
-                    <mat-icon class="mr-3">account_circle</mat-icon>
+                    <mat-icon class="big mr-3">account_circle</mat-icon>
                     <div class="d-flex flex-column">
                       <span class="label">Заявитель</span>
                       <span>{{ aho.getSelectedRequest().user.fio }}</span>
@@ -163,7 +65,7 @@
                 <div class="row mt-2">
                   <div class="request-attribute col-12 d-flex align-items-center pt-2 pb-2 pl-3 pr-3"
                        *ngIf="aho.getSelectedRequest().room">
-                    <mat-icon class="mr-3">room</mat-icon>
+                    <mat-icon class="big mr-3">room</mat-icon>
                     <div class="d-flex flex-column">
                       <span class="label">Кабинет</span>
                       <span>{{ aho.getSelectedRequest().room }}</span>
@@ -173,21 +75,30 @@
                 <!-- End: Кабинет -->
 
                 <!-- Start: Срок исполнения -->
-                <div class="row mt-2">
-                  <div class="request-attribute col-12 d-flex align-items-center pt-2 pb-2 pl-3 pr-3"
-                       *ngIf="aho.getSelectedRequest().dateExpires">
-                    <mat-icon class="mr-3" [ngClass]="{'editable': auth.getCurrentUser() && auth.getCurrentUser().permissions.getRoleById(1)}" (click)="dateExpires.open()">calendar_today</mat-icon>
+                <div class="row mt-2" *ngIf="aho.getSelectedRequest().dateExpires">
+                  <div class="request-attribute col-12 d-flex align-items-center pt-2 pb-2 pl-3 pr-3">
+                    <mat-icon class="big mr-3">calendar_today</mat-icon>
                     <mat-form-field style="width: 0px; height: 0px;">
                       <input matInput [matDatepicker]="dateExpires" (dateChange)="onExpirationDateChange($event)">
                       <mat-datepicker #dateExpires></mat-datepicker>
                     </mat-form-field>
-                    <div class="d-flex flex-column">
+                    <div class="d-flex flex-column w-100">
                       <span class="label">Срок исполнения</span>
-                      <div class="d-flex flex-row align-items-center">
-                        <span class="mr-1">{{ aho.getSelectedRequest().dateExpires | date:'dd.MM.yyyy' }}</span>
-                        <mat-icon *ngIf="aho.getSelectedRequest().isExpired" class="expired" matTooltip="Заявка просрочена"
-                                  matTooltipPosition="below">error_outline
-                        </mat-icon>
+                      <div class="d-flex flex-row justify-content-between align-items-center w-100">
+                        <div>
+                          <span class="mr-1">{{ aho.getSelectedRequest().dateExpires | date:'dd.MM.yyyy' }}</span>
+                          <mat-icon *ngIf="aho.getSelectedRequest().isExpired" class="expired" matTooltip="Заявка просрочена"
+                                    matTooltipPosition="below">error_outline
+                          </mat-icon>
+                        </div>
+                        <button mat-icon-button
+                                class="align-self-end"
+                                matTooltip="Изменить срок исполнения"
+                                matTooltipPosition="below"
+                                (click)="dateExpires.open()"
+                                *ngIf="auth.getCurrentUser() && auth.getCurrentUser().permissions.getRoleById(1)">
+                          <mat-icon color="primary">edit</mat-icon>
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -195,10 +106,10 @@
                 <!-- End: Срок исполнения -->
 
                 <!-- Start: Количество грузчиков -->
-                <div class="row mt-2">
+                <div class="row mt-2" *ngIf="aho.getSelectedRequest().numberOfLoaders">
                   <div class="request-attribute col-12 d-flex align-items-center pt-2 pb-2 pl-3 pr-3"
                        *ngIf="aho.getSelectedRequest().numberOfLoaders">
-                    <mat-icon class="mr-3">directions_walk</mat-icon>
+                    <mat-icon class="big mr-3">directions_walk</mat-icon>
                     <div class="d-flex flex-column">
                       <span class="label">Количество грузчиков</span>
                       <span>{{ aho.getSelectedRequest().numberOfLoaders }}</span>
@@ -207,64 +118,22 @@
                 </div>
                 <!-- End: Количество грузчиков -->
 
-                <!--
-                <div class="row mt-2">
-
-                  <div class="request-attribute d-flex align-items-center pt-2 pb-2 pl-3 pr-3"
-                       [ngClass]="{'col-12': !aho.getSelectedRequest().numberOfLoaders && !aho.getSelectedRequest().room, 'col-6': (aho.getSelectedRequest().numberOfLoaders && !aho.getSelectedRequest().room) || (!aho.getSelectedRequest().numberOfLoaders && aho.getSelectedRequest().room),'col-4': aho.getSelectedRequest().numberOfLoaders && aho.getSelectedRequest().room, 'col-3': aho.getSelectedRequest().numberOfLoaders || aho.getSelectedRequest().room}"
-                       *ngIf="aho.getSelectedRequest().dateExpires">
-                    <mat-icon class="mr-2" [ngClass]="{'editable': auth.getCurrentUser() && auth.getCurrentUser().permissions.getRoleById(1)}" (click)="dateExpires.open()">calendar_today</mat-icon>
-                    <mat-form-field style="width: 0px;">
-                      <input matInput [matDatepicker]="dateExpires" (dateChange)="onExpirationDateChange($event)">
-                      <mat-datepicker #dateExpires></mat-datepicker>
-                    </mat-form-field>
-                    <div class="d-flex flex-column">
-                      <span class="label">{{ aho.getSelectedRequest().room && aho.getSelectedRequest().numberOfLoaders ? 'Срок исполн.' : 'Срок исполнения' }}</span>
-                      <div class="d-flex flex-row align-items-center">
-                        <span class="mr-1">{{ aho.getSelectedRequest().dateExpires | date:'dd.MM.yyyy' }}</span>
-                        <mat-icon *ngIf="aho.getSelectedRequest().isExpired" class="expired" matTooltip="Заявка просрочена"
-                                  matTooltipPosition="below">error_outline
-                        </mat-icon>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="request-attribute d-flex align-items-center pt-2 pb-2 pl-3 pr-3"
-                       [ngClass]="{'col-12': !aho.getSelectedRequest().numberOfLoaders && !aho.getSelectedRequest().dateExpires, 'col-6': (aho.getSelectedRequest().numberOfLoaders && !aho.getSelectedRequest().dateExpires) || (!aho.getSelectedRequest().numberOfLoaders && aho.getSelectedRequest().dateExpires),'col-4': aho.getSelectedRequest().numberOfLoaders && aho.getSelectedRequest().dateExpires, 'col-3': aho.getSelectedRequest().numberOfLoaders || aho.getSelectedRequest().dateExpires}"
-                       *ngIf="aho.getSelectedRequest().room" [ngClass]="{'col-12': !aho.getSelectedRequest().dateExpires}">
-                    <mat-icon class="mr-2">room</mat-icon>
-                    <div class="d-flex flex-column">
-                      <span class="label">Кабинет</span>
-                      <span>{{ aho.getSelectedRequest().room }}</span>
-                    </div>
-                  </div>
-
-                  <div class="request-attribute d-flex align-items-center pt-2 pb-2 pl-3 pr-3"
-                       [ngClass]="{'col-12': !aho.getSelectedRequest().dateExpires && !aho.getSelectedRequest().room, 'col-6': (aho.getSelectedRequest().dateExpires && !aho.getSelectedRequest().room) || (!aho.getSelectedRequest().dateExpires && aho.getSelectedRequest().room),'col-4': aho.getSelectedRequest().dateExpires && aho.getSelectedRequest().room, 'col-3': aho.getSelectedRequest().dateExpires || aho.getSelectedRequest().room}"
-                       *ngIf="aho.getSelectedRequest().numberOfLoaders">
-                    <mat-icon class="mr-2">directions_walk</mat-icon>
-                    <div class="d-flex flex-column">
-                      <span class="label">Грузчиков</span>
-                      <span>{{ aho.getSelectedRequest().numberOfLoaders }}</span>
-                    </div>
-                  </div>
-                </div>
-                -->
-
+                <!-- Start: Причина отклонения заявки -->
                 <div class="row mt-2" *ngIf="aho.getSelectedRequest().rejectReason">
                   <div class="request-attribute warning col-12 d-flex align-items-center pt-2 pb-2 pl-3 pr-3">
-                    <mat-icon class="mr-3">cancel</mat-icon>
+                    <mat-icon class="big mr-3">cancel</mat-icon>
                     <div class="d-flex flex-column">
                       <span class="label">Причина отклонения завки</span>
                       <span>{{ aho.getSelectedRequest().rejectReason.content }}</span>
                     </div>
                   </div>
                 </div>
+                <!-- End: Причина отклоенния заявки -->
               </div>
             </div>
           </div>
         </mat-tab>
-        <!-- End: Содержание заявки -->
+        <!-- End: Вкладка с содержанием заявки -->
 
         <!-- Start: Комментарии к заявке -->
         <mat-tab label="Комментарии" class="mh-100">
@@ -299,7 +168,7 @@
                     </div>
                   </div>
                 </div>
-                <!-- End: request comments -->
+                <!-- End: request-details-dialog comments -->
               </div>
             </div>
           </div>
@@ -319,12 +188,11 @@
       <!-- End: История изменений заявки -->
 
     </mat-tab-group>
-
-
-
   </mat-dialog-content>
-  <mat-dialog-actions>
+  <!-- End: Содержимое диалогового окна -->
 
+  <!-- Start: Элементы управления диалоговым окном -->
+  <mat-dialog-actions>
     <!-- Start: Request employee -->
     <div class="request-employee w-100" *ngIf="selectedTabIndex === 0 && auth.getCurrentUser() && auth.getCurrentUser().permissions.getPermissionByCode('allow_set_employee')">
 
@@ -382,12 +250,10 @@
     </div>
     <!-- End: New comment form -->
 
+    <!-- Start: Элементы управления состоянием заявки -->
     <div class="container-fluid p-0">
       <div class="row">
-
-
         <div class="col-12 d-flex justify-content-between">
-
           <button mat-icon-button [matMenuTriggerFor]="requestMenu">
             <mat-icon>more_vert</mat-icon>
           </button>
@@ -439,11 +305,10 @@
 
       </div>
     </div>
-
-
-
-
+    <!-- End: Элементы управления состоянием заявки -->
 
   </mat-dialog-actions>
+  <!-- End: Элементы управления диалоговым окном -->
+
 
 </div>

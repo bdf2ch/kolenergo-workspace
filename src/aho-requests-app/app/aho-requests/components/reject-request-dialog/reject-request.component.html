@@ -13,11 +13,28 @@
          <mat-option *ngFor="let reason of aho.getRequestRejectReasons() | rejectReasonsByRequestType: aho.getSelectedRequest().type" [value]="reason">
            {{ reason.content}}
          </mat-option>
+         <mat-option value="new-reason">Указать другую причину</mat-option>
        </mat-select>
      </mat-form-field>
    </div>
  </div>
   <!-- Start: Причины отклонения заявки -->
+
+  <!-- Start: Новая причина отклонения заявки -->
+  <div class="row mb-2" *ngIf="inNewRejectReasonMode">
+    <div class="col-12">
+      <form [formGroup]="newRejectReasonForm">
+        <mat-form-field class="w-100">
+          <input type="text"
+                 matInput
+                 placeholder="Причина отклонения"
+                 formControlName="title">
+          <mat-error>Вы не указали причину отклонения</mat-error>
+        </mat-form-field>
+      </form>
+    </div>
+  </div>
+  <!-- Start: Новая причина отклонения заявки -->
 
   <!-- Start: Кнопка подтверждения отклонения отклонения заявки -->
   <div class="row mb-2">
@@ -25,7 +42,7 @@
       <button mat-raised-button
               color="primary"
               class="w-100"
-              [disabled]="!aho.getSelectedRequest().rejectReason || aho.isRejectingRequest()"
+              [disabled]="!aho.getSelectedRequest().rejectReason || aho.isRejectingRequest() || (inNewRejectReasonMode && newRejectReasonForm.invalid)"
               (click)="rejectRequest()">
         <div class="d-flex align-items-center justify-content-center">
           <mat-spinner [diameter]="20" class="mr-2" *ngIf="aho.isRejectingRequest()"></mat-spinner>

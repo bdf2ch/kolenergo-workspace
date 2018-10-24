@@ -10,10 +10,10 @@ import { AhoRequestTaskContent } from '../../models/aho-request-task-content.mod
 
 @Component({
   selector: 'app-new-request',
-  templateUrl: './new-request.component.html',
-  styleUrls: ['./new-request.component.less']
+  templateUrl: './new-request-dialog.component.html',
+  styleUrls: ['./new-request-dialog.component.less']
 })
-export class NewRequestComponent implements OnInit {
+export class NewRequestDialogComponent implements OnInit {
   newRequestForm: FormGroup;
   newTaskForm: FormGroup;
   newRequest: AhoRequest;
@@ -23,7 +23,7 @@ export class NewRequestComponent implements OnInit {
   now: Date;
 
   constructor(private readonly dialog: MatDialog,
-              private readonly dialogRef: MatDialogRef<NewRequestComponent>,
+              private readonly dialogRef: MatDialogRef<NewRequestDialogComponent>,
               private readonly formBuilder: FormBuilder,
               private readonly authenticationService: AuthenticationService,
               public readonly aho: AhoRequestsService) {

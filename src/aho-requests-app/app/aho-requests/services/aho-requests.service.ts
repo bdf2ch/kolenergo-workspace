@@ -11,7 +11,7 @@ import { IAhoRequestStatus } from '../interfaces/aho-request-status.interface';
 import { MatSlideToggleChange, MatTableDataSource } from '@angular/material';
 import { AhoRequestTaskContent } from '../models/aho-request-task-content.model';
 import { IAhoRequestTaskContent } from '../interfaces/aho-request-task-content.interface';
-import {AuthenticationService, IPagination, IServerResponse, User, UsersService} from '@kolenergo/lib';
+import { AuthenticationService, IPagination, IServerResponse, User, UsersService } from '@kolenergo/lib';
 import { AhoRequestComment } from '../models/aho-request-comment.model';
 import { IAhoRequestComment } from '../interfaces/aho-request-comment.interface';
 import { IAhoRequestNeed } from '../interfaces/aho-request-need.interface';
@@ -140,7 +140,7 @@ export class AhoRequestsService {
         if (this.requests.length === 0) {
           result.data.requests.forEach((item: IAhoRequest) => {
             const request = new AhoRequest(item);
-            request.backup.setup(['tasks', 'employees', 'status', 'rejectReason', 'comments']);
+            request.backup.setup(['tasks', 'employees', 'status', 'rejectReason', 'comments', 'dateExpires']);
             this.requests.push(request);
           });
           this.dataSource = new MatTableDataSource<AhoRequest>(
@@ -212,7 +212,7 @@ export class AhoRequestsService {
         console.log('pagination', this.pagination);
         result.data.requests.forEach((item: IAhoRequest) => {
           const request = new AhoRequest(item);
-          request.backup.setup(['status', 'tasks', 'employees', 'rejectReason']);
+          request.backup.setup(['status', 'tasks', 'employees', 'rejectReason', 'dateExpires']);
           this.requests.push(request);
           this.newRequestsCount += request.status.id === 1 ? 1 : 0;
         });
@@ -645,7 +645,7 @@ export class AhoRequestsService {
       if (result) {
         const request_ = new AhoRequest(result);
         request.fromAnother(request_);
-        request.backup.setup(['status', 'tasks', 'employees', 'rejectReason']);
+        request.backup.setup(['status', 'tasks', 'employees', 'rejectReason', 'dateExpires']);
         this.snackBar.open(`Заявка #${request.id} возобновлена`, 'Закрыть', {
           horizontalPosition: 'left',
           verticalPosition: 'bottom',
@@ -658,6 +658,25 @@ export class AhoRequestsService {
       console.error(error);
       this.resumeRequestInProgress = false;
       return false;
+    }
+  }
+
+  /**
+   * Добавление причины отклонения зааявки
+   * @param rejectReason - Причина отклоенния заявки
+   */
+  async addRejectReason(rejectReason: AhoRequestRejectReason): Promise<AhoRequestRejectReason | null> {
+    try {
+      const result = await this.ahoRequestResource.addRejectReason(rejectReason);
+      if (result) {
+        const reason = new AhoRequestRejectReason(result);
+        this.requestRejectReasons.push(reason);
+        return reason;
+      }
+    } catch (error) {
+      console.error(error);
+      this.rejectRequestInProgress = false;
+      return null;
     }
   }
 

@@ -5,8 +5,8 @@ import { AuthenticationDialogComponent } from '@kolenergo/lib';
 import { AuthenticationService } from '@kolenergo/lib';
 import { AhoRequestsService } from '../../services/aho-requests.service';
 import { MatSlideToggleChange, MatTableDataSource } from '@angular/material';
-import { NewRequestComponent } from '../new-request/new-request.component';
-import { AhoRequestComponent } from '../request/aho-request.component';
+import { NewRequestDialogComponent } from '../new-request-dialog/new-request-dialog.component';
+import { RequestDetailsDialogComponent } from '../request-details-dialog/request-details-dialog.component';
 import { AhoRequest } from '../../models/aho-request.model';
 import { ShowCompletedRequestsPipe } from '../../pipes/show-completed-requests.pipe';
 import {environment} from '../../../../environments/environment';
@@ -35,7 +35,7 @@ export class StartComponent implements OnInit {
       this.route.params.subscribe((params: any) => {
         console.log('route params', params);
         if (params['id']) {
-          this.dialog.open(AhoRequestComponent, {
+          this.dialog.open(RequestDetailsDialogComponent, {
             width: '800px',
             //height: '620px'
             minHeight: '400px'
@@ -62,14 +62,14 @@ export class StartComponent implements OnInit {
   }
 
   openNewRequestDialog() {
-    this.dialog.open(NewRequestComponent, {
+    this.dialog.open(NewRequestDialogComponent, {
       width: '800px'
     });
   }
 
   selectRequest(request: AhoRequest) {
     console.log(request);
-    // this.aho.setSelectedRequest(request);
+    // this.aho.setSelectedRequest(request-details-dialog);
     this.router.navigate(['/request', request.id]);
   }
 

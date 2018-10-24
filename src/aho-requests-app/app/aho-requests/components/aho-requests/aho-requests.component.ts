@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthenticationDialogComponent, AuthenticationService } from '@kolenergo/lib';
 import { AhoRequestsService } from '../../services/aho-requests.service';
-import { FiltersComponent } from '../filters/filters.component';
+import { FiltersDialogComponent } from '../filters-dialog/filters-dialog.component';
 import { AhoRequestFilter } from '../../models/aho-request-filter.model';
 import { environment } from '../../../../environments/environment';
 import { Router } from '@angular/router';
@@ -49,7 +49,7 @@ export class AhoRequestsComponent implements OnInit {
   }
 
   openFiltersDialog() {
-    this.dialog.open(FiltersComponent, {
+    this.dialog.open(FiltersDialogComponent, {
       width: '400px'
     });
   }

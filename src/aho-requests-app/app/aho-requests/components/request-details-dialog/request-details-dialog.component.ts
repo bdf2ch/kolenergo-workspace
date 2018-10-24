@@ -9,16 +9,16 @@ import { AhoRequestComment } from '../../models/aho-request-comment.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatTabChangeEvent } from '@angular/material';
 import { AhoRequest } from '../../models/aho-request.model';
-import { RejectRequestComponent } from '../reject-request/reject-request.component';
-import { ResumeRequestComponent } from './resume-request/resume-request.component';
-import { DeleteRequestComponent } from './delete-request/delete-request.component';
+import { RejectRequestComponent } from '../reject-request-dialog/reject-request.component';
+import { ResumeRequestDialogComponent } from '../resume-request-dialog/resume-request-dialog.component';
+import { DeleteRequestDialogComponent } from '../delete-request-dialog/delete-request-dialog.component';
 
 @Component({
   selector: 'app-request',
-  templateUrl: './aho-request.component.html',
-  styleUrls: ['./aho-request.component.less']
+  templateUrl: './request-details-dialog.component.html',
+  styleUrls: ['./request-details-dialog.component.less']
 })
-export class AhoRequestComponent implements OnInit {
+export class RequestDetailsDialogComponent implements OnInit {
   public isRequestChanged: boolean;
   public newComment: AhoRequestComment;
   public newCommentForm: FormGroup;
@@ -30,7 +30,7 @@ export class AhoRequestComponent implements OnInit {
   constructor(private readonly router: Router,
               private readonly formBuilder: FormBuilder,
               private readonly dialog: MatDialog,
-              private readonly dialogRef: MatDialogRef<AhoRequestComponent>,
+              private readonly dialogRef: MatDialogRef<RequestDetailsDialogComponent>,
               private readonly renderer: Renderer2,
               public readonly auth: AuthenticationService,
               public readonly aho: AhoRequestsService) {
@@ -133,7 +133,7 @@ export class AhoRequestComponent implements OnInit {
    * Удаление заявки
    */
   async deleteRequest() {
-    this.dialog.open(DeleteRequestComponent, {
+    this.dialog.open(DeleteRequestDialogComponent, {
       width: '400px'
     });
   }
@@ -191,7 +191,7 @@ export class AhoRequestComponent implements OnInit {
    * Открытие диалогового окна подтверждения возобновления заявки
    */
   async resumeRequest() {
-    this.dialog.open(ResumeRequestComponent, {
+    this.dialog.open(ResumeRequestDialogComponent, {
       width: '400px'
     });
   }

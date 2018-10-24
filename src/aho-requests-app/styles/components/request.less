@@ -68,25 +68,33 @@
 
 
     .request-attribute {
-      font-family: "Segoe UI";
+      font-family: "Segoe UI" !important;
       font-size: 17px;
       background: #FAFAFA;
       //box-sizing: border-box;
       .mat-icon {
-        width: 36px;
-        height: 36px;
-        font-size: 36px;
-        color: #BDBDBD;
+        &.big {
+          width: 36px;
+          height: 36px;
+          font-size: 36px;
+          color: #BDBDBD;
+        }
         &.expired {
           width: 21px;
           height: 21px;
           font-size: 21px;
           color: #D50000;
         }
-        &.editable {
-          cursor: pointer;
+      }
+      .mat-icon-button {
+        width: 30px;
+        height: 30px;
+        line-height: 20px;
+        .mat-icon {
+          font-size: 20px;
         }
       }
+
       .label {
         font-size: 14px;
         color: #757575;
@@ -199,7 +207,7 @@
   }
 
   /*
-  .request-title {
+  .request-details-dialog-title {
     font-family: "Segoe UI Semibold";
     font-size: 20px;
   }
@@ -211,7 +219,7 @@
   }
 
   /*
-  .request-type {
+  .request-details-dialog-type {
     .fa {
       font-size: 25px;
     }

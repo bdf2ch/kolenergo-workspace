@@ -70,6 +70,13 @@ export class AhoRequestsResource extends Resource {
   getRequestRejectReasons: IResourceMethod<void, IAhoRequestRejectReason[]>;
 
   @ResourceAction({
+    path: '/reject-reasons',
+    method: ResourceRequestMethod.Post,
+    withCredentials: true
+  })
+  addRejectReason: IResourceMethod<IAhoRequestRejectReason, IAhoRequestRejectReason>;
+
+  @ResourceAction({
     path: '/tasks',
     method: ResourceRequestMethod.Get,
     withCredentials: true

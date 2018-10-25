@@ -23,7 +23,7 @@
                   <mat-list-option *ngFor="let task of aho.getSelectedRequest().tasks"
                                    (selectionChange)="completeTask($event, task)"
                                    [selected]="task.done"
-                                   [disabled]="!auth.getCurrentUser() || !auth.getCurrentUser().permissions.getPermissionByCode('allow_complete_tasks')">
+                                   [disabled]="isTaskDisabled(task)">
                     <span matLine>{{ task.content.title }}</span>
                     <span matLine class="text-muted" *ngIf="aho.getSelectedRequest().type.isCountable">Количество: {{ task.content['boxing'] ? task.count + ' ' + task.content.boxing : task.count + ' шт' }}</span>
                   </mat-list-option>
@@ -77,15 +77,15 @@
                 <!-- Start: Срок исполнения -->
                 <div class="row mt-2" *ngIf="aho.getSelectedRequest().dateExpires">
                   <div class="request-attribute col-12 d-flex align-items-center pt-2 pb-2 pl-3 pr-3">
-                    <mat-icon class="big mr-3">calendar_today</mat-icon>
+                    <mat-icon class="big mr-3 d-flex justify-content-end">calendar_today</mat-icon>
                     <mat-form-field style="width: 0px; height: 0px;">
                       <input matInput [matDatepicker]="dateExpires" (dateChange)="onExpirationDateChange($event)">
                       <mat-datepicker #dateExpires></mat-datepicker>
                     </mat-form-field>
                     <div class="d-flex flex-column w-100">
                       <span class="label">Срок исполнения</span>
-                      <div class="d-flex flex-row justify-content-around align-items-center w-100">
-                        <div>
+                      <div class="d-flex flex-row justify-content-between align-items-center w-100">
+                        <div class="d-flex">
                           <span class="mr-1 d-flex">{{ aho.getSelectedRequest().dateExpires | date:'dd.MM.yyyy' }}</span>
                           <mat-icon *ngIf="aho.getSelectedRequest().isExpired" class="expired" matTooltip="Заявка просрочена"
                                     matTooltipPosition="below">error_outline

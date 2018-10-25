@@ -21,7 +21,7 @@
           <button mat-stroked-button
                   color="primary"
                   class="mr-0 mr-md-3"
-                  *ngIf="auth.getCurrentUser() && aho.getEmployeeRequestsCount() > 0 && !aho.isInEmployeeRequestsMode()"
+                  *ngIf="aho.getEmployeeRequestsCount() > 0 && !aho.isInEmployeeRequestsMode() && aho.isUserIsEmployee()"
                   [disabled]="aho.isFetchingData()"
                   (click)="showEmployeeRequests()">
             Вы назначены исполнителем
@@ -217,7 +217,8 @@
 <!-- End: Заглушка, отображающаяся если пользователь не авторизован -->
 
 <!-- Start: Заглушка, отображающаяся если пользователь еще не подавал заявок -->
-<div class="container content-wrapper app-intro h-100 pb-3 d-flex flex-column justify-content-center text-center align-self-center" *ngIf="aho.getRequests().length === 0 && !aho.search && !aho.isFetchingData()">
+<div class="container content-wrapper app-intro h-100 pb-3 d-flex flex-column justify-content-center text-center align-self-center"
+     *ngIf="aho.totalRequestsCount === 0 && !aho.search && !aho.isFetchingData()">
   <div class="row">
     <div class="col">
       <h4 class="text-muted mb-3">Вы пока еще не подавали заявок</h4>

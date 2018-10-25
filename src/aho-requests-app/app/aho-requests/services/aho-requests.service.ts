@@ -24,6 +24,7 @@ import { AhoRequestRejectReason } from '../models/aho-request-reject-reason.mode
 import { environment } from '../../../environments/environment';
 import { Pagination, IUser } from '@kolenergo/lib';
 import { IAhoServerResponse } from '../interfaces/aho-server-response.interface';
+import { IRole } from 'shared-lib/app/users/interfaces/role.interface';
 
 @Injectable()
 export class AhoRequestsService {
@@ -150,11 +151,17 @@ export class AhoRequestsService {
         this.employeeRequestsCount = result.data.employeeRequests;
         this.expiredRequestsCount = result.data.expiredRequests;
         this.totalRequestsCount = result.data.totalRequests;
-        console.log('employeeRequestsCount', this.employeeRequestsCount);
+        if (result.data.requests.length === 0 && this.isUserIsEmployee() && this.employeeRequestsCount > 0) {
+          this.showEmployeeRequests();
+        }
+          console.log('employeeRequestsCount', this.employeeRequestsCount);
         console.log('expiredRequestsCount', this.expiredRequestsCount);
         console.log('totalRequestsCount', this.totalRequestsCount);
         this.fetchingDataInProgress = false;
-        this.pagination = new Pagination({totalItems: this.totalRequestsCount, itemsOnPage: environment.settings.requestsOnPage});
+        this.pagination = new Pagination({
+          totalItems: this.totalRequestsCount,
+          itemsOnPage: environment.settings.requestsOnPage
+        });
         console.log('pagination', this.pagination);
       }
       return result.data;
@@ -905,12 +912,24 @@ export class AhoRequestsService {
 
   /**
    * Является ли пользователь сотрудником
-   * @param user - Пользователь
    */
-  isUserIsEmployee(user: User): boolean {
-    const findEmployeeById = (item: User) => item.id === user.id;
-    const result = this.employees.find(findEmployeeById);
-    return result ? true : false;
+  isUserIsEmployee(): boolean {
+    if (this.authenticationService.getCurrentUser()) {
+      let result = false;
+      this.authenticationService.getCurrentUser().permissions.roles.forEach((role: IRole) => {
+        if ((role.id === 2 && role.isEnabled) ||
+          (role.id === 3 && role.isEnabled) ||
+          (role.id === 4 && role.isEnabled) ||
+          (role.id === 5 && role.isEnabled) ||
+          (role.id === 6 && role.isEnabled)) {
+          result = true;
+        } else {
+          result = false;
+        }
+      });
+      return result;
+    }
+    return false;
   }
 
   /**

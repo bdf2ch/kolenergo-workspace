@@ -12,6 +12,7 @@ import { AhoRequest } from '../../models/aho-request.model';
 import { RejectRequestComponent } from '../reject-request-dialog/reject-request.component';
 import { ResumeRequestDialogComponent } from '../resume-request-dialog/resume-request-dialog.component';
 import { DeleteRequestDialogComponent } from '../delete-request-dialog/delete-request-dialog.component';
+import {IAhoRequestTask} from '../../interfaces/aho-request-task.interface';
 
 @Component({
   selector: 'app-request',
@@ -207,5 +208,28 @@ export class RequestDetailsDialogComponent implements OnInit {
     console.log('date', value);
     this.aho.getSelectedRequest().dateExpires = value.value;
     this.isRequestChanged = true;
+  }
+
+  isTaskDisabled(task: IAhoRequestTask) {
+    let result = false;
+    switch (task.content.requestTypeId) {
+      case 1:
+        result = this.auth.getCurrentUser().permissions.getRoleById(5) ? false : true;
+        break;
+      case 2:
+        result = this.auth.getCurrentUser().permissions.getRoleById(3) ? false : true;
+        break;
+      case 3:
+        result = this.auth.getCurrentUser().permissions.getRoleById(2) ? false : true;
+        break;
+      case 8:
+        result = this.auth.getCurrentUser().permissions.getRoleById(4) ? false : true;
+        break;
+      case 10:
+        result = this.auth.getCurrentUser().permissions.getRoleById(6) ? false : true;
+        break;
+    }
+    console.log('is task disabled', result);
+    return result;
   }
 }

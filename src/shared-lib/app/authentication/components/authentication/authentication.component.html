@@ -30,8 +30,23 @@
     <!-- Start: Кнопка авторизации -->
     <div class="row pt-3">
       <div class="col-12 text-center d-flex justify-content-center">
-        <button type="submit" class="w-100" mat-raised-button [color]="'primary'" [disabled]="authForm.invalid" (click)="submit()">Войти</button>
-        <mat-progress-spinner [color]="'primary'" [mode]="'indeterminate'" [diameter]="30" *ngIf="auth.loading()"></mat-progress-spinner>
+        <button type="submit"
+                class="w-100"
+                mat-raised-button
+                [color]="'primary'"
+                [disabled]="authForm.invalid || (auth.isLoading() | async)"
+                (click)="submit()">
+          <div class="d-flex flex-row justify-content-center align-items-center">
+            <mat-progress-spinner class="mr-2"
+                                  [color]="'primary'"
+                                  [mode]="'indeterminate'"
+                                  [diameter]="20"
+                                  *ngIf="auth.isLoading() | async">
+            </mat-progress-spinner>
+            <span *ngIf="!(auth.isLoading() | async)">Войти</span>
+            <span *ngIf="auth.isLoading() | async">Загрузка</span>
+          </div>
+        </button>
       </div>
     </div>
     <!-- End: Кнопка авторизации -->

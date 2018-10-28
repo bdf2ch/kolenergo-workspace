@@ -1,14 +1,18 @@
 import { Injectable } from '@angular/core';
 import { AuthenticationResource } from '../resources/authentication.resource';
 import { User } from '../../users/models/user.model';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { from } from 'rxjs/observable/from';
+import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class AuthenticationService {
   private currentUser: User | null;
-  private isLoading: boolean;
+  private loadingInProgress: BehaviorSubject<boolean>;
 
   constructor(private authenticationResource: AuthenticationResource) {
     this.currentUser = null;
+    this.loadingInProgress = new BehaviorSubject(false);
   }
 
   /**
@@ -25,9 +29,11 @@ export class AuthenticationService {
    */
   async check(appCode?: string | null): Promise<User | null> {
     try {
+      this.loadingInProgress.next(true);
       const result = await this.authenticationResource.check({appCode: appCode}, null, null);
       console.log(result);
       if (result) {
+        this.loadingInProgress.next(false);
         this.currentUser = new User(result);
         console.log(this.currentUser);
         return this.currentUser;
@@ -35,6 +41,7 @@ export class AuthenticationService {
       return null;
     } catch (error) {
       console.error(error);
+      this.loadingInProgress.next(false);
       return null;
     }
   }
@@ -50,6 +57,7 @@ export class AuthenticationService {
    */
   async logIn(account: string, password: string, addIfNotExists?: boolean, appCode?: string, callbacks?: Function[]): Promise<User | null> {
     try {
+      this.loadingInProgress.next(true);
       const result = await this.authenticationResource.login({
         account: account,
         password: password,
@@ -57,6 +65,7 @@ export class AuthenticationService {
         appCode: appCode
       });
       if (result) {
+        this.loadingInProgress.next(false);
         this.currentUser = new User(result);
         if (callbacks) {
           console.log('auth callbacks', callbacks.length);
@@ -68,6 +77,7 @@ export class AuthenticationService {
       }
     } catch (error) {
       console.error(error);
+      this.loadingInProgress.next(false);
       return null;
     }
   }
@@ -75,21 +85,24 @@ export class AuthenticationService {
 
   async logOut(): Promise<boolean> {
     try {
+      this.loadingInProgress.next(true);
       await this.authenticationResource.logout();
       this.currentUser = null;
+      this.loadingInProgress.next(false);
       return true;
     } catch (error) {
       console.error(error);
+      this.loadingInProgress.next(false);
       return false;
     }
   }
 
   /**
    * Возвращает состояние загрузки данных
-   * @returns {boolean}
+   * @returns {Observable<boolean>>}
    */
-  loading(): boolean {
-    return this.isLoading;
+  isLoading(): Observable<boolean> {
+    return this.loadingInProgress.asObservable();
   }
 
 }

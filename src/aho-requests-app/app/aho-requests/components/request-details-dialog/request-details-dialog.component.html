@@ -128,6 +128,18 @@
                   </div>
                 </div>
                 <!-- End: Причина отклоенния заявки -->
+
+                <!-- Start: Индикатор того, что заявка отменена -->
+                <div class="row mt-2" *ngIf="aho.getSelectedRequest().status.id === 5">
+                  <div class="request-attribute warning col-12 d-flex align-items-center pt-2 pb-2 pl-3 pr-3">
+                    <mat-icon class="big mr-3">cancel</mat-icon>
+                    <div class="d-flex flex-column">
+                      <span class="label"></span>
+                      <span>Заявка отменена заявителем</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- End: Индикатор того, что заявка отменена -->
               </div>
             </div>
           </div>
@@ -263,11 +275,15 @@
               <mat-icon color="primary">import_export</mat-icon>
               Экспорт в Excel
             </button>
-            <button mat-menu-item (click)="rejectRequest()" *ngIf="aho.getSelectedRequest().status.id !== 4 && auth.getCurrentUser().permissions.getRoleById(1)">
+            <button mat-menu-item
+                    (click)="rejectRequest()"
+                    *ngIf="aho.getSelectedRequest().status.id !== 4 && auth.getCurrentUser().permissions.getRoleById(1)">
               <mat-icon color="primary">cancel</mat-icon>
               Отклонить заявку
             </button>
-            <button mat-menu-item (click)="resumeRequest()" *ngIf="aho.getSelectedRequest().status.id === 4 && auth.getCurrentUser().permissions.getRoleById(1)">
+            <button mat-menu-item
+                    (click)="resumeRequest()"
+                    *ngIf="aho.getSelectedRequest().status.id === 4 && auth.getCurrentUser().permissions.getRoleById(1)">
               <mat-icon color="primary">replay</mat-icon>
               Возобновить заявку
             </button>
@@ -277,11 +293,26 @@
             </button>
           </mat-menu>
 
-          <div class="d-flex col-12 col-md-6 justify-content-between">
-            <!-- End: Кнопка добавления заявки -->
+          <div class="d-flex col-12 col-md-9 justify-content-end">
+            <!-- End: Кнопка отмены заявки -->
             <button mat-raised-button
                     type="submit"
-                    class="col-12 col-md-6"
+                    class="col-12 col-md-4"
+                    *ngIf="aho.getSelectedRequest().user.id === auth.getCurrentUser().id"
+                    [disabled]="aho.isCancelingRequest() | async"
+                    [color]="'primary'"
+                    (click)="cancelRequest()">
+              <div class="d-flex justify-content-center align-items-center">
+                <mat-progress-spinner class="mr-2" [diameter]="20" *ngIf="aho.isEditingRequest()"></mat-progress-spinner>
+                <span>Отменить</span>
+              </div>
+            </button>
+            <!-- End: Кнопка отмены заявки -->
+
+            <!-- End: Кнопка сохранения заявки -->
+            <button mat-raised-button
+                    type="submit"
+                    class="col-12 col-md-4"
                     [disabled]="!isRequestChanged || aho.isEditingRequest()"
                     [color]="'primary'"
                     (click)="editRequest()">
@@ -290,18 +321,18 @@
                 <span>Сохранить</span>
               </div>
             </button>
-            <!-- End: Кнопка добавления заявки -->
+            <!-- End: Кнопка сохранения заявки -->
 
-            <!-- Start: Кнопка отмены -->
+            <!-- Start: Кнопка закрытия диалогового окна -->
             <button mat-raised-button
                     routerLink="/"
                     color="warn"
-                    class="col-12 col-md-6"
-                    [disabled]="aho.isEditingRequest()">
+                    class="col-12 col-md-4"
+                    [disabled]="aho.isEditingRequest() || aho.isCancelingRequest() | async">
               Закрыть
             </button>
           </div>
-          <!-- End: Кнопка отмены -->
+          <!-- End: Кнопка закрытия диалогового окна -->
           </div>
 
       </div>

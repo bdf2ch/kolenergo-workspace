@@ -31,6 +31,7 @@ import { DeleteRequestDialogComponent } from './components/delete-request-dialog
 import { AuthGuard } from './guards/auth.guard';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { AhoRequestsWrapperComponent } from './components/aho-requests-wrapper/aho-requests-wrapper.component';
+import { CancelRequestDialogComponent } from './components/cancel-request-dialog/cancel-request-dialog.component';
 
 const moment = _rollupMoment || _moment;
 
@@ -58,7 +59,8 @@ const moment = _rollupMoment || _moment;
     ResumeRequestDialogComponent,
     DeleteRequestDialogComponent,
     WelcomeComponent,
-    AhoRequestsWrapperComponent
+    AhoRequestsWrapperComponent,
+    CancelRequestDialogComponent
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'ru-RU'},
@@ -78,7 +80,8 @@ const moment = _rollupMoment || _moment;
     FiltersDialogComponent,
     RejectRequestComponent,
     ResumeRequestDialogComponent,
-    DeleteRequestDialogComponent
+    DeleteRequestDialogComponent,
+    CancelRequestDialogComponent
   ],
   exports: []
 })

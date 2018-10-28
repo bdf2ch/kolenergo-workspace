@@ -138,6 +138,13 @@ export class AhoRequestsResource extends Resource {
   resumeRequest: IResourceMethod<IAhoRequest, IAhoRequest>;
 
   @ResourceAction({
+    path: '/requests/cancel',
+    method: ResourceRequestMethod.Post,
+    withCredentials: true
+  })
+  cancelRequest: IResourceMethod<IAhoRequest, IAhoRequest>;
+
+  @ResourceAction({
     path: '/requests/export',
     method: ResourceRequestMethod.Get,
     withCredentials: true,

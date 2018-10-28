@@ -25,6 +25,8 @@ import { environment } from '../../../environments/environment';
 import { Pagination, IUser } from '@kolenergo/lib';
 import { IAhoServerResponse } from '../interfaces/aho-server-response.interface';
 import { IRole } from 'shared-lib/app/users/interfaces/role.interface';
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class AhoRequestsService {
@@ -50,6 +52,7 @@ export class AhoRequestsService {
   private rejectRequestInProgress: boolean;
   private resumeRequestInProgress: boolean;
   private searchRequestsInProgress: boolean;
+  private cancelRequestInProgress: BehaviorSubject<boolean>;
   private inEmployeeRequestsMode: boolean;
   private inExpiredRequestsMode: boolean;
   private inShowCompletedRequestsMode: boolean;
@@ -81,6 +84,7 @@ export class AhoRequestsService {
     this.deleteRequestInProgress = false;
     this.rejectRequestInProgress = false;
     this.resumeRequestInProgress = false;
+    this.cancelRequestInProgress = new BehaviorSubject<boolean>(false);
     this.searchRequestsInProgress = false;
     this.fetchingDataInProgress = false;
     this.inEmployeeRequestsMode = false;
@@ -669,6 +673,31 @@ export class AhoRequestsService {
   }
 
   /**
+   * Отмена заявки АХО
+   * @param request - Заявка АХО
+   */
+  async cancelRequest(request: AhoRequest): Promise<boolean> {
+    try {
+      this.cancelRequestInProgress.next(true);
+      const result = await this.ahoRequestResource.cancelRequest(request);
+      this.cancelRequestInProgress.next(false);
+      if (result) {
+        this.snackBar.open(`Заявка #${request.id} отменена`, 'Закрыть', {
+          horizontalPosition: 'left',
+          verticalPosition: 'bottom',
+          duration: 3000
+        });
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error(error);
+      this.cancelRequestInProgress.next(false);
+      return false;
+    }
+  }
+
+  /**
    * Добавление причины отклонения зааявки
    * @param rejectReason - Причина отклоенния заявки
    */
@@ -767,6 +796,14 @@ export class AhoRequestsService {
    */
   isDeletingRequest(): boolean {
     return this.deleteRequestInProgress;
+  }
+
+  /**
+   * Выполняется ли отмена заявки
+   * @returns {Observable<boolean>}
+   */
+  isCancelingRequest(): Observable<boolean> {
+    return this.cancelRequestInProgress.asObservable();
   }
 
   /**

@@ -13,6 +13,7 @@ import { RejectRequestComponent } from '../reject-request-dialog/reject-request.
 import { ResumeRequestDialogComponent } from '../resume-request-dialog/resume-request-dialog.component';
 import { DeleteRequestDialogComponent } from '../delete-request-dialog/delete-request-dialog.component';
 import {IAhoRequestTask} from '../../interfaces/aho-request-task.interface';
+import {CancelRequestDialogComponent} from "../cancel-request-dialog/cancel-request-dialog.component";
 
 @Component({
   selector: 'app-request',
@@ -158,7 +159,13 @@ export class RequestDetailsDialogComponent implements OnInit {
         this.dialogRef.close();
         this.router.navigate(['']);
       });
-    }
+  }
+
+  async cancelRequest() {
+    this.dialog.open(CancelRequestDialogComponent, {
+      width: '400px'
+    });
+  }
 
     async addComment() {
       await this.aho.addComment(this.newComment, this.aho.getSelectedRequest().id)

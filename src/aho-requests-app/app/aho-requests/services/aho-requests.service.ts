@@ -682,6 +682,9 @@ export class AhoRequestsService {
       const result = await this.ahoRequestResource.cancelRequest(request);
       this.cancelRequestInProgress.next(false);
       if (result) {
+        const status = this.getRequestStatusById(5);
+        request.status = status;
+        request.backup.setup(['status', 'tasks', 'employees', 'rejectReason', 'dateExpires']);
         this.snackBar.open(`Заявка #${request.id} отменена`, 'Закрыть', {
           horizontalPosition: 'left',
           verticalPosition: 'bottom',

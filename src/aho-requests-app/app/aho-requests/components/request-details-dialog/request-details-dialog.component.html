@@ -298,12 +298,12 @@
             <button mat-raised-button
                     type="submit"
                     class="col-12 col-md-4"
-                    *ngIf="aho.getSelectedRequest().user.id === auth.getCurrentUser().id"
-                    [disabled]="aho.isCancelingRequest() | async"
+                    *ngIf="aho.getSelectedRequest().user.id === auth.getCurrentUser().id && aho.getSelectedRequest().status.id !== 5"
+                    [disabled]="(aho.isCancelingRequest() | async) || aho.isEditingRequest()"
                     [color]="'primary'"
                     (click)="cancelRequest()">
               <div class="d-flex justify-content-center align-items-center">
-                <mat-progress-spinner class="mr-2" [diameter]="20" *ngIf="aho.isEditingRequest()"></mat-progress-spinner>
+                <mat-progress-spinner class="mr-2" [diameter]="20" *ngIf="(aho.isCancelingRequest() | async)"></mat-progress-spinner>
                 <span>Отменить</span>
               </div>
             </button>
@@ -328,7 +328,7 @@
                     routerLink="/"
                     color="warn"
                     class="col-12 col-md-4"
-                    [disabled]="aho.isEditingRequest() || aho.isCancelingRequest() | async">
+                    [disabled]="aho.isEditingRequest() || (aho.isCancelingRequest() | async)">
               Закрыть
             </button>
           </div>

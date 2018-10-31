@@ -385,7 +385,7 @@ export class AhoRequestsService {
         {
           start: 0,
           end: 0,
-          userId: 0,
+          userId: this.authenticationService.getCurrentUser().id,
           employeeId: 0,
           requestTypeId: 0,
           requestStatusId: 0,
@@ -530,6 +530,7 @@ export class AhoRequestsService {
         const newRequest = new AhoRequest(result);
         this.requests.unshift(newRequest);
         this.newRequestsCount += 1;
+        this.totalRequestsCount++;
         this.snackBar.open(`Ваша заявка добавлена`, 'Закрыть', {
           horizontalPosition: 'left',
           verticalPosition: 'bottom',

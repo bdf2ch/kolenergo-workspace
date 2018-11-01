@@ -124,6 +124,13 @@ export class AhoRequestsResource extends Resource {
   }, IServerResponse<IAhoServerResponse>>;
 
   @ResourceAction({
+    path: '/requests/status',
+    method: ResourceRequestMethod.Post,
+    withCredentials: true
+  })
+  setRequestStatus: IResourceMethod<{request: IAhoRequest, status: IAhoRequestStatus}, IAhoRequest>;
+
+  @ResourceAction({
     path: '/requests/reject',
     method: ResourceRequestMethod.Post,
     withCredentials: true

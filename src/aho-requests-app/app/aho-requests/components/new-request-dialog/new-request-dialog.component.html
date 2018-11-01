@@ -8,7 +8,7 @@
         <h6 class="mb-4 pl-4">Детали заявки</h6>
         <form [formGroup]="newRequestForm" class="pl-4 pr-4">
           <!-- Start: Категория заявки -->
-          <mat-form-field class="w-100">
+          <mat-form-field class="w-100 mb-2">
             <mat-select placeholder="Категория заявки"
                         [required]="true"
                         [(value)]="newRequest.type"
@@ -22,17 +22,18 @@
           <!-- End: Категория заявки -->
 
           <!-- Start: Инициатор заявки -->
-          <mat-form-field class="w-100">
+          <mat-form-field class="w-100 mb-2">
             <input type="text"
                    matInput
                    placeholder="Инициатор заявки (необязательно)"
                    formControlName="initiator"
                    [(ngModel)]="newRequest.initiator">
+            <mat-hint>Если инициатором заявки являетесь не Вы</mat-hint>
           </mat-form-field>
           <!-- End: Инициатор заявки -->
 
           <!-- Start: # Кабинета -->
-          <mat-form-field class="w-100" *ngIf="newRequest.type.id !== 1">
+          <mat-form-field class="w-100 mb-2" *ngIf="newRequest.type.id !== 1">
             <input type="text"
                    matInput
                    placeholder="Введите № кабинета"
@@ -44,7 +45,7 @@
           <!-- End: # Кабинета -->
 
           <!-- Start: Количество грузчиков -->
-          <mat-form-field class="w-100" *ngIf="newRequest.type.id === 10">
+          <mat-form-field class="w-100 mb-2" *ngIf="newRequest.type.id === 10">
             <input type="text"
                    matInput
                    placeholder="Количество грузчиков (необязательно)"

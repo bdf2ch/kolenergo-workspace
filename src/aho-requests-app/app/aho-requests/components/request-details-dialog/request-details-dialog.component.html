@@ -23,7 +23,8 @@
                   <mat-list-option *ngFor="let task of aho.getSelectedRequest().tasks"
                                    (selectionChange)="completeTask($event, task)"
                                    [selected]="task.done"
-                                   [disabled]="isTaskDisabled(task)">
+                                   [disabled]="isTaskDisabled(task)"
+                  matTooltip="{{ task.content.title.length > 35 ? task.content.title : null }}" matTooltipPosition="above">
                     <span matLine>{{ task.content.title }}</span>
                     <span matLine class="text-muted" *ngIf="aho.getSelectedRequest().type.isCountable">Количество: {{ task.content['boxing'] ? task.count + ' ' + task.content.boxing : task.count + ' шт' }}</span>
                   </mat-list-option>
@@ -309,11 +310,27 @@
             </button>
             <!-- End: Кнопка отмены заявки -->
 
+            <!-- End: Кнопка отмены заявки -->
+            <button mat-raised-button
+                    type="submit"
+                    class="col-12 col-md-4"
+                    *ngIf="auth.getCurrentUser().permissions.getRoleById(1) && aho.getSelectedRequest().employees.length > 0 && aho.getSelectedRequest().status.id === 1"
+                    [disabled]="(aho.isCancelingRequest() | async) || aho.isEditingRequest()"
+                    [color]="'primary'"
+                    (click)="setRequestStatus()">
+              <div class="d-flex justify-content-center align-items-center">
+                <mat-progress-spinner class="mr-2" [diameter]="20" *ngIf="aho.isEditingRequest()"></mat-progress-spinner>
+                <span>В работу</span>
+              </div>
+            </button>
+            <!-- End: Кнопка отмены заявки -->
+
             <!-- End: Кнопка сохранения заявки -->
             <button mat-raised-button
                     type="submit"
                     class="col-12 col-md-4"
-                    [disabled]="!isRequestChanged || aho.isEditingRequest()"
+                    *ngIf="isRequestChanged"
+                    [disabled]="aho.isEditingRequest()"
                     [color]="'primary'"
                     (click)="editRequest()">
               <div class="d-flex justify-content-center align-items-center">

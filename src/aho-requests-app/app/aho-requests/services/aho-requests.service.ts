@@ -523,6 +523,9 @@ export class AhoRequestsService {
    */
   async addRequest(request: IAddAhoRequest): Promise<IAhoRequest | null> {
     try {
+      if (request.dateExpires) {
+        request.dateExpires.setHours(23, 59, 59, 59);
+      }
       this.addRequestInProgress = true;
       const result = await this.ahoRequestResource.addRequest(request);
       if (result) {
@@ -565,7 +568,7 @@ export class AhoRequestsService {
       this.editRequestInProgress = false;
       const request_ = new AhoRequest(result);
       request.fromAnother(request_);
-      request.backup.setup(['status', 'employees', 'tasks', 'rejectReason']);
+      request.backup.setup(['status', 'employees', 'tasks', 'rejectReason', 'dateExpires']);
       const findEmployeeById = (empl: User) => empl.id === this.authenticationService.getCurrentUser().id;
       const employee = request_.employees.find(findEmployeeById);
       if (employee) {
@@ -578,6 +581,34 @@ export class AhoRequestsService {
       });
       this.dataSource = new MatTableDataSource<AhoRequest>(this.requests);
       return request_;
+    } catch (error) {
+      console.error(error);
+      this.editRequestInProgress = false;
+      return null;
+    }
+  }
+
+  /**
+   * Изменение статуса заявки
+   * @param request - Заявка АХО
+   * @param status - Статус заявки АХО
+   */
+  async setRequestStatus(request: AhoRequest, status: AhoRequestStatus): Promise<AhoRequest | null> {
+    try {
+      this.editRequestInProgress = true;
+      const result = await this.ahoRequestResource.setRequestStatus({request: request, status: status});
+      this.editRequestInProgress = false;
+      if (result) {
+        request.status = status;
+        request.backup.setup(['status', 'employees', 'tasks', 'rejectReason', 'dateExpires']);
+        this.snackBar.open(`Статус заявки #${request.id} изменен`, 'Закрыть', {
+          horizontalPosition: 'left',
+          verticalPosition: 'bottom',
+          duration: 3000
+        });
+        return new AhoRequest(result);
+      }
+      return null;
     } catch (error) {
       console.error(error);
       this.editRequestInProgress = false;

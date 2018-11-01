@@ -36,7 +36,7 @@ export class StartComponent implements OnInit {
         console.log('route params', params);
         if (params['id']) {
           this.dialog.open(RequestDetailsDialogComponent, {
-            width: '800px',
+            width: '850px',
             //height: '620px'
             minHeight: '400px'
           });

@@ -205,6 +205,16 @@ export class RequestDetailsDialogComponent implements OnInit {
   }
 
   /**
+   * Отправка заявки в работу
+   */
+  async setRequestStatus() {
+    const status = this.aho.getRequestStatusById(2);
+    if (status) {
+      await this.aho.setRequestStatus(this.aho.getSelectedRequest(), status);
+    }
+  }
+
+  /**
    * Экспорт заявки в Excel
    */
   async exportRequest() {
@@ -221,19 +231,24 @@ export class RequestDetailsDialogComponent implements OnInit {
     let result = false;
     switch (task.content.requestTypeId) {
       case 1:
-        result = this.auth.getCurrentUser().permissions.getRoleById(5) ? false : true;
+        result = this.auth.getCurrentUser().permissions.getRoleById(5) || this.auth.getCurrentUser().permissions.getRoleById(1)
+          ? false : true;
         break;
       case 2:
-        result = this.auth.getCurrentUser().permissions.getRoleById(3) ? false : true;
+        result = this.auth.getCurrentUser().permissions.getRoleById(3) || this.auth.getCurrentUser().permissions.getRoleById(1)
+          ? false : true;
         break;
       case 3:
-        result = this.auth.getCurrentUser().permissions.getRoleById(2) ? false : true;
+        result = this.auth.getCurrentUser().permissions.getRoleById(2) || this.auth.getCurrentUser().permissions.getRoleById(1)
+          ? false : true;
         break;
       case 8:
-        result = this.auth.getCurrentUser().permissions.getRoleById(4) ? false : true;
+        result = this.auth.getCurrentUser().permissions.getRoleById(4) || this.auth.getCurrentUser().permissions.getRoleById(1)
+          ? false : true;
         break;
       case 10:
-        result = this.auth.getCurrentUser().permissions.getRoleById(6) ? false : true;
+        result = this.auth.getCurrentUser().permissions.getRoleById(6) || this.auth.getCurrentUser().permissions.getRoleById(1)
+          ? false : true;
         break;
     }
     console.log('is task disabled', result);

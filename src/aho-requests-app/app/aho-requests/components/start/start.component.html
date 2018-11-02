@@ -141,7 +141,7 @@
         <!-- Start: Request date column -->
         <ng-container matColumnDef="dateCreated">
           <mat-header-cell *matHeaderCellDef class="request-date-created-column d-none d-sm-none d-md-flex"> Дата подачи заявки </mat-header-cell>
-          <mat-cell *matCellDef="let element" class="request-date-created-column d-none d-sm-none d-md-flex pt-2 pb-2"> {{ element.dateCreated | date:'dd.MM.yyyy, HH:mm' }} </mat-cell>
+          <mat-cell *matCellDef="let element" class="request-date-created-column d-none d-sm-none d-md-flex pt-2 pb-2"> {{ element.dateCreated | date : 'dd.MM.yyyy, HH:mm' }} </mat-cell>
         </ng-container>
         <!-- End: Request end column -->
 

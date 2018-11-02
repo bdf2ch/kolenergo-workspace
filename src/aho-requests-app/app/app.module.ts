@@ -16,6 +16,7 @@ import { environment } from '../environments/environment';
     AppComponent
   ],
   providers: [],
+
   entryComponents: [],
   exports: [
     ExportsModule

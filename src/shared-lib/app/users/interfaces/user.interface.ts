@@ -1,5 +1,7 @@
 import { IPermission } from './permission.interface';
 import { IRole } from '../interfaces/role.interface';
+import { ICompany } from '../../common/interfaces/company.interface';
+import { IDepartment } from '../../common/interfaces/department.interface';
 
 /**
  * Интерфейс, описывающий пользователя
@@ -16,5 +18,7 @@ export interface IUser {
   activeDirectoryAccount: string;             // Учетная запись Active Directory
   fio?: string;                               // ФИО пользователя
   permissionList?: IPermission[];             // Набор прав пользователя
-  rolesList?: IRole[];
+  rolesList?: IRole[];                        // Набор ролей пользователя
+  company?: ICompany;                         // Организация
+  department?: IDepartment;                   // Производственное отделение
 }

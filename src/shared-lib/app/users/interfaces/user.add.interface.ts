@@ -2,12 +2,14 @@
  * Интерфейс добавления пользователя
  */
 export interface IAddUser {
-  readonly divisionId?: number;               // Идентификатор структурного подразделения
-  readonly personalNumber?: string;           // Табельный номер пользователя
-  readonly firstName: string;                 // Имя пользователя
-  readonly secondName: string;                // Отчество пользователя
-  readonly lastName: string;                  // Фамилия пользователя
-  readonly position?: string;                 // Должность пользователя
-  readonly email?: string;                    // E-mail пользователя
-  readonly activeDirectoryAccount: string;    // Учетная запись Active Directory
+  readonly divisionId?: number;                   // Идентификатор структурного подразделения
+  readonly personalNumber?: string;               // Табельный номер пользователя
+  readonly firstName: string;                     // Имя пользователя
+  readonly secondName: string;                    // Отчество пользователя
+  readonly lastName: string;                      // Фамилия пользователя
+  readonly position?: string;                     // Должность пользователя
+  readonly email?: string;                        // E-mail пользователя
+  readonly activeDirectoryAccount: string;        // Учетная запись Active Directory
+  readonly activeDirectoryCompanyUid?: string;    // Идентификатор организации в Active Directory
+  readonly activeDirectoryDepartmentUid: string;  // Идентификатор производственного отделения в Active Directory
 }

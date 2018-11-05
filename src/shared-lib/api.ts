@@ -9,6 +9,8 @@
 export { IMobilePhone } from './app/users/interfaces/mobile-phone.interface';
 export { IServerResponse } from './app/common/interfaces/server-response.interface';
 export { IPagination } from './app/common/interfaces/pagination.interface';
+export { ICompany } from './app/common/interfaces/company.interface';
+export { IDepartment } from './app/common/interfaces/department.interface';
 
 /**
  * Models
@@ -41,4 +43,3 @@ export { IRole } from './app/users/interfaces/role.interface';
 export { Permission } from './app/users/models/permission.model';
 export { Role } from './app/users/models/role.model';
 export { UserPermissionsManager } from './app/users/models/user-permissions-manager.model';
-

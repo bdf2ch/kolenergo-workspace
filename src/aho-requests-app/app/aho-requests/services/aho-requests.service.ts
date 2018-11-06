@@ -38,6 +38,7 @@ export class AhoRequestsService {
   private employees: User[];
   private requests: AhoRequest[];
   public totalRequestsCount: number;
+  public ownRequestsCount: number;
   private expiredRequestsCount: number;
   private employeeRequestsCount: number;
   private employeeRequests: AhoRequest[];
@@ -65,6 +66,7 @@ export class AhoRequestsService {
               private readonly usersService: UsersService,
               private readonly showCompletedRequestsPipe: ShowCompletedRequestsPipe) {
     this.totalRequestsCount = 0;
+    this.ownRequestsCount = 0;
     this.expiredRequestsCount = 0;
     this.employeeRequestsCount = 0;
     this.pagination = new Pagination();
@@ -152,13 +154,11 @@ export class AhoRequestsService {
             this.showCompletedRequestsPipe.transform(this.requests, this.inShowCompletedRequestsMode)
           );
         }
+        this.ownRequestsCount = result.data.ownRequests;
         this.employeeRequestsCount = result.data.employeeRequests;
         this.expiredRequestsCount = result.data.expiredRequests;
         this.totalRequestsCount = result.data.totalRequests;
-        if (result.data.requests.length === 0 && this.isUserIsEmployee() && this.employeeRequestsCount > 0) {
-          this.showEmployeeRequests();
-        }
-          console.log('employeeRequestsCount', this.employeeRequestsCount);
+        console.log('employeeRequestsCount', this.employeeRequestsCount);
         console.log('expiredRequestsCount', this.expiredRequestsCount);
         console.log('totalRequestsCount', this.totalRequestsCount);
         this.fetchingDataInProgress = false;
@@ -965,8 +965,8 @@ export class AhoRequestsService {
     this.fetchRequests(
       0,
       0,
-      this.authenticationService.getCurrentUser() ? this.authenticationService.getCurrentUser().id : 0,
-      0,
+      this.ownRequestsCount > 0 ? this.authenticationService.getCurrentUser().id : 0,
+      this.ownRequestsCount === 0 && this.employeeRequestsCount > 0 ? this.authenticationService.getCurrentUser().id : 0,
       0,
       0,
       false,

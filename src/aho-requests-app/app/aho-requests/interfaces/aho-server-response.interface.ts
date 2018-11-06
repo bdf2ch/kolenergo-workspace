@@ -8,6 +8,7 @@ export interface IAhoServerResponse  {
   rejectReasons?: IAhoRequestRejectReason[];
   employees?: IUser[];
   requests: IAhoRequest[];
+  ownRequests?: number;
   employeeRequests?: number;
   expiredRequests?: number;
   totalRequests: number;

@@ -1,0 +1,27 @@
+@app-sidebar-width: 250px;
+@app-sidebar-background-color: #37474f;
+@app-sidebar-menu-item-background-color-hover: #455a64;
+@app-sidebar-menu-item-background-color-selected: #263238;
+@app-sidebar-menu-item-selected-border-color: #4fc3f7;
+
+.app-sidebar {
+  width: @app-sidebar-width;
+  font-family: "Segoe UI Light";
+  color: white;
+  background: @app-sidebar-background-color;
+
+  .menu-item {
+    text-decoration: none;
+    color: white;
+    border-left: 3px solid transparent;
+    &:hover {
+      background: @app-sidebar-menu-item-background-color-hover;
+    }
+    &.selected {
+      border-left: 3px solid @app-sidebar-menu-item-selected-border-color;
+      background: @app-sidebar-menu-item-background-color-selected;
+    }
+  }
+}
+
+.app-content {}

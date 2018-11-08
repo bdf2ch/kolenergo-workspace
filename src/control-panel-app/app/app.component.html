@@ -1,3 +1,24 @@
-<mat-toolbar>toolbar</mat-toolbar>
+<mat-toolbar color="primary"><strong>Панель управления</strong></mat-toolbar>
+<div class="container-fluid h-100">
+  <div class="row h-100">
+    <div class="col-auto app-sidebar d-flex flex-column p-0">
 
-<router-outlet></router-outlet>
+      <!-- Start: Приложения -->
+      <a class="menu-item d-flex flex-row p-3" routerLink="/applications" routerLinkActive="selected">
+        <mat-icon class="mr-3">web</mat-icon>
+        <span class="title">Приложения</span>
+      </a>
+      <!-- End: Приложения -->
+
+      <!-- Start: Пользователи -->
+      <a class="menu-item d-flex flex-row p-3" routerLink="/users" routerLinkActive="selected">
+        <mat-icon class="mr-3">person</mat-icon>
+        <span class="title">Пользователи</span>
+      </a>
+      <!-- End: Пользователи -->
+    </div>
+    <div class="col app-content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

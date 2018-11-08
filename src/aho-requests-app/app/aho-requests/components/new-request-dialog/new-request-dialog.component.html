@@ -4,72 +4,74 @@
     <h5>{{ newRequest.type.title | lowercase }}</h5>
   </div>
   <mat-dialog-content class="d-flex flex-column flex-md-row">
-      <div class="d-flex flex-column col-12 col-md-6 pt-2 mb-3">
-        <h6 class="mb-4 pl-4">Детали заявки</h6>
-        <form [formGroup]="newRequestForm" class="pl-4 pr-4">
-          <!-- Start: Категория заявки -->
-          <mat-form-field class="w-100 mb-2">
-            <mat-select placeholder="Категория заявки"
-                        [required]="true"
-                        [(value)]="newRequest.type"
-                        (selectionChange)="onRequestTypeChange($event)">
-              <mat-option *ngFor="let requestType of aho.getRequestTypes()"
-                          [value]="requestType">
-                {{ requestType.title }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <!-- End: Категория заявки -->
+    <!-- Start: Детали заявки -->
+    <div class="d-flex flex-column col-12 col-md-6 pt-2 mb-3">
+      <h6 class="mb-4 pl-4">Детали заявки</h6>
+      <form [formGroup]="newRequestForm" class="pl-4 pr-4">
+        <!-- Start: Категория заявки -->
+        <mat-form-field class="w-100 mb-2">
+          <mat-select placeholder="Категория заявки"
+                      [required]="true"
+                      [(value)]="newRequest.type"
+                      (selectionChange)="onRequestTypeChange($event)">
+            <mat-option *ngFor="let requestType of aho.getRequestTypes()"
+                        [value]="requestType">
+              {{ requestType.title }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <!-- End: Категория заявки -->
 
-          <!-- Start: Инициатор заявки -->
-          <mat-form-field class="w-100 mb-2">
-            <input type="text"
-                   matInput
-                   placeholder="Инициатор заявки (необязательно)"
-                   formControlName="initiator"
-                   [(ngModel)]="newRequest.initiator">
-            <mat-hint>Если инициатором заявки являетесь не Вы</mat-hint>
-          </mat-form-field>
-          <!-- End: Инициатор заявки -->
+        <!-- Start: Инициатор заявки -->
+        <mat-form-field class="w-100 mb-2">
+          <input type="text"
+                 matInput
+                 placeholder="Инициатор заявки (необязательно)"
+                 formControlName="initiator"
+                 [(ngModel)]="newRequest.initiator">
+          <mat-hint>Если инициатором заявки являетесь не Вы</mat-hint>
+        </mat-form-field>
+        <!-- End: Инициатор заявки -->
 
-          <!-- Start: # Кабинета -->
-          <mat-form-field class="w-100 mb-2" *ngIf="newRequest.type.id !== 1">
-            <input type="text"
-                   matInput
-                   placeholder="Введите № кабинета"
-                   formControlName="room"
-                   [(ngModel)]="newRequest.room"
-                   required>
-            <mat-error *ngIf="newRequestForm.get('room').invalid">{{ getRoomErrorMessage() }}</mat-error>
-          </mat-form-field>
-          <!-- End: # Кабинета -->
+        <!-- Start: # Кабинета -->
+        <mat-form-field class="w-100 mb-2" *ngIf="newRequest.type.id !== 1">
+          <input type="text"
+                 matInput
+                 placeholder="Введите № кабинета"
+                 formControlName="room"
+                 [(ngModel)]="newRequest.room"
+                 required>
+          <mat-error *ngIf="newRequestForm.get('room').invalid">{{ getRoomErrorMessage() }}</mat-error>
+        </mat-form-field>
+        <!-- End: # Кабинета -->
 
-          <!-- Start: Количество грузчиков -->
-          <mat-form-field class="w-100 mb-2" *ngIf="newRequest.type.id === 10">
-            <input type="text"
-                   matInput
-                   placeholder="Количество грузчиков (необязательно)"
-                   formControlName="numberOfLoaders"
-                   [(ngModel)]="newRequest.numberOfLoaders">
-          </mat-form-field>
-          <!-- End: Количество грузчиков -->
+        <!-- Start: Количество грузчиков -->
+        <mat-form-field class="w-100 mb-2" *ngIf="newRequest.type.id === 10">
+          <input type="text"
+                 matInput
+                 placeholder="Количество грузчиков (необязательно)"
+                 formControlName="numberOfLoaders"
+                 [(ngModel)]="newRequest.numberOfLoaders">
+        </mat-form-field>
+        <!-- End: Количество грузчиков -->
 
-          <!-- Start: Срок исполнения -->
-          <mat-form-field class="w-100" *ngIf="newRequest.type.id === 10 || newRequest.type.id === 3">
-            <input
-              matInput
-              [matDatepicker]="dateExpires"
-              [value]="newRequest.dateExpires"
-              placeholder="Срок исполнения (необязательно)"
-              (dateChange)="changeExpirationDate($event)"
-              [min]="now"
-              disabled>
-            <mat-datepicker-toggle matSuffix [for]="dateExpires"></mat-datepicker-toggle>
-            <mat-datepicker #dateExpires disabled="false"></mat-datepicker>
-          </mat-form-field>
-          <!-- End: Срок исполнения -->
-        </form>
-      </div>
+        <!-- Start: Срок исполнения -->
+        <mat-form-field class="w-100" *ngIf="newRequest.type.id === 10 || newRequest.type.id === 3">
+          <input
+            matInput
+            [matDatepicker]="dateExpires"
+            [value]="newRequest.dateExpires"
+            placeholder="Срок исполнения (необязательно)"
+            (dateChange)="changeExpirationDate($event)"
+            [min]="now"
+            disabled>
+          <mat-datepicker-toggle matSuffix [for]="dateExpires"></mat-datepicker-toggle>
+          <mat-datepicker #dateExpires disabled="false"></mat-datepicker>
+        </mat-form-field>
+        <!-- End: Срок исполнения -->
+      </form>
+    </div>
+    <!-- End: Детали заявки -->
       <div class="d-flex flex-column col-12 col-md-6 pt-2">
         <h6 class="mb-4">{{ newRequest.type.listTitle }}</h6>
 

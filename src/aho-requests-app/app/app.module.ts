@@ -3,9 +3,11 @@ import { ExportsModule } from './exports.module';
 import { AhoRequestsModule } from './aho-requests/aho-requests.module';
 import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
+    BrowserAnimationsModule,
     ExportsModule,
     AhoRequestsModule
   ],
@@ -16,7 +18,6 @@ import { environment } from '../environments/environment';
     AppComponent
   ],
   providers: [],
-
   entryComponents: [],
   exports: [
     ExportsModule

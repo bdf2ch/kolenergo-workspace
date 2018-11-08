@@ -5,8 +5,6 @@
 
 export const environment = {
   production: false,
-  appCode: 'AHO_REQUESTS_APP',
-  settings: {
-    requestsOnPage: 20
-  }
+  appCode: 'CONTROL_PANEL_APP',
+  settings: {}
 };

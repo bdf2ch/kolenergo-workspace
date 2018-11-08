@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { ExportsModule } from '../exports.module';
 import { UsersComponent } from './components/users/users.component';
 import { UsersRoutingModule } from './users-routing.module';
+import { UsersListComponent } from './components/users-list/users-list.component';
 
 @NgModule({
   imports: [
@@ -9,7 +10,8 @@ import { UsersRoutingModule } from './users-routing.module';
     UsersRoutingModule
   ],
   declarations: [
-    UsersComponent
+    UsersComponent,
+    UsersListComponent
   ]
 })
 export class UsersModule {}

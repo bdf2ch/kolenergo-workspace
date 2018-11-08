@@ -37,8 +37,8 @@ export class StartComponent implements OnInit {
         if (params['id']) {
           this.dialog.open(RequestDetailsDialogComponent, {
             width: '850px',
-            //height: '620px'
-            minHeight: '400px'
+            // height: '700px'
+            minHeight: '500px',
           });
         } else {
           this.dialog.closeAll();

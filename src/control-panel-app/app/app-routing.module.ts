@@ -13,6 +13,10 @@ const routes: Routes = [
         pathMatch: 'full'
       },
       {
+        path: 'applications',
+        loadChildren: './applications/applications.module#ApplicationsModule'
+      },
+      {
         path: 'users',
         loadChildren: './users/users.module#UsersModule'
       }

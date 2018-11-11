@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ApplicationsComponent } from './components/applications/applications.component';
 import { ApplicationsListComponent } from './components/applications-list/applications-list.component';
+import { ApplicationsResolveGuard } from './guards/applications.resolve.guard';
 
 const routes: Routes = [
   {
@@ -10,7 +11,10 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: ApplicationsListComponent
+        component: ApplicationsListComponent,
+        resolve: [
+          ApplicationsResolveGuard
+        ]
       }
     ]
   }

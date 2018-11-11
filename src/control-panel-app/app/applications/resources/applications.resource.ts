@@ -10,6 +10,7 @@ import {
 } from '@ngx-resource/core';
 import { environment } from '../../../../_common/environments/environment';
 import { IApplication } from '../interfaces/application.interface';
+import { IServerResponse } from '@kolenergo/lib';
 
 @Injectable()
 @ResourceParams({
@@ -26,6 +27,6 @@ export class ApplicationsResource extends Resource {
     method: ResourceRequestMethod.Get,
     withCredentials: true
   })
-  getAll: IResourceMethod<void, IApplication[]>;
+  getAll: IResourceMethod<void, IServerResponse<IApplication[]>>;
 
 }

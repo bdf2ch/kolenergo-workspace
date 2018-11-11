@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ApplicationsService } from '../../services/applications.service';
 
 @Component({
   selector: 'app-applications-list',
@@ -7,9 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ApplicationsListComponent implements OnInit {
 
-  constructor() { }
+  constructor(public readonly applications: ApplicationsService) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
 }

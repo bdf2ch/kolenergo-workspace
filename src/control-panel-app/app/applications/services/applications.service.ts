@@ -7,6 +7,8 @@ import { from } from 'rxjs/observable/from';
 import { IApplication } from '../interfaces/application.interface';
 import {finalize, map} from "rxjs/operators";
 import { IServerResponse } from '@kolenergo/lib';
+import {DashboardService} from '../../dashboard/services/dashboard.service';
+import {ApplicationMenuItem} from '../../dashboard/models/application-menu-item.model';
 
 
 
@@ -15,7 +17,8 @@ export class ApplicationsService {
   private applications: BehaviorSubject<Application[]>;
   private fetchingData: BehaviorSubject<boolean>;
 
-  constructor(private readonly resource: ApplicationsResource) {
+  constructor(private readonly resource: ApplicationsResource,
+              private readonly dashboard: DashboardService) {
     this.applications = new BehaviorSubject<Application[]>([]);
     this.fetchingData = new BehaviorSubject<boolean>(false);
   }
@@ -29,9 +32,17 @@ export class ApplicationsService {
       .pipe(
         map((data: IServerResponse<IApplication[]>) => {
           const result = [];
+          const menuItem = this.dashboard.menu.getMenuItemById('applications');
+          menuItem.clearSubMenu();
           data.data.forEach((item: IApplication) => {
             const application = new Application(item);
             result.push(application);
+            menuItem.addSubMenu({
+              id: application.code,
+              title: application.title,
+              link: `/applications/${application.id}`,
+              icon: 'web'
+            });
           });
           this.applications.next(result);
           return result;

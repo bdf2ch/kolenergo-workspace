@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { ExportsModule } from '../exports.module';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { DashboardService } from './services/dashboard.service';
 
 @NgModule({
   imports: [
@@ -8,6 +9,9 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
   ],
   declarations: [
     DashboardComponent
+  ],
+  providers: [
+    DashboardService
   ]
 })
 export class DashboardModule {}

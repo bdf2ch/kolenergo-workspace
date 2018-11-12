@@ -6,6 +6,7 @@ import { ApplicationsListComponent } from './components/applications-list/applic
 import { ApplicationsService } from './services/applications.service';
 import { ApplicationsResolveGuard } from './guards/applications.resolve.guard';
 import { ApplicationsResource } from './resources/applications.resource';
+import { ApplicationComponent } from './components/application/application.component';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { ApplicationsResource } from './resources/applications.resource';
   ],
   declarations: [
     ApplicationsComponent,
-    ApplicationsListComponent
+    ApplicationsListComponent,
+    ApplicationComponent
   ],
   providers: [
     ApplicationsResource,

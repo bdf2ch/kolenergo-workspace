@@ -8,7 +8,7 @@ export class ApplicationMenuItem implements IApplicationMenuItem {
   title: string;                      // Наименование
   link: string;                       // Ссылка
   icon: string;                       // Иконка
-  subMenu: ApplicationMenuItem[];     // Перечень дочених элементов меню
+  items: ApplicationMenuItem[];       // Перечень дочених элементов меню
 
   /**
    * Конструктор
@@ -19,23 +19,16 @@ export class ApplicationMenuItem implements IApplicationMenuItem {
     this.title = config ? config.title : null;
     this.link = config ? config.link : null;
     this.icon = config ? config.icon : null;
-    this.subMenu = [];
+    this.items = [];
   }
 
   /**
    * Добавлени элемента подменю
    * @param item - Элемент меню приложения
    */
-  addSubMenu(item: IApplicationMenuItem): ApplicationMenuItem {
+  addItem(item: IApplicationMenuItem): ApplicationMenuItem {
     const subMenuItem = new ApplicationMenuItem(item);
-    this.subMenu.push(subMenuItem);
+    this.items.push(subMenuItem);
     return subMenuItem;
-  }
-
-  /**
-   * Очистка подменю
-   */
-  clearSubMenu() {
-    this.subMenu = [];
   }
 }

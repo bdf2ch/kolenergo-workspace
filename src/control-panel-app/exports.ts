@@ -1,6 +1,7 @@
 /**
  * Interfaces
  */
+export { IControlPanelInitData } from './app/dashboard/interfaces/control-panel-init-data.interface';
 export { IApplication } from './app/applications/interfaces/application.interface';
 
 /**

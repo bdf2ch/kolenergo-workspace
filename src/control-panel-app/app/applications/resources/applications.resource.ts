@@ -14,7 +14,7 @@ import { IServerResponse } from '@kolenergo/lib';
 
 @Injectable()
 @ResourceParams({
-  pathPrefix: environment.apiUrl + 'applications'
+  pathPrefix: environment.apiUrl + 'cp/applications'
 })
 export class ApplicationsResource extends Resource {
 

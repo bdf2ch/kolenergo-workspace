@@ -6,7 +6,7 @@
       <!-- Start: Элементы меню приложения -->
       <div class="col-auto app-sidebar d-flex flex-column p-0">
         <a class="menu-item d-flex flex-row pl-3 pr-3"
-           *ngFor="let item of (dashboard.menu.getMenuItems() | async)"
+           *ngFor="let item of (dashboard.menu.getItems() | async)"
            routerLink="{{item.link}}"
            routerLinkActive="selected">
           <mat-icon class="mr-3">{{item.icon}}</mat-icon>
@@ -15,9 +15,9 @@
       </div>
       <!-- End: Элементы меню приложения -->
 
-      <div class="col-auto submenu d-flex flex-column p-0" *ngIf="(dashboard.menu.getActiveMenuItem() | async)?.subMenu.length > 0">
+      <div class="col-auto submenu d-flex flex-column p-0" *ngIf="(dashboard.menu.getActiveItem() | async)?.items.length > 0">
         <a class="menu-item d-flex flex-row pl-3 pr-3"
-           *ngFor="let item of (dashboard.menu.getActiveMenuItem() | async)?.subMenu"
+           *ngFor="let item of (dashboard.menu.getActiveItem() | async)?.items"
            routerLink="{{item.link}}"
            routerLinkActive="selected">
           <mat-icon class="mr-3">{{item.icon}}</mat-icon>

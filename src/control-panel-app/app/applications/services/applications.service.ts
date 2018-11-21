@@ -7,7 +7,7 @@ import { from } from 'rxjs/observable/from';
 import { IApplication } from '../interfaces/application.interface';
 import {finalize, map} from "rxjs/operators";
 import { IServerResponse } from '@kolenergo/lib';
-import {DashboardService} from '../../dashboard/services/dashboard.service';
+import { DashboardService } from '../../dashboard/services/dashboard.service';
 import {ApplicationMenuItem} from '../../dashboard/models/application-menu-item.model';
 
 
@@ -32,19 +32,31 @@ export class ApplicationsService {
       .pipe(
         map((data: IServerResponse<IApplication[]>) => {
           const result = [];
-          const menuItem = this.dashboard.menu.getMenuItemById('applications');
-          menuItem.clearSubMenu();
+          const appMenuItem = this.dashboard.menu.getItemById('applications');
+          console.log('app menu', appMenuItem);
+          // menuItem.clearSubMenu();
           data.data.forEach((item: IApplication) => {
+            /*
             const application = new Application(item);
             result.push(application);
-            menuItem.addSubMenu({
+            appMenuItem.addItem({
               id: application.code,
               title: application.title,
               link: `/applications/${application.id}`,
               icon: 'web'
             });
+            */
+            const application = new Application(item);
+            result.push(application);
+            // this.applications.addApplication(application);
+            appMenuItem.addItem({
+              id: String(application.id),
+              title: application.title,
+              link: `/applications/${application.id}`,
+              icon: 'web'
+            });
           });
-          this.applications.next(result);
+          //this.applications.next(result);
           return result;
         }),
         finalize(() => {
@@ -53,6 +65,14 @@ export class ApplicationsService {
       );
   }
 
+  /**
+   * Добавление приложения
+   * @param application - Добавляемое приложение
+   */
+  addApplication(application: Application): Application[] {
+    this.applications.value.push(application);
+    return this.applications.value;
+  }
   /**
    * Возвращает список всех приложений
    */

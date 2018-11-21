@@ -14,6 +14,10 @@ import { UsersListComponent } from './components/users-list/users-list.component
     UsersListComponent
   ]
 })
-export class UsersModule {}
+export class UsersModule {
+  constructor() {
+    console.log('Users module loaded successfully');
+  }
+}
 
 

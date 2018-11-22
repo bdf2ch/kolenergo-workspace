@@ -23,12 +23,22 @@ export class ApplicationMenuItem implements IApplicationMenuItem {
   }
 
   /**
-   * Добавлени элемента подменю
+   * Добавление элемента подменю
    * @param item - Элемент меню приложения
    */
-  addItem(item: IApplicationMenuItem): ApplicationMenuItem {
+  add(item: IApplicationMenuItem): ApplicationMenuItem {
     const subMenuItem = new ApplicationMenuItem(item);
     this.items.push(subMenuItem);
     return subMenuItem;
+  }
+
+  /**
+   * поиск элемента подменю по идентификатору
+   * @param id - Идентификатор элемента подменю
+   */
+  getById(id: string): ApplicationMenuItem | null {
+    const findMenuItemById = (item: ApplicationMenuItem) => item.id === id;
+    const searchResult = this.items.find(findMenuItemById);
+    return searchResult ? searchResult : null;
   }
 }

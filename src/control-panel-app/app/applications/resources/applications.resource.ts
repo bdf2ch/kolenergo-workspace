@@ -1,16 +1,8 @@
 import { Injectable } from '@angular/core';
-import {
-  IResourceMethod,
-  IResourceMethodStrict,
-  Resource,
-  ResourceAction,
-  ResourceHandler,
-  ResourceParams,
-  ResourceRequestMethod
-} from '@ngx-resource/core';
+import { IResourceMethod, Resource, ResourceAction, ResourceHandler, ResourceParams, ResourceRequestMethod } from '@ngx-resource/core';
 import { environment } from '../../../../_common/environments/environment';
 import { IApplication } from '../interfaces/application.interface';
-import { IServerResponse } from '@kolenergo/lib';
+import { IPermission, IServerResponse } from '@kolenergo/lib';
 
 @Injectable()
 @ResourceParams({
@@ -29,4 +21,10 @@ export class ApplicationsResource extends Resource {
   })
   getAll: IResourceMethod<void, IServerResponse<IApplication[]>>;
 
+  @ResourceAction({
+    path: '/permissions/{:id}',
+    method: ResourceRequestMethod.Patch,
+    withCredentials: true
+  })
+  editPermission: IResourceMethod<IPermission, IServerResponse<IPermission>>;
 }

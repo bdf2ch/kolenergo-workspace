@@ -5,5 +5,5 @@ export interface IPermission {
   id: number;             // Идентфиикатор права пользователя
   code: string;           // Код права пользователя
   title: string;          // Наименование права пользователя
-  isEnabled: boolean;     // Доступно ли право пользователя
+  isEnabled?: boolean;    // Доступно ли право пользователя
 }

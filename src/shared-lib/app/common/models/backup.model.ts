@@ -1,5 +1,5 @@
 export class Backup {
-  backup: any;
+  backup?: any;
 
   constructor() {
     this.backup = {

@@ -7,6 +7,9 @@ import { ApplicationsListComponent } from './components/applications-list/applic
 import { ApplicationsService } from './services/applications.service';
 import { ApplicationsResource } from './resources/applications.resource';
 import { ApplicationComponent } from './components/application/application.component';
+import { ApplicationsResolveGuard } from './guards/applications.resolve.guard';
+import { EditPermissionDialogComponent } from './components/edit-permission-dialog/edit-permission-dialog.component';
+import { AddPermissionDialogComponent } from './components/add-permission-dialog/add-permission-dialog.component';
 
 
 @NgModule({
@@ -18,16 +21,20 @@ import { ApplicationComponent } from './components/application/application.compo
   declarations: [
     ApplicationsComponent,
     ApplicationsListComponent,
-    ApplicationComponent
+    ApplicationComponent,
+    EditPermissionDialogComponent,
+    AddPermissionDialogComponent
   ],
   providers: [
     ApplicationsResource,
-    ApplicationsService
+    ApplicationsService,
+    ApplicationsResolveGuard
+  ],
+  entryComponents: [
+    EditPermissionDialogComponent
   ]
 })
 export class ApplicationsModule {
-  constructor(private readonly applications: ApplicationsService) {
-    console.log('applications module loaded successfully');
-    this.applications.fetchApplicationsList().subscribe();
-  }
+
+  constructor() {}
 }

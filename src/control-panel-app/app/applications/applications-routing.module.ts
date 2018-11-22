@@ -3,12 +3,15 @@ import { RouterModule, Routes } from '@angular/router';
 import { ApplicationsComponent } from './components/applications/applications.component';
 import { ApplicationsListComponent } from './components/applications-list/applications-list.component';
 import { ApplicationComponent } from './components/application/application.component';
-import {InitDataResolveGuard} from '../dashboard/guards/init-data.resolve.guard';
+import { ApplicationsResolveGuard } from './guards/applications.resolve.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: ApplicationsComponent,
+    resolve: [
+      ApplicationsResolveGuard
+    ],
     children: [
       {
         path: '',

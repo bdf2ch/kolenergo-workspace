@@ -23,24 +23,9 @@ export class AppComponent implements OnInit, OnDestroy {
               public readonly dashboard: DashboardService) {
   }
 
-  ngOnInit() {
-    this.routerListener = this.router.events
-      .pipe(
-        filter(event => event instanceof NavigationEnd)
-      ).subscribe((event: NavigationEnd) => {
-        console.log(event);
-        this.dashboard.menu.setActiveItem(event.urlAfterRedirects);
-      }
-    );
+  ngOnInit() {}
 
-    this.dashboard.menu.getActiveItem().subscribe((item: ApplicationMenuItem) => {
-      console.log('active menu item', item);
-    });
-  }
-
-  ngOnDestroy() {
-    this.routerListener.unsubscribe();
-  }
+  ngOnDestroy() {}
 
 
   openAuthDialog(): void {

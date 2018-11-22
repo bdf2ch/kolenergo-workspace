@@ -19,7 +19,7 @@ export class ApplicationMenuManager {
    * @param item - Элемент меню приложения
    */
   addItem(item: ApplicationMenuItem): ApplicationMenuItem {
-    this.menuBehaviorSubject.value.push(item);
+    this.menuBehaviorSubject.next(this.menuBehaviorSubject.getValue().concat(item));
     return item;
   }
 
@@ -50,7 +50,7 @@ export class ApplicationMenuManager {
    */
   getItemById(id: string): ApplicationMenuItem | null {
     const findMenuItemById = (item: ApplicationMenuItem) => item.id === id;
-    const foundedItem = this.menuBehaviorSubject.value.find(findMenuItemById);
+    const foundedItem = this.menuBehaviorSubject.getValue().find(findMenuItemById);
     return foundedItem ? foundedItem : null;
   }
 
@@ -60,7 +60,7 @@ export class ApplicationMenuManager {
    */
   getItemByUrl(url: string): ApplicationMenuItem | null {
     const findMenuItemByUrl = (item: ApplicationMenuItem) => item.link === url;
-    const foundedItem = this.menuBehaviorSubject.value.find(findMenuItemByUrl);
+    const foundedItem = this.menuBehaviorSubject.getValue().find(findMenuItemByUrl);
     return foundedItem ? foundedItem : null;
   }
   /**

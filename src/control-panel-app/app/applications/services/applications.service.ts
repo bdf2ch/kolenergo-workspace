@@ -6,7 +6,7 @@ import { IApplication } from '../interfaces/application.interface';
 import { IPermission, IServerResponse, Role } from '@kolenergo/lib';
 import { DashboardService } from '../../dashboard/services/dashboard.service';
 import { MatTableDataSource } from '@angular/material';
-import { Permission } from 'shared-lib/app/users/models/permission.model';
+import { Permission } from '@kolenergo/lib';
 import { Observable } from 'rxjs/Observable';
 import { from } from 'rxjs/observable/from';
 import { finalize, map } from 'rxjs/operators';
@@ -20,6 +20,7 @@ export class ApplicationsService {
   private selectedApplicationPermissionsDataSource: MatTableDataSource<Permission>;
   private selectedPermission$: BehaviorSubject<Permission>;
   private fetchingData$: BehaviorSubject<boolean>;
+  private addingPermission$: BehaviorSubject<boolean>;
   private editingPermission$: BehaviorSubject<boolean>;
 
   constructor(private readonly resource: ApplicationsResource,
@@ -30,6 +31,7 @@ export class ApplicationsService {
     this.selectedApplicationPermissionsDataSource = new MatTableDataSource<Permission>([]);
     this.selectedPermission$ = new BehaviorSubject<Permission>(null);
     this.fetchingData$ = new BehaviorSubject<boolean>(false);
+    this.addingPermission$ = new BehaviorSubject<boolean>(false);
     this.editingPermission$ = new BehaviorSubject<boolean>(false);
   }
 
@@ -56,6 +58,32 @@ export class ApplicationsService {
       );
   }
 
+  /**
+   * Добавление нового права пользователя
+   * @param permission - Добавляемое право пользователя
+   */
+  addPermission(permission: Permission): Observable<Permission | null> {
+    this.addingPermission$.next(true);
+    return from(this.resource.addPermission(permission))
+      .pipe(
+        map((response: IServerResponse<IPermission>) => {
+          const newPermission = new Permission(response.data);
+          newPermission.backup.setup(['code', 'title', 'isEnabled']);
+          const permissions = this.selectedApplication$.getValue().permissions;
+          permissions.push(newPermission);
+          this.selectedApplicationPermissionsDataSource = new MatTableDataSource<Permission>(permissions);
+          return newPermission;
+        }),
+        finalize(() => {
+          this.addingPermission$.next(false);
+        })
+      );
+  }
+
+  /**
+   * Изменение права пользователя
+   * @param permission - Изменяемое право пользователя
+   */
   editPermission(permission: Permission): Observable<Permission | null> {
     this.editingPermission$.next(true);
     console.log(permission);
@@ -75,7 +103,7 @@ export class ApplicationsService {
    * Установка / получение выбранного приложения
    * @param applicationId - Идентификатор приложения
    */
-  selectedApplication(applicationId?: number): Observable<Application | null> {
+  selectedApplication(applicationId?: number): Application | null {
     if (applicationId) {
       const findApplicationById = (application: Application) => Number(application.id) === applicationId;
       const searchResult = this.applications$.getValue().find(findApplicationById);
@@ -85,7 +113,7 @@ export class ApplicationsService {
         this.selectedApplicationPermissionsDataSource = new MatTableDataSource<Permission>(searchResult.permissions);
       }
     }
-    return this.selectedApplication$.asObservable();
+    return this.selectedApplication$.getValue();
   }
 
   /**
@@ -118,6 +146,13 @@ export class ApplicationsService {
    */
   isFetchingData(): Observable<boolean> {
     return this.fetchingData$.asObservable();
+  }
+
+  /**
+   * Выполняется ли добавлени нового права пользователя
+   */
+  isAddingPermission(): Observable<boolean> {
+    return this.addingPermission$.asObservable();
   }
 
   /**

@@ -1,6 +1,6 @@
 <div class="container-fluid h-100 control-panel-dialog">
   <div matDialogTitle>
-    <h4>Редактирование права</h4>
+    <h4>Редактирование права пользователя</h4>
   </div>
 
   <mat-dialog-content>
@@ -38,7 +38,7 @@
      <button mat-flat-button class="w-25"
              [disabled]="(applications.isEditingPermission() | async) || editPermissionForm.invalid || editPermissionForm.pristine"
              (click)="saveChanges()">
-       Сохранить
+       Добавить
      </button>
    </div>
   </mat-dialog-actions>

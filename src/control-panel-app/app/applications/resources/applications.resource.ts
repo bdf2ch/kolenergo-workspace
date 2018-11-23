@@ -22,6 +22,13 @@ export class ApplicationsResource extends Resource {
   getAll: IResourceMethod<void, IServerResponse<IApplication[]>>;
 
   @ResourceAction({
+    path: '/permissions',
+    method: ResourceRequestMethod.Post,
+    withCredentials: true
+  })
+  addPermission: IResourceMethod<IPermission, IServerResponse<IPermission>>;
+
+  @ResourceAction({
     path: '/permissions/{:id}',
     method: ResourceRequestMethod.Patch,
     withCredentials: true

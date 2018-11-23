@@ -8,8 +8,8 @@ import { ApplicationsService } from './services/applications.service';
 import { ApplicationsResource } from './resources/applications.resource';
 import { ApplicationComponent } from './components/application/application.component';
 import { ApplicationsResolveGuard } from './guards/applications.resolve.guard';
-import { EditPermissionDialogComponent } from './components/edit-permission-dialog/edit-permission-dialog.component';
-import { AddPermissionDialogComponent } from './components/add-permission-dialog/add-permission-dialog.component';
+import { PermissionEditDialogComponent } from './components/permission-edit-dialog/permission-edit-dialog.component';
+import { PermissionAddDialogComponent } from './components/permission-add-dialog/permission-add-dialog.component';
 
 
 @NgModule({
@@ -22,8 +22,8 @@ import { AddPermissionDialogComponent } from './components/add-permission-dialog
     ApplicationsComponent,
     ApplicationsListComponent,
     ApplicationComponent,
-    EditPermissionDialogComponent,
-    AddPermissionDialogComponent
+    PermissionEditDialogComponent,
+    PermissionAddDialogComponent
   ],
   providers: [
     ApplicationsResource,
@@ -31,7 +31,8 @@ import { AddPermissionDialogComponent } from './components/add-permission-dialog
     ApplicationsResolveGuard
   ],
   entryComponents: [
-    EditPermissionDialogComponent
+    PermissionAddDialogComponent,
+    PermissionEditDialogComponent
   ]
 })
 export class ApplicationsModule {

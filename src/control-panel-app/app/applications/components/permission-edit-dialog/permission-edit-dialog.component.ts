@@ -7,14 +7,14 @@ import {MatSnackBar} from '@angular/material';
 
 @Component({
   selector: 'app-edit-permission-dialog',
-  templateUrl: './edit-permission-dialog.component.html',
-  styleUrls: ['./edit-permission-dialog.component.less']
+  templateUrl: './permission-edit-dialog.component.html',
+  styleUrls: ['./permission-edit-dialog.component.less']
 })
-export class EditPermissionDialogComponent implements OnInit {
+export class PermissionEditDialogComponent implements OnInit {
   public editPermissionForm: FormGroup;
 
   constructor(private readonly builder: FormBuilder,
-              private readonly dialogRef: MatDialogRef<EditPermissionDialogComponent>,
+              private readonly dialogRef: MatDialogRef<PermissionEditDialogComponent>,
               private readonly snackBar: MatSnackBar,
               public readonly applications: ApplicationsService) {}
 

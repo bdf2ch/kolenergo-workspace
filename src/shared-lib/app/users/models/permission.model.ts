@@ -1,8 +1,9 @@
 import { IPermission } from '../interfaces/permission.interface';
-import { Backup } from '@kolenergo/lib';
+import { Backup } from '../../common/models/backup.model';
 
 export class Permission extends Backup implements IPermission {
   id: number;             // Идентификатор
+  applicationId: number;  // Идентификатор приложения
   code: string;           // Код права пользователя
   title: string;          // Наименование
   isEnabled: boolean;     // Включен ли
@@ -14,8 +15,9 @@ export class Permission extends Backup implements IPermission {
   constructor(config?: IPermission) {
     super();
     this.id = config ? config.id : 0;
-    this.code = config ? config.code : '';
-    this.title = config ? config.title : '';
+    this.applicationId = config ? config.applicationId : null;
+    this.code = config ? config.code : null;
+    this.title = config ? config.title : null;
     this.isEnabled = config && config.isEnabled ? config.isEnabled : false;
   }
 }

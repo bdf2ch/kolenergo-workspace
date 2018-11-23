@@ -3,8 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { ApplicationsService } from '../../services/applications.service';
 import { Application } from '../../models/application.model';
 import { MatDialog } from '@angular/material';
-import { EditPermissionDialogComponent } from '../edit-permission-dialog/edit-permission-dialog.component';
+import { PermissionEditDialogComponent } from '../permission-edit-dialog/permission-edit-dialog.component';
 import { Permission } from '@kolenergo/lib';
+import {PermissionAddDialogComponent} from '../permission-add-dialog/permission-add-dialog.component';
 
 @Component({
   selector: 'app-application',
@@ -20,14 +21,21 @@ export class ApplicationComponent implements OnInit {
               public readonly applications: ApplicationsService) {
     this.route.params.subscribe((data: any) => {
       if (data['id']) {
-        this.applications.selectedApplication(Number(data['id'])).subscribe((app: Application) => {
-          console.log('selected application', app);
-        });
+        this.applications.selectedApplication(Number(data['id']));
       }
     });
   }
 
   ngOnInit() {}
+
+  /**
+   * Открывает диалоговое окно добавления нового права пользователя
+   */
+  openAddPermissionDialog() {
+    this.dialog.open(PermissionAddDialogComponent, {
+      width: '500px'
+    });
+  }
 
   /**
    * Открывает диалоговое окно редактирования права пользователя
@@ -36,8 +44,8 @@ export class ApplicationComponent implements OnInit {
   openEditPermissionDialog(permission: Permission) {
     this.applications.selectedPermission(permission);
     console.log(this.applications.selectedPermission());
-    this.dialog.open(EditPermissionDialogComponent, {
-      width: '450px'
+    this.dialog.open(PermissionEditDialogComponent, {
+      width: '500px'
     });
   }
 

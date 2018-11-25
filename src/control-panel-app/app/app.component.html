@@ -15,7 +15,7 @@
       </div>
       <!-- End: Элементы меню приложения -->
 
-      <div class="col-auto submenu d-flex flex-column p-0" *ngIf="(dashboard.menu.getActiveItem() | async)?.items.length > 0">
+      <div class="col-auto submenu d-flex flex-column p-0" *ngIf="(dashboard.menu.getActiveItem() | async)?.items.length > 0 || (dashboard.menu.getActiveItem() | async)?.parent">
         <a class="menu-item d-flex flex-row pl-3 pr-3"
            *ngFor="let item of (dashboard.menu.getActiveItem() | async)?.items"
            routerLink="{{item.link}}"

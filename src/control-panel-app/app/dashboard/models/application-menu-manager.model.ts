@@ -6,10 +6,12 @@ import { Observable } from 'rxjs/Observable';
  * Класс, реализующий управлению меню приложения
  */
 export class ApplicationMenuManager {
+  public items: BehaviorSubject<ApplicationMenuItem[]>;
   private menuBehaviorSubject: BehaviorSubject<ApplicationMenuItem[]>;
   private activeMenuItem: BehaviorSubject<ApplicationMenuItem>;
 
   constructor(config?: ApplicationMenuItem[]) {
+    this.items = new BehaviorSubject<ApplicationMenuItem[]>([]);
     this.menuBehaviorSubject = new BehaviorSubject<ApplicationMenuItem[]>( config ? config : []);
     this.activeMenuItem = new BehaviorSubject<ApplicationMenuItem>(null);
   }
@@ -19,6 +21,7 @@ export class ApplicationMenuManager {
    * @param item - Элемент меню приложения
    */
   addItem(item: ApplicationMenuItem): ApplicationMenuItem {
+    this.items.next(this.items.getValue().concat([item]));
     this.menuBehaviorSubject.next(this.menuBehaviorSubject.getValue().concat(item));
     return item;
   }
@@ -28,12 +31,21 @@ export class ApplicationMenuManager {
    * @param link - URL элемента меню
    */
   setActiveItem(link: string): ApplicationMenuItem | null {
-    this.menuBehaviorSubject.value.forEach((item: ApplicationMenuItem) => {
+    console.log(this.items);
+    this.items.getValue().forEach((item: ApplicationMenuItem) => {
       if (item.link === link) {
         this.activeMenuItem.next(item);
         return item;
       }
     });
+    /*
+    this.menuBehaviorSubject.getValue().forEach((item: ApplicationMenuItem) => {
+      if (item.link === link) {
+        this.activeMenuItem.next(item);
+        return item;
+      }
+    });
+    */
     return null;
   }
 

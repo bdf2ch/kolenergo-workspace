@@ -9,6 +9,7 @@ import { Observable } from 'rxjs/Observable';
 import { from } from 'rxjs/observable/from';
 import { IApplication } from '../../applications/interfaces/application.interface';
 import { Application } from '../../applications/models/application.model';
+import {ApplicationMenuItem} from "../models/application-menu-item.model";
 
 @Injectable()
 export class DashboardService {
@@ -22,9 +23,20 @@ export class DashboardService {
       .pipe(
         filter(event => event instanceof NavigationEnd)
       ).subscribe((event: NavigationEnd) => {
+        console.log(event);
+        console.log(this.menu);
         this.menu.setActiveItem(event.urlAfterRedirects);
       }
     );
+
+    this.menu.getActiveItem()
+      .subscribe((item: ApplicationMenuItem) => {
+        console.log('active', item);
+      });
+
+    this.menu.items.subscribe((items: ApplicationMenuItem[]) => {
+      console.log('items changed', items);
+    });
   }
 
   fetchInitialData(): Observable<IServerResponse<IControlPanelInitData>> {

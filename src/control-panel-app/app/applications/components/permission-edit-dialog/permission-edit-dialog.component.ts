@@ -24,6 +24,7 @@ export class PermissionEditDialogComponent implements OnInit {
       code: new FormControl(selectedPermission ? selectedPermission.code : null, Validators.required),
       title: new FormControl(selectedPermission ? selectedPermission.title : null, Validators.required)
     });
+    console.log('after dialog init', this.applications.selectedPermission());
   }
 
   /**
@@ -32,7 +33,8 @@ export class PermissionEditDialogComponent implements OnInit {
   saveChanges() {
     this.applications.editPermission(this.applications.selectedPermission())
       .subscribe(() => {
-        this.snackBar.open(`Изменения в праве сохранены`, 'Закрыть', {
+        this.closeDialog();
+        this.snackBar.open(`Изменения в праве пользователя сохранены`, 'Закрыть', {
           horizontalPosition: 'left',
           verticalPosition: 'bottom',
           duration: 3000
@@ -45,7 +47,11 @@ export class PermissionEditDialogComponent implements OnInit {
    */
   closeDialog() {
     this.dialogRef.close();
-    this.editPermissionForm.reset();
+    this.applications.selectedPermission().backup.restore();
+    this.editPermissionForm.reset({
+      code: this.applications.selectedPermission().code,
+      title: this.applications.selectedPermission().title
+    });
   }
 
 }

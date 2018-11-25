@@ -1,8 +1,16 @@
 import { Injectable } from '@angular/core';
-import { IResourceMethod, Resource, ResourceAction, ResourceHandler, ResourceParams, ResourceRequestMethod } from '@ngx-resource/core';
+import {
+  IResourceMethod,
+  IResourceMethodStrict,
+  Resource,
+  ResourceAction,
+  ResourceHandler,
+  ResourceParams,
+  ResourceRequestMethod
+} from '@ngx-resource/core';
 import { environment } from '../../../../_common/environments/environment';
 import { IApplication } from '../interfaces/application.interface';
-import { IPermission, IServerResponse } from '@kolenergo/lib';
+import { IPermission, IRole, IServerResponse } from '@kolenergo/lib';
 
 @Injectable()
 @ResourceParams({
@@ -22,6 +30,20 @@ export class ApplicationsResource extends Resource {
   getAll: IResourceMethod<void, IServerResponse<IApplication[]>>;
 
   @ResourceAction({
+    path: '/roles',
+    method: ResourceRequestMethod.Post,
+    withCredentials: true
+  })
+  addRole: IResourceMethod<IRole, IServerResponse<IRole>>;
+
+  @ResourceAction({
+    path: '/roles/{:id}',
+    method: ResourceRequestMethod.Patch,
+    withCredentials: true
+  })
+  editRole: IResourceMethodStrict<IRole, void, {id: number}, IServerResponse<IRole>>;
+
+  @ResourceAction({
     path: '/permissions',
     method: ResourceRequestMethod.Post,
     withCredentials: true
@@ -33,5 +55,5 @@ export class ApplicationsResource extends Resource {
     method: ResourceRequestMethod.Patch,
     withCredentials: true
   })
-  editPermission: IResourceMethod<IPermission, IServerResponse<IPermission>>;
+  editPermission: IResourceMethodStrict<IPermission, void, {id: number}, IServerResponse<IPermission>>;
 }

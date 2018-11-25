@@ -9,6 +9,7 @@ export class ApplicationMenuItem implements IApplicationMenuItem {
   link: string;                       // Ссылка
   icon: string;                       // Иконка
   items: ApplicationMenuItem[];       // Перечень дочених элементов меню
+  parent: ApplicationMenuItem;        // Родительский элемент меню
 
   /**
    * Конструктор
@@ -19,6 +20,7 @@ export class ApplicationMenuItem implements IApplicationMenuItem {
     this.title = config ? config.title : null;
     this.link = config ? config.link : null;
     this.icon = config ? config.icon : null;
+    this.parent = null;
     this.items = [];
   }
 
@@ -28,6 +30,7 @@ export class ApplicationMenuItem implements IApplicationMenuItem {
    */
   add(item: IApplicationMenuItem): ApplicationMenuItem {
     const subMenuItem = new ApplicationMenuItem(item);
+    subMenuItem.parent = this;
     this.items.push(subMenuItem);
     return subMenuItem;
   }

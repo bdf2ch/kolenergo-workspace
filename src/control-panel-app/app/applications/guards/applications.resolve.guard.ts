@@ -18,11 +18,14 @@ export class ApplicationsResolveGuard implements Resolve<Application[]> {
         appMenuItem.add({
           id: String(app.id),
           title: app.title,
-          link: `applications/${app.id}`,
+          link: `/applications/${app.id}`,
           icon: 'web'
         });
       }
     });
+    // console.log(this.dashboard.menu.getItems().subscribe());
+    console.log('state', state);
+    this.dashboard.menu.setActiveItem(state.url);
     return applications;
   }
 }

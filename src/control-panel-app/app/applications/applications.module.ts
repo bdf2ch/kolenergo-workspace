@@ -10,6 +10,8 @@ import { ApplicationComponent } from './components/application/application.compo
 import { ApplicationsResolveGuard } from './guards/applications.resolve.guard';
 import { PermissionEditDialogComponent } from './components/permission-edit-dialog/permission-edit-dialog.component';
 import { PermissionAddDialogComponent } from './components/permission-add-dialog/permission-add-dialog.component';
+import { RoleEditDialogComponent } from './components/role-edit-dialog/role-edit-dialog.component';
+import { RoleAddDialogComponent } from './components/role-add-dialog/role-add-dialog.component';
 
 
 @NgModule({
@@ -23,7 +25,9 @@ import { PermissionAddDialogComponent } from './components/permission-add-dialog
     ApplicationsListComponent,
     ApplicationComponent,
     PermissionEditDialogComponent,
-    PermissionAddDialogComponent
+    PermissionAddDialogComponent,
+    RoleEditDialogComponent,
+    RoleAddDialogComponent
   ],
   providers: [
     ApplicationsResource,
@@ -31,6 +35,8 @@ import { PermissionAddDialogComponent } from './components/permission-add-dialog
     ApplicationsResolveGuard
   ],
   entryComponents: [
+    RoleAddDialogComponent,
+    RoleEditDialogComponent,
     PermissionAddDialogComponent,
     PermissionEditDialogComponent
   ]

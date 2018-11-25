@@ -2,7 +2,7 @@
   <mat-tab-group class="demo-tab-group">
 
     <!-- Start: Вкладка с ролями и правами пользователей приложения-->
-    <mat-tab label="Права и роли">
+    <mat-tab label="Роли и права">
       <div class="p-3">
         <div class="d-flex flex-column">
 
@@ -10,7 +10,7 @@
           <div class="d-flex flex-column mb-5">
             <div class="d-flex justify-content-between align-items-center mb-3">
               <span class="h5">Роли пользователей</span>
-              <button mat-flat-button color="primary">Добавить</button>
+              <button mat-flat-button color="primary" (click)="openAddRoleDialog()">Добавить</button>
             </div>
 
             <div>
@@ -18,29 +18,29 @@
                 <!-- Start: Колонка идентификатора роли -->
                 <ng-container matColumnDef="id">
                   <mat-header-cell *matHeaderCellDef class="id-column"> id </mat-header-cell>
-                  <mat-cell *matCellDef="let element" class="id-column"> {{element.id}} </mat-cell>
+                  <mat-cell *matCellDef="let role" class="id-column"> {{role.id}} </mat-cell>
                 </ng-container>
                 <!-- End: Колонка идентификатора роли -->
 
                 <!-- Start: Колонка кода роли -->
                 <ng-container matColumnDef="code">
                   <mat-header-cell *matHeaderCellDef class="code-column"> Код </mat-header-cell>
-                  <mat-cell *matCellDef="let element" class="code-column"> {{element.code}} </mat-cell>
+                  <mat-cell *matCellDef="let role" class="code-column"> {{role.backup.data.code}} </mat-cell>
                 </ng-container>
                 <!-- End: Колонка кода роли -->
 
                 <!-- Start: Колонка наименования роли -->
                 <ng-container matColumnDef="title">
                   <mat-header-cell *matHeaderCellDef> Наименование </mat-header-cell>
-                  <mat-cell *matCellDef="let element"> {{element.title}} </mat-cell>
+                  <mat-cell *matCellDef="let role"> {{role.backup.data.title}} </mat-cell>
                 </ng-container>
                 <!-- End: Колонка наименования роли -->
 
                 <!-- Start: Колонка элементов управления -->
                 <ng-container matColumnDef="controls">
                   <mat-header-cell *matHeaderCellDef class="controls-column"> </mat-header-cell>
-                  <mat-cell *matCellDef="let element" class="controls-column">
-                    <button mat-icon-button color="primary">
+                  <mat-cell *matCellDef="let role" class="controls-column">
+                    <button mat-icon-button color="primary" (click)="openEditRoleDialog(role)">
                       <mat-icon>edit</mat-icon>
                     </button>
                   </mat-cell>
@@ -73,14 +73,14 @@
                 <!-- Start: Колонка кода роли -->
                 <ng-container matColumnDef="code">
                   <mat-header-cell *matHeaderCellDef class="code-column"> Код </mat-header-cell>
-                  <mat-cell *matCellDef="let permission" class="code-column"> {{permission.code}} </mat-cell>
+                  <mat-cell *matCellDef="let permission" class="code-column"> {{permission.backup.data.code}} </mat-cell>
                 </ng-container>
                 <!-- End: Колонка кода роли -->
 
                 <!-- Start: Колонка наименования роли -->
                 <ng-container matColumnDef="title">
                   <mat-header-cell *matHeaderCellDef> Наименование </mat-header-cell>
-                  <mat-cell *matCellDef="let permission"> {{permission.title}} </mat-cell>
+                  <mat-cell *matCellDef="let permission"> {{permission.backup.data.title}} </mat-cell>
                 </ng-container>
                 <!-- End: Колонка наименования роли -->
 

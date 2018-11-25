@@ -5,6 +5,8 @@
 
   <mat-dialog-content>
     <form [formGroup]="editPermissionForm">
+
+      <!-- Start: Код права пользователя -->
       <div class="row">
         <div class="col">
           <mat-form-field class="w-100">
@@ -14,7 +16,9 @@
           </mat-form-field>
         </div>
       </div>
+      <!-- End: Код права пользователя -->
 
+      <!-- Start: Наименование права пользователя -->
       <div class="row">
         <div class="col">
           <mat-form-field class="w-100">
@@ -24,6 +28,7 @@
           </mat-form-field>
         </div>
       </div>
+      <!-- End: Наименование права пользователя -->
     </form>
   </mat-dialog-content>
 
@@ -38,7 +43,7 @@
      <button mat-flat-button class="w-25"
              [disabled]="(applications.isEditingPermission() | async) || editPermissionForm.invalid || editPermissionForm.pristine"
              (click)="saveChanges()">
-       Добавить
+       Сохранить
      </button>
    </div>
   </mat-dialog-actions>

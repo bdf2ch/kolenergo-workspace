@@ -39,7 +39,7 @@ export class AhoRequestsResource extends Resource {
     method: ResourceRequestMethod.Get,
     withCredentials: true
   })
-  getInitialData: IResourceMethod<{userId: number, itemsOnPage: number}, IServerResponse<IAhoServerResponse>>;
+  getInitialData: IResourceMethod<{userId: number, itemsOnPage: number}, IServerResponse<IAhoRequestsInitialData>>;
 
   @ResourceAction({
     path: '/types',

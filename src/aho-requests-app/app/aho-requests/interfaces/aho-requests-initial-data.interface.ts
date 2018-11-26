@@ -18,4 +18,21 @@ export interface IAhoRequestsInitialData {
   employeeRequests: number;                     // Заявки сотрудника
   expiredRequests: number;                      // Просроченные заявки
   totalRequests: number;                        // Общее количество заявок
+  ownRequests?: number;
+
+  allRequests: {
+    totalRequestsCount: number;
+    newRequestsCount: number;
+  };
+  ownRequests_: {
+    totalRequestsCount: number;
+    uncompletedRequestsCount: number;
+  };
+  employeeRequests_: {
+    totalRequestsCount: number;
+    uncompletedRequestsCount: number;
+  };
+  expiredRequests_: {
+    totalRequestsCount: number;
+  };
 }

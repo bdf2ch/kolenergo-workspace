@@ -25,8 +25,9 @@ import { environment } from '../../../environments/environment';
 import { Pagination, IUser } from '@kolenergo/lib';
 import { IAhoServerResponse } from '../interfaces/aho-server-response.interface';
 import { IRole } from 'shared-lib/app/users/interfaces/role.interface';
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
-import {Observable} from "rxjs/Observable";
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
+import {IAhoRequestsInitialData} from '../interfaces/aho-requests-initial-data.interface';
 
 @Injectable()
 export class AhoRequestsService {
@@ -46,7 +47,6 @@ export class AhoRequestsService {
   private needs: IAhoRequestNeed[];
   private selectedRequest: AhoRequest | null;
   private newRequestsCount: number;
-  private fetchingDataInProgress: boolean;
   private addRequestInProgress: boolean;
   private editRequestInProgress: boolean;
   private deleteRequestInProgress: boolean;
@@ -60,6 +60,17 @@ export class AhoRequestsService {
   public filters_: FilterManager;
   private dataSource: MatTableDataSource<AhoRequest>;
 
+  private fetchingData$: BehaviorSubject<boolean>;
+  private allRequestsCount$: BehaviorSubject<number>;
+  private allRequestsNewCount$: BehaviorSubject<number>;
+  private ownRequestsCount$: BehaviorSubject<number>;
+  private ownRequestsUncompletedCount$: BehaviorSubject<number>;
+  private employeeRequestsCount$: BehaviorSubject<number>;
+  private employeeRequestsUncompletedCount$: BehaviorSubject<number>;
+  private expiredRequestsCount$: BehaviorSubject<number>;
+
+
+
   constructor(private readonly snackBar: MatSnackBar,
               private readonly authenticationService: AuthenticationService,
               private readonly ahoRequestResource: AhoRequestsResource,
@@ -68,7 +79,9 @@ export class AhoRequestsService {
     this.totalRequestsCount = 0;
     this.ownRequestsCount = 0;
     this.expiredRequestsCount = 0;
+
     this.employeeRequestsCount = 0;
+
     this.pagination = new Pagination();
     this.requestTypes = [];
     this.requestStatuses = [];
@@ -88,7 +101,7 @@ export class AhoRequestsService {
     this.resumeRequestInProgress = false;
     this.cancelRequestInProgress = new BehaviorSubject<boolean>(false);
     this.searchRequestsInProgress = false;
-    this.fetchingDataInProgress = false;
+
     this.inEmployeeRequestsMode = false;
     this.inExpiredRequestsMode = false;
     this.inShowCompletedRequestsMode = true;
@@ -100,6 +113,17 @@ export class AhoRequestsService {
     this.filters_.addFilter(new AhoRequestFilter<User>('requestEmployee'));
     this.dataSource =
       new MatTableDataSource<AhoRequest>(this.showCompletedRequestsPipe.transform(this.requests, this.inShowCompletedRequestsMode));
+
+
+    this.fetchingData$ = new BehaviorSubject<boolean>(false);
+    this.allRequestsCount$ = new BehaviorSubject<number>(0);
+    this.allRequestsNewCount$ = new BehaviorSubject<number>(0);
+    this.ownRequestsCount$ = new BehaviorSubject<number>(0);
+    this.ownRequestsUncompletedCount$ = new BehaviorSubject<number>(0);
+    this.employeeRequestsCount$ = new BehaviorSubject<number>(0);
+    this.employeeRequestsUncompletedCount$ = new BehaviorSubject<number>(0);
+    this.expiredRequestsCount$ = new BehaviorSubject<number>(0);
+
   }
 
 
@@ -108,9 +132,9 @@ export class AhoRequestsService {
    * @param userId - Идентификатор пользователя
    * @param itemsOnPage - Количество заявок на странице
    */
-  async fetchInitialData(userId: number, itemsOnPage: number): Promise<IAhoServerResponse | null> {
+  async fetchInitialData(userId: number, itemsOnPage: number): Promise<IServerResponse<IAhoRequestsInitialData> | null> {
     try {
-      this.fetchingDataInProgress = true;
+      this.fetchingData$.next(true);
       this.requests = [];
       const result = await this.ahoRequestResource.getInitialData({userId: userId, itemsOnPage: itemsOnPage});
       if (result) {
@@ -161,17 +185,25 @@ export class AhoRequestsService {
         console.log('employeeRequestsCount', this.employeeRequestsCount);
         console.log('expiredRequestsCount', this.expiredRequestsCount);
         console.log('totalRequestsCount', this.totalRequestsCount);
-        this.fetchingDataInProgress = false;
+        this.fetchingData$.next(false);
         this.pagination = new Pagination({
           totalItems: this.totalRequestsCount,
           itemsOnPage: environment.settings.requestsOnPage
         });
         console.log('pagination', this.pagination);
+
+        this.allRequestsCount$.next(result.data.allRequests.totalRequestsCount);
+        this.allRequestsNewCount$.next(result.data.allRequests.newRequestsCount);
+        this.ownRequestsCount$.next(result.data.ownRequests_.totalRequestsCount);
+        this.ownRequestsUncompletedCount$.next(result.data.ownRequests_.uncompletedRequestsCount);
+        this.employeeRequestsCount$.next(result.data.employeeRequests_.totalRequestsCount);
+        this.employeeRequestsUncompletedCount$.next(result.data.employeeRequests_.uncompletedRequestsCount);
+        this.expiredRequestsCount$.next(result.data.expiredRequests_.totalRequestsCount);
       }
-      return result.data;
+      return result;
     } catch (error) {
       console.error(error);
-      this.fetchingDataInProgress = false;
+      this.fetchingData$.next(false);
       return null;
     }
   }
@@ -193,7 +225,7 @@ export class AhoRequestsService {
     clear?: boolean
   ): Promise<AhoRequest[] | null> {
     try {
-      this.fetchingDataInProgress = true;
+      this.fetchingData$.next(true);
       if (clear && clear === true) {
         this.requests = [];
       }
@@ -213,7 +245,7 @@ export class AhoRequestsService {
         null
       );
       if (result) {
-        this.fetchingDataInProgress = false;
+        this.fetchingData$.next(false);
         this.totalRequestsCount = result.data.totalRequests;
         this.pagination = new Pagination({
           totalItems: result.data.totalRequests,
@@ -234,7 +266,7 @@ export class AhoRequestsService {
       }
     } catch (error) {
       console.error(error);
-      this.fetchingDataInProgress = false;
+      this.fetchingData$.next(false);
       return null;
     }
   }
@@ -246,7 +278,7 @@ export class AhoRequestsService {
    */
   async fetchEmployeeRequests(employeeId: number): Promise<AhoRequest[] | null> {
     try {
-      this.fetchingDataInProgress = true;
+      this.fetchingData$.next(true);
       this.inExpiredRequestsMode = false;
       this.search = null;
       const result = await this.fetchRequests(
@@ -261,12 +293,12 @@ export class AhoRequestsService {
         environment.settings.requestsOnPage,
         true,
       );
-      this.fetchingDataInProgress = false;
+      this.fetchingData$.next(false);
       this.inEmployeeRequestsMode = true;
       return this.requests;
     } catch (error) {
       console.error(error);
-      this.fetchingDataInProgress = false;
+      this.fetchingData$.next(false);
       return null;
     }
   }
@@ -277,7 +309,7 @@ export class AhoRequestsService {
    */
   async fetchExpiredRequests(employeeId: number = 0): Promise<AhoRequest[] | null> {
     try {
-      this.fetchingDataInProgress = true;
+      this.fetchingData$.next(true);
       this.inExpiredRequestsMode = true;
       this.search = null;
       const result = await this.fetchRequests(
@@ -292,12 +324,12 @@ export class AhoRequestsService {
         environment.settings.requestsOnPage,
         true,
       );
-      this.fetchingDataInProgress = false;
+      this.fetchingData$.next(false);
       this.inEmployeeRequestsMode = true;
       return this.requests;
     } catch (error) {
       console.error(error);
-      this.fetchingDataInProgress = false;
+      this.fetchingData$.next(false);
       return null;
     }
   }
@@ -352,7 +384,7 @@ export class AhoRequestsService {
     requestStatusId: number
   ): Promise<string | null> {
     try {
-      this.fetchingDataInProgress = true;
+      this.fetchingData$.next(true);
       const result  = await this.ahoRequestResource.getRequestsExport({
         start: start,
         end: end,
@@ -362,12 +394,12 @@ export class AhoRequestsService {
         requestStatusId: requestStatusId
       });
       if (result) {
-        this.fetchingDataInProgress = false;
+        this.fetchingData$.next(false);
         saver.saveAs(result, 'export.xlsx');
       }
     } catch (error) {
       console.error(error);
-      this.fetchingDataInProgress = false;
+      this.fetchingData$.next(false);
       return null;
     }
   }
@@ -380,7 +412,7 @@ export class AhoRequestsService {
   async searchRequests(search: string): Promise<AhoRequest[] | null> {
     try {
       this.filters_.resetFilters();
-      this.fetchingDataInProgress = true;
+      this.fetchingData$.next(true);
       const result = await this.ahoRequestResource.getRequests(
         {
           start: 0,
@@ -398,7 +430,7 @@ export class AhoRequestsService {
         null
       );
       if (result) {
-        this.fetchingDataInProgress = false;
+        this.fetchingData$.next(false);
         this.inEmployeeRequestsMode = false;
         this.inExpiredRequestsMode = false;
         this.totalRequestsCount = result.data.totalRequests;
@@ -416,7 +448,7 @@ export class AhoRequestsService {
       }
     } catch (error) {
       console.error(error);
-      this.fetchingDataInProgress = false;
+      this.fetchingData$.next(false);
       return null;
     }
   }
@@ -467,15 +499,15 @@ export class AhoRequestsService {
    */
   async fetchRequestExport(requestId: number): Promise<string | null> {
     try {
-      this.fetchingDataInProgress = true;
+      this.fetchingData$.next(true);
       const result  = await this.ahoRequestResource.getRequestExport({id: requestId});
       if (result) {
-        this.fetchingDataInProgress = false;
+        this.fetchingData$.next(false);
         saver.saveAs(result, `${requestId}.xlsx`);
       }
     } catch (error) {
       console.error(error);
-      this.fetchingDataInProgress = false;
+      this.fetchingData$.next(false);
       return null;
     }
   }
@@ -505,12 +537,12 @@ export class AhoRequestsService {
    */
   async fetchNeedsExport(): Promise<any> {
     try {
-      this.fetchingDataInProgress = true;
+      this.fetchingData$.next(true);
       const result = await this.ahoRequestResource.exportNeeds();
-      this.fetchingDataInProgress = false;
+      this.fetchingData$.next(false);
       saver.saveAs(result, 'needs.xlsx');
     } catch (error) {
-      this.fetchingDataInProgress = false;
+      this.fetchingData$.next(false);
       console.error(error);
       return null;
     }
@@ -805,8 +837,8 @@ export class AhoRequestsService {
    * Выполняется ли загрузка данных
    * @returns {boolean}
    */
-  isFetchingData(): boolean {
-    return this.fetchingDataInProgress;
+  isFetchingData(): Observable<boolean> {
+    return this.fetchingData$.asObservable();
   }
 
   /**
@@ -1053,5 +1085,48 @@ export class AhoRequestsService {
 
   getExpiredRequestsCount(): number {
     return this.expiredRequestsCount;
+  }
+
+  getAllRequestsCount(): Observable<number> {
+    return this.allRequestsCount$.asObservable();
+  }
+
+  getAllRequestsNewCount(): Observable<number> {
+    return this.allRequestsNewCount$.asObservable();
+  }
+
+  getOwnRequestsCount(): Observable<number> {
+    return this.ownRequestsCount$.asObservable();
+  }
+
+  getOwnRequestsUncompletedCount(): Observable<number> {
+    return this.ownRequestsUncompletedCount$.asObservable();
+  }
+
+  getEmployeeRequestsCount_(): Observable<number> {
+    return this.employeeRequestsCount$.asObservable();
+  }
+
+  getEmployeeRequestsUncompletedCount(): Observable<number> {
+    return this.employeeRequestsUncompletedCount$.asObservable();
+  }
+
+  getExpiredRequestsCount_(): Observable<number> {
+    return this.expiredRequestsCount$.asObservable();
+  }
+
+  showOwnRequests() {
+    this.fetchRequests(
+      0,
+      0,
+      this.authenticationService.getCurrentUser().id,
+      0,
+      0,
+      0,
+      false,
+      0,
+      environment.settings.requestsOnPage,
+      true
+    );
   }
 }

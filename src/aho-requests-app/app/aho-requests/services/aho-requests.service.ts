@@ -28,6 +28,8 @@ import { IRole } from 'shared-lib/app/users/interfaces/role.interface';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import {IAhoRequestsInitialData} from '../interfaces/aho-requests-initial-data.interface';
+import {TabsManager} from "../models/tabs-manager.model";
+import {Tab} from "../models/tab.model";
 
 @Injectable()
 export class AhoRequestsService {
@@ -60,6 +62,7 @@ export class AhoRequestsService {
   public filters_: FilterManager;
   private dataSource: MatTableDataSource<AhoRequest>;
 
+  private tabs: TabsManager;
   private fetchingData$: BehaviorSubject<boolean>;
   private allRequestsCount$: BehaviorSubject<number>;
   private allRequestsNewCount$: BehaviorSubject<number>;
@@ -115,6 +118,12 @@ export class AhoRequestsService {
       new MatTableDataSource<AhoRequest>(this.showCompletedRequestsPipe.transform(this.requests, this.inShowCompletedRequestsMode));
 
 
+    this.tabs = new TabsManager();
+    this.tabs.add(new Tab({
+      id: 'all-tabs',
+      title: 'Все заявки_',
+      notification: null
+    }));
     this.fetchingData$ = new BehaviorSubject<boolean>(false);
     this.allRequestsCount$ = new BehaviorSubject<number>(0);
     this.allRequestsNewCount$ = new BehaviorSubject<number>(0);
@@ -1128,5 +1137,9 @@ export class AhoRequestsService {
       environment.settings.requestsOnPage,
       true
     );
+  }
+
+  getTabs(): TabsManager {
+    return this.tabs;
   }
 }

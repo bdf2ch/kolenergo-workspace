@@ -17,4 +17,5 @@ export interface IAddAhoRequest {
   dateExpires?: Date;                         // Срок исполнения заявки
   tasks: IAhoRequestTask[];                   // Список задач
   employees: User[];                          // Список исполнителей
+  phone: string;                              // Контактный телефон
 }

@@ -63,6 +63,7 @@ export class AhoRequestsService {
   private dataSource: MatTableDataSource<AhoRequest>;
 
   private mode$: BehaviorSubject<string>;
+  private requests$: BehaviorSubject<AhoRequest[]>;
   private fetchingData$: BehaviorSubject<boolean>;
   private allRequestsCount$: BehaviorSubject<number>;
   private allRequestsNewCount$: BehaviorSubject<number>;
@@ -75,7 +76,7 @@ export class AhoRequestsService {
 
 
   constructor(private readonly snackBar: MatSnackBar,
-              private readonly authenticationService: AuthenticationService,
+              private readonly auth: AuthenticationService,
               private readonly ahoRequestResource: AhoRequestsResource,
               private readonly usersService: UsersService,
               private readonly showCompletedRequestsPipe: ShowCompletedRequestsPipe) {
@@ -119,6 +120,7 @@ export class AhoRequestsService {
 
 
     this.mode$ = new BehaviorSubject<string>(null);
+    this.requests$ = new BehaviorSubject<AhoRequest[]>([]);
     this.fetchingData$ = new BehaviorSubject<boolean>(false);
     this.allRequestsCount$ = new BehaviorSubject<number>(0);
     this.allRequestsNewCount$ = new BehaviorSubject<number>(0);
@@ -173,13 +175,21 @@ export class AhoRequestsService {
           });
         }
         if (this.requests.length === 0) {
+          const requests = [];
           result.data.requests.forEach((item: IAhoRequest) => {
             const request = new AhoRequest(item);
             request.backup.setup(['tasks', 'employees', 'status', 'rejectReason', 'comments', 'dateExpires']);
+            requests.push(request);
             this.requests.push(request);
           });
+          this.requests$.next(requests);
+          /*
           this.dataSource = new MatTableDataSource<AhoRequest>(
             this.showCompletedRequestsPipe.transform(this.requests, this.inShowCompletedRequestsMode)
+          );
+          */
+          this.dataSource = new MatTableDataSource<AhoRequest>(
+            this.showCompletedRequestsPipe.transform(this.requests$.getValue(), this.inShowCompletedRequestsMode)
           );
         }
         this.ownRequestsCount = result.data.ownRequests;
@@ -196,6 +206,7 @@ export class AhoRequestsService {
         });
         console.log('pagination', this.pagination);
 
+
         this.allRequestsCount$.next(result.data.allRequests.totalRequestsCount);
         this.allRequestsNewCount$.next(result.data.allRequests.newRequestsCount);
         this.ownRequestsCount$.next(result.data.ownRequests_.totalRequestsCount);
@@ -203,6 +214,15 @@ export class AhoRequestsService {
         this.employeeRequestsCount$.next(result.data.employeeRequests_.totalRequestsCount);
         this.employeeRequestsUncompletedCount$.next(result.data.employeeRequests_.uncompletedRequestsCount);
         this.expiredRequestsCount$.next(result.data.expiredRequests_.totalRequestsCount);
+        if (result.data.allRequests.totalRequestsCount > 0) {
+          this.mode$.next('all-requests-mode');
+        } else if (result.data.ownRequests_.totalRequestsCount > 0) {
+          this.mode$.next('own-requests-mode');
+        } else if (result.data.employeeRequests_.totalRequestsCount > 0) {
+          this.mode$.next('employee-requests-mode');
+        } else if (result.data.expiredRequests_.totalRequestsCount > 0 ) {
+          this.mode$.next('expired-requests-mode');
+        }
       }
       return result;
     } catch (error) {
@@ -283,6 +303,7 @@ export class AhoRequestsService {
   async fetchEmployeeRequests(employeeId: number): Promise<AhoRequest[] | null> {
     try {
       this.fetchingData$.next(true);
+      this.mode$.next('employee-requests-mode');
       this.inExpiredRequestsMode = false;
       this.search = null;
       const result = await this.fetchRequests(
@@ -314,6 +335,7 @@ export class AhoRequestsService {
   async fetchExpiredRequests(employeeId: number = 0): Promise<AhoRequest[] | null> {
     try {
       this.fetchingData$.next(true);
+      this.mode$.next('expired-requests-mode');
       this.inExpiredRequestsMode = true;
       this.search = null;
       const result = await this.fetchRequests(
@@ -357,7 +379,7 @@ export class AhoRequestsService {
     const result = await this.fetchRequests(
       start,
       end,
-      userId,
+      this.auth.getCurrentUser().permissions.getRoleById(1) ? 0 : this.auth.getCurrentUser().id,
       employeeId,
       requestTypeId,
       requestStatusId,
@@ -421,7 +443,7 @@ export class AhoRequestsService {
         {
           start: 0,
           end: 0,
-          userId: this.authenticationService.getCurrentUser().id,
+          userId: this.auth.getCurrentUser().id,
           employeeId: 0,
           requestTypeId: 0,
           requestStatusId: 0,
@@ -434,26 +456,63 @@ export class AhoRequestsService {
         null
       );
       if (result) {
-        this.fetchingData$.next(false);
+        this.mode$.next('search-requests-mode');
         this.inEmployeeRequestsMode = false;
         this.inExpiredRequestsMode = false;
         this.totalRequestsCount = result.data.totalRequests;
-        this.pagination = new Pagination({itemsOnPage: environment.settings.requestsOnPage, totalItems: result.data.totalRequests});
-        this.requests = [];
+        this.pagination = new Pagination({
+          itemsOnPage: environment.settings.requestsOnPage,
+          totalItems: result.data.totalRequests
+        });
+        // this.requests = [];
+        const requests = [];
         result.data.requests.forEach((item: IAhoRequest) => {
           const request = new AhoRequest(item);
-          this.requests.push(request);
+          requests.push(request);
           if (request.status.id === 1) {
             this.newRequestsCount += 1;
           }
         });
-        this.dataSource = new MatTableDataSource<AhoRequest>(this.requests);
-        return this.requests;
+        // if (requests.length > 0) {
+          this.requests$.next(requests);
+          this.dataSource = new MatTableDataSource<AhoRequest>(this.requests$.getValue());
+          this.fetchingData$.next(false);
+          this.mode$.next('search-requests-mode');
+        // }
+        // this.requests$.next(requests);
+        // this.dataSource = new MatTableDataSource<AhoRequest>(this.requests$.getValue());
+        return requests;
       }
     } catch (error) {
       console.error(error);
       this.fetchingData$.next(false);
       return null;
+    }
+  }
+
+  /**
+   * Очистка результатов поиска
+   */
+  async cancelSearch() {
+    this.search = null;
+    await this.fetchRequests(
+      0,
+      0,
+      this.auth.getCurrentUser().permissions.getRoleById(1) ? 0 : this.auth.getCurrentUser().id,
+      0,
+      0,
+      0,
+      false,
+      0,
+      environment.settings.requestsOnPage,
+      true
+    );
+    if (this.auth.getCurrentUser().permissions.getRoleById(1)) {
+      this.mode$.next('all-requests-mode');
+    } else if (this.ownRequestsCount$.getValue() > 0) {
+      this.mode$.next('own-requests-mode');
+    } else if (this.employeeRequestsCount$.getValue() > 0) {
+      this.mode$.next('employee-requests-mode');
     }
   }
 
@@ -559,15 +618,20 @@ export class AhoRequestsService {
    */
   async addRequest(request: IAddAhoRequest): Promise<IAhoRequest | null> {
     try {
+      this.addRequestInProgress = true;
       if (request.dateExpires) {
         request.dateExpires.setHours(23, 59, 59, 59);
       }
-      this.addRequestInProgress = true;
       const result = await this.ahoRequestResource.addRequest(request);
       if (result) {
         this.addRequestInProgress = false;
         const newRequest = new AhoRequest(result);
         this.requests.unshift(newRequest);
+        if (this.mode$.getValue() !== 'own-requests-mode') {
+          this.ownRequestsCount$.next(this.ownRequestsCount$.getValue() + 1);
+          this.ownRequestsUncompletedCount$.next(this.ownRequestsUncompletedCount$.getValue() + 1);
+          this.showOwnRequests();
+        }
         this.newRequestsCount += 1;
         this.totalRequestsCount++;
         this.snackBar.open(`Ваша заявка добавлена`, 'Закрыть', {
@@ -605,7 +669,7 @@ export class AhoRequestsService {
       const request_ = new AhoRequest(result);
       request.fromAnother(request_);
       request.backup.setup(['status', 'employees', 'tasks', 'rejectReason', 'dateExpires']);
-      const findEmployeeById = (empl: User) => empl.id === this.authenticationService.getCurrentUser().id;
+      const findEmployeeById = (empl: User) => empl.id === this.auth.getCurrentUser().id;
       const employee = request_.employees.find(findEmployeeById);
       if (employee) {
         this.employeeRequests.push(request_);
@@ -663,9 +727,19 @@ export class AhoRequestsService {
       const result = await this.ahoRequestResource.deleteRequest({id: requestId});
       this.deleteRequestInProgress = false;
       if (result === true) {
-        this.requests.forEach((request: AhoRequest, index: number, array: AhoRequest[]) => {
+        const requests = this.requests$.getValue().slice();
+        requests.forEach((request: AhoRequest, index: number) => {
           if (request.id === requestId) {
-            this.requests.splice(index, 1);
+            if (request.user.id === this.auth.getCurrentUser().id) {
+              this.ownRequestsCount$.next(this.ownRequestsCount$.getValue() - 1);
+              if (request.status.id === 1) {
+                this.ownRequestsUncompletedCount$.next(this.ownRequestsUncompletedCount$.getValue() - 1);
+              }
+            }
+            if (request.status.id === 1) {
+              this.allRequestsNewCount$.next(this.allRequestsNewCount$.getValue() - 1);
+            }
+            requests.splice(index, 1);
           }
         });
         this.snackBar.open(`Заявка #${requestId} удалена`, 'Закрыть', {
@@ -673,7 +747,17 @@ export class AhoRequestsService {
           verticalPosition: 'bottom',
           duration: 3000
         });
-        this.dataSource = new MatTableDataSource<AhoRequest>(this.requests);
+        // this.dataSource = new MatTableDataSource<AhoRequest>(this.requests);
+        this.dataSource = new MatTableDataSource<AhoRequest>(requests);
+        if (this.ownRequestsCount$.getValue() === 0) {
+          if (this.allRequestsCount$.getValue() > 0) {
+            this.mode$.next('all-requests-mode');
+          } else if (this.ownRequestsCount$.getValue() > 0) {
+            this.mode$.next('own-requests-mode');
+          } else if (this.employeeRequestsCount$.getValue() > 0) {
+            this.mode$.next('employee-requests-mode');
+          }
+        }
         return true;
       }
     } catch (error) {
@@ -993,6 +1077,7 @@ export class AhoRequestsService {
   }
 
   showAllRequests() {
+    this.mode$.next('all-requests-mode');
     this.dataSource = new MatTableDataSource<AhoRequest>(this.requests);
     this.inEmployeeRequestsMode = false;
     this.inExpiredRequestsMode = false;
@@ -1001,8 +1086,8 @@ export class AhoRequestsService {
     this.fetchRequests(
       0,
       0,
-      this.ownRequestsCount > 0 ? this.authenticationService.getCurrentUser().id : 0,
-      this.ownRequestsCount === 0 && this.employeeRequestsCount > 0 ? this.authenticationService.getCurrentUser().id : 0,
+      this.ownRequestsCount > 0 ? this.auth.getCurrentUser().id : 0,
+      this.ownRequestsCount === 0 && this.employeeRequestsCount > 0 ? this.auth.getCurrentUser().id : 0,
       0,
       0,
       false,
@@ -1022,9 +1107,9 @@ export class AhoRequestsService {
    * Является ли пользователь сотрудником
    */
   isUserIsEmployee(): boolean {
-    if (this.authenticationService.getCurrentUser()) {
+    if (this.auth.getCurrentUser()) {
       let result = false;
-      this.authenticationService.getCurrentUser().permissions.roles.forEach((role: IRole) => {
+      this.auth.getCurrentUser().permissions.roles.forEach((role: IRole) => {
         if ((role.id === 2 && role.isEnabled) ||
           (role.id === 3 && role.isEnabled) ||
           (role.id === 4 && role.isEnabled) ||
@@ -1091,6 +1176,14 @@ export class AhoRequestsService {
     return this.expiredRequestsCount;
   }
 
+  getRequests_(): Observable<AhoRequest[]> {
+    return this.requests$.asObservable();
+  }
+
+  getMode(): Observable<string> {
+    return this.mode$.asObservable();
+  }
+
   getAllRequestsCount(): Observable<number> {
     return this.allRequestsCount$.asObservable();
   }
@@ -1120,10 +1213,11 @@ export class AhoRequestsService {
   }
 
   showOwnRequests() {
+    this.mode$.next('own-requests-mode');
     this.fetchRequests(
       0,
       0,
-      this.authenticationService.getCurrentUser().id,
+      this.auth.getCurrentUser().id,
       0,
       0,
       0,

@@ -28,6 +28,7 @@ export class AhoRequest extends Backup implements IAhoRequest {
   employees: User[];                              // Исполнитель заявки
   tasks: IAhoRequestTask[];                       // Список задач
   comments: AhoRequestComment[];                  // Список комментариеа к заявке
+  phone: string;                                  // Контактный телефон заявителя
   label: string;                                  // Представление списка задач одной строкой
 
   /**
@@ -47,6 +48,7 @@ export class AhoRequest extends Backup implements IAhoRequest {
     this.isExpired = config ? config.isExpired : false;
     this.initiator = config && config.initiator ? config.initiator : null;
     this.user = config && config.user ? new User(config.user) : null;
+    this.phone = config && config.phone ? config.phone : null;
     this.employees = [];
     this.tasks = [];
     this.comments = [];
@@ -85,6 +87,7 @@ export class AhoRequest extends Backup implements IAhoRequest {
     this.tasks = request.tasks;
     this.comments = request.comments;
     this.label = request.label;
+    this.phone = request.phone;
   }
 
   isAllTasksCompleted(): boolean {

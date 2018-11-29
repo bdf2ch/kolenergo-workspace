@@ -69,6 +69,16 @@
           <mat-datepicker #dateExpires disabled="false"></mat-datepicker>
         </mat-form-field>
         <!-- End: Срок исполнения -->
+
+        <!-- Start: Контактный телефон -->
+        <mat-form-field class="w-100 mb-2">
+          <input type="text"
+                 matInput
+                 placeholder="Контактный телефон (необязательно)"
+                 formControlName="phone"
+                 [(ngModel)]="newRequest.phone">
+        </mat-form-field>
+        <!-- End: Контактный телефон -->
       </form>
     </div>
     <!-- End: Детали заявки -->

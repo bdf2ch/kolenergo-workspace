@@ -23,16 +23,20 @@ export interface IAhoRequestsInitialData {
   allRequests: {
     totalRequestsCount: number;
     newRequestsCount: number;
+    requests: IAhoRequest[];
   };
   ownRequests_: {
     totalRequestsCount: number;
     uncompletedRequestsCount: number;
+    requests: IAhoRequest[];
   };
   employeeRequests_: {
     totalRequestsCount: number;
     uncompletedRequestsCount: number;
+    requests: IAhoRequest[];
   };
   expiredRequests_: {
     totalRequestsCount: number;
+    requests: IAhoRequest[];
   };
 }

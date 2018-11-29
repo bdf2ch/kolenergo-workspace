@@ -39,7 +39,8 @@ export class NewRequestDialogComponent implements OnInit {
     this.newRequest.status = this.aho.getRequestStatusById(1);
     this.headerColumns = this.newRequest.type.isCountable ? ['title', 'count', 'controls'] : ['title', 'controls'];
     this.newRequestForm = this.formBuilder.group({
-      initiator: new FormControl(null)
+      initiator: new FormControl(null),
+      phone: new FormControl(null)
     });
     this.newTaskForm = this.formBuilder.group({
       title: ['', Validators.required],

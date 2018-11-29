@@ -1,5 +1,5 @@
 <div class="container-fluid no-padding content-wrapper pb-3"
-     *ngIf="((aho.getAllRequestsCount() | async) !== 0 || (aho.getOwnRequestsCount() | async) !== 0 || (aho.getEmployeeRequestsCount_() | async) !== 0 || (aho.getExpiredRequestsCount_() | async)) !== 0 && !aho.search">
+     *ngIf="((aho.getAllRequestsCount() | async) !== 0 || (aho.getOwnRequestsCount() | async) !== 0 || (aho.getEmployeeRequestsCount_() | async) !== 0 || (aho.getExpiredRequestsCount_() | async)) !== 0">
   <div class="row no-gutters">
 
     <div class="request-list-navigation col-12 d-flex flex-column justify-content-between border-bottom">
@@ -10,9 +10,11 @@
       <div class="d-flex flex-row justify-content-between">
         <div class="navigation-tabs">
           <!-- Start: Вкладка со всеми заявками -->
-          <div class="navigation-tab active"
+          <div class="navigation-tab"
                *ngIf="auth.getCurrentUser().permissions.getRoleById(1)"
+               [ngClass]="{'active': (aho.getMode() | async) === 'all-requests-mode'}"
                (click)="aho.showAllRequests()">
+            <mat-icon>list</mat-icon>
             <span class="tab-title">Все заявки</span>
             <span class="tab-notification"
                   *ngIf="(aho.getAllRequestsNewCount() | async) > 0"
@@ -23,10 +25,12 @@
           </div>
           <!-- End: Вкладка со всеми заявками -->
 
-          <!-- Start: Вкладка с заявками ппользователя -->
+          <!-- Start: Вкладка с заявками пользователя -->
           <div class="navigation-tab"
                *ngIf="(aho.getOwnRequestsCount() | async) > 0"
+               [ngClass]="{'active': (aho.getMode() | async) === 'own-requests-mode'}"
                (click)="aho.showOwnRequests()">
+            <mat-icon>account_circle</mat-icon>
             <span class="tab-title">Ваши заявки</span>
             <span class="tab-notification"
                   *ngIf="(aho.getOwnRequestsUncompletedCount() | async) > 0"
@@ -40,7 +44,9 @@
           <!-- Start: Вкладка с заявками, в которых пользователь назначен исполнителем -->
           <div class="navigation-tab"
                *ngIf="(aho.getEmployeeRequestsCount_() | async) > 0"
+               [ngClass]="{'active': (aho.getMode() | async) === 'employee-requests-mode'}"
                (click)="showEmployeeRequests()">
+            <mat-icon fontSet="fa" fontIcon="fa-play"></mat-icon>
             <span class="tab-title">Вы исполнитель</span>
             <span class="tab-notification"
                   *ngIf="(aho.getEmployeeRequestsUncompletedCount() | async) > 0"
@@ -54,13 +60,29 @@
           <!-- Start: Вкладка с просроченными заявками -->
           <div class="navigation-tab"
                *ngIf="(aho.getExpiredRequestsCount_() | async) > 0"
+               [ngClass]="{'active': (aho.getMode() | async) === 'expired-requests-mode'}"
                (click)="showExpiredRequests()">
+            <mat-icon>date_range</mat-icon>
             <span class="tab-title">Просроченные</span>
             <span class="tab-notification"
                   matTooltip="{{'Просроченных заявок: ' + (aho.getExpiredRequestsCount_() | async)}}"
                   matTooltipPosition="above">{{(aho.getExpiredRequestsCount_() | async)}}</span>
           </div>
           <!-- End: Вкладка с просроченными заявками -->
+
+          <!-- Start: Вкладка с найденными по поиску заявками -->
+          <div class="navigation-tab"
+               *ngIf="aho.search"
+               [ngClass]="{'active': (aho.getMode() | async) === 'search-requests-mode'}">
+            <mat-icon>search</mat-icon>
+            <span class="tab-title">Найденные</span>
+            <span class="tab-notification info"
+                  *ngIf="!(aho.isFetchingData() | async)"
+                  matTooltip="{{'Найдено заявок: ' + (aho.getRequests_() | async).length}}"
+                  matTooltipPosition="above">{{(aho.getRequests_() | async).length}}
+            </span>
+          </div>
+          <!-- End: Вкладка с найденными по поиску заявками -->
         </div>
         <div class="navigation-controls">
           <!-- Start: Переключатель показа выполненных заявок -->
@@ -152,7 +174,7 @@
 
   <div class="row no-gutters">
     <div class="col-12">
-      <mat-table #table [dataSource]="aho.getDataSource()" class="aho-requests-table">
+      <mat-table #table [dataSource]="aho.getDataSource()" *ngIf="!(aho.search && (aho.getRequests_() | async).length === 0)" class="aho-requests-table">
 
         <!-- Start: Request type column -->
         <ng-container matColumnDef="requestType">
@@ -307,7 +329,9 @@
 <!-- End: Заглушка, отображающаяся если пользователь еще не подавал заявок -->
 
 <!-- Start: Заглушка, отображающаяся при отсутствии найденных заявок -->
-<div class="container content-wrapper app-intro h-100 pb-3 d-flex flex-column justify-content-center text-center align-self-center" *ngIf="aho.getRequests().length === 0 && aho.search && !aho.isSearchingRequests()">
+<div class="container content-wrapper app-intro h-100 pb-3 d-flex flex-column justify-content-center text-center align-self-center"
+     style="margin-top: -90px;"
+     *ngIf="(aho.getRequests_() | async).length === 0 && aho.search && !aho.isSearchingRequests()">
   <div class="row">
     <div class="col">
       <h4 class="text-muted mb-3">По вашему запросу заявки не найдены</h4>

@@ -119,7 +119,7 @@ export class StartComponent implements OnInit {
         ? this.aho.filters_.getFilterByTitle('startDate').getValue() : 0,
       this.aho.filters_.getFilterByTitle('endDate').getValue()
         ? this.aho.filters_.getFilterByTitle('endDate').getValue().getTime() : 0,
-      this.auth.getCurrentUser() ? this.auth.getCurrentUser().id : 0,
+      this.auth.getCurrentUser().id,
       this.aho.filters_.getFilterByTitle('requestEmployee').getValue()
         ? this.aho.filters_.getFilterByTitle('requestEmployee').getValue().id : 0,
       this.aho.filters_.getFilterByTitle('requestType').getValue()

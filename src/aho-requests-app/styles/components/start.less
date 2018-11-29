@@ -33,7 +33,7 @@
 
   .request-room-column {
     font-family: "Segoe UI";
-    max-width: 60px;
+    max-width: 120px;
   }
 
   .request-tasks-column {
@@ -44,7 +44,7 @@
   }
 
   .request-expires-column {
-    width: 100px;
+    max-width: 120px;
     .mat-icon {
       width: 21px;
       height: 21px;
@@ -54,6 +54,7 @@
   }
 
   .request-employee-column {
+    max-width: 200px;
     font-family: "Segoe UI";
 
     .no-employee {
@@ -167,6 +168,10 @@
           height: 7px;
           background: red;
           border-radius: 50%;
+          &.info {
+            background: #29b6f6;
+            color: white;
+          }
         }
       }
     }

@@ -86,22 +86,7 @@ export class AhoRequestsWrapperComponent implements OnInit {
    * @returns {Promise<void>}
    */
   async clearSearch() {
-    //this.search = '';
-    if (this.auth.getCurrentUser()) {
-      this.aho.search = null;
-      await this.aho.fetchRequests(
-        0,
-        0,
-        this.auth.getCurrentUser().permissions.getRoleById(1) ? 0 : this.auth.getCurrentUser().id,
-        0,
-        0,
-        0,
-        false,
-        0,
-        environment.settings.requestsOnPage,
-        true
-      );
-    }
+    await this.aho.cancelSearch();
   }
 
 
@@ -124,7 +109,7 @@ export class AhoRequestsWrapperComponent implements OnInit {
         ? this.aho.filters_.getFilterByTitle('startDate').getValue().getTime() : 0,
       this.aho.filters_.getFilterByTitle('endDate').getValue()
         ? this.aho.filters_.getFilterByTitle('endDate').getValue().getTime() : 0,
-      this.auth.getCurrentUser() ? this.auth.getCurrentUser().id : 0,
+      this.auth.getCurrentUser().permissions.getRoleById(1) ? 0 : this.auth.getCurrentUser().id,
       this.aho.filters_.getFilterByTitle('requestEmployee').getValue()
         ? this.aho.filters_.getFilterByTitle('requestEmployee').getValue().id : 0,
       this.aho.filters_.getFilterByTitle('requestType').getValue()

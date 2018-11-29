@@ -23,4 +23,5 @@ export interface IAhoRequest {
   employees: IUser[];                               // Исполнители заявки
   tasks: IAhoRequestTask[];                         // Список задач
   comments: IAhoRequestComment[];                   // Список комментариев к заявке
+  phone?: string;                                   // Контактный телефон заявителя
 }

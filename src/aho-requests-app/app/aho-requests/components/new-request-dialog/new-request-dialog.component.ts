@@ -64,21 +64,25 @@ export class NewRequestDialogComponent implements OnInit {
       case 2:
         this.newRequestForm.addControl('initiator', new FormControl(null));
         this.newRequestForm.addControl('room', new FormControl('', Validators.required));
+        this.newRequestForm.addControl('phone', new FormControl(null));
         break;
       case 3:
         this.newRequestForm.addControl('initiator', new FormControl(null));
         this.newRequestForm.addControl('room', new FormControl('', Validators.required));
         this.newRequestForm.addControl('expires', new FormControl(null));
+        this.newRequestForm.addControl('phone', new FormControl(null));
         break;
       case 8:
         this.newRequestForm.addControl('initiator', new FormControl(null));
         this.newRequestForm.addControl('room', new FormControl('', Validators.required));
+        this.newRequestForm.addControl('phone', new FormControl(null));
         break;
       case 10:
         this.newRequestForm.addControl('initiator', new FormControl(null));
         this.newRequestForm.addControl('room', new FormControl('', Validators.required));
         this.newRequestForm.addControl('numberOfLoaders', new FormControl(null));
         this.newRequestForm.addControl('expires', new FormControl(null));
+        this.newRequestForm.addControl('phone', new FormControl(null));
         break;
     }
     this.tasksDataSource = new MatTableDataSource<AhoRequestTask>(this.newRequest.tasks);

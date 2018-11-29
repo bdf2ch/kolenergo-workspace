@@ -749,12 +749,11 @@ export class AhoRequestsService {
           duration: 3000
         });
         // this.dataSource = new MatTableDataSource<AhoRequest>(this.requests);
-        this.dataSource = new MatTableDataSource<AhoRequest>(requests);
-        if (this.ownRequestsCount$.getValue() === 0) {
+        this.requests$.next(requests);
+        this.dataSource = new MatTableDataSource<AhoRequest>(this.requests$.getValue());
+        if (this.ownRequestsCount$.getValue() === 0 && this.mode$.getValue() === 'own-requests-mode') {
           if (this.allRequestsCount$.getValue() > 0) {
             this.mode$.next('all-requests-mode');
-          } else if (this.ownRequestsCount$.getValue() > 0) {
-            this.mode$.next('own-requests-mode');
           } else if (this.employeeRequestsCount$.getValue() > 0) {
             this.mode$.next('employee-requests-mode');
           }

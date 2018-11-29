@@ -62,6 +62,18 @@
                 </div>
                 <!-- End: Заявитель -->
 
+                <!-- Start: Контактный телефон -->
+                <div class="row mt-2" *ngIf="aho.getSelectedRequest().phone">
+                  <div class="request-attribute col-12 d-flex align-items-center pt-2 pb-2 pl-3 pr-3">
+                    <mat-icon class="big mr-3">phone</mat-icon>
+                    <div class="d-flex flex-column">
+                      <span class="label">Контактный телефон</span>
+                      <span>{{ aho.getSelectedRequest().phone }}</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- End: Контактный телефон -->
+
                 <!-- Start: Кабинет -->
                 <div class="row mt-2" *ngIf="aho.getSelectedRequest().room">
                   <div class="request-attribute col-12 d-flex align-items-center pt-2 pb-2 pl-3 pr-3" >

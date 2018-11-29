@@ -12,4 +12,19 @@ export interface IAhoServerResponse  {
   employeeRequests?: number;
   expiredRequests?: number;
   totalRequests: number;
+  allRequests: {
+    totalRequestsCount: number;
+    newRequestsCount: number;
+  };
+  ownRequests_: {
+    totalRequestsCount: number;
+    uncompletedRequestsCount: number;
+  };
+  employeeRequests_: {
+    totalRequestsCount: number;
+    uncompletedRequestsCount: number;
+  };
+  expiredRequests_: {
+    totalRequestsCount: number;
+  };
 }

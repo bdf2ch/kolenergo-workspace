@@ -632,6 +632,7 @@ export class AhoRequestsService {
           this.ownRequestsUncompletedCount$.next(this.ownRequestsUncompletedCount$.getValue() + 1);
           this.showOwnRequests();
         }
+        this.allRequestsNewCount$.next(this.allRequestsNewCount$.getValue() + 1);
         this.newRequestsCount += 1;
         this.totalRequestsCount++;
         this.snackBar.open(`Ваша заявка добавлена`, 'Закрыть', {

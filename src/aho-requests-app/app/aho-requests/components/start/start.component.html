@@ -9,19 +9,6 @@
 
       <div class="d-flex flex-row justify-content-between">
         <div class="navigation-tabs">
-          <div class="navigation-tab active"
-               *ngFor="let tab of aho.getTabs().tabs() | async"
-               (click)="aho.showAllRequests()">
-            <span class="tab-title">{{tab.title}}</span>
-            <span class="tab-notification"
-                  *ngIf="(aho.getAllRequestsNewCount() | async) > 0"
-                  matTooltip="{{'Новых заявок: ' + (aho.getAllRequestsNewCount() | async)}}"
-                  matTooltipPosition="above">
-              {{(aho.getAllRequestsNewCount() | async)}}
-            </span>
-          </div>
-
-
           <!-- Start: Вкладка со всеми заявками -->
           <div class="navigation-tab active"
                *ngIf="auth.getCurrentUser().permissions.getRoleById(1)"

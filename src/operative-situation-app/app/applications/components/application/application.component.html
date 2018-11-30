@@ -1,0 +1,138 @@
+<div id="application" class="d-flex flex-column h-100 w-100">
+  <mat-tab-group class="demo-tab-group">
+
+    <!-- Start: Вкладка с ролями и правами пользователей приложения-->
+    <mat-tab label="Роли и права">
+      <div class="p-3">
+        <div class="d-flex flex-column">
+
+          <!-- Start: Роли пользователей -->
+          <div class="d-flex flex-column mb-5">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <span class="h5">Роли пользователей</span>
+              <button mat-flat-button color="primary" (click)="openAddRoleDialog()">Добавить</button>
+            </div>
+
+            <div>
+              <mat-table [dataSource]="applications.selectedApplicationRoles()" class="application-roles-table">
+                <!-- Start: Колонка идентификатора роли -->
+                <ng-container matColumnDef="id">
+                  <mat-header-cell *matHeaderCellDef class="id-column"> id </mat-header-cell>
+                  <mat-cell *matCellDef="let role" class="id-column"> {{role.id}} </mat-cell>
+                </ng-container>
+                <!-- End: Колонка идентификатора роли -->
+
+                <!-- Start: Колонка кода роли -->
+                <ng-container matColumnDef="code">
+                  <mat-header-cell *matHeaderCellDef class="code-column"> Код </mat-header-cell>
+                  <mat-cell *matCellDef="let role" class="code-column"> {{role.backup.data.code}} </mat-cell>
+                </ng-container>
+                <!-- End: Колонка кода роли -->
+
+                <!-- Start: Колонка наименования роли -->
+                <ng-container matColumnDef="title">
+                  <mat-header-cell *matHeaderCellDef> Наименование </mat-header-cell>
+                  <mat-cell *matCellDef="let role"> {{role.backup.data.title}} </mat-cell>
+                </ng-container>
+                <!-- End: Колонка наименования роли -->
+
+                <!-- Start: Колонка элементов управления -->
+                <ng-container matColumnDef="controls">
+                  <mat-header-cell *matHeaderCellDef class="controls-column"> </mat-header-cell>
+                  <mat-cell *matCellDef="let role" class="controls-column">
+                    <button mat-icon-button color="primary" (click)="openEditRoleDialog(role)">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                  </mat-cell>
+                </ng-container>
+                <!-- End: Колонка элементов управления -->
+
+                <mat-header-row *matHeaderRowDef="applicationRolesDisplayColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: applicationRolesDisplayColumns;"></mat-row>
+              </mat-table>
+            </div>
+          </div>
+          <!-- End: Роли пользователей -->
+
+          <!-- Start: Права пользователей -->
+          <div class="d-print-flex flex-column">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <span class="h5">Права пользователей</span>
+              <button mat-flat-button color="primary" (click)="openAddPermissionDialog()">Добавить</button>
+            </div>
+
+            <div>
+              <mat-table [dataSource]="applications.selectedApplicationPermissions()" class="application-roles-table">
+                <!-- Start: Колонка идентификатора роли -->
+                <ng-container matColumnDef="id">
+                  <mat-header-cell *matHeaderCellDef class="id-column"> id </mat-header-cell>
+                  <mat-cell *matCellDef="let permission" class="id-column"> {{permission.id}} </mat-cell>
+                </ng-container>
+                <!-- End: Колонка идентификатора роли -->
+
+                <!-- Start: Колонка кода роли -->
+                <ng-container matColumnDef="code">
+                  <mat-header-cell *matHeaderCellDef class="code-column"> Код </mat-header-cell>
+                  <mat-cell *matCellDef="let permission" class="code-column"> {{permission.backup.data.code}} </mat-cell>
+                </ng-container>
+                <!-- End: Колонка кода роли -->
+
+                <!-- Start: Колонка наименования роли -->
+                <ng-container matColumnDef="title">
+                  <mat-header-cell *matHeaderCellDef> Наименование </mat-header-cell>
+                  <mat-cell *matCellDef="let permission"> {{permission.backup.data.title}} </mat-cell>
+                </ng-container>
+                <!-- End: Колонка наименования роли -->
+
+                <!-- Start: Колонка элементов управления -->
+                <ng-container matColumnDef="controls">
+                  <mat-header-cell *matHeaderCellDef class="controls-column"> </mat-header-cell>
+                  <mat-cell *matCellDef="let permission" class="controls-column">
+                    <button mat-icon-button color="primary" (click)="openEditPermissionDialog(permission)">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                  </mat-cell>
+                </ng-container>
+                <!-- End: Колонка элементов управления -->
+
+                <mat-header-row *matHeaderRowDef="applicationPermissionsDisplayColumns"></mat-header-row>
+                <mat-row *matRowDef="let permission; columns: applicationPermissionsDisplayColumns;"></mat-row>
+              </mat-table>
+            </div>
+          </div>
+          <!-- Start: Права пользователей -->
+
+        </div>
+      </div>
+    </mat-tab>
+    <!-- End: Вкладка с ролями и правами пользователей приложения-->
+
+
+    <mat-tab label="Сотрудники">
+      <div class="demo-tab-content">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla venenatis ante augue.
+        Phasellus volutpat neque ac dui mattis vulputate. Etiam consequat aliquam cursus.
+        In sodales pretium ultrices. Maecenas lectus est, sollicitudin consectetur felis nec,
+        feugiat ultricies mi. Aliquam erat volutpat. Nam placerat, tortor in ultrices porttitor,
+        orci enim rutrum enim, vel tempor sapien arcu a tellus.
+      </div>
+    </mat-tab>
+    <mat-tab label="Настройки">
+      <div class="demo-tab-content">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla venenatis ante augue.
+        Phasellus volutpat neque ac dui mattis vulputate. Etiam consequat aliquam cursus.
+        In sodales pretium ultrices. Maecenas lectus est, sollicitudin consectetur felis nec,
+        feugiat ultricies mi. Aliquam erat volutpat. Nam placerat, tortor in ultrices porttitor,
+        orci enim rutrum enim, vel tempor sapien arcu a tellus.
+        <br />
+        <br />
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla venenatis ante augue.
+        Phasellus volutpat neque ac dui mattis vulputate. Etiam consequat aliquam cursus.
+        In sodales pretium ultrices. Maecenas lectus est, sollicitudin consectetur felis nec,
+        feugiat ultricies mi. Aliquam erat volutpat. Nam placerat, tortor in ultrices porttitor,
+        orci enim rutrum enim, vel tempor sapien arcu a tellus.
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+

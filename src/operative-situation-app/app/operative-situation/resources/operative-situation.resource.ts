@@ -16,7 +16,7 @@ import { IPermission, IRole, IServerResponse } from '@kolenergo/lib';
 @ResourceParams({
   pathPrefix: environment.apiUrl + 'cp/operative-situation'
 })
-export class ApplicationsResource extends Resource {
+export class OperativeSituationResource extends Resource {
 
   constructor(handler: ResourceHandler) {
     super(handler);

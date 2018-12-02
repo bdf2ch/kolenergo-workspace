@@ -5,7 +5,7 @@ import { ExportsModule } from './exports.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
-import {ApplicationsService} from './applications/services/applications.service';
+import {OperativeSituationService} from './operative-situation/services/operative-situation.service';
 import {DashboardService} from './dashboard/services/dashboard.service';
 import {ApplicationMenuItem} from './dashboard/models/application-menu-item.model';
 
@@ -53,7 +53,7 @@ export class AppModule {
       new ApplicationMenuItem({
         id: 'applications',
         title: 'Приложения',
-        link: '/applications',
+        link: '/operative-situation',
         icon: 'web'
       })
     );

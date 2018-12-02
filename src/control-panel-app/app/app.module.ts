@@ -53,7 +53,7 @@ export class AppModule {
       new ApplicationMenuItem({
         id: 'applications',
         title: 'Приложения',
-        link: '/applications',
+        link: '/operative-situation',
         icon: 'web'
       })
     );

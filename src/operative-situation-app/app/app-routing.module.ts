@@ -23,7 +23,7 @@ const routes: Routes = [
       },
       {
         path: 'applications',
-        loadChildren: './applications/applications.module#ApplicationsModule',
+        loadChildren: './operative-situation/operative-situation.module#OperativeSituationModule',
       },
       {
         path: 'users',

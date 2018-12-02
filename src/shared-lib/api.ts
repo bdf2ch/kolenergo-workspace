@@ -18,6 +18,7 @@ export { IDepartment } from './app/common/interfaces/department.interface';
 export { Backup} from './app/common/models/backup.model';
 export { MobilePhone } from './app/users/models/mobile-phone.model';
 export { Pagination } from './app/common/models/pagination.model';
+export { Company } from './app/common/models/company.model';
 
 /**
  * Authentication module

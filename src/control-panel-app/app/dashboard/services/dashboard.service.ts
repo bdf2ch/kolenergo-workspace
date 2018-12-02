@@ -47,7 +47,7 @@ export class DashboardService {
             const menuItem = this.menu.getItemById('applications');
             response.data.applications.forEach((item: IApplication) => {
               const application = new Application(item);
-              // this.applications.addApplication(application);
+              // this.operative-situation.addApplication(application);
               menuItem.add({
                 id: String(application.id),
                 title: application.title,

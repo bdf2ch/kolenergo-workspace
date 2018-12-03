@@ -1,7 +1,7 @@
-import { Company, User } from '@kolenergo/lib';
+import { Backup, Company, User } from '@kolenergo/lib';
 import { IOperativeSituationReport } from '../interfaces/operative-situation-report.interface';
 
-export class OperativeSituationReport {
+export class OperativeSituationReport extends Backup {
   id: number;
   company: Company;
   user: User;
@@ -10,7 +10,7 @@ export class OperativeSituationReport {
   dateCreated: Date;
   dateChanged: Date;
   equipment_35_150: {
-    lep_100_150: number,
+    lep_110_150: number,
     lep_35: number,
     ps_110_150: number,
     ps_35: number,
@@ -22,7 +22,7 @@ export class OperativeSituationReport {
     }
   };
   equipment_network: {
-    lep_6_20: nmber;
+    lep_6_20: number;
     tp_6_20: number;
     effect: {
       population: number,
@@ -36,6 +36,7 @@ export class OperativeSituationReport {
    * @param config - Параметры инициализаци
    */
   constructor(config?: IOperativeSituationReport) {
+    super();
     this.id = config ? config.id : null;
     this.company = config ? new Company(config.company) : null;
     this.user = config ? new User(config.user) : null;
@@ -43,6 +44,26 @@ export class OperativeSituationReport {
     this.periodTime = config ? config.periodTime : null;
     this.dateCreated = config ? new Date(config.dateCreated) : null;
     this.dateChanged = config ? new Date(config.dateChanged) : null;
-
+    this.equipment_35_150 = {
+      lep_110_150: config ? config.lep_110_150_count : 0,
+      lep_35: config ? config.lep_35_count : 0,
+      ps_110_150: config ? config.ps_110_150_count : 0,
+      ps_35: config ? config.ps_35_count : 0,
+      effect: {
+        tp_6_20: config ? config.tp_6_20_count_effect_35_150 : 0,
+        population: config ? config.population_count_effect_35_150 : 0,
+        power: config ? config.power_effect_35_150 : 0,
+        szo: config ? config.szo_count_effect_35_150  :0
+      }
+    };
+    this.equipment_network = {
+      lep_6_20: config ? config.lep_6_20_count : 0,
+      tp_6_20: config ? config.tp_6_20_count : 0,
+      effect : {
+        population: config ? config.population_count_effect_raspr : 0,
+        power: config ? config.population_count_effect_raspr : 0,
+        szo: config ? config.szo_count_effect_raspr : 0
+      }
+    };
   }
 }

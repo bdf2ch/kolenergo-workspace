@@ -1,96 +1,103 @@
 import { Injectable } from '@angular/core';
-import { OperativeSituationResource } from '../resources/operative-situation.resource';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Application } from '../models/application.model';
-import { IApplication } from '../interfaces/application.interface';
-import { IPermission, IRole, IServerResponse, Role } from '@kolenergo/lib';
-import { DashboardService } from '../../dashboard/services/dashboard.service';
-import { MatTableDataSource } from '@angular/material';
-import { Permission } from '@kolenergo/lib';
+import { Company, ICompany, IServerResponse } from '@kolenergo/lib';
+import { OperativeSituationResource } from '../resources/operative-situation.resource';
 import { Observable } from 'rxjs/Observable';
 import { from } from 'rxjs/observable/from';
 import { finalize, map } from 'rxjs/operators';
+import { IOperativeSituationReport, OperativeSituationReport } from '@kolenergo/osr';
 
 
 @Injectable()
 export class OperativeSituationService {
-  private applications$: BehaviorSubject<Application[]>;
-  private selectedApplication$: BehaviorSubject<Application>;
-  private selectedApplicationRolesDataSource: MatTableDataSource<Role>;
-  private selectedApplicationPermissionsDataSource: MatTableDataSource<Permission>;
-  private selectedRole$: BehaviorSubject<Role>;
-  private selectedPermission$: BehaviorSubject<Permission>;
+  private companies$: BehaviorSubject<Company[]>;
+  private reports$: BehaviorSubject<OperativeSituationReport[]>;
+  private selectedCompany$: BehaviorSubject<Company>;
+  private selectedReport$: BehaviorSubject<OperativeSituationReport>;
   private fetchingData$: BehaviorSubject<boolean>;
-  private addingRole$: BehaviorSubject<boolean>;
-  private editingRole$: BehaviorSubject<boolean>;
-  private addingPermission$: BehaviorSubject<boolean>;
-  private editingPermission$: BehaviorSubject<boolean>;
+  private addingReport$: BehaviorSubject<boolean>;
+  private editingReport$: BehaviorSubject<boolean>;
 
-  constructor(private readonly resource: OperativeSituationResource,
-              private readonly dashboard: DashboardService) {
-    this.applications$ = new BehaviorSubject<Application[]>([]);
-    this.selectedApplication$ = new BehaviorSubject<Application>(null);
-    this.selectedApplicationRolesDataSource = new MatTableDataSource<Role>([]);
-    this.selectedApplicationPermissionsDataSource = new MatTableDataSource<Permission>([]);
-    this.selectedRole$ = new BehaviorSubject<Role>(null);
-    this.selectedPermission$ = new BehaviorSubject<Permission>(null);
+
+  constructor(private readonly resource: OperativeSituationResource) {
+    this.companies$ = new BehaviorSubject<Company[]>([]);
+    this.selectedCompany$ = new BehaviorSubject<Company>(null);
+    this.reports$ = new BehaviorSubject<OperativeSituationReport[]>([]);
+    this.selectedReport$ = new BehaviorSubject<OperativeSituationReport>(null);
     this.fetchingData$ = new BehaviorSubject<boolean>(false);
-    this.addingRole$ = new BehaviorSubject<boolean>(false);
-    this.editingRole$ = new BehaviorSubject<boolean>(false);
-    this.addingPermission$ = new BehaviorSubject<boolean>(false);
-    this.editingPermission$ = new BehaviorSubject<boolean>(false);
+    this.addingReport$ = new BehaviorSubject<boolean>(false);
+    this.editingReport$ = new BehaviorSubject<boolean>(false);
   }
 
-  /**
-   * Получение списка приложений с сервера
-   */
-  fetchApplicationsList(): Observable<Application[]> {
+
+  fetchReports(companyId: number): Observable<OperativeSituationReport[]> {
     this.fetchingData$.next(true);
-    return from(this.resource.getAll())
+    return from(this.resource.getReports({companyId: companyId}))
       .pipe(
-        map((response: IServerResponse<IApplication[]>) => {
+        map((response: IServerResponse<IOperativeSituationReport[]>) => {
           const result = [];
-          response.data.forEach((item: IApplication) => {
-            const application = new Application(item);
-            application.backup.setup(['roles', 'permissions']);
-            result.push(application);
+          response.data.forEach((item: IOperativeSituationReport) => {
+            const report = new OperativeSituationReport(item);
+            report.backup.setup([]);
+            result.push(report);
           });
-          this.applications$.next(result);
+          this.reports$.next(result);
           return result;
         }),
         finalize(() => {
           this.fetchingData$.next(false);
+          console.log(this.reports$.getValue());
+        })
+      );
+  }
+
+  fetchCompanies(): Observable<Company[]> {
+    return from(this.resource.getCompanies())
+      .pipe(
+        map((response: ICompany[]) => {
+          const result = [];
+          response.forEach((item: ICompany) => {
+            const company = new Company(item);
+            result.push(company);
+          });
+          this.companies$.next(result);
+          return result;
+        }),
+        finalize(() => {
+          console.log('companies', this.companies$.getValue());
         })
       );
   }
 
   /**
    * Добавление новой роли пользователя
-   * @param role - Добавляемая роль пользователя
+   * @param report - Добавляемый отчет об оперативной обстановке
    */
-  addRole(role: Role): Observable<Role | null> {
-    this.addingRole$.next(true);
-    return from(this.resource.addRole(role))
+  addReport(report: OperativeSituationReport): Observable<OperativeSituationReport | null> {
+    this.addingReport$.next(true);
+    return from(this.resource.addReport(report))
       .pipe(
-        map((response: IServerResponse<IRole>) => {
-          const newRole = new Role(response.data);
-          newRole.backup.setup(['code', 'title', 'isEnabled']);
-          const roles = this.selectedApplication$.getValue().roles;
-          roles.push(newRole);
-          this.selectedApplicationRolesDataSource = new MatTableDataSource<Role>(roles);
-          return newRole;
+        map((response: IServerResponse<IOperativeSituationReport>) => {
+          const newReport = new OperativeSituationReport(response.data);
+          console.log('newreport', newReport);
+          // newReport.backup.setup(['code', 'title', 'isEnabled']);
+          const reports = this.reports$.getValue().slice();
+          reports.push(newReport);
+          this.reports$.next(reports);
+          return newReport;
         }),
         finalize(() => {
-          this.addingRole$.next(false);
+          this.addingReport$.next(false);
         })
       );
   }
 
   /**
    * Изменение роли пользователя
-   * @param role - Изменяемая роль пользователя
+   * @param report - Изменяемый отчет об оперативнйо обстановке
    */
-  editRole(role: Role): Observable<Role | null> {
+  /*
+  editReport(report: OperativeSituationReport): Observable<OperativeSituationReport | null> {
     this.editingRole$.next(true);
     return from(this.resource.editRole(role, null, {id: role.id}))
       .pipe(
@@ -103,99 +110,43 @@ export class OperativeSituationService {
         })
       );
   }
+  */
 
   /**
-   * Добавление нового права пользователя
-   * @param permission - Добавляемое право пользователя
+   * Возвращает список отчетов об оперативной обстановке
    */
-  addPermission(permission: Permission): Observable<Permission | null> {
-    this.addingPermission$.next(true);
-    return from(this.resource.addPermission(permission))
-      .pipe(
-        map((response: IServerResponse<IPermission>) => {
-          const newPermission = new Permission(response.data);
-          newPermission.backup.setup(['code', 'title', 'isEnabled']);
-          const permissions = this.selectedApplication$.getValue().permissions;
-          permissions.push(newPermission);
-          this.selectedApplicationPermissionsDataSource = new MatTableDataSource<Permission>(permissions);
-          return newPermission;
-        }),
-        finalize(() => {
-          this.addingPermission$.next(false);
-        })
-      );
+  reports(): Observable<OperativeSituationReport[]> {
+    return this.reports$.asObservable();
   }
 
-  /**
-   * Изменение права пользователя
-   * @param permission - Изменяемое право пользователя
-   */
-  editPermission(permission: Permission): Observable<Permission | null> {
-    this.editingPermission$.next(true);
-    return from(this.resource.editPermission(permission, null, {id: permission.id}))
-      .pipe(
-        map((response: IServerResponse<IPermission>) => {
-          permission.backup.setup(['code', 'title', 'isEnabled']);
-          return permission;
-        }),
-        finalize(() => {
-          this.editingPermission$.next(false);
-        })
-      );
+  companies(): Observable<Company[]> {
+    return this.companies$.asObservable();
   }
 
+
   /**
-   * Установка / получение выбранного приложения
-   * @param applicationId - Идентификатор приложения
+   * Установка / получение выбранного отчета об оперативнйо обстановке
+   * @param reportId - Идентификатор отчета об оперативной обстановке
    */
-  selectedApplication(applicationId?: number): Application | null {
-    if (applicationId) {
-      const findApplicationById = (application: Application) => Number(application.id) === applicationId;
-      const searchResult = this.applications$.getValue().find(findApplicationById);
+  selectedReport(reportId?: number): OperativeSituationReport | null {
+    if (reportId) {
+      const findReportById = (report: OperativeSituationReport) => report.id === reportId;
+      const searchResult = this.reports$.getValue().find(findReportById);
       if (searchResult) {
-        this.selectedApplication$.next(searchResult);
-        this.selectedApplicationRolesDataSource = new MatTableDataSource<Role>(searchResult.roles);
-        this.selectedApplicationPermissionsDataSource = new MatTableDataSource<Permission>(searchResult.permissions);
+        this.selectedReport$.next(searchResult);
       }
     }
-    return this.selectedApplication$.getValue();
+    return this.selectedReport$.getValue();
   }
 
-  /**
-   * Установка / получение выбранной роли пользователя
-   * @param role - Устанавливаемая текущей роль пользователя
-   */
-  selectedRole(role?: Role): Role | null {
-    if (role) {
-      this.selectedRole$.next(role);
+  selectedCompany(company?: Company | null): Company | null {
+    if (company) {
+      this.selectedCompany$.next(company);
     }
-    return this.selectedRole$.getValue();
+    return this.selectedCompany$.getValue();
   }
 
-  /**
-   * Установка / получение выбранного права пользователя
-   * @param permission - Устанавливаемое текущим право пользователя
-   */
-  selectedPermission(permission?: Permission): Permission | null {
-    if (permission) {
-      this.selectedPermission$.next(permission);
-    }
-    return this.selectedPermission$.getValue();
-  }
 
-  /**
-   * Возвращает DataSource ролей пользователей приложения
-   */
-  selectedApplicationRoles(): MatTableDataSource<Role> {
-    return this.selectedApplicationRolesDataSource;
-  }
-
-  /**
-   * Возвращает DataSource прав пользователей приложения
-   */
-  selectedApplicationPermissions(): MatTableDataSource<Permission> {
-    return this.selectedApplicationPermissionsDataSource;
-  }
 
   /**
    * Выпорлняется ли получение данных с сервера
@@ -205,30 +156,16 @@ export class OperativeSituationService {
   }
 
   /**
-   * Выполняется ли добавление новой роли пользователя
+   * Выполняется ли добавление нового отчета об оперативной обстановке
    */
-  isAddingRole(): Observable<boolean> {
-    return this.addingRole$.asObservable();
+  isAddingReport(): Observable<boolean> {
+    return this.addingReport$.asObservable();
   }
 
   /**
-   * Выполняется ли сохранение изменений роли пользователя
+   * Выполняется ли сохранение изменений в отчете об оперативнйо обстановке
    */
-  isEditingRole(): Observable<boolean> {
-    return this.editingRole$.asObservable();
-  }
-
-  /**
-   * Выполняется ли добавлени нового права пользователя
-   */
-  isAddingPermission(): Observable<boolean> {
-    return this.addingPermission$.asObservable();
-  }
-
-  /**
-   * Выполняется ли сохранение изменений права пользователя
-   */
-  isEditingPermission(): Observable<boolean> {
-    return this.editingPermission$.asObservable();
+  isEditingReport(): Observable<boolean> {
+    return this.editingReport$.asObservable();
   }
 }

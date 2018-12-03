@@ -1,34 +1,14 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { DashboardComponent } from './dashboard/components/dashboard/dashboard.component';
-import { InitDataResolveGuard } from './dashboard/guards/init-data.resolve.guard';
-import { StartComponent } from './dashboard/components/start/start.component';
+import { OperativeSituationComponent } from './operative-situation/components/operative-situation/operative-situation.component';
+import { ReportsResolveGuard } from './operative-situation/guards/reports.resolve.guard';
 
 const routes: Routes = [
   {
     path: '',
-    component: DashboardComponent,
+    component: OperativeSituationComponent,
     resolve: [
-      // InitDataResolveGuard
-    ],
-    children: [
-      {
-        path: '',
-        redirectTo: '/dashboard',
-        pathMatch: 'full'
-      },
-      {
-        path: 'dashboard',
-        component: StartComponent
-      },
-      {
-        path: 'applications',
-        loadChildren: './operative-situation/operative-situation.module#OperativeSituationModule',
-      },
-      {
-        path: 'users',
-        loadChildren: './users/users.module#UsersModule'
-      }
+      ReportsResolveGuard
     ]
   }
 ];

@@ -11,8 +11,8 @@ export interface IOperativeSituationReport {
   periodTime: string;                         // Время сводки оперативной ситуации
   dateCreated: number;                        // Дата создания записи
   dateChanged: number;                        // Дата изменения записи
-  lep_100_150_count: number;                  // Количество отключенных ЛЭП 110-150 кВ
-  lep_35_count: number;                       // Количечтво отключенных ЛЭП 35 кВ
+  lep_110_150_count: number;                  // Количество отключенных ЛЭП 110-150 кВ
+  lep_35_count: number;                       // Количество отключенных ЛЭП 35 кВ
   ps_110_150_count: number;                   // Количество отключенных ПС 110-150 кВ
   ps_35_count: number;                        // Количество отключенных ПС 35 кВ
   tp_6_20_count_effect_35_150: number;        // Последствие для потребителе по сети 35-150 кВ - ТП 6-20 Кв.

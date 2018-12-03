@@ -19,18 +19,21 @@ export class PermissionEditDialogComponent implements OnInit {
               public readonly applications: OperativeSituationService) {}
 
   ngOnInit() {
+    /*
     const selectedPermission = this.applications.selectedPermission();
     this.editPermissionForm = this.builder.group({
       code: new FormControl(selectedPermission ? selectedPermission.code : null, Validators.required),
       title: new FormControl(selectedPermission ? selectedPermission.title : null, Validators.required)
     });
     console.log('after dialog init', this.applications.selectedPermission());
+    */
   }
 
   /**
    * Сохранение измененийв выбранном праве
    */
   saveChanges() {
+    /*
     this.applications.editPermission(this.applications.selectedPermission())
       .subscribe(() => {
         this.closeDialog();
@@ -40,18 +43,21 @@ export class PermissionEditDialogComponent implements OnInit {
           duration: 3000
         });
       });
+      */
   }
 
   /**
    * Закрывает диалоговое окно редактирования права пользователя
    */
   closeDialog() {
+    /*
     this.dialogRef.close();
     this.applications.selectedPermission().backup.restore();
     this.editPermissionForm.reset({
       code: this.applications.selectedPermission().code,
       title: this.applications.selectedPermission().title
     });
+    */
   }
 
 }

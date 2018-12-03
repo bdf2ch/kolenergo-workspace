@@ -9,12 +9,12 @@ import {
   ResourceRequestMethod
 } from '@ngx-resource/core';
 import { environment } from '../../../../_common/environments/environment';
-import { IApplication } from '../interfaces/application.interface';
-import { IPermission, IRole, IServerResponse } from '@kolenergo/lib';
+import { ICompany, IPermission, IRole, IServerResponse } from '@kolenergo/lib';
+import {IOperativeSituationReport, OperativeSituationReport} from '@kolenergo/osr';
 
 @Injectable()
 @ResourceParams({
-  pathPrefix: environment.apiUrl + 'cp/operative-situation'
+  pathPrefix: environment.apiUrl + 'osr'
 })
 export class OperativeSituationResource extends Resource {
 
@@ -27,14 +27,21 @@ export class OperativeSituationResource extends Resource {
     method: ResourceRequestMethod.Get,
     withCredentials: true
   })
-  getAll: IResourceMethod<void, IServerResponse<IApplication[]>>;
+  getReports: IResourceMethod<{companyId: number}, IServerResponse<IOperativeSituationReport[]>>;
 
   @ResourceAction({
-    path: '/roles',
+    path: '/companies',
+    method: ResourceRequestMethod.Get,
+    withCredentials: true
+  })
+  getCompanies: IResourceMethod<void, ICompany[]>;
+
+  @ResourceAction({
+    path: '/',
     method: ResourceRequestMethod.Post,
     withCredentials: true
   })
-  addRole: IResourceMethod<IRole, IServerResponse<IRole>>;
+  addReport: IResourceMethod<OperativeSituationReport, IServerResponse<IOperativeSituationReport>>;
 
   @ResourceAction({
     path: '/roles/{:id}',

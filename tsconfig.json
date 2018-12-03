@@ -25,6 +25,9 @@
       ],
       "@kolenergo/lib": [
         "shared-lib/api.ts"
+      ],
+      "@kolenergo/osr": [
+        "operative-situation-app/exports.ts"
       ]
     }
   }

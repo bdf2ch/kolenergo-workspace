@@ -1,0 +1,206 @@
+<div class="container-fluid h-100 control-panel-dialog">
+  <div matDialogTitle>
+    <h4>Добавление отчета</h4>
+  </div>
+
+  <mat-dialog-content>
+    <form [formGroup]="addReportForm">
+
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="w-100">
+            <mat-select placeholder="Выберите время отчета" formControlName="time" [(ngModel)]="newReport.periodTime">
+              <mat-option value="00:00">00:00</mat-option>
+              <mat-option value="03:00">03:00</mat-option>
+              <mat-option value="06:00">06:00</mat-option>
+              <mat-option value="09:00">09:00</mat-option>
+              <mat-option value="12:00">12:00</mat-option>
+              <mat-option value="15:00">15:00</mat-option>
+              <mat-option value="18:00">18:00</mat-option>
+              <mat-option value="21:00">21:00</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="w-100">
+            <mat-label>Количество отключенных ЛЭП 110-150 кВ</mat-label>
+            <input matInput
+                   placeholder="Введите количество отключенных ЛЭП 110-150 кВ"
+                   formControlName="lep_110_150"
+                   [(ngModel)]="newReport.equipment_35_150.lep_110_150">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="w-100">
+            <mat-label>Количество отключенных ЛЭП 35 кВ</mat-label>
+            <input matInput
+                   placeholder="Введите количество отключенных ЛЭП 35 кВ"
+                   formControlName="lep_35"
+                   [(ngModel)]="newReport.equipment_35_150.lep_35">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="w-100">
+            <mat-label>Количество отключенных ПС 110-150 кВ</mat-label>
+            <input matInput
+                   placeholder="Введите количество отключенных ПС 110-150 кВ"
+                   formControlName="ps_110_150"
+                   [(ngModel)]="newReport.equipment_35_150.ps_110_150">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="w-100">
+            <mat-label>Количество отключенных ПС 35 кВ</mat-label>
+            <input matInput
+                   placeholder="Введите количество отключенных ПС 35 кВ"
+                   formControlName="ps_35"
+                   [(ngModel)]="newReport.equipment_35_150.ps_35">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="w-100">
+            <mat-label>Последствие для потребителе по сети 35-150 кВ - ТП 6-20 кВ</mat-label>
+            <input matInput
+                   placeholder="Введите последствие для потребителе по сети 35-150 кВ - ТП 6-20 кВ."
+                   formControlName="tp_6_20_effect_110_150"
+                   [(ngModel)]="newReport.equipment_35_150.effect.tp_6_20">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="w-100">
+            <mat-label>Последствия для потребителей по сети 35-150 кВ - население</mat-label>
+            <input matInput
+                   placeholder="Введите последствия для потребителей по сети 35-150 кВ - население"
+                   formControlName="population_effect_110_150"
+                   [(ngModel)]="newReport.equipment_35_150.effect.population">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="w-100">
+            <mat-label>Последствия для потребителей по сети 35-150 кВ - нагрузка</mat-label>
+            <input matInput
+                   placeholder="Введите последствия дял потребителей по сети 35-150 кВ - нагрузка"
+                   formControlName="power_effect_110_150"
+                   [(ngModel)]="newReport.equipment_35_150.effect.power">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="w-100">
+            <mat-label>Последствия для потребителей по сети 35-150 кВ - количество СЗО</mat-label>
+            <input matInput
+                   placeholder="Введите последствия для потребителей по сети 35-150 кВ - количество СЗО"
+                   formControlName="szo_effect_110_150"
+                   [(ngModel)]="newReport.equipment_35_150.effect.szo">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="w-100">
+            <mat-label>Количество отключенных ЛЭП 20 кВ</mat-label>
+            <input matInput
+                   placeholder="Введите количество отключенных ЛЭП 20 кВ"
+                   formControlName="lep_6_20"
+                   [(ngModel)]="newReport.equipment_network.lep_6_20">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="w-100">
+            <mat-label>Количество отключенных ТП 6-20 кВ</mat-label>
+            <input matInput
+                   placeholder="Введите количество отключенных ТП 6-20 кВ"
+                   formControlName="tp_6_20"
+                   [(ngModel)]="newReport.equipment_network.tp_6_20">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="w-100">
+            <mat-label>Последствия для потребительской распределенной сети - население</mat-label>
+            <input matInput
+                   placeholder="Введите последствия для потребительской распределенной сети - население"
+                   formControlName="population_effect_network"
+                   [(ngModel)]="newReport.equipment_network.effect.population">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="w-100">
+            <mat-label>Последствия для потребителей распределенной сети - нагрузка</mat-label>
+            <input matInput
+                   placeholder="Введите последствия для потребителей распределенной сети - нагрузка"
+                   formControlName="power_effect_network"
+                   [(ngModel)]="newReport.equipment_network.effect.power">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="w-100">
+            <mat-label>Последствия для потребителей распределенной сети - количество СЗО</mat-label>
+            <input matInput
+                   placeholder="Введите последствия для потребителей распределенной сети - количество СЗО"
+                   formControlName="szo_effect_network"
+                   [(ngModel)]="newReport.equipment_network.effect.szo">
+          </mat-form-field>
+        </div>
+      </div>
+
+
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <div class="d-flex flex-row justify-content-end align-items-center w-100 pt-2 pb-2 pl-4 pr-4">
+      <button mat-flat-button
+              type="button"
+              color="warn"
+              class="w-25 mr-2"
+              [disabled]="(osr.isAddingReport() | async)"
+              (click)="closeDialog()">
+        Отмена
+      </button>
+      <button mat-flat-button
+              type="submit"
+              class="w-25"
+              [disabled]="(osr.isAddingReport() | async) || addReportForm.invalid"
+              (click)="addReport()">
+        Добавить
+      </button>
+    </div>
+  </mat-dialog-actions>
+
+</div>

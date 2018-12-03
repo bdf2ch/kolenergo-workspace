@@ -24,4 +24,10 @@ export interface IOperativeSituationReport {
   population_count_effect_raspr: number;      // Последствия для потребительской распределенной сети - население
   power_effect_raspr: number;                 // Последствия для потребителей распределенной сети - нагрузка
   szo_count_effect_raspr: number;             // Последствия для потребителей распределенной сети - количество СЗО
+  weatherMin: number;                         // Минимальная температура
+  weatherMax: number;                         // Максимальная температура
+  weatherWind: number;                        // Ветер, м/с
+  weatherPrecipitations: string;              // Осадки
+  weatherRPG: boolean;                        // Введен ли режим РПГ
+  weatherORR: boolean;                        // Введен ли режим ОРР
 }

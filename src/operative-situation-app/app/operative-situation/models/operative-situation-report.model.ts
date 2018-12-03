@@ -30,6 +30,14 @@ export class OperativeSituationReport extends Backup {
       szo: number
     }
   };
+  weather: {
+    min: number,
+    max: number,
+    wind: number,
+    precipitations: string,
+    rpg: boolean,
+    orr: boolean
+  };
 
   /**
    * Конструктор
@@ -53,7 +61,7 @@ export class OperativeSituationReport extends Backup {
         tp_6_20: config ? config.tp_6_20_count_effect_35_150 : 0,
         population: config ? config.population_count_effect_35_150 : 0,
         power: config ? config.power_effect_35_150 : 0,
-        szo: config ? config.szo_count_effect_35_150  :0
+        szo: config ? config.szo_count_effect_35_150 : 0
       }
     };
     this.equipment_network = {
@@ -64,6 +72,14 @@ export class OperativeSituationReport extends Backup {
         power: config ? config.population_count_effect_raspr : 0,
         szo: config ? config.szo_count_effect_raspr : 0
       }
+    };
+    this.weather = {
+      min: config ? config.weatherMin : null,
+      max: config ? config.weatherMax : null,
+      wind: config ? config.weatherWind : null,
+      precipitations: config ? config.weatherPrecipitations : null,
+      rpg: config ? config.weatherRPG : false,
+      orr: config ? config.weatherORR : false
     };
   }
 }

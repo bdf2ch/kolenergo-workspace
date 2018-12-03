@@ -1,6 +1,6 @@
 <div class="p-4">
   <div class="d-flex flex-row justify-content-between align-items-center lead mb-1">
-    Оперативная обстановка на 03.12.2018
+    Оперативная обстановка на {{(reports.date() | async)}}
     <mat-form-field class="col-auto">
       <mat-select placeholder="Выберите филиал" (selectionChange)="selectCompany($event)">
         <mat-option *ngFor="let company of (reports.companies() | async)" [value]="company">
@@ -80,6 +80,13 @@
       <td class="total">{{report.equipment_35_150.effect.population + report.equipment_network.effect.population}}</td>
       <td class="total">{{report.equipment_35_150.effect.power + report.equipment_network.effect.power}}</td>
       <td class="total">{{report.equipment_35_150.effect.szo + report.equipment_network.effect.szo}}</td>
+
+      <td>{{report.weather.min}}</td>
+      <td>{{report.weather.max}}</td>
+      <td>{{report.weather.wind}}</td>
+      <td>{{report.weather.precipitations}}</td>
+      <td>{{report.weather.rpg ? 'РПГ' : report.weather.orr ? 'ОРР' : 'Нет'}}</td>
+
     </tr>
   </table>
 

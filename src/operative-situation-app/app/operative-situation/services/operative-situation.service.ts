@@ -5,11 +5,12 @@ import { OperativeSituationResource } from '../resources/operative-situation.res
 import { Observable } from 'rxjs/Observable';
 import { from } from 'rxjs/observable/from';
 import { finalize, map } from 'rxjs/operators';
-import { IOperativeSituationReport, OperativeSituationReport } from '@kolenergo/osr';
+import { IOperativeSituationReport, IOperativeSituationReportsInitialData, OperativeSituationReport } from '@kolenergo/osr';
 
 
 @Injectable()
 export class OperativeSituationService {
+  private date$: BehaviorSubject<string>;
   private companies$: BehaviorSubject<Company[]>;
   private reports$: BehaviorSubject<OperativeSituationReport[]>;
   private selectedCompany$: BehaviorSubject<Company>;
@@ -20,6 +21,7 @@ export class OperativeSituationService {
 
 
   constructor(private readonly resource: OperativeSituationResource) {
+    this.date$ = new BehaviorSubject<string>(null);
     this.companies$ = new BehaviorSubject<Company[]>([]);
     this.selectedCompany$ = new BehaviorSubject<Company>(null);
     this.reports$ = new BehaviorSubject<OperativeSituationReport[]>([]);
@@ -29,6 +31,35 @@ export class OperativeSituationService {
     this.editingReport$ = new BehaviorSubject<boolean>(false);
   }
 
+  fetchInitialData(companyId: number): Observable<OperativeSituationReport[]> {
+    this.fetchingData$.next(true);
+    return from(this.resource.getInitialData({companyId: companyId}))
+      .pipe(
+        map((response: IServerResponse<IOperativeSituationReportsInitialData>) => {
+          this.date$.next(response.data.date);
+          const companies = [];
+          response.data.companies.forEach((item: ICompany) => {
+            const company = new Company(item);
+            companies.push(company);
+          });
+          this.companies$.next(companies);
+          this.selectedCompany$.next(companies[0]);
+          const reports = [];
+          response.data.reports.forEach((item: IOperativeSituationReport) => {
+            const report = new OperativeSituationReport(item);
+            reports.push(report);
+          });
+          this.reports$.next(reports);
+          return reports;
+        }),
+        finalize(() => {
+          this.fetchingData$.next(false);
+          console.log('date', this.date$.getValue());
+          console.log('reports', this.reports$.getValue());
+          console.log('companies', this.companies$.getValue());
+        })
+      );
+  }
 
   fetchReports(companyId: number): Observable<OperativeSituationReport[]> {
     this.fetchingData$.next(true);
@@ -47,24 +78,6 @@ export class OperativeSituationService {
         finalize(() => {
           this.fetchingData$.next(false);
           console.log(this.reports$.getValue());
-        })
-      );
-  }
-
-  fetchCompanies(): Observable<Company[]> {
-    return from(this.resource.getCompanies())
-      .pipe(
-        map((response: ICompany[]) => {
-          const result = [];
-          response.forEach((item: ICompany) => {
-            const company = new Company(item);
-            result.push(company);
-          });
-          this.companies$.next(result);
-          return result;
-        }),
-        finalize(() => {
-          console.log('companies', this.companies$.getValue());
         })
       );
   }
@@ -111,6 +124,9 @@ export class OperativeSituationService {
       );
   }
   */
+  date(): Observable<string> {
+    return this.date$.asObservable();
+  }
 
   /**
    * Возвращает список отчетов об оперативной обстановке

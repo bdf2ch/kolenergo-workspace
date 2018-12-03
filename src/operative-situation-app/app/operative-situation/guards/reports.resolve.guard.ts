@@ -9,9 +9,7 @@ export class ReportsResolveGuard implements Resolve<OperativeSituationReport[]> 
   constructor(private readonly osr: OperativeSituationService) {}
 
   async resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<OperativeSituationReport[]> {
-    const companies = await this.osr.fetchCompanies().toPromise();
-    this.osr.selectedCompany(companies[0]);
-    const reports = await this.osr.fetchReports(1).toPromise();
+    const reports = await this.osr.fetchInitialData(1).toPromise();
     return reports;
   }
 }

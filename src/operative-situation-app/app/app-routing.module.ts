@@ -10,6 +10,10 @@ const routes: Routes = [
     resolve: [
       ReportsResolveGuard
     ]
+  },
+  {
+    path: '',
+
   }
 ];
 

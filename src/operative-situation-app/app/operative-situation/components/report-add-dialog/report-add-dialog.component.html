@@ -1,11 +1,302 @@
 <div class="container-fluid h-100 control-panel-dialog">
-  <div matDialogTitle>
-    <h4>Добавление отчета</h4>
+  <div matDialogTitle class="d-flex flex-row align-items-center" [formGroup]="addReportForm">
+    <h4>Добавление отчета об оперативной обстановке на </h4>
+    <mat-form-field class="ml-3 pb-0" floatLabel="never">
+      <mat-select placeholder="Время отчета" formControlName="time" [(ngModel)]="newReport.periodTime">
+        <mat-option value="00:00">00:00</mat-option>
+        <mat-option value="03:00">03:00</mat-option>
+        <mat-option value="06:00">06:00</mat-option>
+        <mat-option value="09:00">09:00</mat-option>
+        <mat-option value="12:00">12:00</mat-option>
+        <mat-option value="15:00">15:00</mat-option>
+        <mat-option value="18:00">18:00</mat-option>
+        <mat-option value="21:00">21:00</mat-option>
+      </mat-select>
+      <mat-error *ngIf="addReportForm.controls['time'].invalid">Вы не выбрали время отчета</mat-error>
+    </mat-form-field>
   </div>
 
   <mat-dialog-content>
+    <mat-tab-group>
+
+      <!-- Start: Вкладка с данными об оборудовании 35-150 кВ -->
+      <mat-tab label="Оборудование 35-150 кВ">
+        <div class="pt-3">
+          <table class="operative-situation-reports w-100" [formGroup]="addReportForm">
+            <colgroup span="2"></colgroup>
+            <tr>
+              <th colspan="4" scope="colgroup">Отключенное оборудование по сети 35-150 кВ</th>
+              <th colspan="4" scope="colgroup">Последствия для потребителей по сети 35-150 кВ</th>
+            </tr>
+            <tr>
+              <th scope="col" class="font-weight-normal">ЛЭП 110-150 кВ, шт.</th>
+              <th scope="col" class="font-weight-normal">ЛЭП 35 кВ, шт.</th>
+              <th scope="col" class="font-weight-normal">ПС 110 -150 кВ, шт.</th>
+              <th scope="col" class="font-weight-normal">ПС 35 кВ, шт.</th>
+
+              <th scope="col" class="font-weight-normal">ТП 6-20 кВ, шт.</th>
+              <th scope="col" class="font-weight-normal">Население, чел</th>
+              <th scope="col" class="font-weight-normal">Нагрузка, МВт</th>
+              <th scope="col" class="font-weight-normal">СЗО, шт</th>
+            </tr>
+            <tr class="content">
+              <td class="p-3">
+                <mat-form-field class="w-100">
+                  <input matInput
+                         type="number"
+                         min="0"
+                         formControlName="lep_110_150"
+                         [(ngModel)]="newReport.equipment_35_150.lep_110_150">
+                </mat-form-field>
+              </td>
+              <td class="p-3">
+                <mat-form-field class="w-100">
+                  <input matInput
+                         type="number"
+                         min="0"
+                         formControlName="lep_35"
+                         [(ngModel)]="newReport.equipment_35_150.lep_35">
+                </mat-form-field>
+              </td>
+              <td class="p-3">
+                <mat-form-field class="w-100">
+                  <input matInput
+                         type="number"
+                         min="0"
+                         formControlName="ps_110_150"
+                         [(ngModel)]="newReport.equipment_35_150.ps_110_150">
+                </mat-form-field>
+              </td>
+              <td class="p-3">
+                <mat-form-field class="w-100">
+                  <input matInput
+                         type="number"
+                         min="0"
+                         formControlName="ps_35"
+                         [(ngModel)]="newReport.equipment_35_150.ps_35">
+                </mat-form-field>
+              </td>
+
+              <td class="p-3">
+                <mat-form-field class="w-100">
+                  <input matInput
+                         type="number"
+                         min="0"
+                         formControlName="tp_6_20_effect_110_150"
+                         [(ngModel)]="newReport.equipment_35_150.effect.tp_6_20">
+                </mat-form-field>
+              </td>
+              <td class="p-3">
+                <mat-form-field class="w-100">
+                  <input matInput
+                         type="number"
+                         min="0"
+                         formControlName="population_effect_110_150"
+                         [(ngModel)]="newReport.equipment_35_150.effect.population">
+                </mat-form-field>
+              </td>
+              <td class="p-3">
+                <mat-form-field class="w-100">
+                  <input matInput
+                         type="number"
+                         min="0"
+                         step="0.1"
+                         formControlName="power_effect_110_150"
+                         [(ngModel)]="newReport.equipment_35_150.effect.power">
+                </mat-form-field>
+              </td>
+              <td class="p-3">
+                <mat-form-field class="w-100">
+                  <input matInput
+                         type="number"
+                         min="0"
+                         formControlName="szo_effect_110_150"
+                         [(ngModel)]="newReport.equipment_35_150.effect.szo">
+                </mat-form-field>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </mat-tab>
+      <!-- End: Вкладка с данными об оборудовании 35-150 кВ  -->
+
+      <!-- Start: Вкладка с данными об оборудовании в распределительной сети -->
+      <mat-tab label="Распределительная сеть">
+        <div class="pt-3">
+          <table class="operative-situation-reports w-100" [formGroup]="addReportForm">
+            <tr>
+              <th colspan="2" scope="colgroup">Распределительная сеть</th>
+              <th colspan="3" scope="colgroup">Последствия для потребителей по распределительной сети</th>
+            </tr>
+            <tr>
+              <th scope="col" class="font-weight-normal">ЛЭП 6-20 кВ, шт.</th>
+              <th scope="col" class="font-weight-normal">ТП 6-20 кВ, шт.</th>
+              <th scope="col" class="font-weight-normal">Население, чел</th>
+              <th scope="col" class="font-weight-normal">Нагрузка, МВт</th>
+              <th scope="col" class="font-weight-normal">СЗО, шт</th>
+            </tr>
+            <tr class="content">
+              <td class="p-3">
+                <mat-form-field class="w-100">
+                  <input matInput
+                         type="number"
+                         min="0"
+                         formControlName="lep_6_20"
+                         [(ngModel)]="newReport.equipment_network.lep_6_20">
+                </mat-form-field>
+              </td>
+              <td class="p-3">
+                <mat-form-field class="w-100">
+                  <input matInput
+                         type="number"
+                         min="0"
+                         formControlName="tp_6_20"
+                         [(ngModel)]="newReport.equipment_network.tp_6_20">
+                </mat-form-field>
+              </td>
+              <td class="p-3">
+                <mat-form-field class="w-100">
+                  <input matInput
+                         type="number"
+                         min="0"
+                         formControlName="population_effect_network"
+                         [(ngModel)]="newReport.equipment_network.effect.population">
+                </mat-form-field>
+              </td>
+              <td class="p-3">
+                <mat-form-field class="w-100">
+                  <input matInput
+                         type="number"
+                         min="0"
+                         step="0.1"
+                         formControlName="power_effect_network"
+                         [(ngModel)]="newReport.equipment_network.effect.power">
+                </mat-form-field>
+              </td>
+              <td class="p-3">
+                <mat-form-field class="w-100">
+                  <input matInput
+                         formControlName="szo_effect_network"
+                         [(ngModel)]="newReport.equipment_network.effect.szo">
+                </mat-form-field>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </mat-tab>
+      <!-- End: Вкладка с данными об оборудовании в распределительной сети -->
+
+      <!-- Start: Вкладка с данными о задействованных ресурсах -->
+      <mat-tab label="Задействованные силы и средства">
+        <div class="pt-3">
+          <table class="operative-situation-reports w-100" [formGroup]="addReportForm">
+            <tr>
+              <th scope="col" class="font-weight-normal">Бригад, шт</th>
+              <th scope="col" class="font-weight-normal">Человек</th>
+              <th scope="col" class="font-weight-normal">Единиц техники, шт</th>
+            </tr>
+            <tr class="content">
+              <td class="p-3">
+                <mat-form-field class="w-100">
+                  <input matInput
+                         type="number"
+                         min="0"
+                         formControlName="resources_brigades"
+                         [(ngModel)]="newReport.resources.brigades">
+                </mat-form-field>
+              </td>
+              <td class="p-3">
+                <mat-form-field class="w-100">
+                  <input matInput
+                         type="number"
+                         min="0"
+                         formControlName="resources_people"
+                         [(ngModel)]="newReport.resources.people">
+                </mat-form-field>
+              </td>
+              <td class="p-3">
+                <mat-form-field class="w-100">
+                  <input matInput
+                         type="number"
+                         min="0"
+                         formControlName="resources_technics"
+                         [(ngModel)]="newReport.resources.technics">
+                </mat-form-field>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </mat-tab>
+      <!-- End: Вкладка с данными о задействованных ресурсах -->
+
+      <!-- Start: Вкладка с данными о погодных условиях -->
+      <mat-tab label="Погодные условия">
+        <div class="pt-3">
+          <table class="operative-situation-reports w-100" [formGroup]="addReportForm">
+            <tr>
+              <th scope="col" class="font-weight-normal">t min</th>
+              <th scope="col" class="font-weight-normal">t max</th>
+              <th scope="col" class="font-weight-normal">Ветер, м/с</th>
+              <th scope="col" class="font-weight-normal">Осадки</th>
+              <th scope="col" class="font-weight-normal">РПГ</th>
+              <th scope="col" class="font-weight-normal">ОРР</th>
+            </tr>
+            <tr class="content">
+              <td class="p-3">
+                <mat-form-field class="w-100">
+                  <input matInput
+                         formControlName="weather_min"
+                         [(ngModel)]="newReport.weather.min">
+                </mat-form-field>
+              </td>
+              <td class="p-3">
+                <mat-form-field class="w-100">
+                  <input matInput
+                         formControlName="weather_max"
+                         [(ngModel)]="newReport.weather.max">
+                </mat-form-field>
+              </td>
+              <td class="p-3">
+                <mat-form-field class="w-100">
+                  <input matInput
+                         formControlName="weather_wind"
+                         [(ngModel)]="newReport.weather.wind">
+                </mat-form-field>
+              </td>
+              <td class="p-3">
+                <mat-form-field class="w-100">
+                  <input matInput
+                         formControlName="weather_precipitations"
+                         [(ngModel)]="newReport.weather.precipitations">
+                </mat-form-field>
+              </td>
+              <td class="p-3">
+                  <mat-slide-toggle
+                    formControlName="weather_rpg"
+                    [(ngModel)]="newReport.weather.rpg"
+                    (change)="changeRPGMode($event)">
+                  </mat-slide-toggle>
+              </td>
+              <td class="p-3">
+                  <mat-slide-toggle
+                    formControlName="weather_orr"
+                    [(ngModel)]="newReport.weather.orr"
+                    (change)="changeORRMode($event)">
+                  </mat-slide-toggle>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </mat-tab>
+      <!-- End: Вкладка с данными о погодных условиях-->
+    </mat-tab-group>
+
+
+
+
     <form [formGroup]="addReportForm">
 
+      <!--
       <div class="row">
         <div class="col">
           <mat-form-field class="w-100">
@@ -118,7 +409,9 @@
           </mat-form-field>
         </div>
       </div>
+      -->
 
+      <!--
       <div class="row">
         <div class="col">
           <mat-form-field class="w-100">
@@ -178,6 +471,7 @@
           </mat-form-field>
         </div>
       </div>
+      -->
 
 
     </form>

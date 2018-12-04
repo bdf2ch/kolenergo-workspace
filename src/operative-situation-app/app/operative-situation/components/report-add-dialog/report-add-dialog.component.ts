@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MatSnackBar } from '@angular/material';
+import {MatDialogRef, MatSlideToggleChange, MatSnackBar} from '@angular/material';
 import { OperativeSituationService } from '../../services/operative-situation.service';
 import {OperativeSituationReport} from '@kolenergo/osr';
 import {User} from '@kolenergo/lib';
@@ -37,6 +37,15 @@ export class ReportAddDialogComponent implements OnInit {
       population_effect_network: new FormControl(this.newReport.equipment_network.effect.population),
       power_effect_network: new FormControl(this.newReport.equipment_network.effect.power),
       szo_effect_network: new FormControl(this.newReport.equipment_network.effect.szo),
+      weather_min: new FormControl(this.newReport.weather.min, Validators.required),
+      weather_max: new FormControl(this.newReport.weather.max, Validators.required),
+      weather_wind: new FormControl(this.newReport.weather.wind, Validators.required),
+      weather_precipitations: new FormControl(this.newReport.weather.precipitations, Validators.required),
+      weather_rpg: new FormControl(this.newReport.weather.rpg),
+      weather_orr: new FormControl(this.newReport.weather.orr),
+      resources_brigades: new FormControl(this.newReport.resources.brigades),
+      resources_people: new FormControl(this.newReport.resources.people),
+      resources_technics: new FormControl(this.newReport.resources.technics),
     });
   }
 
@@ -64,6 +73,18 @@ export class ReportAddDialogComponent implements OnInit {
   closeDialog() {
     this.dialogRef.close();
     this.addReportForm.reset();
+  }
+
+  changeRPGMode(event: MatSlideToggleChange) {
+    if (event.checked === true) {
+      this.newReport.weather.orr = false;
+    }
+  }
+
+  changeORRMode(event: MatSlideToggleChange) {
+    if (event.checked === true) {
+      this.newReport.weather.rpg = false;
+    }
   }
 
 }

@@ -26,8 +26,11 @@ export interface IOperativeSituationReport {
   szo_count_effect_raspr: number;             // Последствия для потребителей распределенной сети - количество СЗО
   weatherMin: number;                         // Минимальная температура
   weatherMax: number;                         // Максимальная температура
-  weatherWind: number;                        // Ветер, м/с
+  weatherWind: string;                        // Ветер, м/с
   weatherPrecipitations: string;              // Осадки
   weatherRPG: boolean;                        // Введен ли режим РПГ
   weatherORR: boolean;                        // Введен ли режим ОРР
+  resourcesBrigades: number;                 // Задействованные ресурсы - количество бригад
+  resourcesPeople: number;                   // Задействованные ресурсы - количество человек
+  resourcesTechnics: number;                 // Задействованные ресурсы - единиц техники
 }

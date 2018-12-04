@@ -1,0 +1,51 @@
+.mat-dialog-title {
+  margin-bottom: 0px;
+  .mat-form-field {
+    width: 210px;
+  }
+}
+
+.operative-situation-reports {
+  font-family: "Segoe UI Light";
+  border: 1px solid #cfd8dc;
+
+  th {
+    max-width: 100px;
+    padding: 10px;
+    font-size: 14px;
+    text-align: center;
+    background: white;
+    border: 1px solid #cfd8dc;
+
+    &.time {
+      width: 80px;
+      font-size: 18px;
+      text-align: center;
+    }
+  }
+
+  tr {
+    &.content {
+      height: 80px;
+      &:nth-child(odd) {
+        td {
+          // background: #e8eaf6;
+        }
+        th {
+          // background: #e8eaf6;
+        }
+      }
+    }
+  }
+
+  td {
+    box-sizing: border-box;
+    max-width: 70px !important;
+    text-align: center;
+    background: white;
+    border: 1px solid #cfd8dc;
+    &.total {
+      background: #e8eaf6;
+    }
+  }
+}

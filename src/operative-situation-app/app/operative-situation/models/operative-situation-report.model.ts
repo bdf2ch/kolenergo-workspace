@@ -33,10 +33,15 @@ export class OperativeSituationReport extends Backup {
   weather: {
     min: number,
     max: number,
-    wind: number,
+    wind: string,
     precipitations: string,
     rpg: boolean,
     orr: boolean
+  };
+  resources: {
+    brigades: number,
+    people: number,
+    technics: number
   };
 
   /**
@@ -60,7 +65,7 @@ export class OperativeSituationReport extends Backup {
       effect: {
         tp_6_20: config ? config.tp_6_20_count_effect_35_150 : 0,
         population: config ? config.population_count_effect_35_150 : 0,
-        power: config ? config.power_effect_35_150 : 0,
+        power: config ? (Math.round(config.power_effect_35_150 * 10) / 10) : 0,
         szo: config ? config.szo_count_effect_35_150 : 0
       }
     };
@@ -69,7 +74,7 @@ export class OperativeSituationReport extends Backup {
       tp_6_20: config ? config.tp_6_20_count : 0,
       effect : {
         population: config ? config.population_count_effect_raspr : 0,
-        power: config ? config.population_count_effect_raspr : 0,
+        power: config ? (Math.round(config.population_count_effect_raspr * 10) / 10) : 0,
         szo: config ? config.szo_count_effect_raspr : 0
       }
     };
@@ -80,6 +85,11 @@ export class OperativeSituationReport extends Backup {
       precipitations: config ? config.weatherPrecipitations : null,
       rpg: config ? config.weatherRPG : false,
       orr: config ? config.weatherORR : false
+    };
+    this.resources = {
+      brigades: config ? config.resourcesBrigades : 0,
+      people: config ? config.resourcesPeople : 0,
+      technics: config ? config.resourcesTechnics : 0
     };
   }
 }

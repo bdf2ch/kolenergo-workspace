@@ -27,7 +27,7 @@ export class OperativeSituationComponent implements OnInit {
 
   openAddReportDialog() {
     this.dialog.open(ReportAddDialogComponent, {
-      width: '950px'
+      width: '850px'
     });
   }
 

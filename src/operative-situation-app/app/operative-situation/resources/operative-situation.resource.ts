@@ -9,8 +9,8 @@ import {
   ResourceRequestMethod
 } from '@ngx-resource/core';
 import { environment } from '../../../../_common/environments/environment';
-import { ICompany, IPermission, IRole, IServerResponse } from '@kolenergo/lib';
-import {IOperativeSituationReport, IOperativeSituationReportsInitialData, OperativeSituationReport} from '@kolenergo/osr';
+import { IServerResponse } from '@kolenergo/lib';
+import { IOperativeSituationReport, IOperativeSituationReportsInitialData, OperativeSituationReport } from '@kolenergo/osr';
 
 @Injectable()
 @ResourceParams({
@@ -44,23 +44,9 @@ export class OperativeSituationResource extends Resource {
   addReport: IResourceMethod<OperativeSituationReport, IServerResponse<IOperativeSituationReport>>;
 
   @ResourceAction({
-    path: '/roles/{:id}',
+    path: '/',
     method: ResourceRequestMethod.Patch,
     withCredentials: true
   })
-  editRole: IResourceMethodStrict<IRole, void, {id: number}, IServerResponse<IRole>>;
-
-  @ResourceAction({
-    path: '/permissions',
-    method: ResourceRequestMethod.Post,
-    withCredentials: true
-  })
-  addPermission: IResourceMethod<IPermission, IServerResponse<IPermission>>;
-
-  @ResourceAction({
-    path: '/permissions/{:id}',
-    method: ResourceRequestMethod.Patch,
-    withCredentials: true
-  })
-  editPermission: IResourceMethodStrict<IPermission, void, {id: number}, IServerResponse<IPermission>>;
+  editReport: IResourceMethod<OperativeSituationReport, IServerResponse<IOperativeSituationReport>>;
 }

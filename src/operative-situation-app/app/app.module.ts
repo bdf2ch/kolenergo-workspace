@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { OperativeSituationModule } from './operative-situation/operative-situation.module';
 import { ExportsModule } from './exports.module';
-import { AppRoutingModule } from './app-routing.module';
+import { ApplicationRoutingModule } from './application.routing.module';
 import { AppComponent } from './app.component';
 import { OperativeSituationService } from './operative-situation/services/operative-situation.service';
 import { environment } from '../environments/environment';
@@ -13,7 +13,7 @@ import { environment } from '../environments/environment';
     BrowserAnimationsModule,
     OperativeSituationModule,
     ExportsModule,
-    AppRoutingModule
+    ApplicationRoutingModule
   ],
   declarations: [
     AppComponent

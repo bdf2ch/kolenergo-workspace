@@ -1,0 +1,109 @@
+<div class="report-list h-100 p-4">
+  <div class="d-flex flex-row justify-content-between align-items-center lead mb-3">
+    Оперативная обстановка на {{(osr.date() | async)}}
+
+
+    <mat-form-field class="col-auto">
+      <mat-select placeholder="Выберите филиал" (selectionChange)="selectCompany($event)">
+        <mat-option *ngFor="let company of (osr.companies() | async)" [value]="company">
+          {{company.shortTitle}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <table class="operative-situation-reports mb-4" *ngIf="(osr.reports() | async).length > 0">
+    <colgroup span="2"></colgroup>
+    <colgroup span="2"></colgroup>
+    <tr>
+      <th rowspan="2">
+        <mat-icon>access_time</mat-icon>
+      </th>
+      <th colspan="4" scope="colgroup">Отключенное оборудование по сети 35-150 кВ</th>
+      <th colspan="4" scope="colgroup">Последствия для потребителей по сети 35-150 кВ</th>
+      <th colspan="2" scope="colgroup">Распределительная сеть</th>
+      <th colspan="3" scope="colgroup">Последствия для потребителей по распределительной сети</th>
+      <th colspan="4" scope="colgroup">Последствия для потребителей суммарно по основной и распределительной сети</th>
+      <th colspan="5" scope="colgroup">Погодные условия</th>
+    </tr>
+    <tr>
+      <th scope="col" class="font-weight-normal">ЛЭП 110-150 кВ, шт.</th>
+      <th scope="col" class="font-weight-normal">ЛЭП 35 кВ, шт.</th>
+      <th scope="col" class="font-weight-normal">ПС 110 -150 кВ, шт.</th>
+      <th scope="col" class="font-weight-normal">ПС 35 кВ, шт.</th>
+
+      <th scope="col" class="font-weight-normal">ТП 6-20 кВ, шт.</th>
+      <th scope="col" class="font-weight-normal">Население, чел</th>
+      <th scope="col" class="font-weight-normal">Нагрузка, МВт</th>
+      <th scope="col" class="font-weight-normal">СЗО, шт</th>
+
+      <th scope="col" class="font-weight-normal">ЛЭП 6-20 кВ, шт.</th>
+      <th scope="col" class="font-weight-normal">ТП 6-20 кВ, шт.</th>
+
+      <th scope="col" class="font-weight-normal">Население, чел</th>
+      <th scope="col" class="font-weight-normal">Нагрузка, МВт</th>
+      <th scope="col" class="font-weight-normal">СЗО, шт</th>
+
+      <th scope="col" class="font-weight-normal">ТП 6-20 кВ, шт.</th>
+      <th scope="col" class="font-weight-normal">Население, чел</th>
+      <th scope="col" class="font-weight-normal">Нагрузка, МВт</th>
+      <th scope="col" class="font-weight-normal">СЗО, шт</th>
+
+      <th scope="col" class="font-weight-normal">t min</th>
+      <th scope="col" class="font-weight-normal">t max</th>
+      <th scope="col" class="font-weight-normal">Ветер, м/с</th>
+      <th scope="col" class="font-weight-normal">Осадки</th>
+      <th scope="col" class="font-weight-normal">РПГ/ОРР</th>
+
+    </tr>
+    <tr *ngFor="let report of (osr.reports() | async)" class="content" (click)="selectReport(report)">
+      <th scope="row" class="time">
+        <div class="d-flex justify-content-center align-items-center">
+          <span> {{report.periodTime}}</span>
+        </div>
+      </th>
+      <td>{{report.equipment_35_150.lep_110_150}}</td>
+      <td>{{report.equipment_35_150.lep_35}}</td>
+      <td>{{report.equipment_35_150.ps_110_150}}</td>
+      <td>{{report.equipment_35_150.ps_35}}</td>
+
+      <td>{{report.equipment_35_150.effect.tp_6_20}}</td>
+      <td>{{report.equipment_35_150.effect.population}}</td>
+      <td>{{report.equipment_35_150.effect.power}}</td>
+      <td>{{report.equipment_35_150.effect.szo}}</td>
+
+      <td>{{report.equipment_network.lep_6_20}}</td>
+      <td>{{report.equipment_network.tp_6_20}}</td>
+
+      <td>{{report.equipment_network.effect.population}}</td>
+      <td>{{report.equipment_network.effect.power}}</td>
+      <td>{{report.equipment_network.effect.szo}}</td>
+
+      <td class="total">{{report.equipment_35_150.effect.tp_6_20 + report.equipment_network.tp_6_20}}</td>
+      <td class="total">{{report.equipment_35_150.effect.population + report.equipment_network.effect.population}}</td>
+      <td class="total">{{report.equipment_35_150.effect.power + report.equipment_network.effect.power}}</td>
+      <td class="total">{{report.equipment_35_150.effect.szo + report.equipment_network.effect.szo}}</td>
+
+      <td>{{report.weather.min}}</td>
+      <td>{{report.weather.max}}</td>
+      <td>{{report.weather.wind}}</td>
+      <td>{{report.weather.precipitations}}</td>
+      <td>{{report.weather.rpg ? 'РПГ' : report.weather.orr ? 'ОРР' : 'Нет'}}</td>
+
+    </tr>
+  </table>
+
+  <div class="d-flex justify-content-center align-items-center mt-5 mb-5 lead text-muted"
+       *ngIf="(osr.reports() | async).length === 0">
+    Отчеты об оперативной обстановке отсутствуют
+  </div>
+
+  <div class="d-flex justify-content-center align-items-center">
+    <button mat-stroked-button color="primary" class="p-3" (click)="openAddReportDialog()">
+      <div class="d-flex justify-content-center align-items-center">
+        <mat-icon class="mr-2">add</mat-icon>
+        Добавить отчет об оперативной обстановке
+      </div>
+    </button>
+  </div>
+</div>

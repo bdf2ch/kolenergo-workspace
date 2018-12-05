@@ -1,27 +1,27 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Routes } from '@angular/router';
-import {OperativeSituationComponent} from "../operative-situation/components/operative-situation/operative-situation.component";
-import {ReportsResolveGuard} from "../operative-situation/guards/reports.resolve.guard";
+import { RouterModule, Routes } from '@angular/router';
+import { AuthenticationComponent } from './components/authentication/authentication.component';
+import { SignInComponent } from './components/sign-in/sign-in.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: OperativeSituationComponent,
-    resolve: [
-      ReportsResolveGuard
+    component: AuthenticationComponent,
+    children: [
+      {
+        path: '',
+        component: SignInComponent
+      }
     ]
-  },
-  {
-    path: 'auth',
-    loadChildren: './authentication/authentication.module#AuthenticationModule'
   }
 ];
 
 @NgModule({
   imports: [
-    CommonModule
+    RouterModule.forChild(routes)
   ],
-  declarations: []
+  exports: [
+    RouterModule
+  ]
 })
 export class AuthenticationRoutingModule {}

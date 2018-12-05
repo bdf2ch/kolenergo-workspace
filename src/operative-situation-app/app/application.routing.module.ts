@@ -6,14 +6,11 @@ import { ReportsResolveGuard } from './operative-situation/guards/reports.resolv
 const routes: Routes = [
   {
     path: '',
-    component: OperativeSituationComponent,
-    resolve: [
-      ReportsResolveGuard
-    ]
+    loadChildren: './operative-situation/operative-situation.module#OperativeSituationModule'
   },
   {
-    path: '',
-
+    path: 'auth',
+    loadChildren: './authentication/authentication.module#AuthenticationModule'
   }
 ];
 
@@ -27,4 +24,4 @@ const routes: Routes = [
     RouterModule
   ]
 })
-export class AppRoutingModule {}
+export class ApplicationRoutingModule {}

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog, MatSelectChange } from '@angular/material';
+import { Router } from '@angular/router';
 import { OperativeSituationService } from '../../services/operative-situation.service';
-import {MatDialog, MatSelectChange} from '@angular/material';
-import {ReportAddDialogComponent} from '../report-add-dialog/report-add-dialog.component';
+import { ReportAddDialogComponent } from '../report-add-dialog/report-add-dialog.component';
+import { AuthenticationService } from '@kolenergo/lib';
 
 @Component({
   selector: 'app-operative-situation',
@@ -10,7 +12,9 @@ import {ReportAddDialogComponent} from '../report-add-dialog/report-add-dialog.c
 })
 export class OperativeSituationComponent implements OnInit {
 
-  constructor(private readonly dialog: MatDialog,
+  constructor(private readonly router: Router,
+              private readonly dialog: MatDialog,
+              public readonly auth: AuthenticationService,
               public readonly reports: OperativeSituationService) { }
 
   ngOnInit() {}
@@ -24,6 +28,12 @@ export class OperativeSituationComponent implements OnInit {
   openAddReportDialog() {
     this.dialog.open(ReportAddDialogComponent, {
       width: '950px'
+    });
+  }
+
+  logOut() {
+    this.auth.logOut().then(() => {
+      this.router.navigate(['/auth']);
     });
   }
 }

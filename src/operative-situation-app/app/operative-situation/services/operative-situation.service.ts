@@ -47,6 +47,7 @@ export class OperativeSituationService {
           const reports = [];
           response.data.reports.forEach((item: IOperativeSituationReport) => {
             const report = new OperativeSituationReport(item);
+            report.backup.setup(['equipment_35_150', 'equipment_network', 'weather', 'resources']);
             reports.push(report);
           });
           this.reports$.next(reports);
@@ -93,7 +94,7 @@ export class OperativeSituationService {
         map((response: IServerResponse<IOperativeSituationReport>) => {
           const newReport = new OperativeSituationReport(response.data);
           console.log('newreport', newReport);
-          // newReport.backup.setup(['code', 'title', 'isEnabled']);
+          report.backup.setup(['equipment_35_150', 'equipment_network', 'weather', 'resources']);
           const reports = this.reports$.getValue().slice();
           reports.push(newReport);
           this.reports$.next(reports);
@@ -106,24 +107,30 @@ export class OperativeSituationService {
   }
 
   /**
-   * Изменение роли пользователя
-   * @param report - Изменяемый отчет об оперативнйо обстановке
+   * Изменение отчета об оперативнйо обстановке
+   * @param report - Редактируемый отчет об оперативной обстановке
    */
-  /*
   editReport(report: OperativeSituationReport): Observable<OperativeSituationReport | null> {
-    this.editingRole$.next(true);
-    return from(this.resource.editRole(role, null, {id: role.id}))
+    this.editingReport$.next(true);
+    return from(this.resource.editReport(report))
       .pipe(
-        map((response: IServerResponse<IRole>) => {
-          role.backup.setup(['code', 'title', 'isEnabled']);
-          return role;
+        map((response: IServerResponse<IOperativeSituationReport>) => {
+          report.backup.setup(['equipment_35_150', 'equipment_network', 'weather', 'resources']);
+          // const newReport = new OperativeSituationReport(response.data);
+          // console.log('newreport', newReport);
+          // newReport.backup.setup(['code', 'title', 'isEnabled']);
+          // const osr = this.osr$.getValue().slice();
+          // osr.push(newReport);
+          // this.osr$.next(osr);
+          return report;
         }),
         finalize(() => {
-          this.editingRole$.next(false);
+          this.editingReport$.next(false);
         })
       );
   }
-  */
+
+
   date(): Observable<string> {
     return this.date$.asObservable();
   }

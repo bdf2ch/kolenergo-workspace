@@ -7,10 +7,12 @@ import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class AuthenticationService {
+  private user$: BehaviorSubject<User>;
   private currentUser: User | null;
   private loadingInProgress: BehaviorSubject<boolean>;
 
   constructor(private authenticationResource: AuthenticationResource) {
+    this.user$ = new BehaviorSubject<User>(null);
     this.currentUser = null;
     this.loadingInProgress = new BehaviorSubject(false);
   }
@@ -21,6 +23,10 @@ export class AuthenticationService {
    */
   getCurrentUser(): User | null {
     return this.currentUser;
+  }
+
+  user(): Observable<User> {
+    return this.user$.asObservable();
   }
 
   /**
@@ -34,6 +40,7 @@ export class AuthenticationService {
       console.log(result);
       if (result) {
         this.loadingInProgress.next(false);
+        this.user$.next(new User(result));
         this.currentUser = new User(result);
         console.log(this.currentUser);
         return this.currentUser;
@@ -65,7 +72,8 @@ export class AuthenticationService {
         appCode: appCode
       });
       if (result) {
-        this.loadingInProgress.next(false);
+        this.loadingInProgress.next(false)
+        this.user$.next(new User(result));
         this.currentUser = new User(result);
         if (callbacks) {
           console.log('auth callbacks', callbacks.length);
@@ -87,6 +95,7 @@ export class AuthenticationService {
     try {
       this.loadingInProgress.next(true);
       await this.authenticationResource.logout();
+      this.user$.next(null);
       this.currentUser = null;
       this.loadingInProgress.next(false);
       return true;

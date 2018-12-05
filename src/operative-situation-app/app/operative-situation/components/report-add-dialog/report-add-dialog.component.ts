@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import {MatDialogRef, MatSlideToggleChange, MatSnackBar} from '@angular/material';
 import { OperativeSituationService } from '../../services/operative-situation.service';
 import {OperativeSituationReport} from '@kolenergo/osr';
-import {User} from '@kolenergo/lib';
+import {AuthenticationService, User} from '@kolenergo/lib';
 
 @Component({
   selector: 'app-add-permission-dialog',
@@ -17,6 +17,7 @@ export class ReportAddDialogComponent implements OnInit {
   constructor(private readonly builder: FormBuilder,
               private readonly dialogRef: MatDialogRef<ReportAddDialogComponent>,
               private readonly snackBar: MatSnackBar,
+              private readonly auth: AuthenticationService,
               public readonly osr: OperativeSituationService) {
     this.newReport = new OperativeSituationReport();
   }
@@ -53,9 +54,9 @@ export class ReportAddDialogComponent implements OnInit {
    * Отправляет данные нового отчета об оперативной обстановке на сервер
    */
   addReport() {
+    // this.newReport.company = this.auth.getCurrentUser().company;
     this.newReport.company = this.osr.selectedCompany();
-    this.newReport.user = new User();
-    this.newReport.user.id = 7;
+    this.newReport.user = this.auth.getCurrentUser();
     this.osr.addReport(this.newReport)
       .subscribe(() => {
         this.closeDialog();

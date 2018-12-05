@@ -1,5 +1,6 @@
 import { IUser } from '../interfaces/user.interface';
 import { UserPermissionsManager } from './user-permissions-manager.model';
+import { Company } from '../../common/models/company.model';
 
 /**
  * Класс, реализующий интерфейс пользователя
@@ -16,6 +17,7 @@ export class User implements IUser {
   activeDirectoryAccount: string;           // Учетная запись Active Directory
   fio: string;                              // ФИО пользователя
   permissions: UserPermissionsManager;      // Права пользователя
+  company: Company;
 
   /**
    * Конструктор класса
@@ -35,5 +37,6 @@ export class User implements IUser {
     this.permissions = config && config.permissionList
       ? new UserPermissionsManager({permissions: config.permissionList, roles: config.rolesList})
       : new UserPermissionsManager();
+    this.company = config && config.company ? new Company(config.company) : null;
   }
 }

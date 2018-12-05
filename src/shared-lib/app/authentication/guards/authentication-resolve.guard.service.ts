@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
-import { AhoRequestsService } from '../../../../aho-requests-app/app/aho-requests/services/aho-requests.service';
 import { User } from '../../users/models/user.model';
 
 

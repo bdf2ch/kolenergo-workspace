@@ -13,6 +13,7 @@ export class OperativeSituationService {
   private date$: BehaviorSubject<string>;
   private companies$: BehaviorSubject<Company[]>;
   private reports$: BehaviorSubject<OperativeSituationReport[]>;
+  private timePeriods: string[];
   private selectedCompany$: BehaviorSubject<Company>;
   private selectedReport$: BehaviorSubject<OperativeSituationReport>;
   private fetchingData$: BehaviorSubject<boolean>;
@@ -25,6 +26,7 @@ export class OperativeSituationService {
     this.companies$ = new BehaviorSubject<Company[]>([]);
     this.selectedCompany$ = new BehaviorSubject<Company>(null);
     this.reports$ = new BehaviorSubject<OperativeSituationReport[]>([]);
+    this.timePeriods = ['00:00', '03:00', '06:00', '09:00', '12:00', '15:00', '18:00', '21:00'];
     this.selectedReport$ = new BehaviorSubject<OperativeSituationReport>(null);
     this.fetchingData$ = new BehaviorSubject<boolean>(false);
     this.addingReport$ = new BehaviorSubject<boolean>(false);
@@ -116,12 +118,6 @@ export class OperativeSituationService {
       .pipe(
         map((response: IServerResponse<IOperativeSituationReport>) => {
           report.backup.setup(['equipment_35_150', 'equipment_network', 'weather', 'resources']);
-          // const newReport = new OperativeSituationReport(response.data);
-          // console.log('newreport', newReport);
-          // newReport.backup.setup(['code', 'title', 'isEnabled']);
-          // const osr = this.osr$.getValue().slice();
-          // osr.push(newReport);
-          // this.osr$.next(osr);
           return report;
         }),
         finalize(() => {
@@ -133,6 +129,10 @@ export class OperativeSituationService {
 
   date(): Observable<string> {
     return this.date$.asObservable();
+  }
+
+  periods(): string[] {
+    return this.timePeriods;
   }
 
   /**

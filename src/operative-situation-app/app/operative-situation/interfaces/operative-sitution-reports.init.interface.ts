@@ -1,5 +1,5 @@
 import { ICompany } from '@kolenergo/lib';
-import { IOperativeSituationReport } from '@kolenergo/osr';
+import { IOperativeSituationReport } from '../interfaces/operative-situation-report.interface';
 
 /**
  * Интерфейс, описывающий набор данных для инициализации приложения

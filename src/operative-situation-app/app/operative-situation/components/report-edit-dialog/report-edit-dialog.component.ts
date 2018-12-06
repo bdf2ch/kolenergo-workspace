@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { OperativeSituationService } from '../../services/operative-situation.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Permission } from '@kolenergo/lib';
-import { MatSnackBar } from '@angular/material';
+import {MatSlideToggleChange, MatSnackBar} from '@angular/material';
 
 @Component({
   selector: 'app-edit-permission-dialog',
@@ -19,6 +19,7 @@ export class ReportEditDialogComponent implements OnInit {
               public readonly osr: OperativeSituationService) {}
 
   ngOnInit() {
+    console.log('dialog init');
     this.editReportForm = this.builder.group({
       time: new FormControl(this.osr.selectedReport().periodTime, Validators.required),
       lep_110_150: new FormControl(this.osr.selectedReport().equipment_35_150.lep_110_150),
@@ -46,35 +47,42 @@ export class ReportEditDialogComponent implements OnInit {
     });
   }
 
+
   /**
-   * Сохранение измененийв выбранном праве
+   * Отправляет данные нового отчета об оперативной обстановке на сервер
    */
-  saveChanges() {
-    /*
-    this.applications.editPermission(this.applications.selectedPermission())
+  editReport() {
+    this.osr.editReport(this.osr.selectedReport())
       .subscribe(() => {
         this.closeDialog();
-        this.snackBar.open(`Изменения в праве пользователя сохранены`, 'Закрыть', {
+        this.snackBar.open(`Отчет об оперативной обстановке на ${this.osr.selectedReport().periodTime} изменен`, 'Закрыть', {
           horizontalPosition: 'left',
           verticalPosition: 'bottom',
           duration: 3000
         });
       });
-      */
   }
 
   /**
-   * Закрывает диалоговое окно редактирования права пользователя
+   * Закрывает диалоговое окна изменения отчета об оперативной обстановке,
+   * возвращает изначальные значения полей
    */
   closeDialog() {
-    /*
     this.dialogRef.close();
-    this.applications.selectedPermission().backup.restore();
-    this.editPermissionForm.reset({
-      code: this.applications.selectedPermission().code,
-      title: this.applications.selectedPermission().title
-    });
-    */
+    this.editReportForm.reset();
+    this.osr.selectedReport().backup.restore();
+  }
+
+  changeRPGMode(event: MatSlideToggleChange) {
+    if (event.checked === true) {
+      this.osr.selectedReport().weather.orr = false;
+    }
+  }
+
+  changeORRMode(event: MatSlideToggleChange) {
+    if (event.checked === true) {
+      this.osr.selectedReport().weather.rpg = false;
+    }
   }
 
 }

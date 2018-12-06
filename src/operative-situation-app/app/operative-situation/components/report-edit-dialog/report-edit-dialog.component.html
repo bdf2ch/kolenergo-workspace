@@ -286,16 +286,16 @@
               type="button"
               color="warn"
               class="w-25 mr-2"
-              [disabled]="(osr.isAddingReport() | async)"
+              [disabled]="(osr.isEditingReport() | async)"
               (click)="closeDialog()">
         Отмена
       </button>
       <button mat-flat-button
               type="submit"
               class="w-25"
-              [disabled]="(osr.isAddingReport() | async) || editReportForm.invalid"
-              (click)="addReport()">
-        Добавить
+              [disabled]="(osr.isEditingReport() | async) || editReportForm.invalid || editReportForm.pristine"
+              (click)="editReport()">
+        Сохранить
       </button>
     </div>
   </mat-dialog-actions>

@@ -74,7 +74,7 @@ export class OperativeSituationReport extends Backup {
       tp_6_20: config ? config.tp_6_20_count : 0,
       effect : {
         population: config ? config.population_count_effect_raspr : 0,
-        power: config ? (Math.round(config.population_count_effect_raspr * 10) / 10) : 0,
+        power: config ? (Math.round(config.power_effect_raspr * 10) / 10) : 0,
         szo: config ? config.szo_count_effect_raspr : 0
       }
     };
@@ -90,6 +90,15 @@ export class OperativeSituationReport extends Backup {
       brigades: config ? config.resourcesBrigades : 0,
       people: config ? config.resourcesPeople : 0,
       technics: config ? config.resourcesTechnics : 0
+    };
+  }
+
+  getTotalEffect() {
+    return {
+      tp_6_20: this.equipment_35_150.effect.tp_6_20 + this.equipment_network.tp_6_20,
+      population: this.equipment_35_150.effect.population + this.equipment_network.effect.population,
+      power: Math.round((this.equipment_35_150.effect.power + this.equipment_network.effect.power) * 10) / 10,
+      szo: this.equipment_35_150.effect.szo + this.equipment_network.effect.szo
     };
   }
 }

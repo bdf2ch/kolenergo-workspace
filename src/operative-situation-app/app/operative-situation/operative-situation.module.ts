@@ -9,6 +9,7 @@ import { ReportsResolveGuard } from './guards/reports.resolve.guard';
 import { ReportAddDialogComponent } from './components/report-add-dialog/report-add-dialog.component';
 import { ReportEditDialogComponent } from './components/report-edit-dialog/report-edit-dialog.component';
 import { ReportListComponent } from './components/report-list/report-list.component';
+import { TimePeriodsPipe } from './pipes/time-periods.pipe';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { ReportListComponent } from './components/report-list/report-list.compon
     OperativeSituationComponent,
     ReportAddDialogComponent,
     ReportEditDialogComponent,
-    ReportListComponent
+    ReportListComponent,
+    TimePeriodsPipe
   ],
   providers: [
     OperativeSituationResource,

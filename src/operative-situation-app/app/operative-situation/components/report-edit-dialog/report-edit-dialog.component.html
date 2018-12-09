@@ -1,5 +1,5 @@
 <div class="container-fluid h-100 control-panel-dialog">
-  <div matDialogTitle class="d-flex flex-row align-items-center" [formGroup]="editReportForm">
+  <div matDialogTitle class="d-flex flex-row align-items-center pt-3 pb-3 pl-3 pr-3" [formGroup]="editReportForm">
     <h4>Редактирование отчета об оперативной обстановке на {{osr.selectedReport()?.periodTime}}</h4>
   </div>
 
@@ -8,7 +8,7 @@
 
       <!-- Start: Вкладка с данными об оборудовании 35-150 кВ -->
       <mat-tab label="Оборудование 35-150 кВ">
-        <div class="pt-3">
+        <div class="p-3">
           <table class="operative-situation-reports w-100" [formGroup]="editReportForm">
             <colgroup span="2"></colgroup>
             <tr>
@@ -109,7 +109,7 @@
 
       <!-- Start: Вкладка с данными об оборудовании в распределительной сети -->
       <mat-tab label="Распределительная сеть">
-        <div class="pt-3">
+        <div class="p-3">
           <table class="operative-situation-reports w-100" [formGroup]="editReportForm">
             <tr>
               <th colspan="2" scope="colgroup">Распределительная сеть</th>
@@ -175,7 +175,7 @@
 
       <!-- Start: Вкладка с данными о задействованных ресурсах -->
       <mat-tab label="Задействованные силы и средства">
-        <div class="pt-3">
+        <div class="p-3">
           <table class="operative-situation-reports w-100" [formGroup]="editReportForm">
             <tr>
               <th scope="col" class="font-weight-normal">Бригад, шт</th>
@@ -216,9 +216,161 @@
       </mat-tab>
       <!-- End: Вкладка с данными о задействованных ресурсах -->
 
+      <!-- Start: Вкладка с данными о нарушениях с нарастающим итогом -->
+      <mat-tab label="Нарушения">
+        <div class="p-3">
+          <table class="operative-situation-reports w-100" [formGroup]="editReportForm">
+            <tr>
+              <th rowspan="2" scope="colgroup">Всего 6 кВ и выше</th>
+              <th colspan="3" scope="colgroup">Основная сеть 35 кВ и выше</th>
+              <th rowspan="2" scope="colgroup">ЛЭП<br> р/с</th>
+              <th rowspan="2" scope="colgroup">ТН с погаш.</th>
+              <th colspan="3" scope="colgroup">Сеть 0,4 кВ</th>
+              <th colspan="2" scope="colgroup">Население, чел</th>
+            </tr>
+            <tr>
+              <th scope="col" class="font-weight-normal">УАПВ</th>
+              <th scope="col" class="font-weight-normal">НАПВ</th>
+              <th scope="col" class="font-weight-normal">С обесточ.</th>
+              <!-- <th scope="col" class="font-weight-normal">Итого</th> -->
+
+              <th scope="col" class="font-weight-normal">С 6-00</th>
+              <th scope="col" class="font-weight-normal">Отключены на срез</th>
+              <th scope="col" class="font-weight-normal">Более 3 часов</th>
+
+              <th scope="col" class="font-weight-normal">По сети 0,4 кВ на срез</th>
+              <th scope="col" class="font-weight-normal">По сети 0,4 кВ (более 3 часов)</th>
+            </tr>
+            <tr class="content">
+              <td class="p-3">
+                <mat-form-field class="w-100">
+                  <input matInput
+                         type="number"
+                         min="0"
+                         formControlName="violations_total_6"
+                         [(ngModel)]="osr.selectedReport().violations.total_6">
+                </mat-form-field>
+              </td>
+              <td class="p-3">
+                <mat-form-field class="w-100">
+                  <input matInput
+                         type="number"
+                         min="0"
+                         formControlName="violations_uapv_35"
+                         [(ngModel)]="osr.selectedReport().violations.uapv_35">
+                </mat-form-field>
+              </td>
+              <td class="p-3">
+                <mat-form-field class="w-100">
+                  <input matInput
+                         type="number"
+                         min="0"
+                         formControlName="violations_napv_35"
+                         [(ngModel)]="osr.selectedReport().violations.napv_35">
+                </mat-form-field>
+              </td>
+              <td class="p-3">
+                <mat-form-field class="w-100">
+                  <input matInput
+                         type="number"
+                         min="0"
+                         formControlName="violations_power_off_35"
+                         [(ngModel)]="osr.selectedReport().violations.power_off_35">
+                </mat-form-field>
+              </td>
+              <td class="p-3">
+                <mat-form-field class="w-100">
+                  <input matInput
+                         type="number"
+                         min="0"
+                         formControlName="violations_lep_rs"
+                         [(ngModel)]="osr.selectedReport().violations.lep_rs">
+                </mat-form-field>
+              </td>
+
+              <td class="p-3">
+                <mat-form-field class="w-100">
+                  <input matInput
+                         type="number"
+                         min="0"
+                         formControlName="violations_tn_cancel"
+                         [(ngModel)]="osr.selectedReport().violations.tn_cancel">
+                </mat-form-field>
+              </td>
+              <td class="p-3">
+                <mat-form-field class="w-100">
+                  <input matInput
+                         type="number"
+                         min="0"
+                         formControlName="violations_from_6_04"
+                         [(ngModel)]="osr.selectedReport().violations.from_6_04">
+                </mat-form-field>
+              </td>
+              <td class="p-3">
+                <mat-form-field class="w-100">
+                  <input matInput
+                         type="number"
+                         min="0"
+                         formControlName="violations_power_off_04"
+                         [(ngModel)]="osr.selectedReport().violations.power_off_04">
+                </mat-form-field>
+              </td>
+              <td class="p-3">
+                <mat-form-field class="w-100">
+                  <input matInput
+                         type="number"
+                         min="0"
+                         formControlName="violations_greater_3_04"
+                         [(ngModel)]="osr.selectedReport().violations.greater_3_04">
+                </mat-form-field>
+              </td>
+              <td class="p-3">
+                <mat-form-field class="w-100">
+                  <input matInput
+                         type="number"
+                         min="0"
+                         formControlName="violations_population_srez_o4"
+                         [(ngModel)]="osr.selectedReport().violations.population_srez_04">
+                </mat-form-field>
+              </td>
+              <td class="p-3">
+                <mat-form-field class="w-100">
+                  <input matInput
+                         type="number"
+                         min="0"
+                         formControlName="violations_population_greater_3_04"
+                         [(ngModel)]="osr.selectedReport().violations.population_greater_3_04">
+                </mat-form-field>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </mat-tab>
+      <!-- End: Вкладка с данными о нарушениях с нарастающим итогом -->
+
+      <!-- Start: Вкладка с данными о потреблении -->
+      <mat-tab label="Потребление">
+        <div class="p-3">
+          <table class="operative-situation-reports w-100" [formGroup]="editReportForm">
+            <tr>
+              <th scope="col" class="font-weight-normal">Максимум потребления за прошедшие сутки</th>
+            </tr>
+            <tr class="content">
+              <td class="p-3">
+                <mat-form-field class="w-100">
+                  <input matInput
+                         formControlName="consumption"
+                         [(ngModel)]="osr.selectedReport().consumption">
+                </mat-form-field>
+              </td>
+          </table>
+        </div>
+      </mat-tab>
+      <!-- End: Вкладка с данными о потреблении -->
+
       <!-- Start: Вкладка с данными о погодных условиях -->
       <mat-tab label="Погодные условия">
-        <div class="pt-3">
+        <div class="p-3">
           <table class="operative-situation-reports w-100" [formGroup]="editReportForm">
             <tr>
               <th scope="col" class="font-weight-normal">t min</th>

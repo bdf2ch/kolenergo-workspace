@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import {MatDialogRef, MatSlideToggleChange, MatSnackBar} from '@angular/material';
+import { MatDialogRef, MatSlideToggleChange, MatSnackBar } from '@angular/material';
 import { OperativeSituationService } from '../../services/operative-situation.service';
-import {OperativeSituationReport} from '@kolenergo/osr';
-import {AuthenticationService, User} from '@kolenergo/lib';
+import { OperativeSituationReport } from '@kolenergo/osr';
+import { AuthenticationService, User } from '@kolenergo/lib';
 
 @Component({
   selector: 'app-add-permission-dialog',
@@ -25,6 +25,7 @@ export class ReportAddDialogComponent implements OnInit {
   ngOnInit() {
     this.addReportForm = this.builder.group({
       time: new FormControl(this.newReport.periodTime, Validators.required),
+      consumption: new FormControl(this.newReport.consumption),
       lep_110_150: new FormControl(this.newReport.equipment_35_150.lep_110_150),
       lep_35: new FormControl(this.newReport.equipment_35_150.lep_35),
       ps_110_150: new FormControl(this.newReport.equipment_35_150.ps_110_150),
@@ -47,6 +48,17 @@ export class ReportAddDialogComponent implements OnInit {
       resources_brigades: new FormControl(this.newReport.resources.brigades),
       resources_people: new FormControl(this.newReport.resources.people),
       resources_technics: new FormControl(this.newReport.resources.technics),
+      violations_total_6: new FormControl(this.newReport.violations.total_6),
+      violations_uapv_35: new FormControl(this.newReport.violations.uapv_35),
+      violations_napv_35: new FormControl(this.newReport.violations.napv_35),
+      violations_power_off_35: new FormControl(this.newReport.violations.power_off_35),
+      violations_lep_rs: new FormControl(this.newReport.violations.lep_rs),
+      violations_tn_cancel: new FormControl(this.newReport.violations.tn_cancel),
+      violations_from_6_04: new FormControl(this.newReport.violations.from_6_04),
+      violations_power_off_04: new FormControl(this.newReport.violations.power_off_04),
+      violations_greater_3_04: new FormControl(this.newReport.violations.greater_3_04),
+      violations_population_srez_o4: new FormControl(this.newReport.violations.population_srez_04),
+      violations_population_greater_3_04: new FormControl(this.newReport.violations.population_greater_3_04)
     });
   }
 

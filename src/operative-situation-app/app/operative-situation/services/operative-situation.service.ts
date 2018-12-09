@@ -49,7 +49,7 @@ export class OperativeSituationService {
           const reports = [];
           response.data.reports.forEach((item: IOperativeSituationReport) => {
             const report = new OperativeSituationReport(item);
-            report.backup.setup(['equipment_35_150', 'equipment_network', 'weather', 'resources']);
+            report.backup.setup(['equipment_35_150', 'equipment_network', 'weather', 'resources', 'consumption', 'violations']);
             reports.push(report);
           });
           this.reports$.next(reports);
@@ -96,7 +96,7 @@ export class OperativeSituationService {
         map((response: IServerResponse<IOperativeSituationReport>) => {
           const newReport = new OperativeSituationReport(response.data);
           console.log('newreport', newReport);
-          report.backup.setup(['equipment_35_150', 'equipment_network', 'weather', 'resources']);
+          report.backup.setup(['equipment_35_150', 'equipment_network', 'weather', 'resources', 'consumption', 'violations']);
           const reports = this.reports$.getValue().slice();
           reports.push(newReport);
           this.reports$.next(reports);
@@ -117,7 +117,7 @@ export class OperativeSituationService {
     return from(this.resource.editReport(report))
       .pipe(
         map((response: IServerResponse<IOperativeSituationReport>) => {
-          report.backup.setup(['equipment_35_150', 'equipment_network', 'weather', 'resources']);
+          report.backup.setup(['equipment_35_150', 'equipment_network', 'weather', 'resources', 'consumption', 'violations']);
           return report;
         }),
         finalize(() => {

@@ -228,7 +228,7 @@
           <table class="operative-situation-reports w-100" [formGroup]="addReportForm">
             <tr>
               <th rowspan="2" scope="colgroup">Всего 6 кВ и выше</th>
-              <th colspan="4" scope="colgroup">Основная сеть 35 кВ и выше</th>
+              <th colspan="3" scope="colgroup">Основная сеть 35 кВ и выше</th>
               <th rowspan="2" scope="colgroup">ЛЭП<br> р/с</th>
               <th rowspan="2" scope="colgroup">ТН с погаш.</th>
               <th colspan="3" scope="colgroup">Сеть 0,4 кВ</th>
@@ -238,7 +238,7 @@
               <th scope="col" class="font-weight-normal">УАПВ</th>
               <th scope="col" class="font-weight-normal">НАПВ</th>
               <th scope="col" class="font-weight-normal">С обесточ.</th>
-              <th scope="col" class="font-weight-normal">Итого</th>
+              <!-- <th scope="col" class="font-weight-normal">Итого</th> -->
 
               <th scope="col" class="font-weight-normal">С 6-00</th>
               <th scope="col" class="font-weight-normal">Отключены на срез</th>
@@ -253,8 +253,8 @@
                   <input matInput
                          type="number"
                          min="0"
-                         formControlName="lep_6_20"
-                         [(ngModel)]="newReport.equipment_network.lep_6_20">
+                         formControlName="violations_total_6"
+                         [(ngModel)]="newReport.violations.total_6">
                 </mat-form-field>
               </td>
               <td class="p-3">
@@ -262,8 +262,8 @@
                   <input matInput
                          type="number"
                          min="0"
-                         formControlName="tp_6_20"
-                         [(ngModel)]="newReport.equipment_network.tp_6_20">
+                         formControlName="violations_uapv_35"
+                         [(ngModel)]="newReport.violations.uapv_35">
                 </mat-form-field>
               </td>
               <td class="p-3">
@@ -271,8 +271,8 @@
                   <input matInput
                          type="number"
                          min="0"
-                         formControlName="population_effect_network"
-                         [(ngModel)]="newReport.equipment_network.effect.population">
+                         formControlName="violations_napv_35"
+                         [(ngModel)]="newReport.violations.napv_35">
                 </mat-form-field>
               </td>
               <td class="p-3">
@@ -280,66 +280,72 @@
                   <input matInput
                          type="number"
                          min="0"
-                         step="0.1"
-                         formControlName="power_effect_network"
-                         [(ngModel)]="newReport.equipment_network.effect.power">
+                         formControlName="violations_power_off_35"
+                         [(ngModel)]="newReport.violations.power_off_35">
                 </mat-form-field>
               </td>
               <td class="p-3">
                 <mat-form-field class="w-100">
                   <input matInput
-                         formControlName="szo_effect_network"
-                         [(ngModel)]="newReport.equipment_network.effect.szo">
+                         type="number"
+                         min="0"
+                         formControlName="violations_lep_rs"
+                         [(ngModel)]="newReport.violations.lep_rs">
                 </mat-form-field>
               </td>
 
               <td class="p-3">
                 <mat-form-field class="w-100">
                   <input matInput
-                         formControlName="szo_effect_network"
-                         [(ngModel)]="newReport.equipment_network.effect.szo">
+                         type="number"
+                         min="0"
+                         formControlName="violations_tn_cancel"
+                         [(ngModel)]="newReport.violations.tn_cancel">
                 </mat-form-field>
               </td>
               <td class="p-3">
                 <mat-form-field class="w-100">
                   <input matInput
-                         formControlName="szo_effect_network"
-                         [(ngModel)]="newReport.equipment_network.effect.szo">
+                         type="number"
+                         min="0"
+                         formControlName="violations_from_6_04"
+                         [(ngModel)]="newReport.violations.from_6_04">
                 </mat-form-field>
               </td>
               <td class="p-3">
                 <mat-form-field class="w-100">
                   <input matInput
-                         formControlName="szo_effect_network"
-                         [(ngModel)]="newReport.equipment_network.effect.szo">
+                         type="number"
+                         min="0"
+                         formControlName="violations_power_off_04"
+                         [(ngModel)]="newReport.violations.power_off_04">
                 </mat-form-field>
               </td>
               <td class="p-3">
                 <mat-form-field class="w-100">
                   <input matInput
-                         formControlName="szo_effect_network"
-                         [(ngModel)]="newReport.equipment_network.effect.szo">
+                         type="number"
+                         min="0"
+                         formControlName="violations_greater_3_04"
+                         [(ngModel)]="newReport.violations.greater_3_04">
                 </mat-form-field>
               </td>
               <td class="p-3">
                 <mat-form-field class="w-100">
                   <input matInput
-                         formControlName="szo_effect_network"
-                         [(ngModel)]="newReport.equipment_network.effect.szo">
+                         type="number"
+                         min="0"
+                         formControlName="violations_population_srez_o4"
+                         [(ngModel)]="newReport.violations.population_srez_04">
                 </mat-form-field>
               </td>
               <td class="p-3">
                 <mat-form-field class="w-100">
                   <input matInput
-                         formControlName="szo_effect_network"
-                         [(ngModel)]="newReport.equipment_network.effect.szo">
-                </mat-form-field>
-              </td>
-              <td class="p-3">
-                <mat-form-field class="w-100">
-                  <input matInput
-                         formControlName="szo_effect_network"
-                         [(ngModel)]="newReport.equipment_network.effect.szo">
+                         type="number"
+                         min="0"
+                         formControlName="violations_population_greater_3_04"
+                         [(ngModel)]="newReport.violations.population_greater_3_04">
                 </mat-form-field>
               </td>
             </tr>
@@ -359,8 +365,8 @@
               <td class="p-3">
                 <mat-form-field class="w-100">
                   <input matInput
-                         formControlName="weather_min"
-                         [(ngModel)]="newReport.weather.min">
+                         formControlName="consumption"
+                         [(ngModel)]="newReport.consumption">
                 </mat-form-field>
               </td>
           </table>

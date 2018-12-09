@@ -22,6 +22,7 @@ export class ReportEditDialogComponent implements OnInit {
     console.log('dialog init');
     this.editReportForm = this.builder.group({
       time: new FormControl(this.osr.selectedReport().periodTime, Validators.required),
+      consumption: new FormControl(this.osr.selectedReport().consumption),
       lep_110_150: new FormControl(this.osr.selectedReport().equipment_35_150.lep_110_150),
       lep_35: new FormControl(this.osr.selectedReport().equipment_35_150.lep_35),
       ps_110_150: new FormControl(this.osr.selectedReport().equipment_35_150.ps_110_150),
@@ -44,6 +45,17 @@ export class ReportEditDialogComponent implements OnInit {
       resources_brigades: new FormControl(this.osr.selectedReport().resources.brigades),
       resources_people: new FormControl(this.osr.selectedReport().resources.people),
       resources_technics: new FormControl(this.osr.selectedReport().resources.technics),
+      violations_total_6: new FormControl(this.osr.selectedReport().violations.total_6),
+      violations_uapv_35: new FormControl(this.osr.selectedReport().violations.uapv_35),
+      violations_napv_35: new FormControl(this.osr.selectedReport().violations.napv_35),
+      violations_power_off_35: new FormControl(this.osr.selectedReport().violations.power_off_35),
+      violations_lep_rs: new FormControl(this.osr.selectedReport().violations.lep_rs),
+      violations_tn_cancel: new FormControl(this.osr.selectedReport().violations.tn_cancel),
+      violations_from_6_04: new FormControl(this.osr.selectedReport().violations.from_6_04),
+      violations_power_off_04: new FormControl(this.osr.selectedReport().violations.power_off_04),
+      violations_greater_3_04: new FormControl(this.osr.selectedReport().violations.greater_3_04),
+      violations_population_srez_o4: new FormControl(this.osr.selectedReport().violations.population_srez_04),
+      violations_population_greater_3_04: new FormControl(this.osr.selectedReport().violations.population_greater_3_04)
     });
   }
 

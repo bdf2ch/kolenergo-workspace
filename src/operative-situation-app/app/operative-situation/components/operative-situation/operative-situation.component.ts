@@ -15,7 +15,7 @@ export class OperativeSituationComponent implements OnInit {
   constructor(private readonly router: Router,
               private readonly dialog: MatDialog,
               public readonly auth: AuthenticationService,
-              public readonly reports: OperativeSituationService) { }
+              public readonly reports: OperativeSituationService) {}
 
   ngOnInit() {}
 

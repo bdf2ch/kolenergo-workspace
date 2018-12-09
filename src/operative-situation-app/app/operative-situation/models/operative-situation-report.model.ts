@@ -9,6 +9,7 @@ export class OperativeSituationReport extends Backup {
   periodTime: string;
   dateCreated: Date;
   dateChanged: Date;
+  consumption: number;
   equipment_35_150: {
     lep_110_150: number,
     lep_35: number,
@@ -43,6 +44,19 @@ export class OperativeSituationReport extends Backup {
     people: number,
     technics: number
   };
+  violations: {
+    total_6: number,
+    uapv_35: number;
+    napv_35: number;
+    power_off_35: number,
+    lep_rs: number,
+    tn_cancel: number,
+    from_6_04: number,
+    power_off_04: number,
+    greater_3_04: number,
+    population_srez_04: number,
+    population_greater_3_04: number
+  };
 
   /**
    * Конструктор
@@ -57,6 +71,7 @@ export class OperativeSituationReport extends Backup {
     this.periodTime = config ? config.periodTime : null;
     this.dateCreated = config ? new Date(config.dateCreated) : null;
     this.dateChanged = config ? new Date(config.dateChanged) : null;
+    this.consumption = config ? config.consumption : 0;
     this.equipment_35_150 = {
       lep_110_150: config ? config.lep_110_150_count : 0,
       lep_35: config ? config.lep_35_count : 0,
@@ -90,6 +105,19 @@ export class OperativeSituationReport extends Backup {
       brigades: config ? config.resourcesBrigades : 0,
       people: config ? config.resourcesPeople : 0,
       technics: config ? config.resourcesTechnics : 0
+    };
+    this.violations = {
+      total_6: config ? config.violations_6 : 0,
+      uapv_35: config ? config.violations_35_uapv : 0,
+      napv_35: config ? config.violations_35_napv : 0,
+      power_off_35: config ? config.violations_35_power_off : 0,
+      lep_rs: config ? config.violations_lep_rs : 0,
+      tn_cancel: config ? config.violations_tn_cancel : 0,
+      from_6_04: config ? config.violations_04_from_6 : 0,
+      power_off_04: config ? config.violations_04_power_off : 0,
+      greater_3_04: config ? config.violations_04_greater_3 : 0,
+      population_srez_04: config ? config.violations_population_04_srez : 0,
+      population_greater_3_04: config ? config.violations_population_04_greater_3 : 0
     };
   }
 

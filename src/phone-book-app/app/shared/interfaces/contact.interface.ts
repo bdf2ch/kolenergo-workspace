@@ -1,4 +1,4 @@
-import { IUser } from '../../../../shared-lib/app/users/interfaces/user.interface';
+import { IUser } from '../../../../control-panel-app/app/users/interfaces/user.interface';
 import { Phone } from '../models/phone.model';
 
 /**

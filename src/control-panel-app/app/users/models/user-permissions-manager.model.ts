@@ -1,7 +1,7 @@
 import { IPermission } from '../interfaces/permission.interface';
 import { Permission } from './permission.model';
 import { IRole } from '../interfaces/role.interface';
-import { Role } from '../models/role.model';
+import { Role } from './role.model';
 
 /**
  * Класс, реализующий механизм доступа к правам  пользователя

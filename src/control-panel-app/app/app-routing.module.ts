@@ -22,8 +22,12 @@ const routes: Routes = [
         component: StartComponent
       },
       {
+        path: 'companies',
+        loadChildren: './companies/companies.module#CompaniesModule',
+      },
+      {
         path: 'applications',
-        loadChildren: './operative-situation/operative-situation.module#OperativeSituationModule',
+        loadChildren: './applications/applications.module#ApplicationsModule',
       },
       {
         path: 'users',

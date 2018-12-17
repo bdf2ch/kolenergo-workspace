@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { AuthenticationService, User } from '@kolenergo/lib';
+import { AuthenticationService } from '@kolenergo/lib';
+import { User } from '@kolenergo/cpa';
 import { AhoRequestsService } from '../../services/aho-requests.service';
 import { AhoRequest } from '../../models/aho-request.model';
 import { MatTableDataSource } from '@angular/material';

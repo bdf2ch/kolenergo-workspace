@@ -1,4 +1,4 @@
-import { IUser } from '@kolenergo/lib';
+import { IUser } from '@kolenergo/cpa';
 import { IAhoRequestType } from './aho-request-type.interface';
 import { IAhoRequestStatus } from './aho-request-status.interface';
 import { IAhoRequestTask } from './aho-request-task.interface';

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Company, ICompany, IServerResponse } from '@kolenergo/lib';
+import { IServerResponse } from '@kolenergo/lib';
+import { ICompany, Company } from '@kolenergo/cpa';
 import { OperativeSituationResource } from '../resources/operative-situation.resource';
 import { Observable } from 'rxjs/Observable';
 import { from } from 'rxjs/observable/from';

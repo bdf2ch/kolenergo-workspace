@@ -1,4 +1,5 @@
-import { ICompany, IUser } from '@kolenergo/lib';
+import { IUser } from '@kolenergo/lib';
+import { ICompany } from '@kolenergo/cpa';
 
 /**
  * Интерфейс, описывающий отчет об оперативной обстановке

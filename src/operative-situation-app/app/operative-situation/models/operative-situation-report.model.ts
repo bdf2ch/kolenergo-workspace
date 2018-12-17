@@ -1,4 +1,5 @@
-import { Backup, Company, User } from '@kolenergo/lib';
+import { Backup, User } from '@kolenergo/lib';
+import { Company } from '@kolenergo/cpa';
 import { IOperativeSituationReport } from '../interfaces/operative-situation-report.interface';
 
 export class OperativeSituationReport extends Backup {
@@ -57,6 +58,7 @@ export class OperativeSituationReport extends Backup {
     population_srez_04: number,
     population_greater_3_04: number
   };
+  backup?: any;
 
   /**
    * Конструктор

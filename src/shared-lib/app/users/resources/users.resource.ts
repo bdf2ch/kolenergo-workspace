@@ -9,8 +9,8 @@ import {
   ResourceRequestMethod
 } from '@ngx-resource/core';
 import { environment } from '../../../../_common/environments/environment';
-import { IUser } from '../interfaces/user.interface';
-import { IAddUser } from '../interfaces/user.add.interface';
+import { IUser } from '../../../../control-panel-app/app/users/interfaces/user.interface';
+import { IAddUser } from '../../../../control-panel-app/app/users/interfaces/user.add.interface';
 
 @Injectable()
 @ResourceParams({

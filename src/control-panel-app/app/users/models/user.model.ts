@@ -1,6 +1,6 @@
 import { IUser } from '../interfaces/user.interface';
 import { UserPermissionsManager } from './user-permissions-manager.model';
-import { Company } from '../../common/models/company.model';
+import { Company } from '../../companies/models/company.model';
 
 /**
  * Класс, реализующий интерфейс пользователя

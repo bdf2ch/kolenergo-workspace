@@ -1,4 +1,4 @@
-import { ICompany } from '@kolenergo/lib';
+import { ICompany } from '@kolenergo/cpa';
 import { IOperativeSituationReport } from '../interfaces/operative-situation-report.interface';
 
 /**

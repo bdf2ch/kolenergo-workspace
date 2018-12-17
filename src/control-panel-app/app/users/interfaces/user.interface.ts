@@ -1,7 +1,7 @@
 import { IPermission } from './permission.interface';
-import { IRole } from '../interfaces/role.interface';
-import { ICompany } from '../../common/interfaces/company.interface';
-import { IDepartment } from '../../common/interfaces/department.interface';
+import { IRole } from './role.interface';
+import { ICompany } from '../../companies/interfaces/company.interface';
+import { IDepartment } from '../../companies/interfaces/department.interface';
 
 /**
  * Интерфейс, описывающий пользователя

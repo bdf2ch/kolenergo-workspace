@@ -28,6 +28,9 @@
       ],
       "@kolenergo/osr": [
         "operative-situation-app/exports.ts"
+      ],
+      "@kolenergo/cpa": [
+        "control-panel-app/exports.ts"
       ]
     }
   }

@@ -14,7 +14,7 @@ import { IPermission, IRole, IServerResponse } from '@kolenergo/lib';
 
 @Injectable()
 @ResourceParams({
-  pathPrefix: environment.apiUrl + 'cp/operative-situation'
+  pathPrefix: environment.apiUrl + 'cp/applications'
 })
 export class ApplicationsResource extends Resource {
 

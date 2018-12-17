@@ -1,5 +1,5 @@
 import { IRole } from '../interfaces/role.interface';
-import { Backup } from '../../common/models/backup.model';
+import { Backup } from '@kolenergo/lib';
 
 /**
  * Класс, реализующий интерфейс роли пользователя

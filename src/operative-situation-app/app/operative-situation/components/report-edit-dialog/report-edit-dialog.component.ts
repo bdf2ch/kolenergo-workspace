@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { OperativeSituationService } from '../../services/operative-situation.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Permission } from '@kolenergo/lib';
-import {MatSlideToggleChange, MatSnackBar} from '@angular/material';
+import { MatSlideToggleChange, MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-edit-permission-dialog',

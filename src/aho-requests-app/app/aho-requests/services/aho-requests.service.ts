@@ -24,10 +24,10 @@ import { AhoRequestRejectReason } from '../models/aho-request-reject-reason.mode
 import { environment } from '../../../environments/environment';
 import { Pagination, IUser } from '@kolenergo/lib';
 import { IAhoServerResponse } from '../interfaces/aho-server-response.interface';
-import { IRole } from 'shared-lib/app/users/interfaces/role.interface';
+import { IRole } from '@kolenergo/cpa';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
-import {IAhoRequestsInitialData} from '../interfaces/aho-requests-initial-data.interface';
+import { IAhoRequestsInitialData } from '../interfaces/aho-requests-initial-data.interface';
 import {TabsManager} from '../models/tabs-manager.model';
 import {Tab} from '../models/tab.model';
 

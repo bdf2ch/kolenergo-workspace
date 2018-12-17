@@ -53,8 +53,16 @@ export class AppModule {
       new ApplicationMenuItem({
         id: 'applications',
         title: 'Приложения',
-        link: '/operative-situation',
+        link: '/applications',
         icon: 'web'
+      })
+    );
+    this.dashboard.menu.addItem(
+      new ApplicationMenuItem({
+        id: 'companies',
+        title: 'Организации',
+        link: '/companies',
+        icon: 'business'
       })
     );
     this.dashboard.menu.addItem(

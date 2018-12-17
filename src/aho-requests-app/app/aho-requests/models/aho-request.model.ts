@@ -1,5 +1,5 @@
 import { IAhoRequest } from '../interfaces/aho-request.interface';
-import { IUser, User } from '@kolenergo/lib';
+import { IUser, User } from '@kolenergo/cpa';
 import { AhoRequestType } from './aho-request-type.model';
 import { AhoRequestStatus } from './aho-request-status.model';
 import { IAhoRequestTask } from '../interfaces/aho-request-task.interface';

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { IServerResponse } from '@kolenergo/lib';
+import {AuthenticationService, IServerResponse} from "@kolenergo/lib";
 import { ICompany, Company } from '@kolenergo/cpa';
 import { OperativeSituationResource } from '../resources/operative-situation.resource';
 import { Observable } from 'rxjs/Observable';
@@ -13,21 +13,22 @@ import {OperativeSituationConsumption} from '../models/operative-situation-consu
 @Injectable()
 export class OperativeSituationService {
   private date$: BehaviorSubject<string>;
-  private companies$: BehaviorSubject<Company[]>;
+  private companies$: BehaviorSubject<ICompany[]>;
   private reports$: BehaviorSubject<OperativeSituationReport[]>;
   private consumption$: BehaviorSubject<OperativeSituationConsumption>;
   private timePeriods: string[];
-  private selectedCompany$: BehaviorSubject<Company>;
+  private selectedCompany$: BehaviorSubject<ICompany>;
   private selectedReport$: BehaviorSubject<OperativeSituationReport>;
   private fetchingData$: BehaviorSubject<boolean>;
   private addingReport$: BehaviorSubject<boolean>;
   private editingReport$: BehaviorSubject<boolean>;
 
 
-  constructor(private readonly resource: OperativeSituationResource) {
+  constructor(private readonly resource: OperativeSituationResource,
+              private readonly auth: AuthenticationService) {
     this.date$ = new BehaviorSubject<string>(null);
-    this.companies$ = new BehaviorSubject<Company[]>([]);
-    this.selectedCompany$ = new BehaviorSubject<Company>(null);
+    this.companies$ = new BehaviorSubject<ICompany[]>([]);
+    this.selectedCompany$ = new BehaviorSubject<ICompany>(null);
     this.reports$ = new BehaviorSubject<OperativeSituationReport[]>([]);
     this.consumption$ = new BehaviorSubject<OperativeSituationConsumption>(null);
     this.timePeriods = ['00:00', '03:00', '06:00', '09:00', '12:00', '15:00', '18:00', '21:00'];
@@ -49,7 +50,12 @@ export class OperativeSituationService {
             companies.push(company);
           });
           this.companies$.next(companies);
-          this.selectedCompany$.next(companies[0]);
+          if (this.auth.getCurrentUser()) {
+            this.selectedCompany(this.auth.getCurrentUser().company);
+          }
+          // this.selectedCompany$.next(companies[0]);
+          this.consumption$.next(new OperativeSituationConsumption(response.data.consumption));
+          console.log('consumption', this.consumption$.getValue());
           const reports = [];
           response.data.reports.forEach((item: IOperativeSituationReport) => {
             const report = new OperativeSituationReport(item);
@@ -131,10 +137,16 @@ export class OperativeSituationService {
   }
 
 
+  /**
+   * Возвращает текущую дату на сервере
+   */
   date(): Observable<string> {
     return this.date$.asObservable();
   }
 
+  /**
+   * Возвращает список временых периодов
+   */
   periods(): string[] {
     return this.timePeriods;
   }
@@ -146,13 +158,22 @@ export class OperativeSituationService {
     return this.reports$.asObservable();
   }
 
-  companies(): Observable<Company[]> {
+  /**
+   * Возвращает максимум потребления за прошедшие сутки
+   */
+  consumption(): Observable<OperativeSituationConsumption> {
+    return this.consumption$.asObservable();
+  }
+
+  /**
+   * Возвращает список организаций
+   */
+  companies(): Observable<ICompany[]> {
     return this.companies$.asObservable();
   }
 
-
   /**
-   * Установка / получение выбранного отчета об оперативнйо обстановке
+   * Установка / получение выбранного отчета об оперативной обстановке
    * @param reportId - Идентификатор отчета об оперативной обстановке
    */
   selectedReport(reportId?: number): OperativeSituationReport | null {
@@ -166,14 +187,16 @@ export class OperativeSituationService {
     return this.selectedReport$.getValue();
   }
 
-  selectedCompany(company?: Company | null): Company | null {
+  /**
+   * Установка / получение выбранной организации
+   * @param company - Выбираемая организация
+   */
+  selectedCompany(company?: ICompany | null): ICompany | null {
     if (company) {
       this.selectedCompany$.next(company);
     }
     return this.selectedCompany$.getValue();
   }
-
-
 
   /**
    * Выпорлняется ли получение данных с сервера

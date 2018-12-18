@@ -1,11 +1,11 @@
 import { Backup } from '@kolenergo/lib';
-import { Company, User } from '@kolenergo/cpa';
+import { Company, ICompany, User } from '@kolenergo/cpa';
 import { IOperativeSituationReport } from '../interfaces/operative-situation-report.interface';
-import {OperativeSituationConsumption} from './operative-situation-consumption.model';
+import { OperativeSituationConsumption } from './operative-situation-consumption.model';
 
 export class OperativeSituationReport extends Backup {
   id: number;
-  company: Company;
+  company: ICompany;
   user: User;
   periodDate: string;
   periodTime: string;

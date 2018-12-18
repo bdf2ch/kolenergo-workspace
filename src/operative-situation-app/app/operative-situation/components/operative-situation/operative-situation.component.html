@@ -3,7 +3,7 @@
     <mat-toolbar-row>
       <div class="d-flex flex-row justify-content-between align-items-center w-100">
         <div>
-          <span>Оперативная обстановка в филиале {{auth.getCurrentUser().company.shortTitle}} на {{reports.date() | async}}</span>
+          <span>Оперативная обстановка в филиале {{reports.selectedCompany().shortTitle}} на {{reports.date() | async}}</span>
         </div>
 
         <div>

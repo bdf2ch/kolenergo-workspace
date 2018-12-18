@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { ApplicationsService } from '../../services/applications.service';
-import { Role } from '@kolenergo/lib';
+import { Role } from '../../../users/models/role.model';
 
 @Component({
   selector: 'app-role-add-dialog',

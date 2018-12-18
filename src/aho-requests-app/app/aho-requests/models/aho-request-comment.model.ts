@@ -1,5 +1,5 @@
 import { IAhoRequestComment } from '../interfaces/aho-request-comment.interface';
-import {IUser, User} from '@kolenergo/lib';
+import { IUser, User } from '@kolenergo/cpa';
 
 /**
  * Класс, реализующий интерфейс комментария в заявке АХО

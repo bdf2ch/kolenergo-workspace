@@ -8,8 +8,7 @@ import {
   ResourceParams,
   ResourceRequestMethod
 } from '@ngx-resource/core';
-
-import { IApplication } from '../interfaces/application.interface';
+import { ICompany } from '../../companies/interfaces/company.interface';
 import { IServerResponse } from '@kolenergo/lib';
 import { IRole } from '../../users/interfaces/role.interface';
 import { IPermission } from '../../users/interfaces/permission.interface';
@@ -17,9 +16,9 @@ import { environment } from '../../../../_common/environments/environment';
 
 @Injectable()
 @ResourceParams({
-  pathPrefix: environment.apiUrl + 'cp/applications'
+  pathPrefix: environment.apiUrl + 'cp/companies'
 })
-export class ApplicationsResource extends Resource {
+export class CompaniesResource extends Resource {
 
   constructor(handler: ResourceHandler) {
     super(handler);
@@ -30,8 +29,12 @@ export class ApplicationsResource extends Resource {
     method: ResourceRequestMethod.Get,
     withCredentials: true
   })
-  getAll: IResourceMethod<void, IServerResponse<IApplication[]>>;
+  getAll: IResourceMethod<void, IServerResponse<ICompany[]>>;
 
+
+
+
+  /*
   @ResourceAction({
     path: '/roles',
     method: ResourceRequestMethod.Post,
@@ -59,4 +62,5 @@ export class ApplicationsResource extends Resource {
     withCredentials: true
   })
   editPermission: IResourceMethodStrict<IPermission, void, {id: number}, IServerResponse<IPermission>>;
+  */
 }

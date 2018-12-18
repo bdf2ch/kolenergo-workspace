@@ -1,4 +1,4 @@
-import { IUser } from '@kolenergo/lib';
+import { IUser } from '@kolenergo/cpa';
 
 /**
  * Интерфейс, описывающий комментарий к заявке АХО

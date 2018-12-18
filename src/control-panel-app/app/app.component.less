@@ -20,7 +20,7 @@
 
   .menu-item {
     &.selected {
-      border-left: 3px solid @app-sidebar-menu-item-selected-border-color;
+      border-left: 4px solid @app-sidebar-menu-item-selected-border-color;
       background: @app-sidebar-menu-item-background-color-selected;
     }
   }
@@ -33,8 +33,13 @@
   line-height: 18px;
   background: @app-sidebar-submenu-background-color;
   .menu-item {
+    &:hover {
+      background: #1c313a;
+    }
     &.selected {
-      border-left: 3px solid transparent;
+      border-left: 4px solid transparent;
+      border-right: 4px solid @app-sidebar-menu-item-selected-border-color;
+      background: #37474f;
       // background: @app-sidebar-menu-item-background-color-selected;
     }
   }
@@ -47,7 +52,7 @@
   height: @app-sidebar-menu-item-height;
   text-decoration: none;
   color: white;
-  border-left: 3px solid transparent;
+  border-left: 4px solid transparent;
   &:hover {
     background: @app-sidebar-menu-item-background-color-hover;
   }

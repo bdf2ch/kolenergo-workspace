@@ -3,10 +3,11 @@ import { ActivatedRoute } from '@angular/router';
 import { ApplicationsService } from '../../services/applications.service';
 import { MatDialog } from '@angular/material';
 import { PermissionEditDialogComponent } from '../permission-edit-dialog/permission-edit-dialog.component';
-import { Permission, Role } from '@kolenergo/lib';
+import { Role } from '../../../users/models/role.model';
+import { Permission } from '../../../users/models/permission.model';
 import { PermissionAddDialogComponent } from '../permission-add-dialog/permission-add-dialog.component';
 import { RoleEditDialogComponent } from '../role-edit-dialog/role-edit-dialog.component';
-import {RoleAddDialogComponent} from "../role-add-dialog/role-add-dialog.component";
+import { RoleAddDialogComponent } from '../role-add-dialog/role-add-dialog.component';
 
 @Component({
   selector: 'app-application',

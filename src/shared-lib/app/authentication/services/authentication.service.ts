@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AuthenticationResource } from '../resources/authentication.resource';
-import { User } from '../../../../control-panel-app/app/users/models/user.model';
+import { User } from '@kolenergo/cpa';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { from } from 'rxjs/observable/from';
-import {Observable} from "rxjs/Observable";
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class AuthenticationService {
@@ -72,7 +72,7 @@ export class AuthenticationService {
         appCode: appCode
       });
       if (result) {
-        this.loadingInProgress.next(false)
+        this.loadingInProgress.next(false);
         this.user$.next(new User(result));
         this.currentUser = new User(result);
         if (callbacks) {

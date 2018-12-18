@@ -1,6 +1,7 @@
-import { Backup, User } from '@kolenergo/lib';
-import { Company } from '@kolenergo/cpa';
+import { Backup } from '@kolenergo/lib';
+import { Company, User } from '@kolenergo/cpa';
 import { IOperativeSituationReport } from '../interfaces/operative-situation-report.interface';
+import {OperativeSituationConsumption} from './operative-situation-consumption.model';
 
 export class OperativeSituationReport extends Backup {
   id: number;
@@ -11,6 +12,7 @@ export class OperativeSituationReport extends Backup {
   dateCreated: Date;
   dateChanged: Date;
   consumption: number;
+  // consumption: OperativeSituationConsumption;
   equipment_35_150: {
     lep_110_150: number,
     lep_35: number,
@@ -74,6 +76,7 @@ export class OperativeSituationReport extends Backup {
     this.dateCreated = config ? new Date(config.dateCreated) : null;
     this.dateChanged = config ? new Date(config.dateChanged) : null;
     this.consumption = config ? config.consumption : 0;
+    // this.consumption = config && config.consumption ? new OperativeSituationConsumption(config.consumption) : null;
     this.equipment_35_150 = {
       lep_110_150: config ? config.lep_110_150_count : 0,
       lep_35: config ? config.lep_35_count : 0,

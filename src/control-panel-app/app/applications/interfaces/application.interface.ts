@@ -1,4 +1,5 @@
-import { IPermission, IRole } from '@kolenergo/lib';
+import { IPermission } from '../../users/interfaces/permission.interface';
+import { IRole } from '../../users/interfaces/role.interface';
 
 /**
  * Интерфейс, описывающий приложение

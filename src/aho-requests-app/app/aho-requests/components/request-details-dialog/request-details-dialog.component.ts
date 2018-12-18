@@ -2,7 +2,8 @@ import { Component, ElementRef, OnInit, ViewChild, Renderer2 } from '@angular/co
 import { Router } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AhoRequestsService } from '../../services/aho-requests.service';
-import { AuthenticationService, User } from '@kolenergo/lib';
+import { AuthenticationService } from '@kolenergo/lib';
+import { User } from '@kolenergo/cpa';
 import { AhoRequestStatus } from '../../models/aho-request-status.model';
 import { AhoRequestTask } from '../../models/aho-request-task.model';
 import { AhoRequestComment } from '../../models/aho-request-comment.model';
@@ -13,7 +14,7 @@ import { RejectRequestComponent } from '../reject-request-dialog/reject-request.
 import { ResumeRequestDialogComponent } from '../resume-request-dialog/resume-request-dialog.component';
 import { DeleteRequestDialogComponent } from '../delete-request-dialog/delete-request-dialog.component';
 import {IAhoRequestTask} from '../../interfaces/aho-request-task.interface';
-import {CancelRequestDialogComponent} from "../cancel-request-dialog/cancel-request-dialog.component";
+import {CancelRequestDialogComponent} from '../cancel-request-dialog/cancel-request-dialog.component';
 
 @Component({
   selector: 'app-request',

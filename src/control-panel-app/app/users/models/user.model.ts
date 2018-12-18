@@ -1,6 +1,7 @@
 import { IUser } from '../interfaces/user.interface';
 import { UserPermissionsManager } from './user-permissions-manager.model';
 import { Company } from '../../companies/models/company.model';
+import { ICompany } from '../../companies/interfaces/company.interface';
 
 /**
  * Класс, реализующий интерфейс пользователя
@@ -17,7 +18,7 @@ export class User implements IUser {
   activeDirectoryAccount: string;           // Учетная запись Active Directory
   fio: string;                              // ФИО пользователя
   permissions: UserPermissionsManager;      // Права пользователя
-  company: Company;
+  company: ICompany;                        // Организация
 
   /**
    * Конструктор класса

@@ -9,7 +9,7 @@ import { Observable } from 'rxjs/Observable';
 import { from } from 'rxjs/observable/from';
 import { IApplication } from '../../applications/interfaces/application.interface';
 import { Application } from '../../applications/models/application.model';
-import {ApplicationMenuItem} from "../models/application-menu-item.model";
+import { ApplicationMenuItem } from '../models/application-menu-item.model';
 
 @Injectable()
 export class DashboardService {

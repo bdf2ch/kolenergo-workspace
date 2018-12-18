@@ -1,8 +1,10 @@
 import { ICompany } from '../interfaces/company.interface';
 import { IOffice } from '../interfaces/office.interface';
-import { Office } from './office.model';
-import {Backup, IDepartment} from '@kolenergo/lib';
+import { IDepartment } from '../interfaces/department.interface';
 import { Department } from './department.model';
+import { Office } from './office.model';
+import { Backup} from '@kolenergo/lib';
+
 
 /**
  * Класс, реализующий интерфейс организации

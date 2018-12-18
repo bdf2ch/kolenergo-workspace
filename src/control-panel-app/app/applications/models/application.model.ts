@@ -1,5 +1,10 @@
 import { IApplication } from '../interfaces/application.interface';
-import { IRole, Role, IPermission, Permission, Backup } from '@kolenergo/lib';
+import { IRole } from '../../users/interfaces/role.interface';
+import { IPermission } from '../../users/interfaces/permission.interface';
+import { Role } from '../../users/models/role.model';
+import { Permission } from '../../users/models/permission.model';
+import { Backup } from '@kolenergo/lib';
+
 
 /**
  * Класс, реализующий интерфейс приложения

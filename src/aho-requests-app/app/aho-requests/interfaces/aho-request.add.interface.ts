@@ -1,6 +1,6 @@
 import { IAhoRequestType } from './aho-request-type.interface';
 import { IAhoRequestStatus } from './aho-request-status.interface';
-import { IUser, User} from '@kolenergo/lib';
+import { IUser, User} from '@kolenergo/cpa';
 import { IAhoRequestTask } from './aho-request-task.interface';
 
 /**

@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { User } from '@kolenergo/lib';
+import { User } from '@kolenergo/cpa';
 import { AhoRequestType } from '../models/aho-request-type.model';
 
 @Pipe({

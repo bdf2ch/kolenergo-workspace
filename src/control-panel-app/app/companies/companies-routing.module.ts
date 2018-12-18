@@ -3,13 +3,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { CompaniesComponent } from './components/companies/companies.component';
 import { CompaniesListComponent } from './components/companies-list/companies-list.component';
 import { CompanyComponent } from './components/company/company.component';
+import {CompaniesResolveGuard} from './guards/companies.resolve.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: CompaniesComponent,
     resolve: [
-      // ApplicationsResolveGuard
+      CompaniesResolveGuard
     ],
     children: [
       {

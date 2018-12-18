@@ -1,9 +1,9 @@
-import {IAhoRequestType} from './aho-request-type.interface';
-import {IAhoRequestStatus} from './aho-request-status.interface';
-import {IAhoRequestTaskContent} from './aho-request-task-content.interface';
-import {IAhoRequestRejectReason} from './aho-request-reject-reason.interface';
-import {IUser} from '@kolenergo/lib';
-import {IAhoRequest} from './aho-request.interface';
+import { IAhoRequestType } from './aho-request-type.interface';
+import { IAhoRequestStatus } from './aho-request-status.interface';
+import { IAhoRequestTaskContent } from './aho-request-task-content.interface';
+import { IAhoRequestRejectReason } from './aho-request-reject-reason.interface';
+import { IUser } from '@kolenergo/cpa';
+import { IAhoRequest } from './aho-request.interface';
 
 /**
  * Данные для инициализации приложения

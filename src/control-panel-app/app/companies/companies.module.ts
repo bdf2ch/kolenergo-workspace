@@ -4,6 +4,9 @@ import { CompaniesRoutingModule } from './companies-routing.module';
 import { CompaniesComponent } from './components/companies/companies.component';
 import { CompaniesListComponent } from './components/companies-list/companies-list.component';
 import { CompanyComponent } from './components/company/company.component';
+import { CompaniesService } from './services/companies.service';
+import { CompaniesResource } from './resources/companies.resource';
+import { CompaniesResolveGuard } from './guards/companies.resolve.guard';
 
 @NgModule({
   imports: [
@@ -14,6 +17,11 @@ import { CompanyComponent } from './components/company/company.component';
     CompaniesComponent,
     CompaniesListComponent,
     CompanyComponent
+  ],
+  providers: [
+    CompaniesResource,
+    CompaniesService,
+    CompaniesResolveGuard
   ]
 })
 export class CompaniesModule { }

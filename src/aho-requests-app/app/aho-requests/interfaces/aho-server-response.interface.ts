@@ -1,4 +1,4 @@
-import { IUser } from '@kolenergo/lib';
+import { IUser } from '@kolenergo/cpa';
 import { IAhoRequest, IAhoRequestRejectReason, IAhoRequestStatus, IAhoRequestTaskContent, IAhoRequestType } from '../../../exports';
 
 export interface IAhoServerResponse  {

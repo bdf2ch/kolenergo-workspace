@@ -1,6 +1,10 @@
 /**
  * Interfaces
  */
+// export * from './app/applications/interfaces';
+// export * from './app/companies/interfaces';
+// export * from './app/users/interfaces';
+
 export { IControlPanelInitData } from './app/dashboard/interfaces/control-panel-init-data.interface';
 export { IApplication } from './app/applications/interfaces/application.interface';
 export { ICompany } from './app/companies/interfaces/company.interface';
@@ -16,6 +20,10 @@ export { IPermission } from './app/users/interfaces/permission.interface';
 /**
  * Models
  */
+// export * from './app/applications/models';
+// export * from './app/companies/models';
+// export * from './app/users/models';
+
 export { Application } from './app/applications/models/application.model';
 export { Company } from './app/companies/models/company.model';
 export { Office } from './app/companies/models/office.model';

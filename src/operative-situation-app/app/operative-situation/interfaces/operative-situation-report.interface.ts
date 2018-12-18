@@ -1,5 +1,5 @@
-import { IUser } from '@kolenergo/lib';
-import { ICompany } from '@kolenergo/cpa';
+import { IUser, ICompany } from '@kolenergo/cpa';
+import {IOperativeSituationConsumption} from './operative-situation-consumption.interface';
 
 /**
  * Интерфейс, описывающий отчет об оперативной обстановке
@@ -45,5 +45,6 @@ export interface IOperativeSituationReport {
   violations_04_greater_3: number;                // Нарушений в сети 0,4 кВ более 3 часов
   violations_population_04_srez: number;          // Население в стеи 0,4 кВ на срез
   violations_population_04_greater_3: number;     // Население в сети 0,4 кВ более 3 часов
-  consumption: number;                            // Максимум потребления за прошедшие сутки
+  // consumption: number;                            // Максимум потребления за прошедшие сутки
+  consumption: IOperativeSituationConsumption;    // Максимум потребления за прошедшие сутки
 }

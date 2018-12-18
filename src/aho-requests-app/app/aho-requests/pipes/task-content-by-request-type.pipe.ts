@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {AhoRequestTaskContent} from '../models/aho-request-task-content.model';
+import { AhoRequestTaskContent } from '../models/aho-request-task-content.model';
 
 @Pipe({
   name: 'taskContentByRequestType'

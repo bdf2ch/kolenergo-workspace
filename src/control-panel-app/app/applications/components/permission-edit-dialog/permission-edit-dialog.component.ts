@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ApplicationsService } from '../../services/applications.service';
 import { MatDialogRef } from '@angular/material/dialog';
-import { Permission } from '@kolenergo/lib';
-import {MatSnackBar} from '@angular/material';
+import { Permission } from '../../../users/models/permission.model';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-edit-permission-dialog',

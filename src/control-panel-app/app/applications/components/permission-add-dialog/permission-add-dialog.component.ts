@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
-import { Permission } from '@kolenergo/lib';
+import { Permission } from '../../../users/models/permission.model';
 import { ApplicationsService } from '../../services/applications.service';
 
 @Component({

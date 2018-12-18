@@ -7,6 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import { from } from 'rxjs/observable/from';
 import { finalize, map } from 'rxjs/operators';
 import { IOperativeSituationReport, IOperativeSituationReportsInitialData, OperativeSituationReport } from '@kolenergo/osr';
+import {OperativeSituationConsumption} from '../models/operative-situation-consumption.model';
 
 
 @Injectable()
@@ -14,6 +15,7 @@ export class OperativeSituationService {
   private date$: BehaviorSubject<string>;
   private companies$: BehaviorSubject<Company[]>;
   private reports$: BehaviorSubject<OperativeSituationReport[]>;
+  private consumption$: BehaviorSubject<OperativeSituationConsumption>;
   private timePeriods: string[];
   private selectedCompany$: BehaviorSubject<Company>;
   private selectedReport$: BehaviorSubject<OperativeSituationReport>;
@@ -27,6 +29,7 @@ export class OperativeSituationService {
     this.companies$ = new BehaviorSubject<Company[]>([]);
     this.selectedCompany$ = new BehaviorSubject<Company>(null);
     this.reports$ = new BehaviorSubject<OperativeSituationReport[]>([]);
+    this.consumption$ = new BehaviorSubject<OperativeSituationConsumption>(null);
     this.timePeriods = ['00:00', '03:00', '06:00', '09:00', '12:00', '15:00', '18:00', '21:00'];
     this.selectedReport$ = new BehaviorSubject<OperativeSituationReport>(null);
     this.fetchingData$ = new BehaviorSubject<boolean>(false);

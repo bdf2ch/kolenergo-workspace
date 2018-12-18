@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { OperativeSituationService } from '../../services/operative-situation.service';
 import { MatDialogRef } from '@angular/material/dialog';
-import { Permission } from '@kolenergo/lib';
+import { Permission } from '@kolenergo/cpa';
 import { MatSlideToggleChange, MatSnackBar } from '@angular/material';
 
 @Component({

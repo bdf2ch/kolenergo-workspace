@@ -1,12 +1,14 @@
 <div class="container-fluid h-100 control-panel-dialog">
-  <div matDialogTitle class="d-flex flex-row align-items-center pt-0 pl-3 pr-3" [formGroup]="addReportForm">
-    <h4>Добавление отчета об оперативной обстановке на </h4>
+  <div matDialogTitle class="d-flex flex-row align-items-center p-3" [formGroup]="addReportForm">
+    <h4>Добавление отчета об оперативной обстановке на {{osr.selectedPeriod()}}</h4>
+    <!--
     <mat-form-field class="ml-3 pb-0" floatLabel="never">
       <mat-select placeholder="Время отчета" formControlName="time" [(ngModel)]="newReport.periodTime">
         <mat-option *ngFor="let period of osr.periods() | timePeriods:osr.reports()" [value]="period">{{period}}</mat-option>
       </mat-select>
       <mat-error *ngIf="addReportForm.controls['time'].invalid">Вы не выбрали время отчета</mat-error>
     </mat-form-field>
+    -->
   </div>
 
   <mat-dialog-content>

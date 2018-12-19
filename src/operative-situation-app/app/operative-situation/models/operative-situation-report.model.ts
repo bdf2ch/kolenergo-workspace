@@ -45,7 +45,10 @@ export class OperativeSituationReport extends Backup {
   resources: {
     brigades: number,
     people: number,
-    technics: number
+    technics: number,
+    rise: number,
+    riseSumPower: number,
+    risePeople: number
   };
   violations: {
     total_6: number,
@@ -109,7 +112,10 @@ export class OperativeSituationReport extends Backup {
     this.resources = {
       brigades: config ? config.resourcesBrigades : 0,
       people: config ? config.resourcesPeople : 0,
-      technics: config ? config.resourcesTechnics : 0
+      technics: config ? config.resourcesTechnics : 0,
+      rise: config ? config.resourcesRiseCount : 0,
+      riseSumPower: config ? config.resourcesRiseSumPower : 0,
+      risePeople: config ? config.resourcesRisePeople : 0
     };
     this.violations = {
       total_6: config ? config.violations_6 : 0,

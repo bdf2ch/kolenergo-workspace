@@ -1,6 +1,47 @@
+.report-list-component {
+  background: #f5f5f5;
+
+  .lead {
+    font-family: "Segoe UI Light";
+  }
+  .consumption-tab {
+    .lead {
+      font-family: "Segoe UI Light";
+    }
+    .consumption {
+      font-family: "Segoe UI Light";
+      font-size: 100px;
+      line-height: 100px;
+      color: #607d8b;
+      .mat-icon {
+        width: 100px;
+        height: 100px;
+        font-size: 100px;
+        color: #cfd8dc;
+      }
+    }
+  }
+}
+
 .report-list {
   overflow: auto;
   background: #f5f5f5;
+
+  #report-periods {
+    .mat-tab-labels {
+      display: flex;
+      justify-content: space-between !important;
+    }
+
+    .mat-tab-label {
+      font-family: "Segoe UI";
+    }
+
+    .with-data {
+      color: #0d47a1;
+    }
+  }
+
 }
 
 .operative-situation-reports {
@@ -62,9 +103,11 @@
 }
 
 .mat-card {
+  width: 300px;
   height: 206px;
   h1 {
     font-family: "Segoe UI Light";
     font-size: 60px;
   }
 }
+

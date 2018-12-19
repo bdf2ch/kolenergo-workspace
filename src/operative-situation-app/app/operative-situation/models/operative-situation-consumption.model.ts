@@ -1,4 +1,4 @@
-import { User } from '@kolenergo/cpa';
+import { Company, ICompany, User } from '@kolenergo/cpa';
 import { IOperativeSituationConsumption } from '../interfaces/operative-situation-consumption.interface';
 import { Backup } from '@kolenergo/lib';
 
@@ -7,9 +7,10 @@ import { Backup } from '@kolenergo/lib';
  */
 export class OperativeSituationConsumption extends Backup implements IOperativeSituationConsumption {
   id: number;             // Идентификатор
-  companyId: number;      // Идентификатор организации
   date: string;           // Дата
+  company: ICompany;      // Организация
   user: User;             // Пользователь
+  consumption: number;    // Потребление
   dateCreated: Date;      // Дата создания
   dateChanged: Date;      // Дата изменения
 
@@ -20,8 +21,10 @@ export class OperativeSituationConsumption extends Backup implements IOperativeS
   constructor(config?: IOperativeSituationConsumption) {
     super();
     this.id = config ? config.id : null;
-    this.companyId = config ? config.companyId : null;
     this.date = config ? config.date : null;
+    this.company = config ? new Company(config.company) : null;
+    this.user = config ? new User(config.user) : null;
+    this.consumption = config ? config.consumption : null;
     this.dateCreated = config ? new Date(config.dateCreated) : null;
     this.dateChanged = config ? new Date(config.dateChanged) : null;
   }

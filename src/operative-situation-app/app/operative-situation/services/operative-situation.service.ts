@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import {AuthenticationService, IServerResponse} from "@kolenergo/lib";
+import { AuthenticationService, IServerResponse } from '@kolenergo/lib';
 import { ICompany, Company } from '@kolenergo/cpa';
 import { OperativeSituationResource } from '../resources/operative-situation.resource';
 import { Observable } from 'rxjs/Observable';
@@ -8,6 +8,7 @@ import { from } from 'rxjs/observable/from';
 import { finalize, map } from 'rxjs/operators';
 import { IOperativeSituationReport, IOperativeSituationReportsInitialData, OperativeSituationReport } from '@kolenergo/osr';
 import {OperativeSituationConsumption} from '../models/operative-situation-consumption.model';
+import {IOperativeSituationConsumption} from '../interfaces/operative-situation-consumption.interface';
 
 
 @Injectable()
@@ -19,9 +20,12 @@ export class OperativeSituationService {
   private timePeriods: string[];
   private selectedCompany$: BehaviorSubject<ICompany>;
   private selectedReport$: BehaviorSubject<OperativeSituationReport>;
+  private selectedPeriod$: BehaviorSubject<string>;
   private fetchingData$: BehaviorSubject<boolean>;
   private addingReport$: BehaviorSubject<boolean>;
+  private addingConsumption$: BehaviorSubject<boolean>;
   private editingReport$: BehaviorSubject<boolean>;
+  private editingConsumption$: BehaviorSubject<boolean>;
 
 
   constructor(private readonly resource: OperativeSituationResource,
@@ -33,11 +37,18 @@ export class OperativeSituationService {
     this.consumption$ = new BehaviorSubject<OperativeSituationConsumption>(null);
     this.timePeriods = ['00:00', '03:00', '06:00', '09:00', '12:00', '15:00', '18:00', '21:00'];
     this.selectedReport$ = new BehaviorSubject<OperativeSituationReport>(null);
+    this.selectedPeriod$ = new BehaviorSubject<string>(this.timePeriods[0]);
     this.fetchingData$ = new BehaviorSubject<boolean>(false);
     this.addingReport$ = new BehaviorSubject<boolean>(false);
+    this.addingConsumption$ = new BehaviorSubject<boolean>(false);
     this.editingReport$ = new BehaviorSubject<boolean>(false);
+    this.editingConsumption$ = new BehaviorSubject<boolean>(false);
   }
 
+  /**
+   * Получение данных для иницилизации приложения
+   * @param companyId - Идентификатор организации
+   */
   fetchInitialData(companyId: number): Observable<OperativeSituationReport[]> {
     this.fetchingData$.next(true);
     return from(this.resource.getInitialData({companyId: companyId}))
@@ -54,7 +65,7 @@ export class OperativeSituationService {
             this.selectedCompany(this.auth.getCurrentUser().company);
           }
           // this.selectedCompany$.next(companies[0]);
-          this.consumption$.next(new OperativeSituationConsumption(response.data.consumption));
+          this.consumption$.next(response.data.consumption ? new OperativeSituationConsumption(response.data.consumption) : null);
           console.log('consumption', this.consumption$.getValue());
           const reports = [];
           response.data.reports.forEach((item: IOperativeSituationReport) => {
@@ -86,6 +97,7 @@ export class OperativeSituationService {
             result.push(report);
           });
           this.reports$.next(result);
+          this.selectedReport$.next(this.getReportByTimePeriod(this.selectedPeriod$.getValue()));
           return result;
         }),
         finalize(() => {
@@ -96,7 +108,7 @@ export class OperativeSituationService {
   }
 
   /**
-   * Добавление новой роли пользователя
+   * Добавление нового отчета об оперативной обстановке
    * @param report - Добавляемый отчет об оперативной обстановке
    */
   addReport(report: OperativeSituationReport): Observable<OperativeSituationReport | null> {
@@ -111,6 +123,27 @@ export class OperativeSituationService {
           reports.push(newReport);
           this.reports$.next(reports);
           return newReport;
+        }),
+        finalize(() => {
+          this.addingReport$.next(false);
+        })
+      );
+  }
+
+  /**
+   * Добавление отчета о максимальном потреблении за прошедшие сутки
+   * @param consumption - Добавляемый отчет о максимальном потреблении за прошедшие сутки
+   */
+  addConsumption(consumption: OperativeSituationConsumption): Observable<OperativeSituationConsumption | null> {
+    this.addingConsumption$.next(true);
+    return from(this.resource.addConsumption(consumption))
+      .pipe(
+        map((response: IServerResponse<IOperativeSituationConsumption>) => {
+          console.log('consumption', response);
+          const cons = new OperativeSituationConsumption(response.data);
+          consumption.backup.setup(['consumption']);
+          this.consumption$.next(cons);
+          return consumption;
         }),
         finalize(() => {
           this.addingReport$.next(false);
@@ -136,6 +169,23 @@ export class OperativeSituationService {
       );
   }
 
+  /**
+   * Изменение отчета о максимальном потреблении за прошедшие сутки
+   * @param report - Изменяемый отчет о максимальном потреблении за прошедшие сутки
+   */
+  editConsumption(consumption: OperativeSituationConsumption): Observable<OperativeSituationConsumption | null> {
+    this.editingConsumption$.next(true);
+    return from(this.resource.editConsumption(consumption))
+      .pipe(
+        map((response: IServerResponse<IOperativeSituationConsumption>) => {
+          consumption.backup.setup(['consumption']);
+          return consumption;
+        }),
+        finalize(() => {
+          this.editingConsumption$.next(false);
+        })
+      );
+  }
 
   /**
    * Возвращает текущую дату на сервере
@@ -159,10 +209,28 @@ export class OperativeSituationService {
   }
 
   /**
+   * Поиск отчета по временому промежутку
+   * @param timePeriod - Временной промежуток
+   */
+  getReportByTimePeriod(timePeriod: string): OperativeSituationReport | null {
+    let result = null;
+    this.reports$.getValue().forEach((report: OperativeSituationReport) => {
+      if (report.periodTime === timePeriod) {
+        result = report;
+      }
+    });
+    return result;
+  }
+
+  /**
    * Возвращает максимум потребления за прошедшие сутки
    */
   consumption(): Observable<OperativeSituationConsumption> {
     return this.consumption$.asObservable();
+  }
+
+  getConsumption(): OperativeSituationConsumption | null {
+    return this.consumption$.getValue();
   }
 
   /**
@@ -173,16 +241,29 @@ export class OperativeSituationService {
   }
 
   /**
+   * Установка / получение выбранного временного периода
+   * @param period - Устанавливаемый временной период
+   */
+  selectedPeriod(period?: string): string | null {
+    if (period) {
+      this.selectedPeriod$.next(period);
+    }
+    return this.selectedPeriod$.getValue();
+  }
+
+  /**
    * Установка / получение выбранного отчета об оперативной обстановке
    * @param reportId - Идентификатор отчета об оперативной обстановке
    */
-  selectedReport(reportId?: number): OperativeSituationReport | null {
+  selectedReport(reportId?: number | null): OperativeSituationReport | null {
     if (reportId) {
       const findReportById = (report: OperativeSituationReport) => report.id === reportId;
       const searchResult = this.reports$.getValue().find(findReportById);
       if (searchResult) {
         this.selectedReport$.next(searchResult);
       }
+    } else if (reportId === null) {
+      this.selectedReport$.next(null);
     }
     return this.selectedReport$.getValue();
   }
@@ -217,5 +298,19 @@ export class OperativeSituationService {
    */
   isEditingReport(): Observable<boolean> {
     return this.editingReport$.asObservable();
+  }
+
+  /**
+   * Выполняется ли добавление данных о максимальном потреблении за прошедшие сутки
+   */
+  isAddingConsumption(): Observable<boolean> {
+    return this.addingConsumption$.asObservable();
+  }
+
+  /**
+   * Выполняется ли сохранение изменений в отчете о максимальном потреблении за прошедшие сутки
+   */
+  isEditingConsumption(): Observable<boolean> {
+    return this.editingConsumption$.asObservable();
   }
 }

@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatSelectChange } from '@angular/material';
+import { MatDialog, MatSelectChange, MatTabChangeEvent } from '@angular/material';
 import { ReportAddDialogComponent } from '../report-add-dialog/report-add-dialog.component';
 import { OperativeSituationService } from '../../services/operative-situation.service';
 import { OperativeSituationReport } from '../../models/operative-situation-report.model';
 import { ReportEditDialogComponent } from '../report-edit-dialog/report-edit-dialog.component';
+import {ConsumptionAddDialogComponent} from '../consumption-add-dialog/consumption-add-dialog.component';
+import {ConsumptionEditDialogComponent} from '../consumption-edit-dialog/consumption-edit-dialog.component';
 
 @Component({
   selector: 'app-report-list',
@@ -37,5 +39,37 @@ export class ReportListComponent implements OnInit {
       width: '950px'
     });
   }
+
+
+
+  onSelectTimePeriod(event: MatTabChangeEvent) {
+    console.log('selected tab', event);
+    const period = this.osr.periods()[event.index];
+    const report = this.osr.getReportByTimePeriod(period);
+    this.osr.selectedPeriod(period);
+    console.log('selected period', this.osr.selectedPeriod());
+    console.log('report', report);
+    this.osr.selectedReport(report ? report.id : null);
+     console.log('selected report', this.osr.selectedReport());
+  }
+
+  /**
+   * Открытие диалогового окна добавления отчета о максимальном потреблении за прошедшие сутки
+   */
+  openAddConsumptionDialog() {
+    this.dialog.open(ConsumptionAddDialogComponent, {
+      width: '400px'
+    });
+  }
+
+  /**
+   * Открытие диалогового окна изменения отчета о максимальном потреблении за прошедшие сутки
+   */
+  openEditConsumptionDialog() {
+    this.dialog.open(ConsumptionEditDialogComponent, {
+      width: '400px'
+    });
+  }
+
 
 }

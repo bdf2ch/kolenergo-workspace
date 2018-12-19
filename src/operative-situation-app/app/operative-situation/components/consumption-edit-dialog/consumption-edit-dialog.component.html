@@ -1,0 +1,39 @@
+<div class="container-fluid h-100 control-panel-dialog">
+  <div matDialogTitle class="d-flex flex-row align-items-center pt-3 pb-3 pl-3 pr-3">
+    <h4>Редактирование сведений о макс. потреблении за прошедшие сутки</h4>
+  </div>
+
+  <mat-dialog-content>
+    <div class="p-4" [formGroup]="editConsumptionForm">
+      <mat-form-field class="w-100">
+        <input matInput
+               type="number"
+               min="0"
+               formControlName="consumption"
+               [(ngModel)]="osr.getConsumption().consumption">
+        <mat-error *ngIf="editConsumptionForm.controls['consumption'].invalid">Вы не ввели максимальное потребление за прошедшие сутки</mat-error>
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <div class="d-flex flex-row justify-content-end align-items-center w-100 pt-2 pb-2 pl-4 pr-4">
+      <button mat-flat-button
+              type="button"
+              color="warn"
+              class="w-25 mr-2"
+              [disabled]="(osr.isEditingConsumption() | async)"
+              (click)="closeDialog()">
+        Отмена
+      </button>
+      <button mat-flat-button
+              type="submit"
+              class="w-25 text-center"
+              [disabled]="(osr.isEditingConsumption() | async) || editConsumptionForm.invalid || editConsumptionForm.pristine"
+              (click)="editConsumption()">
+        Сохранить
+      </button>
+    </div>
+  </mat-dialog-actions>
+
+</div>

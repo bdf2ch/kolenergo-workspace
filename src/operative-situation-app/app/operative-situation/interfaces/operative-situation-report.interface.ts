@@ -34,6 +34,9 @@ export interface IOperativeSituationReport {
   resourcesBrigades: number;                      // Задействованные ресурсы - количество бригад
   resourcesPeople: number;                        // Задействованные ресурсы - количество человек
   resourcesTechnics: number;                      // Задействованные ресурсы - единиц техники
+  resourcesRiseCount: number;                     // Задействованные ресурсы - количество РИСЭ
+  resourcesRiseSumPower: number;                  // Суммарная мощность задействованных РИСЭ
+  resourcesRisePeople: number;                    // Запитано от РИСЭ - количество человек
   violations_6: number;                           // Нарушений всего 6 кВ и выше
   violations_35_uapv: number;                     // Нарушений в основной сети 35 кВ и выше - УАПВ
   violations_35_napv: number;                     // Нарушений в основной сети 35 кВ и выше - НАПВ

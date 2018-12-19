@@ -115,20 +115,254 @@
 -->
 
 
+<div class="report-list-component d-flex flex-column justify-content-start align-items-center h-100 p-4">
+  <mat-tab-group class="w-100 h-100" id="report-periods" (selectedTabChange)="onSelectTimePeriod($event)">
+    <mat-tab *ngFor="let period of osr.periods()">
+      <ng-template mat-tab-label>
+        <div class="d-flex justify-content-center align-items-center" [ngClass]="{'with-data': osr.getReportByTimePeriod(period)}">
+          <mat-icon class="mr-2">access_time</mat-icon>
+          <span>{{period}}</span>
+        </div>
+      </ng-template>
+      <div class="d-flex justify-content-center pt-4 h-100">
+        <div class="container-fluid" *ngIf="osr.selectedReport()">
+
+          <div class="row">
+            <div class="col-12">
+              <table class="operative-situation-reports mb-4">
+                <tr>
+                  <th colspan="4" scope="colgroup">Отключенное оборудование по сети 35-150 кВ</th>
+                  <th colspan="4" scope="colgroup">Последствия для потребителей по сети 35-150 кВ</th>
+                  <th colspan="2" scope="colgroup">Распределительная сеть</th>
+                  <th colspan="3" scope="colgroup">Последствия для потребителей по распределительной сети</th>
+                  <th colspan="4" scope="colgroup">Последствия для потребителей суммарно по основной и распределительной сети</th>
+                  <th colspan="3" scope="colgroup">Задействованные силы и средства</th>
+                </tr>
+                <tr>
+                  <th scope="col" class="font-weight-normal">ЛЭП 110-150 кВ, шт.</th>
+                  <th scope="col" class="font-weight-normal">ЛЭП 35 кВ, шт.</th>
+                  <th scope="col" class="font-weight-normal">ПС 110 -150 кВ, шт.</th>
+                  <th scope="col" class="font-weight-normal">ПС 35 кВ, шт.</th>
+
+                  <th scope="col" class="font-weight-normal">ТП 6-20 кВ, шт.</th>
+                  <th scope="col" class="font-weight-normal">Население, чел</th>
+                  <th scope="col" class="font-weight-normal">Нагрузка, МВт</th>
+                  <th scope="col" class="font-weight-normal">СЗО, шт</th>
+
+                  <th scope="col" class="font-weight-normal">ЛЭП 6-20 кВ, шт.</th>
+                  <th scope="col" class="font-weight-normal">ТП 6-20 кВ, шт.</th>
+
+                  <th scope="col" class="font-weight-normal">Население, чел</th>
+                  <th scope="col" class="font-weight-normal">Нагрузка, МВт</th>
+                  <th scope="col" class="font-weight-normal">СЗО, шт</th>
+
+                  <th scope="col" class="font-weight-normal">ТП 6-20 кВ, шт.</th>
+                  <th scope="col" class="font-weight-normal">Население, чел</th>
+                  <th scope="col" class="font-weight-normal">Нагрузка, МВт</th>
+                  <th scope="col" class="font-weight-normal">СЗО, шт</th>
+
+                  <th scope="col" class="font-weight-normal">Бригад, шт.</th>
+                  <th scope="col" class="font-weight-normal">Человек</th>
+                  <th scope="col" class="font-weight-normal">Единиц техники, шт</th>
+                </tr>
+                <tr  class="content">
+                  <td>{{osr.selectedReport().equipment_35_150.lep_110_150}}</td>
+                  <td>{{osr.selectedReport().equipment_35_150.lep_35}}</td>
+                  <td>{{osr.selectedReport().equipment_35_150.ps_110_150}}</td>
+                  <td>{{osr.selectedReport().equipment_35_150.ps_35}}</td>
+
+                  <td>{{osr.selectedReport().equipment_35_150.effect.tp_6_20}}</td>
+                  <td>{{osr.selectedReport().equipment_35_150.effect.population}}</td>
+                  <td>{{osr.selectedReport().equipment_35_150.effect.power}}</td>
+                  <td>{{osr.selectedReport().equipment_35_150.effect.szo}}</td>
+
+                  <td>{{osr.selectedReport().equipment_network.lep_6_20}}</td>
+                  <td>{{osr.selectedReport().equipment_network.tp_6_20}}</td>
+
+                  <td>{{osr.selectedReport().equipment_network.effect.population}}</td>
+                  <td>{{osr.selectedReport().equipment_network.effect.power}}</td>
+                  <td>{{osr.selectedReport().equipment_network.effect.szo}}</td>
+
+                  <td class="total">{{osr.selectedReport().getTotalEffect().tp_6_20}}</td>
+                  <td class="total">{{osr.selectedReport().getTotalEffect().population}}</td>
+                  <td class="total">{{osr.selectedReport().getTotalEffect().power}}</td>
+                  <td class="total">{{osr.selectedReport().getTotalEffect().szo}}</td>
+
+                  <td>{{osr.selectedReport().resources.brigades}}</td>
+                  <td>{{osr.selectedReport().resources.people}}</td>
+                  <td>{{osr.selectedReport().resources.technics}}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-8">
+              <table class="operative-situation-reports w-100">
+                <tr>
+                  <th rowspan="2" scope="colgroup">Всего 6 кВ и выше</th>
+                  <th colspan="4" scope="colgroup">Основная сеть 35 кВ и выше</th>
+                  <th rowspan="2" scope="colgroup">ЛЭП<br> р/с</th>
+                  <th rowspan="2" scope="colgroup">ТН с погаш.</th>
+                  <th colspan="3" scope="colgroup">Сеть 0,4 кВ</th>
+                  <th colspan="2" scope="colgroup">Население, чел</th>
+                </tr>
+                <tr>
+                  <th scope="col" class="font-weight-normal">УАПВ</th>
+                  <th scope="col" class="font-weight-normal">НАПВ</th>
+                  <th scope="col" class="font-weight-normal">С обесточ.</th>
+                  <th scope="col" class="font-weight-normal">Итого</th>
+
+                  <th scope="col" class="font-weight-normal">С 6:00</th>
+                  <th scope="col" class="font-weight-normal">Откл. на срез</th>
+                  <th scope="col" class="font-weight-normal">Более 3 часов</th>
+
+                  <th scope="col" class="font-weight-normal">По сети 0,4 кВ на срез</th>
+                  <th scope="col" class="font-weight-normal">По сети 0,4 кВ (более 3 часов)</th>
+                </tr>
+                <tr class="content">
+                  <td class="p-3">{{osr.selectedReport().violations.total_6}}</td>
+                  <td class="p-3">{{osr.selectedReport().violations.uapv_35}}</td>
+                  <td class="p-3">{{osr.selectedReport().violations.napv_35}}</td>
+                  <td class="p-3">{{osr.selectedReport().violations.power_off_35}}</td>
+                  <td class="p-3">{{osr.selectedReport().violations.uapv_35 + osr.selectedReport().violations.napv_35 + osr.selectedReport().violations.power_off_35}}</td>
+
+                  <td class="p-3">{{osr.selectedReport().violations.lep_rs}}</td>
+                  <td class="p-3">{{osr.selectedReport().violations.tn_cancel}}</td>
+                  <td class="p-3">{{osr.selectedReport().violations.from_6_04}}</td>
+                  <td class="p-3">{{osr.selectedReport().violations.power_off_04}}</td>
+                  <td class="p-3">{{osr.selectedReport().violations.greater_3_04}}</td>
+                  <td class="p-3">{{osr.selectedReport().violations.population_srez_04}}</td>
+                  <td class="p-3">{{osr.selectedReport().violations.population_greater_3_04}}</td>
+                </tr>
+              </table>
+            </div>
+            <div class="col-4">
+              <table class="operative-situation-reports w-100">
+                <tr>
+                  <th colspan="4">Погодные условия</th>
+                  <th>Режимы</th>
+                </tr>
+                <tr>
+                  <th scope="col" class="font-weight-normal">t min</th>
+                  <th scope="col" class="font-weight-normal">t max</th>
+                  <th scope="col" class="font-weight-normal">Ветер, <br>м/с</th>
+                  <th scope="col" class="font-weight-normal">Осадки</th>
+                  <th scope="col" class="font-weight-normal">РПГ / ОРР</th>
+                </tr>
+                <tr class="content">
+                  <td class="p-3">{{osr.selectedReport().weather.min}}</td>
+                  <td class="p-3">{{osr.selectedReport().weather.max}}</td>
+                  <td class="p-3">{{osr.selectedReport().weather.wind}}</td>
+                  <td class="p-3">{{osr.selectedReport().weather.precipitations}}</td>
+                  <td class="p-3">{{osr.selectedReport().weather.orr ? 'ОРР' : osr.selectedReport().weather.rpg ? 'РПГ' : 'Нет'}}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex flex-column justify-content-center align-items-center h-100 w-25"
+             *ngIf="!osr.selectedReport()">
+          <div class="lead text-center text-muted">Отчет об оперативной обстановке на {{ period }} отсутствует</div>
+          <button mat-stroked-button color="primary" class="pt-2 pb-2 pl-3 pr-3 mt-3 w-100" (click)="openAddReportDialog()">
+            <div class="d-flex justify-content-center align-items-center">
+              <mat-icon class="mr-2">add</mat-icon>
+              Добавить отчет
+            </div>
+          </button>
+        </div>
+      </div>
+    </mat-tab>
+
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <div class="d-flex justify-content-center align-items-center">
+          <mat-icon class="mr-2">offline_bolt</mat-icon>
+          <span>Потребление</span>
+        </div>
+      </ng-template>
+      <div class="consumption-tab d-flex flex-column justify-content-center align-items-center h-100 p-4">
+
+        <div class="d-flex flex-column justify-content-center align-items-center w-25 h-100" *ngIf="osr.consumption() | async">
+          <div class="lead text-center text-muted">Максимум потребления за прошедшие сутки</div>
+          <div class="consumption d-flex justify-content-center align-items-center w-100 p-5 text-center">
+            <mat-icon class="mr-3">offline_bolt</mat-icon>
+            <span>{{(osr.consumption() | async).consumption}}</span>
+          </div>
+          <button mat-stroked-button color="primary" class="pt-2 pb-2 pl-3 pr-3 mt-3 w-100" (click)="openEditConsumptionDialog()">
+            <div class="d-flex justify-content-center align-items-center">
+              <mat-icon class="mr-2">edit</mat-icon>
+              Изменить
+            </div>
+          </button>
+        </div>
+
+        <div class="d-flex flex-column justify-content-center align-items-center w-25 h-100" *ngIf="!(osr.consumption() | async)">
+          <div class="lead text-center text-muted">Максимум потребления за прошедшие сутки не указан</div>
+          <button mat-stroked-button color="primary" class="pt-2 pb-2 pl-3 pr-3 mt-3 w-100" (click)="openAddConsumptionDialog()">
+            <div class="d-flex justify-content-center align-items-center">
+              <mat-icon class="mr-2">add</mat-icon>
+              Добавить
+            </div>
+          </button>
+        </div>
+
+        <!--
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title class="text-center">Максимум потребления за прошедшие сутки</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <h1 class="text-center">
+              0
+            </h1>
+          </mat-card-content>
+        </mat-card>
+        -->
+      </div>
+    </mat-tab>
+
+  </mat-tab-group>
+</div>
 
 
 
 
-<div class="report-list d-flex flex-column h-100 p-4">
 
-  <div class="d-flex" style="flex-shrink: 0;">
-    <mat-form-field>
-      <mat-select placeholder="Выберите филиал" (selectionChange)="selectCompany($event)">
-        <mat-option *ngFor="let company of (osr.companies() | async)" [value]="company">
-          {{company.shortTitle}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+
+<div class="report-list container-fluid d-flex flex-column h-100 p-4">
+  <div class="row" style="flex-shrink: 0">
+    <div class="col-12 d-flex justify-content-start">
+      <mat-form-field>
+        <mat-select placeholder="Выберите филиал" (selectionChange)="selectCompany($event)">
+          <mat-option *ngFor="let company of (osr.companies() | async)" [value]="company">
+            {{company.shortTitle}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="row mb-4" style="flex-shrink: 0">
+    <div class="col-12 d-flex justify-content-center">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title class="text-center">Максимум потребления за прошедшие сутки</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <h1 class="text-center">
+            0
+          </h1>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <div class="row" style="flex-shrink: 0;">
+    <div class="col-12">
+
+    </div>
   </div>
 
   <div class="d-flex flex-column justify-content-center align-items-center pt-2 pb-2"
@@ -194,15 +428,6 @@
             <th scope="col" class="font-weight-normal">Бригад, шт.</th>
             <th scope="col" class="font-weight-normal">Человек</th>
             <th scope="col" class="font-weight-normal">Единиц техники, шт</th>
-
-            <!--
-            <th scope="col" class="font-weight-normal">t min</th>
-            <th scope="col" class="font-weight-normal">t max</th>
-            <th scope="col" class="font-weight-normal">Ветер, м/с</th>
-            <th scope="col" class="font-weight-normal">Осадки</th>
-            <th scope="col" class="font-weight-normal">РПГ/ОРР</th>
-            -->
-
           </tr>
           <tr  class="content">
             <td>{{report.equipment_35_150.lep_110_150}}</td>

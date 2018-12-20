@@ -36,7 +36,7 @@
             </tr>
             <tr class="content">
               <td class="p-3">
-                <mat-form-field class="w-100">
+                <mat-form-field class="w-100" focused="true">
                   <input matInput
                          type="number"
                          min="0"
@@ -171,6 +171,9 @@
               <td class="p-3">
                 <mat-form-field class="w-100">
                   <input matInput
+                         type="number"
+                         min="0"
+                         step="1"
                          formControlName="szo_effect_network"
                          [(ngModel)]="newReport.equipment_network.effect.szo">
                 </mat-form-field>
@@ -181,16 +184,50 @@
       </mat-tab>
       <!-- End: Вкладка с данными об оборудовании в распределительной сети -->
 
-      <!-- Start: Вкладка с данными о задействованных ресурсах -->
-      <mat-tab label="Задействованные силы и средства">
+      <!-- Start: Вкладка с данными о задействованных ресурсах и ИРСЭ -->
+      <mat-tab label="Задействованные РИСЭ, силы и средства">
         <div class="p-3">
           <table class="operative-situation-reports w-100" [formGroup]="addReportForm">
             <tr>
+              <th colspan="3" scope="colgroup">Задействованные РИСЭ</th>
+              <th colspan="3" scope="colgroup">Задействованные силы и средства</th>
+            </tr>
+            <tr>
+              <th scope="col" class="font-weight-normal">Количество, шт</th>
+              <th scope="col" class="font-weight-normal">P∑, кВт</th>
+              <th scope="col" class="font-weight-normal">Запитано от РИСЭ, чел</th>
               <th scope="col" class="font-weight-normal">Бригад, шт</th>
               <th scope="col" class="font-weight-normal">Человек</th>
               <th scope="col" class="font-weight-normal">Единиц техники, шт</th>
             </tr>
             <tr class="content">
+              <td class="p-3">
+                <mat-form-field class="w-100">
+                  <input matInput
+                         type="number"
+                         min="0"
+                         formControlName="resources_rise"
+                         [(ngModel)]="newReport.resources.rise">
+                </mat-form-field>
+              </td>
+              <td class="p-3">
+                <mat-form-field class="w-100">
+                  <input matInput
+                         type="number"
+                         min="0"
+                         formControlName="resources_rise_sum_power"
+                         [(ngModel)]="newReport.resources.riseSumPower">
+                </mat-form-field>
+              </td>
+              <td class="p-3">
+                <mat-form-field class="w-100">
+                  <input matInput
+                         type="number"
+                         min="0"
+                         formControlName="resources_rise_people"
+                         [(ngModel)]="newReport.resources.risePeople">
+                </mat-form-field>
+              </td>
               <td class="p-3">
                 <mat-form-field class="w-100">
                   <input matInput
@@ -222,7 +259,7 @@
           </table>
         </div>
       </mat-tab>
-      <!-- End: Вкладка с данными о задействованных ресурсах -->
+      <!-- End: Вкладка с данными о задействованных ресурсах и РИСЭ -->
 
       <!-- Start: Вкладка с данными о нарушениях с нарастающим итогом -->
       <mat-tab label="Нарушения">
@@ -357,6 +394,7 @@
       <!-- End: Вкладка с данными о нарушениях с нарастающим итогом -->
 
       <!-- Start: Вкладка с данными о потреблении -->
+      <!--
       <mat-tab label="Потребление">
         <div class="p-3">
           <table class="operative-situation-reports w-100" [formGroup]="addReportForm">
@@ -374,6 +412,7 @@
           </table>
         </div>
       </mat-tab>
+      -->
       <!-- End: Вкладка с данными о потреблении -->
 
       <!-- Start: Вкладка с данными о погодных условиях -->

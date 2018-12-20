@@ -19,7 +19,7 @@ export class OperativeSituationService {
   private consumption$: BehaviorSubject<OperativeSituationConsumption>;
   private timePeriods: string[];
   private selectedCompany$: BehaviorSubject<ICompany>;
-  private selectedReport$: BehaviorSubject<OperativeSituationReport>;
+  public selectedReport$: BehaviorSubject<OperativeSituationReport>;
   private selectedPeriod$: BehaviorSubject<string>;
   private fetchingData$: BehaviorSubject<boolean>;
   private addingReport$: BehaviorSubject<boolean>;
@@ -62,11 +62,11 @@ export class OperativeSituationService {
           });
           this.companies$.next(companies);
           if (this.auth.getCurrentUser()) {
-            this.selectedCompany(this.auth.getCurrentUser().company);
+            const comp = this.getCompanyById(this.auth.getCurrentUser().company.id);
+            this.selectedCompany$.next(comp ? comp : this.companies$.getValue()[0]);
           }
           // this.selectedCompany$.next(companies[0]);
           this.consumption$.next(response.data.consumption ? new OperativeSituationConsumption(response.data.consumption) : null);
-          console.log('consumption', this.consumption$.getValue());
           const reports = [];
           response.data.reports.forEach((item: IOperativeSituationReport) => {
             const report = new OperativeSituationReport(item);
@@ -74,13 +74,11 @@ export class OperativeSituationService {
             reports.push(report);
           });
           this.reports$.next(reports);
+          this.selectedReport$.next(this.getReportByTimePeriod(this.selectedPeriod$.getValue()));
           return reports;
         }),
         finalize(() => {
           this.fetchingData$.next(false);
-          console.log('date', this.date$.getValue());
-          console.log('reports', this.reports$.getValue());
-          console.log('companies', this.companies$.getValue());
         })
       );
   }
@@ -89,20 +87,20 @@ export class OperativeSituationService {
     this.fetchingData$.next(true);
     return from(this.resource.getReports({companyId: companyId}))
       .pipe(
-        map((response: IServerResponse<IOperativeSituationReport[]>) => {
-          const result = [];
-          response.data.forEach((item: IOperativeSituationReport) => {
+        map((response: IServerResponse<IOperativeSituationReportsInitialData>) => {
+          const reports = [];
+          response.data.reports.forEach((item: IOperativeSituationReport) => {
             const report = new OperativeSituationReport(item);
             report.backup.setup([]);
-            result.push(report);
+            reports.push(report);
           });
-          this.reports$.next(result);
+          this.reports$.next(reports);
           this.selectedReport$.next(this.getReportByTimePeriod(this.selectedPeriod$.getValue()));
-          return result;
+          this.consumption$.next(response.data.consumption ? new OperativeSituationConsumption(response.data.consumption) : null);
+          return this.reports$.getValue();
         }),
         finalize(() => {
           this.fetchingData$.next(false);
-          console.log(this.reports$.getValue());
         })
       );
   }
@@ -117,11 +115,11 @@ export class OperativeSituationService {
       .pipe(
         map((response: IServerResponse<IOperativeSituationReport>) => {
           const newReport = new OperativeSituationReport(response.data);
-          console.log('newreport', newReport);
-          report.backup.setup(['equipment_35_150', 'equipment_network', 'weather', 'resources', 'consumption', 'violations']);
+          newReport.backup.setup(['equipment_35_150', 'equipment_network', 'weather', 'resources', 'consumption', 'violations']);
           const reports = this.reports$.getValue().slice();
           reports.push(newReport);
           this.reports$.next(reports);
+          this.selectedReport$.next(newReport)
           return newReport;
         }),
         finalize(() => {
@@ -139,7 +137,6 @@ export class OperativeSituationService {
     return from(this.resource.addConsumption(consumption))
       .pipe(
         map((response: IServerResponse<IOperativeSituationConsumption>) => {
-          console.log('consumption', response);
           const cons = new OperativeSituationConsumption(response.data);
           consumption.backup.setup(['consumption']);
           this.consumption$.next(cons);
@@ -240,6 +237,12 @@ export class OperativeSituationService {
     return this.companies$.asObservable();
   }
 
+  getCompanyById(companyId: number): ICompany | null {
+    const findCompanyById = (company: ICompany) => company.id === companyId;
+    const result = this.companies$.getValue().find(findCompanyById);
+    return result ? result : null;
+  }
+
   /**
    * Установка / получение выбранного временного периода
    * @param period - Устанавливаемый временной период
@@ -255,7 +258,7 @@ export class OperativeSituationService {
    * Установка / получение выбранного отчета об оперативной обстановке
    * @param reportId - Идентификатор отчета об оперативной обстановке
    */
-  selectedReport(reportId?: number | null): OperativeSituationReport | null {
+  selectedReport(reportId?: number | null): Observable<OperativeSituationReport> {
     if (reportId) {
       const findReportById = (report: OperativeSituationReport) => report.id === reportId;
       const searchResult = this.reports$.getValue().find(findReportById);
@@ -265,7 +268,7 @@ export class OperativeSituationService {
     } else if (reportId === null) {
       this.selectedReport$.next(null);
     }
-    return this.selectedReport$.getValue();
+    return this.selectedReport$.asObservable();
   }
 
   /**

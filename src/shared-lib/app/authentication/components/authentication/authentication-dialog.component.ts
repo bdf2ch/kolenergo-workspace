@@ -70,7 +70,6 @@ export class AuthenticationDialogComponent implements OnInit {
         verticalPosition: 'bottom'
       });
     }
-    console.log(result);
   }
 
 }

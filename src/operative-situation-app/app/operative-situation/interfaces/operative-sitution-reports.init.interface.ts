@@ -7,7 +7,7 @@ import { IOperativeSituationConsumption } from './operative-situation-consumptio
  */
 export interface IOperativeSituationReportsInitialData {
   date: string;                                   // Текущая дата
-  companies: ICompany[];                          // Список организаций
+  companies?: ICompany[];                         // Список организаций
   reports: IOperativeSituationReport[];           // Список отчетов об оперативной обстановке
   consumption: IOperativeSituationConsumption;    // Максимум потребления за прошедшие сутки
 }

@@ -8,7 +8,7 @@
 
       <!-- Start: Вкладка с данными об оборудовании 35-150 кВ -->
       <mat-tab label="Оборудование 35-150 кВ">
-        <div class="p-3">
+        <div class="p-3" *ngIf="(osr.selectedReport() | async) as report">
           <table class="operative-situation-reports w-100" [formGroup]="editReportForm">
             <colgroup span="2"></colgroup>
             <tr>
@@ -33,7 +33,7 @@
                          type="number"
                          min="0"
                          formControlName="lep_110_150"
-                         [(ngModel)]="osr.selectedReport()?.equipment_35_150.lep_110_150">
+                         [(ngModel)]="report.equipment_35_150.lep_110_150">
                 </mat-form-field>
               </td>
               <td class="p-3">
@@ -42,7 +42,7 @@
                          type="number"
                          min="0"
                          formControlName="lep_35"
-                         [(ngModel)]="osr.selectedReport()?.equipment_35_150.lep_35">
+                         [(ngModel)]="report.equipment_35_150.lep_35">
                 </mat-form-field>
               </td>
               <td class="p-3">
@@ -51,7 +51,7 @@
                          type="number"
                          min="0"
                          formControlName="ps_110_150"
-                         [(ngModel)]="osr.selectedReport()?.equipment_35_150.ps_110_150">
+                         [(ngModel)]="report.equipment_35_150.ps_110_150">
                 </mat-form-field>
               </td>
               <td class="p-3">
@@ -60,7 +60,7 @@
                          type="number"
                          min="0"
                          formControlName="ps_35"
-                         [(ngModel)]="osr.selectedReport()?.equipment_35_150.ps_35">
+                         [(ngModel)]="report.equipment_35_150.ps_35">
                 </mat-form-field>
               </td>
 
@@ -70,7 +70,7 @@
                          type="number"
                          min="0"
                          formControlName="tp_6_20_effect_110_150"
-                         [(ngModel)]="osr.selectedReport()?.equipment_35_150.effect.tp_6_20">
+                         [(ngModel)]="report.equipment_35_150.effect.tp_6_20">
                 </mat-form-field>
               </td>
               <td class="p-3">
@@ -79,7 +79,7 @@
                          type="number"
                          min="0"
                          formControlName="population_effect_110_150"
-                         [(ngModel)]="osr.selectedReport()?.equipment_35_150.effect.population">
+                         [(ngModel)]="report.equipment_35_150.effect.population">
                 </mat-form-field>
               </td>
               <td class="p-3">
@@ -89,7 +89,7 @@
                          min="0"
                          step="0.1"
                          formControlName="power_effect_110_150"
-                         [(ngModel)]="osr.selectedReport()?.equipment_35_150.effect.power">
+                         [(ngModel)]="report.equipment_35_150.effect.power">
                 </mat-form-field>
               </td>
               <td class="p-3">
@@ -98,7 +98,7 @@
                          type="number"
                          min="0"
                          formControlName="szo_effect_110_150"
-                         [(ngModel)]="osr.selectedReport()?.equipment_35_150.effect.szo">
+                         [(ngModel)]="report.equipment_35_150.effect.szo">
                 </mat-form-field>
               </td>
             </tr>
@@ -109,7 +109,7 @@
 
       <!-- Start: Вкладка с данными об оборудовании в распределительной сети -->
       <mat-tab label="Распределительная сеть">
-        <div class="p-3">
+        <div class="p-3" *ngIf="(osr.selectedReport() | async) as report">
           <table class="operative-situation-reports w-100" [formGroup]="editReportForm">
             <tr>
               <th colspan="2" scope="colgroup">Распределительная сеть</th>
@@ -129,7 +129,7 @@
                          type="number"
                          min="0"
                          formControlName="lep_6_20"
-                         [(ngModel)]="osr.selectedReport()?.equipment_network.lep_6_20">
+                         [(ngModel)]="report.equipment_network.lep_6_20">
                 </mat-form-field>
               </td>
               <td class="p-3">
@@ -138,7 +138,7 @@
                          type="number"
                          min="0"
                          formControlName="tp_6_20"
-                         [(ngModel)]="osr.selectedReport()?.equipment_network.tp_6_20">
+                         [(ngModel)]="report.equipment_network.tp_6_20">
                 </mat-form-field>
               </td>
               <td class="p-3">
@@ -147,7 +147,7 @@
                          type="number"
                          min="0"
                          formControlName="population_effect_network"
-                         [(ngModel)]="osr.selectedReport()?.equipment_network.effect.population">
+                         [(ngModel)]="report.equipment_network.effect.population">
                 </mat-form-field>
               </td>
               <td class="p-3">
@@ -157,14 +157,14 @@
                          min="0"
                          step="0.1"
                          formControlName="power_effect_network"
-                         [(ngModel)]="osr.selectedReport()?.equipment_network.effect.power">
+                         [(ngModel)]="report.equipment_network.effect.power">
                 </mat-form-field>
               </td>
               <td class="p-3">
                 <mat-form-field class="w-100">
                   <input matInput
                          formControlName="szo_effect_network"
-                         [(ngModel)]="osr.selectedReport()?.equipment_network.effect.szo">
+                         [(ngModel)]="report.equipment_network.effect.szo">
                 </mat-form-field>
               </td>
             </tr>
@@ -174,10 +174,17 @@
       <!-- End: Вкладка с данными об оборудовании в распределительной сети -->
 
       <!-- Start: Вкладка с данными о задействованных ресурсах -->
-      <mat-tab label="Задействованные силы и средства">
-        <div class="p-3">
+      <mat-tab label="Задействованные РИСЭ, силы и средства">
+        <div class="p-3" *ngIf="(osr.selectedReport() | async) as report">
           <table class="operative-situation-reports w-100" [formGroup]="editReportForm">
             <tr>
+              <th colspan="3" scope="colgroup">Задействованные РИСЭ</th>
+              <th colspan="3" scope="colgroup">Задействованные силы и средства</th>
+            </tr>
+            <tr>
+              <th scope="col" class="font-weight-normal">Количество, шт</th>
+              <th scope="col" class="font-weight-normal">P∑, кВт</th>
+              <th scope="col" class="font-weight-normal">Запитано от РИСЭ, чел</th>
               <th scope="col" class="font-weight-normal">Бригад, шт</th>
               <th scope="col" class="font-weight-normal">Человек</th>
               <th scope="col" class="font-weight-normal">Единиц техники, шт</th>
@@ -188,8 +195,35 @@
                   <input matInput
                          type="number"
                          min="0"
+                         formControlName="resources_rise"
+                         [(ngModel)]="report.resources.rise">
+                </mat-form-field>
+              </td>
+              <td class="p-3">
+                <mat-form-field class="w-100">
+                  <input matInput
+                         type="number"
+                         min="0"
+                         formControlName="resources_rise_sum_power"
+                         [(ngModel)]="report.resources.riseSumPower">
+                </mat-form-field>
+              </td>
+              <td class="p-3">
+                <mat-form-field class="w-100">
+                  <input matInput
+                         type="number"
+                         min="0"
+                         formControlName="resources_rise_people"
+                         [(ngModel)]="report.resources.risePeople">
+                </mat-form-field>
+              </td>
+              <td class="p-3">
+                <mat-form-field class="w-100">
+                  <input matInput
+                         type="number"
+                         min="0"
                          formControlName="resources_brigades"
-                         [(ngModel)]="osr.selectedReport()?.resources.brigades">
+                         [(ngModel)]="report.resources.brigades">
                 </mat-form-field>
               </td>
               <td class="p-3">
@@ -198,7 +232,7 @@
                          type="number"
                          min="0"
                          formControlName="resources_people"
-                         [(ngModel)]="osr.selectedReport()?.resources.people">
+                         [(ngModel)]="report.resources.people">
                 </mat-form-field>
               </td>
               <td class="p-3">
@@ -207,7 +241,7 @@
                          type="number"
                          min="0"
                          formControlName="resources_technics"
-                         [(ngModel)]="osr.selectedReport()?.resources.technics">
+                         [(ngModel)]="report.resources.technics">
                 </mat-form-field>
               </td>
             </tr>
@@ -218,7 +252,7 @@
 
       <!-- Start: Вкладка с данными о нарушениях с нарастающим итогом -->
       <mat-tab label="Нарушения">
-        <div class="p-3">
+        <div class="p-3" *ngIf="(osr.selectedReport() | async) as report">
           <table class="operative-situation-reports w-100" [formGroup]="editReportForm">
             <tr>
               <th rowspan="2" scope="colgroup">Всего 6 кВ и выше</th>
@@ -248,7 +282,7 @@
                          type="number"
                          min="0"
                          formControlName="violations_total_6"
-                         [(ngModel)]="osr.selectedReport().violations.total_6">
+                         [(ngModel)]="report.violations.total_6">
                 </mat-form-field>
               </td>
               <td class="p-3">
@@ -257,7 +291,7 @@
                          type="number"
                          min="0"
                          formControlName="violations_uapv_35"
-                         [(ngModel)]="osr.selectedReport().violations.uapv_35">
+                         [(ngModel)]="report.violations.uapv_35">
                 </mat-form-field>
               </td>
               <td class="p-3">
@@ -266,7 +300,7 @@
                          type="number"
                          min="0"
                          formControlName="violations_napv_35"
-                         [(ngModel)]="osr.selectedReport().violations.napv_35">
+                         [(ngModel)]="report.violations.napv_35">
                 </mat-form-field>
               </td>
               <td class="p-3">
@@ -275,7 +309,7 @@
                          type="number"
                          min="0"
                          formControlName="violations_power_off_35"
-                         [(ngModel)]="osr.selectedReport().violations.power_off_35">
+                         [(ngModel)]="report.violations.power_off_35">
                 </mat-form-field>
               </td>
               <td class="p-3">
@@ -284,7 +318,7 @@
                          type="number"
                          min="0"
                          formControlName="violations_lep_rs"
-                         [(ngModel)]="osr.selectedReport().violations.lep_rs">
+                         [(ngModel)]="report.violations.lep_rs">
                 </mat-form-field>
               </td>
 
@@ -294,7 +328,7 @@
                          type="number"
                          min="0"
                          formControlName="violations_tn_cancel"
-                         [(ngModel)]="osr.selectedReport().violations.tn_cancel">
+                         [(ngModel)]="report.violations.tn_cancel">
                 </mat-form-field>
               </td>
               <td class="p-3">
@@ -303,7 +337,7 @@
                          type="number"
                          min="0"
                          formControlName="violations_from_6_04"
-                         [(ngModel)]="osr.selectedReport().violations.from_6_04">
+                         [(ngModel)]="report.violations.from_6_04">
                 </mat-form-field>
               </td>
               <td class="p-3">
@@ -312,7 +346,7 @@
                          type="number"
                          min="0"
                          formControlName="violations_power_off_04"
-                         [(ngModel)]="osr.selectedReport().violations.power_off_04">
+                         [(ngModel)]="report.violations.power_off_04">
                 </mat-form-field>
               </td>
               <td class="p-3">
@@ -321,7 +355,7 @@
                          type="number"
                          min="0"
                          formControlName="violations_greater_3_04"
-                         [(ngModel)]="osr.selectedReport().violations.greater_3_04">
+                         [(ngModel)]="report.violations.greater_3_04">
                 </mat-form-field>
               </td>
               <td class="p-3">
@@ -330,7 +364,7 @@
                          type="number"
                          min="0"
                          formControlName="violations_population_srez_o4"
-                         [(ngModel)]="osr.selectedReport().violations.population_srez_04">
+                         [(ngModel)]="report.violations.population_srez_04">
                 </mat-form-field>
               </td>
               <td class="p-3">
@@ -339,7 +373,7 @@
                          type="number"
                          min="0"
                          formControlName="violations_population_greater_3_04"
-                         [(ngModel)]="osr.selectedReport().violations.population_greater_3_04">
+                         [(ngModel)]="report.violations.population_greater_3_04">
                 </mat-form-field>
               </td>
             </tr>
@@ -349,8 +383,9 @@
       <!-- End: Вкладка с данными о нарушениях с нарастающим итогом -->
 
       <!-- Start: Вкладка с данными о потреблении -->
+      <!--
       <mat-tab label="Потребление">
-        <div class="p-3">
+        <div class="p-3" *ngIf="(osr.selectedReport() | async) as report">
           <table class="operative-situation-reports w-100" [formGroup]="editReportForm">
             <tr>
               <th scope="col" class="font-weight-normal">Максимум потребления за прошедшие сутки</th>
@@ -360,17 +395,18 @@
                 <mat-form-field class="w-100">
                   <input matInput
                          formControlName="consumption"
-                         [(ngModel)]="osr.selectedReport().consumption">
+                         [(ngModel)]="report.consumption">
                 </mat-form-field>
               </td>
           </table>
         </div>
       </mat-tab>
+      -->
       <!-- End: Вкладка с данными о потреблении -->
 
       <!-- Start: Вкладка с данными о погодных условиях -->
       <mat-tab label="Погодные условия">
-        <div class="p-3">
+        <div class="p-3" *ngIf="(osr.selectedReport() | async) as report">
           <table class="operative-situation-reports w-100" [formGroup]="editReportForm">
             <tr>
               <th scope="col" class="font-weight-normal">t min</th>
@@ -385,41 +421,41 @@
                 <mat-form-field class="w-100">
                   <input matInput
                          formControlName="weather_min"
-                         [(ngModel)]="osr.selectedReport()?.weather.min">
+                         [(ngModel)]="report.weather.min">
                 </mat-form-field>
               </td>
               <td class="p-3">
                 <mat-form-field class="w-100">
                   <input matInput
                          formControlName="weather_max"
-                         [(ngModel)]="osr.selectedReport()?.weather.max">
+                         [(ngModel)]="report.weather.max">
                 </mat-form-field>
               </td>
               <td class="p-3">
                 <mat-form-field class="w-100">
                   <input matInput
                          formControlName="weather_wind"
-                         [(ngModel)]="osr.selectedReport()?.weather.wind">
+                         [(ngModel)]="report.weather.wind">
                 </mat-form-field>
               </td>
               <td class="p-3">
                 <mat-form-field class="w-100">
                   <input matInput
                          formControlName="weather_precipitations"
-                         [(ngModel)]="osr.selectedReport()?.weather.precipitations">
+                         [(ngModel)]="report.weather.precipitations">
                 </mat-form-field>
               </td>
               <td class="p-3">
                 <mat-slide-toggle
                   formControlName="weather_rpg"
-                  [(ngModel)]="osr.selectedReport()?.weather.rpg"
+                  [(ngModel)]="report.weather.rpg"
                   (change)="changeRPGMode($event)">
                 </mat-slide-toggle>
               </td>
               <td class="p-3">
                 <mat-slide-toggle
                   formControlName="weather_orr"
-                  [(ngModel)]="osr.selectedReport()?.weather.orr"
+                  [(ngModel)]="report.weather.orr"
                   (change)="changeORRMode($event)">
                 </mat-slide-toggle>
               </td>

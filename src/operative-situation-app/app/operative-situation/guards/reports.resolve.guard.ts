@@ -11,7 +11,10 @@ export class ReportsResolveGuard implements Resolve<OperativeSituationReport[]> 
               private readonly osr: OperativeSituationService) {}
 
   async resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<OperativeSituationReport[]> {
-    const reports = await this.osr.fetchInitialData(this.auth.getCurrentUser().company.id).toPromise();
+    const reports = await this.osr.fetchInitialData(this.auth.getCurrentUser().company.id === 8
+      ? 2
+      : this.auth.getCurrentUser().company.id
+    ).toPromise();
     return reports;
   }
 }

@@ -37,12 +37,12 @@ export class AuthenticationService {
     try {
       this.loadingInProgress.next(true);
       const result = await this.authenticationResource.check({appCode: appCode}, null, null);
-      console.log(result);
+      // console.log(result);
       if (result) {
         this.loadingInProgress.next(false);
         this.user$.next(new User(result));
         this.currentUser = new User(result);
-        console.log(this.currentUser);
+        // console.log(this.currentUser);
         return this.currentUser;
       }
       return null;

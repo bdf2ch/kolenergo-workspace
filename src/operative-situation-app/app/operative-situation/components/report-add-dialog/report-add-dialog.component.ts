@@ -4,7 +4,6 @@ import { MatDialogRef, MatSlideToggleChange, MatSnackBar } from '@angular/materi
 import { OperativeSituationService } from '../../services/operative-situation.service';
 import { OperativeSituationReport } from '@kolenergo/osr';
 import { AuthenticationService } from '@kolenergo/lib';
-import { User } from '@kolenergo/cpa';
 
 @Component({
   selector: 'app-add-permission-dialog',
@@ -25,7 +24,6 @@ export class ReportAddDialogComponent implements OnInit {
 
   ngOnInit() {
     this.addReportForm = this.builder.group({
-      time: new FormControl(this.newReport.periodTime, Validators.required),
       consumption: new FormControl(this.newReport.consumption),
       lep_110_150: new FormControl(this.newReport.equipment_35_150.lep_110_150),
       lep_35: new FormControl(this.newReport.equipment_35_150.lep_35),
@@ -46,6 +44,9 @@ export class ReportAddDialogComponent implements OnInit {
       weather_precipitations: new FormControl(this.newReport.weather.precipitations, Validators.required),
       weather_rpg: new FormControl(this.newReport.weather.rpg),
       weather_orr: new FormControl(this.newReport.weather.orr),
+      resources_rise: new FormControl(this.newReport.resources.rise),
+      resources_rise_sum_power: new FormControl(this.newReport.resources.riseSumPower),
+      resources_rise_people: new FormControl(this.newReport.resources.risePeople),
       resources_brigades: new FormControl(this.newReport.resources.brigades),
       resources_people: new FormControl(this.newReport.resources.people),
       resources_technics: new FormControl(this.newReport.resources.technics),
@@ -67,13 +68,13 @@ export class ReportAddDialogComponent implements OnInit {
    * Отправляет данные нового отчета об оперативной обстановке на сервер
    */
   addReport() {
-    // this.newReport.company = this.auth.getCurrentUser().company;
+    this.newReport.periodTime = this.osr.selectedPeriod();
     this.newReport.company = this.osr.selectedCompany();
     this.newReport.user = this.auth.getCurrentUser();
     this.osr.addReport(this.newReport)
       .subscribe(() => {
         this.closeDialog();
-        this.snackBar.open(`Отчет об оперативнйо обстановке добавлен`, 'Закрыть', {
+        this.snackBar.open(`Отчет об оперативной обстановке добавлен`, 'Закрыть', {
           horizontalPosition: 'left',
           verticalPosition: 'bottom',
           duration: 3000
@@ -89,12 +90,20 @@ export class ReportAddDialogComponent implements OnInit {
     this.addReportForm.reset();
   }
 
+  /**
+   * Изменение режима РПГ
+   * @param event - Событие изменения состояния слайдера
+   */
   changeRPGMode(event: MatSlideToggleChange) {
     if (event.checked === true) {
       this.newReport.weather.orr = false;
     }
   }
 
+  /**
+   * Изменение режима ОРР
+   * @param event - Событие изменения состояния слайдера
+   */
   changeORRMode(event: MatSlideToggleChange) {
     if (event.checked === true) {
       this.newReport.weather.rpg = false;

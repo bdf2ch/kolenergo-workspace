@@ -11,8 +11,8 @@ import {
 import { environment } from '../../../../_common/environments/environment';
 import { IServerResponse } from '@kolenergo/lib';
 import { IOperativeSituationReport, IOperativeSituationReportsInitialData, OperativeSituationReport } from '@kolenergo/osr';
-import {OperativeSituationConsumption} from '../models/operative-situation-consumption.model';
-import {IOperativeSituationConsumption} from '../interfaces/operative-situation-consumption.interface';
+import { OperativeSituationConsumption } from '../models/operative-situation-consumption.model';
+import { IOperativeSituationConsumption } from '../interfaces/operative-situation-consumption.interface';
 
 @Injectable()
 @ResourceParams({
@@ -36,7 +36,7 @@ export class OperativeSituationResource extends Resource {
     method: ResourceRequestMethod.Get,
     withCredentials: true
   })
-  getReports: IResourceMethod<{companyId: number}, IServerResponse<IOperativeSituationReport[]>>;
+  getReports: IResourceMethod<{companyId: number}, IServerResponse<IOperativeSituationReportsInitialData>>;
 
   @ResourceAction({
     path: '/',

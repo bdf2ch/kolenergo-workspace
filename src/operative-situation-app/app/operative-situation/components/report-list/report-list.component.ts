@@ -4,8 +4,8 @@ import { ReportAddDialogComponent } from '../report-add-dialog/report-add-dialog
 import { OperativeSituationService } from '../../services/operative-situation.service';
 import { OperativeSituationReport } from '../../models/operative-situation-report.model';
 import { ReportEditDialogComponent } from '../report-edit-dialog/report-edit-dialog.component';
-import {ConsumptionAddDialogComponent} from '../consumption-add-dialog/consumption-add-dialog.component';
-import {ConsumptionEditDialogComponent} from '../consumption-edit-dialog/consumption-edit-dialog.component';
+import { ConsumptionAddDialogComponent } from '../consumption-add-dialog/consumption-add-dialog.component';
+import { ConsumptionEditDialogComponent } from '../consumption-edit-dialog/consumption-edit-dialog.component';
 
 @Component({
   selector: 'app-report-list',
@@ -40,17 +40,21 @@ export class ReportListComponent implements OnInit {
     });
   }
 
+  openEditReportDialog() {
+    this.dialog.open(
+      ReportEditDialogComponent, {
+        width: '950px'
+      }
+    );
+  }
+
 
 
   onSelectTimePeriod(event: MatTabChangeEvent) {
-    console.log('selected tab', event);
     const period = this.osr.periods()[event.index];
     const report = this.osr.getReportByTimePeriod(period);
     this.osr.selectedPeriod(period);
-    console.log('selected period', this.osr.selectedPeriod());
-    console.log('report', report);
     this.osr.selectedReport(report ? report.id : null);
-     console.log('selected report', this.osr.selectedReport());
   }
 
   /**

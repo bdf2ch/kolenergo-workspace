@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { OperativeSituationService } from '../../services/operative-situation.service';
 import { ReportAddDialogComponent } from '../report-add-dialog/report-add-dialog.component';
 import { AuthenticationService } from '@kolenergo/lib';
+import { ICompany } from '@kolenergo/cpa';
 
 @Component({
   selector: 'app-operative-situation',
@@ -15,14 +16,14 @@ export class OperativeSituationComponent implements OnInit {
   constructor(private readonly router: Router,
               private readonly dialog: MatDialog,
               public readonly auth: AuthenticationService,
-              public readonly reports: OperativeSituationService) {}
+              public readonly osr: OperativeSituationService) {}
 
   ngOnInit() {}
 
 
-  selectCompany(event: MatSelectChange) {
-    this.reports.selectedCompany(event.value);
-    this.reports.fetchReports(event.value.id).subscribe();
+  selectCompany(company: ICompany) {
+    this.osr.selectedCompany(company);
+    this.osr.fetchReports(company.id).subscribe();
   }
 
   openAddReportDialog() {

@@ -3,10 +3,26 @@
     <mat-toolbar-row>
       <div class="d-flex flex-row justify-content-between align-items-center w-100">
         <div>
-          <span>Оперативная обстановка в филиале {{reports.selectedCompany().shortTitle}} на {{reports.date() | async}}</span>
+          <span>Оперативная обстановка в {{osr.selectedCompany().shortTitle}} на {{osr.date() | async}}</span>
         </div>
 
         <div>
+
+          <button mat-button
+                  class="mr-2"
+                  [matMenuTriggerFor]="companiesMenu">
+            {{osr.selectedCompany()?.shortTitle}}
+            <mat-icon>arrow_drop_down</mat-icon>
+          </button>
+          <mat-menu #companiesMenu="matMenu" yPosition="below">
+            <button mat-menu-item
+                    *ngFor="let company of osr.companies() | async"
+                    (click)="selectCompany(company)">
+              <mat-icon>business</mat-icon>
+              {{company.shortTitle}}
+            </button>
+          </mat-menu>
+
           <button mat-stroked-button
                        color="primary"
                        *ngIf="(auth.user() | async)"

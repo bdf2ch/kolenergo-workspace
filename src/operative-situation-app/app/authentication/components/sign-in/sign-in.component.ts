@@ -22,7 +22,6 @@ export class SignInComponent implements OnInit {
     this.dialog.open(AuthenticationDialogComponent, {
       width: '350px'
     }).afterClosed().subscribe((data: any) => {
-      console.log('data', data);
       if (this.auth.getCurrentUser()) {
         if (this.auth.getCurrentUser()) {
           this.osr.selectedCompany(this.auth.getCurrentUser().company);

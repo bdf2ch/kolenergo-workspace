@@ -33,20 +33,11 @@ app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Credentials', true);
     next();
   })
-  .use(express.static('../dist/operative-situation-app'))
+  .use(express.static('../../dist/operative-situation-app'))
   .use(parser.json())
   .get('*', (req, res) => {
-    res.sendFile(path.resolve('../dist/operative-situation-app/index.html'));
+    res.sendFile(path.resolve('../../dist/operative-situation-app/index.html'));
   })
-  // .use('/users', users.routes)
-  // .use('/phonebook/session', session.routes)
-  // .use('/phonebook/contacts', contacts.routes)
-  // .use('/phonebook/offices', offices.routes)
-  // .use('/phonebook/divisions', divisions.routes)
-  // .use('/phonebook/phones', phones.routes)
-  // .use('/phonebook/feedback', feedback.routes)
-  // .use('/phonebook/uploads', uploads.routes)
-  // .use('/auth', sms.routes)
   .listen(8888, function () {
     console.log('Server started at 8888');
   }).on('error', function(err){

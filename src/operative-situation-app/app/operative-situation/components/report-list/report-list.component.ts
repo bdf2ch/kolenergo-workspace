@@ -18,6 +18,7 @@ export class ReportListComponent implements OnInit {
               public readonly osr: OperativeSituationService) { }
 
   ngOnInit() {
+
   }
 
   selectCompany(event: MatSelectChange) {

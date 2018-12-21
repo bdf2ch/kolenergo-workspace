@@ -116,7 +116,7 @@
 
 
 <div class="report-list-component d-flex flex-column justify-content-start align-items-center h-100 p-4">
-  <mat-tab-group class="w-100 h-100" id="report-periods" (selectedTabChange)="onSelectTimePeriod($event)" style="flex-shrink: 0">
+  <mat-tab-group class="w-100 h-100" id="report-periods" (selectedTabChange)="onSelectTimePeriod($event)" style="flex-shrink: 0" [selectedIndex]="osr.periods().indexOf(osr.selectedPeriod$.getValue())">
     <mat-tab *ngFor="let period of osr.periods()">
       <ng-template mat-tab-label>
         <div class="d-flex justify-content-center align-items-center" [ngClass]="{'with-data': osr.getReportByTimePeriod(period)}">

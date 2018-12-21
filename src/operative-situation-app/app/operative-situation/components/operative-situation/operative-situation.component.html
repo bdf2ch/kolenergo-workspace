@@ -14,7 +14,7 @@
             {{osr.selectedCompany()?.shortTitle}}
             <mat-icon>arrow_drop_down</mat-icon>
           </button>
-          <mat-menu #companiesMenu="matMenu" yPosition="below">
+          <mat-menu #companiesMenu="matMenu" yPosition="below" [overlapTrigger]="true">
             <button mat-menu-item
                     *ngFor="let company of osr.companies() | async"
                     (click)="selectCompany(company)">

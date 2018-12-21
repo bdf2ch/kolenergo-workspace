@@ -9,6 +9,7 @@ import { finalize, map } from 'rxjs/operators';
 import { IOperativeSituationReport, IOperativeSituationReportsInitialData, OperativeSituationReport } from '@kolenergo/osr';
 import {OperativeSituationConsumption} from '../models/operative-situation-consumption.model';
 import {IOperativeSituationConsumption} from '../interfaces/operative-situation-consumption.interface';
+import * as moment from 'moment';
 
 
 @Injectable()
@@ -16,11 +17,11 @@ export class OperativeSituationService {
   private date$: BehaviorSubject<string>;
   private companies$: BehaviorSubject<ICompany[]>;
   private reports$: BehaviorSubject<OperativeSituationReport[]>;
-  private consumption$: BehaviorSubject<OperativeSituationConsumption>;
+  public consumption$: BehaviorSubject<OperativeSituationConsumption>;
   private timePeriods: string[];
   private selectedCompany$: BehaviorSubject<ICompany>;
   public selectedReport$: BehaviorSubject<OperativeSituationReport>;
-  private selectedPeriod$: BehaviorSubject<string>;
+  public selectedPeriod$: BehaviorSubject<string>;
   private fetchingData$: BehaviorSubject<boolean>;
   private addingReport$: BehaviorSubject<boolean>;
   private addingConsumption$: BehaviorSubject<boolean>;
@@ -55,6 +56,14 @@ export class OperativeSituationService {
       .pipe(
         map((response: IServerResponse<IOperativeSituationReportsInitialData>) => {
           this.date$.next(response.data.date);
+          const currentTime = moment(this.date$.getValue() + ', ' + response.data.time, 'DD.MM.YYYY, HH:mm');
+          this.timePeriods.forEach((period: string) => {
+            const periodStart = moment(this.date$.getValue() + ', ' + period, 'DD.MM.YYYY, HH:mm');
+            const periodEnd = moment(periodStart).add(3, 'hours');
+            if (currentTime.unix() >= periodStart.unix() && currentTime.unix() <= periodEnd.unix()) {
+              this.selectedPeriod$.next(period);
+            }
+          });
           const companies = [];
           response.data.companies.forEach((item: ICompany) => {
             const company = new Company(item);
@@ -66,11 +75,15 @@ export class OperativeSituationService {
             this.selectedCompany$.next(comp ? comp : this.companies$.getValue()[0]);
           }
           // this.selectedCompany$.next(companies[0]);
-          this.consumption$.next(response.data.consumption ? new OperativeSituationConsumption(response.data.consumption) : null);
+          const consumption = response.data.consumption ? new OperativeSituationConsumption(response.data.consumption) : null;
+          if (consumption) {
+            consumption.backup.setup(['consumption']);
+          }
+          this.consumption$.next(consumption);
           const reports = [];
           response.data.reports.forEach((item: IOperativeSituationReport) => {
             const report = new OperativeSituationReport(item);
-            report.backup.setup(['equipment_35_150', 'equipment_network', 'weather', 'resources', 'consumption', 'violations']);
+            report.backup.setup(['equipment_35_150', 'equipment_network', 'weather', 'resources', 'violations']);
             reports.push(report);
           });
           this.reports$.next(reports);
@@ -91,12 +104,16 @@ export class OperativeSituationService {
           const reports = [];
           response.data.reports.forEach((item: IOperativeSituationReport) => {
             const report = new OperativeSituationReport(item);
-            report.backup.setup([]);
+            report.backup.setup(['equipment_35_150', 'equipment_network', 'weather', 'resources', 'violations']);
             reports.push(report);
           });
           this.reports$.next(reports);
           this.selectedReport$.next(this.getReportByTimePeriod(this.selectedPeriod$.getValue()));
-          this.consumption$.next(response.data.consumption ? new OperativeSituationConsumption(response.data.consumption) : null);
+          const consumption = response.data.consumption ? new OperativeSituationConsumption(response.data.consumption) : null;
+          if (consumption) {
+            consumption.backup.setup(['consumption']);
+          }
+          this.consumption$.next(consumption);
           return this.reports$.getValue();
         }),
         finalize(() => {
@@ -138,7 +155,7 @@ export class OperativeSituationService {
       .pipe(
         map((response: IServerResponse<IOperativeSituationConsumption>) => {
           const cons = new OperativeSituationConsumption(response.data);
-          consumption.backup.setup(['consumption']);
+          cons.backup.setup(['consumption']);
           this.consumption$.next(cons);
           return consumption;
         }),

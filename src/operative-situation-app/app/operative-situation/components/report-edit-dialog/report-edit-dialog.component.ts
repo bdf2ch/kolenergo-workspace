@@ -82,7 +82,9 @@ export class ReportEditDialogComponent implements OnInit {
   closeDialog() {
     this.dialogRef.close();
     this.editReportForm.reset();
-    this.osr.selectedReport$.getValue().backup.restore();
+    const report = this.osr.selectedReport$.getValue();
+    report.backup.restore();
+    this.osr.selectedReport$.next(report);
   }
 
   /**

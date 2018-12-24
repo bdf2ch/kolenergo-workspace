@@ -1,5 +1,5 @@
 import { IAhoRequest } from '../interfaces/aho-request.interface';
-import { IUser, User } from '@kolenergo/cpa';
+import { Backup, IUser, User } from '@kolenergo/cpa';
 import { AhoRequestType } from './aho-request-type.model';
 import { AhoRequestStatus } from './aho-request-status.model';
 import { IAhoRequestTask } from '../interfaces/aho-request-task.interface';
@@ -7,7 +7,6 @@ import { AhoRequestTask } from './aho-request-task.model';
 import { AhoRequestComment } from './aho-request-comment.model';
 import { IAhoRequestComment } from '../interfaces/aho-request-comment.interface';
 import { AhoRequestRejectReason } from './aho-request-reject-reason.model';
-import { Backup } from '@kolenergo/lib';
 import { AhoRequestTaskContent } from './aho-request-task-content.model';
 
 /**

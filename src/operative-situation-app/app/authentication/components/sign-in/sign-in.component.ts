@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { AuthenticationDialogComponent, AuthenticationService } from '@kolenergo/lib';
+import { AuthenticationDialogComponent, AuthenticationService } from '@kolenergo/cpa';
 import { Router } from '@angular/router';
-import { OperativeSituationService } from "../../../operative-situation/services/operative-situation.service";
+import { OperativeSituationService } from '../../../operative-situation/services/operative-situation.service';
 
 @Component({
   selector: 'app-sign-in',

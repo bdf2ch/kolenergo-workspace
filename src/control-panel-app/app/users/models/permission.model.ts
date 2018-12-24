@@ -1,5 +1,5 @@
 import { IPermission } from '../interfaces/permission.interface';
-import { Backup } from '@kolenergo/lib';
+import { Backup } from '../../common/models/backup.model';
 
 export class Permission extends Backup implements IPermission {
   id: number;             // Идентификатор

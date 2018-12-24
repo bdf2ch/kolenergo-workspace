@@ -1,9 +1,7 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AuthenticationDialogComponent } from '../../shared-lib/api';
-import { AuthenticationService } from '../../shared-lib/app/authentication/services/authentication.service';
-import {filter} from 'rxjs/operators';
-import {ActivatedRoute, NavigationEnd, Route, Router} from '@angular/router';
+import { AuthenticationService, AuthenticationDialogComponent } from '@kolenergo/cpa';
+import { ActivatedRoute, NavigationEnd, Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',

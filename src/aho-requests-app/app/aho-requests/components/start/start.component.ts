@@ -1,15 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { AuthenticationDialogComponent } from '@kolenergo/lib';
-import { AuthenticationService } from '@kolenergo/lib';
+import { AuthenticationService, AuthenticationDialogComponent } from '@kolenergo/cpa';
 import { AhoRequestsService } from '../../services/aho-requests.service';
 import { MatSlideToggleChange, MatTableDataSource } from '@angular/material';
 import { NewRequestDialogComponent } from '../new-request-dialog/new-request-dialog.component';
 import { RequestDetailsDialogComponent } from '../request-details-dialog/request-details-dialog.component';
 import { AhoRequest } from '../../models/aho-request.model';
 import { ShowCompletedRequestsPipe } from '../../pipes/show-completed-requests.pipe';
-import {environment} from '../../../../environments/environment';
 
 @Component({
   selector: 'app-start',

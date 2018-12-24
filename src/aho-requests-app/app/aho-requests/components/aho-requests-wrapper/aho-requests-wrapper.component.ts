@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { AuthenticationDialogComponent, AuthenticationService } from '@kolenergo/lib';
+import { AuthenticationDialogComponent, AuthenticationService } from '@kolenergo/cpa';
 import { AhoRequestsService } from '../../services/aho-requests.service';
 import { environment } from '../../../../environments/environment';
 import { FiltersDialogComponent } from '../filters-dialog/filters-dialog.component';

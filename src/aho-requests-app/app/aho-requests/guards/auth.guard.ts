@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
-import { AuthenticationService } from '@kolenergo/lib';
+import { AuthenticationService } from '@kolenergo/cpa';
 
 @Injectable()
 export class AuthGuard implements CanActivate {

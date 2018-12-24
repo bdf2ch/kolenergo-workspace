@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { AuthenticationService } from '@kolenergo/lib';
-import { User } from '@kolenergo/cpa';
+import { AuthenticationService } from '@kolenergo/cpa';
 import { AhoRequestsService } from '../../services/aho-requests.service';
 import { AhoRequest } from '../../models/aho-request.model';
 import { MatTableDataSource } from '@angular/material';
@@ -41,7 +40,7 @@ export class NewRequestDialogComponent implements OnInit {
     this.headerColumns = this.newRequest.type.isCountable ? ['title', 'count', 'controls'] : ['title', 'controls'];
     this.newRequestForm = this.formBuilder.group({
       initiator: new FormControl(null),
-      phone: new FormControl(null)
+      phone: new FormControl(null, Validators.required)
     });
     this.newTaskForm = this.formBuilder.group({
       title: ['', Validators.required],
@@ -95,6 +94,14 @@ export class NewRequestDialogComponent implements OnInit {
    */
   getRoomErrorMessage(): string {
     return this.newRequestForm.get('room').hasError('required') ? 'Вы не ввели номер кабинета' : '';
+  }
+
+  /**
+   * Возвращает текст ошибки для поля ввода контактного телефона
+   * @returns {string}
+   */
+  getPhoneErrorMessage(): string {
+    return this.newRequestForm.get('phone').hasError('required') ? 'Вы не ввели контактный телефон' : '';
   }
 
   /**

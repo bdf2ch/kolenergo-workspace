@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatSelectChange } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { OperativeSituationService } from '../../services/operative-situation.service';
 import { ReportAddDialogComponent } from '../report-add-dialog/report-add-dialog.component';
-import { AuthenticationService } from '@kolenergo/lib';
-import { ICompany } from '@kolenergo/cpa';
+import { ICompany, AuthenticationService } from '@kolenergo/cpa';
 
 @Component({
   selector: 'app-operative-situation',

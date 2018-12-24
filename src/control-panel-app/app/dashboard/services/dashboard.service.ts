@@ -3,7 +3,7 @@ import { ApplicationMenuManager } from '../models/application-menu-manager.model
 import { NavigationEnd, Router } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
 import { DashboardResource } from '../resources/dashboard.resource';
-import { IServerResponse } from '@kolenergo/lib';
+import { IServerResponse } from '../../common/interfaces/server-response.interface';
 import { IControlPanelInitData } from '../interfaces/control-panel-init-data.interface';
 import { Observable } from 'rxjs/Observable';
 import { from } from 'rxjs/observable/from';

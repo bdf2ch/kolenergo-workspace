@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { ExportsModule } from '../exports.module';
+import { UsersResource } from './resources/users.resource';
+import { UsersService } from './services/users.service';
 import { UsersComponent } from './components/users/users.component';
 import { UsersRoutingModule } from './users-routing.module';
 import { UsersListComponent } from './components/users-list/users-list.component';
@@ -12,6 +14,10 @@ import { UsersListComponent } from './components/users-list/users-list.component
   declarations: [
     UsersComponent,
     UsersListComponent
+  ],
+  providers: [
+    UsersResource,
+    UsersService
   ]
 })
 export class UsersModule {

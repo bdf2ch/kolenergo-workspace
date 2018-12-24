@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AuthenticationResource } from '../resources/authentication.resource';
-import { User } from '@kolenergo/cpa';
+import { User } from '../../users/models/user.model';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { from } from 'rxjs/observable/from';
-import {Observable} from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class AuthenticationService {

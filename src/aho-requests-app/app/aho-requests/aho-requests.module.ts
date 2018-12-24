@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { AhoRequestsRouterModule } from './aho-requests.router.module';
 import { ExportsModule } from '../exports.module';
-import { UsersModule } from '@kolenergo/lib';
+import { UsersModule } from '@kolenergo/cpa';
 import { AhoRequestsComponent } from './components/aho-requests/aho-requests.component';
 import { StartComponent } from './components/start/start.component';
 import { NewRequestDialogComponent } from './components/new-request-dialog/new-request-dialog.component';

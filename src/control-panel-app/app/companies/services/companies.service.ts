@@ -3,10 +3,10 @@ import { CompaniesResource } from '../resources/companies.resource';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ICompany, Company } from '@kolenergo/cpa';
 import { MatTableDataSource } from '@angular/material';
-import {Observable} from 'rxjs/Observable';
-import {from} from 'rxjs/observable/from';
-import {finalize, map} from 'rxjs/operators';
-import {IServerResponse} from '@kolenergo/lib';
+import { Observable } from 'rxjs/Observable';
+import { from } from 'rxjs/observable/from';
+import { finalize, map } from 'rxjs/operators';
+import { IServerResponse } from '../../common/interfaces/server-response.interface';
 
 @Injectable()
 export class CompaniesService {

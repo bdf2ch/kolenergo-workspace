@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { UsersResource } from '../resources/users.resource';
-import { IUser } from '../../../../control-panel-app/app/users/interfaces/user.interface';
-import { User } from '../../../../control-panel-app/app/users/models/user.model';
+import { IUser } from '../interfaces/user.interface';
+import { User } from '../models/user.model';
 
 @Injectable()
 export class UsersService {

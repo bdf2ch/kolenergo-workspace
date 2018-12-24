@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { AuthenticationService, IServerResponse } from '@kolenergo/lib';
-import { ICompany, Company } from '@kolenergo/cpa';
+import { IServerResponse } from '@kolenergo/cpa';
+import { ICompany, Company, AuthenticationService } from '@kolenergo/cpa';
 import { OperativeSituationResource } from '../resources/operative-situation.resource';
 import { Observable } from 'rxjs/Observable';
 import { from } from 'rxjs/observable/from';
 import { finalize, map } from 'rxjs/operators';
 import { IOperativeSituationReport, IOperativeSituationReportsInitialData, OperativeSituationReport } from '@kolenergo/osr';
-import {OperativeSituationConsumption} from '../models/operative-situation-consumption.model';
-import {IOperativeSituationConsumption} from '../interfaces/operative-situation-consumption.interface';
+import { OperativeSituationConsumption } from '../models/operative-situation-consumption.model';
+import { IOperativeSituationConsumption } from '../interfaces/operative-situation-consumption.interface';
 import * as moment from 'moment';
 
 
@@ -160,7 +160,7 @@ export class OperativeSituationService {
           return consumption;
         }),
         finalize(() => {
-          this.addingReport$.next(false);
+          this.addingConsumption$.next(false);
         })
       );
   }

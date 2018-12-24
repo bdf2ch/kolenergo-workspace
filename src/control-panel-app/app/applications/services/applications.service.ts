@@ -3,7 +3,7 @@ import { ApplicationsResource } from '../resources/applications.resource';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Application } from '../models/application.model';
 import { IApplication } from '../interfaces/application.interface';
-import { IServerResponse } from '@kolenergo/lib';
+import { IServerResponse } from '../../common/interfaces/server-response.interface';
 import { IPermission } from '../../users/interfaces/permission.interface';
 import { IRole } from '../../users/interfaces/role.interface';
 import { Role } from '../../users/models/role.model';

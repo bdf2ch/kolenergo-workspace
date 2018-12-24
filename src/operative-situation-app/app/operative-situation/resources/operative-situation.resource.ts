@@ -9,7 +9,7 @@ import {
   ResourceRequestMethod
 } from '@ngx-resource/core';
 import { environment } from '../../../../_common/environments/environment';
-import { IServerResponse } from '@kolenergo/lib';
+import { IServerResponse } from '@kolenergo/cpa';
 import { IOperativeSituationReport, IOperativeSituationReportsInitialData, OperativeSituationReport } from '@kolenergo/osr';
 import { OperativeSituationConsumption } from '../models/operative-situation-consumption.model';
 import { IOperativeSituationConsumption } from '../interfaces/operative-situation-consumption.interface';

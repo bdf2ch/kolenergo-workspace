@@ -1,6 +1,5 @@
-import { Company, ICompany, User } from '@kolenergo/cpa';
+import { Backup, Company, ICompany, User } from '@kolenergo/cpa';
 import { IOperativeSituationConsumption } from '../interfaces/operative-situation-consumption.interface';
-import { Backup } from '@kolenergo/lib';
 
 /**
  * Класс, реализующий интерфейс маскимального потребления за прошедшие сутки

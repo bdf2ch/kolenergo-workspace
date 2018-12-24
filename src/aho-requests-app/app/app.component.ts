@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AuthenticationDialogComponent } from '../../shared-lib/api';
-import { AuthenticationService } from '../../shared-lib/app/authentication/services/authentication.service';
+import { AuthenticationService, AuthenticationDialogComponent } from '@kolenergo/cpa';
 
 @Component({
   selector: 'app-root',

@@ -3,7 +3,7 @@ import { IOffice } from '../interfaces/office.interface';
 import { IDepartment } from '../interfaces/department.interface';
 import { Department } from './department.model';
 import { Office } from './office.model';
-import { Backup} from '@kolenergo/lib';
+import { Backup} from '../../common/models/backup.model';
 
 
 /**

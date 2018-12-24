@@ -23,14 +23,14 @@
       "@kolenergo/portal": [
         "portal-app/app/*"
       ],
-      "@kolenergo/lib": [
-        "shared-lib/api.ts"
-      ],
       "@kolenergo/osr": [
         "operative-situation-app/exports.ts"
       ],
       "@kolenergo/cpa": [
         "control-panel-app/exports.ts"
+      ],
+      "@kolenergo/aho": [
+        "aho-requests-app/exports.ts"
       ]
     }
   }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {ActivatedRouteSnapshot, RouterStateSnapshot, CanActivate, CanActivateChild, Router} from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot, CanActivate, CanActivateChild, Router } from '@angular/router';
 import { OperativeSituationService } from '../services/operative-situation.service';
-import { AuthenticationService } from '@kolenergo/lib';
+import { AuthenticationService } from '@kolenergo/cpa';
 
 @Injectable()
 export class SessionCanActivateGuard implements CanActivate, CanActivateChild {

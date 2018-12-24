@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from "@angular/router";
-import { AuthenticationService } from "@kolenergo/lib";
-import { AhoRequestsService } from "../services/aho-requests.service";
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import { AuthenticationService } from '@kolenergo/cpa';
+import { AhoRequestsService } from '../services/aho-requests.service';
 
 @Injectable()
 export class AhoRequestsAdminGuard implements CanActivate {

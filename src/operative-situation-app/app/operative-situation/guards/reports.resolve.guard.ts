@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Resolve } from '@angular/router';
 import { OperativeSituationService } from '../services/operative-situation.service';
 import { OperativeSituationReport } from '@kolenergo/osr';
-import { AuthenticationService } from '@kolenergo/lib';
+import { AuthenticationService } from '@kolenergo/cpa';
 
 @Injectable()
 export class ReportsResolveGuard implements Resolve<OperativeSituationReport[]> {

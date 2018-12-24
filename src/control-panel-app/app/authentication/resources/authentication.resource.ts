@@ -8,7 +8,7 @@ import {
   ResourceParams,
   ResourceRequestMethod
 } from '@ngx-resource/core';
-import { IUser } from '../../../../control-panel-app/app/users/interfaces/user.interface';
+import { IUser } from '../../users/interfaces/user.interface';
 import { WindowRef } from '../services/window.service';
 import { environment } from '../../../../_common/environments/environment';
 

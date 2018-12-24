@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AuthenticationDialogComponent, AuthenticationService } from '@kolenergo/lib';
+import { AuthenticationDialogComponent, AuthenticationService } from '@kolenergo/cpa';
 import { AhoRequestsService } from '../../services/aho-requests.service';
 import { FiltersDialogComponent } from '../filters-dialog/filters-dialog.component';
 import { AhoRequestFilter } from '../../models/aho-request-filter.model';

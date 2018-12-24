@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef, MatSelectChange } from '@angular/material';
 import { AhoRequestsService } from '../../services/aho-requests.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import {AhoRequestRejectReason} from '../../models/aho-request-reject-reason.model';
+import { AhoRequestRejectReason } from '../../models/aho-request-reject-reason.model';
 
 @Component({
   selector: 'app-reject-request',

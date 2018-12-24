@@ -5,28 +5,6 @@
   },
   "apps": [
     {
-      "name": "shared-lib",
-      "root": "src/shared-lib",
-      "outDir": "dist/shared-lib",
-      "assets": [],
-      "index": "../_common/index.html",
-      "main": "api.ts",
-      "polyfills": "../_common/polyfills.ts",
-      "test": "../test.ts",
-      "tsconfig": "../tsconfig.app.json",
-      "testTsconfig": "../tsconfig.spec.json",
-      "prefix": "lib",
-      "styles": [
-        "styles.less"
-      ],
-      "scripts": [],
-      "environmentSource": "../_common/environments/environment.ts",
-      "environments": {
-        "dev": "../_common/environments/environment.ts",
-        "prod": "../_common/environments/environment.prod.ts"
-      }
-    },
-    {
       "name": "control-panel-app",
       "root": "src/control-panel-app",
       "outDir": "dist/control-panel-app",

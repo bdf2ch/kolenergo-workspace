@@ -74,9 +74,11 @@
         <mat-form-field class="w-100 mb-2">
           <input type="text"
                  matInput
-                 placeholder="Контактный телефон (необязательно)"
+                 placeholder="Контактный телефон"
                  formControlName="phone"
+                 required
                  [(ngModel)]="newRequest.phone">
+          <mat-error *ngIf="newRequestForm.get('phone').invalid">{{ getPhoneErrorMessage() }}</mat-error>
         </mat-form-field>
         <!-- End: Контактный телефон -->
       </form>

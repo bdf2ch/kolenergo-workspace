@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Resolve, Router, CanActivate, CanActivateChild } from '@angular/router';
 import { AhoRequestsService } from '../services/aho-requests.service';
-import { AuthenticationService } from '@kolenergo/lib';
+import { AuthenticationService } from '@kolenergo/cpa';
 import { environment } from '../../../environments/environment';
 
 @Injectable()

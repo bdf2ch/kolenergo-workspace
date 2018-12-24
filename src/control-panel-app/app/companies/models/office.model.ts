@@ -1,4 +1,4 @@
-import { Backup } from '@kolenergo/lib';
+import { Backup } from '../../common/models/backup.model';
 import { IOffice } from '../interfaces/office.interface';
 
 /**

@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   IResourceMethod,
   IResourceMethodStrict,
@@ -9,19 +9,19 @@ import {
   ResourceRequestMethod,
   ResourceResponseBodyType
 } from '@ngx-resource/core';
-import {IAhoRequestType} from '../interfaces/aho-request-type.interface';
-import {IAddAhoRequestType} from '../interfaces/aho-request-type.add.interface';
-import {IAddAhoRequest} from '../interfaces/aho-request.add.interface';
-import {IAhoRequest} from '../interfaces/aho-request.interface';
-import {environment} from '../../../../_common/environments/environment';
-import {IAhoRequestStatus} from '../interfaces/aho-request-status.interface';
-import {IAhoRequestTaskContent} from '../interfaces/aho-request-task-content.interface';
-import {IAhoRequestComment} from '../interfaces/aho-request-comment.interface';
-import {IAhoRequestNeed} from '../interfaces/aho-request-need.interface';
-import {IAhoRequestRejectReason} from '../interfaces/aho-request-reject-reason.interface';
-import {IServerResponse} from '@kolenergo/lib';
-import {IAhoRequestsInitialData} from '../interfaces/aho-requests-initial-data.interface';
-import {IAhoServerResponse} from '../interfaces/aho-server-response.interface';
+import { IAhoRequestType } from '../interfaces/aho-request-type.interface';
+import { IAddAhoRequestType } from '../interfaces/aho-request-type.add.interface';
+import { IAddAhoRequest } from '../interfaces/aho-request.add.interface';
+import { IAhoRequest } from '../interfaces/aho-request.interface';
+import { environment } from '../../../../_common/environments/environment';
+import { IAhoRequestStatus } from '../interfaces/aho-request-status.interface';
+import { IAhoRequestTaskContent } from '../interfaces/aho-request-task-content.interface';
+import { IAhoRequestComment} from '../interfaces/aho-request-comment.interface';
+import { IAhoRequestNeed } from '../interfaces/aho-request-need.interface';
+import { IAhoRequestRejectReason } from '../interfaces/aho-request-reject-reason.interface';
+import { IServerResponse } from '@kolenergo/cpa';
+import { IAhoRequestsInitialData } from '../interfaces/aho-requests-initial-data.interface';
+import { IAhoServerResponse } from '../interfaces/aho-server-response.interface';
 
 
 @Injectable()

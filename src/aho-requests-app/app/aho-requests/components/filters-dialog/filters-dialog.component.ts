@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AhoRequestsService } from '../../services/aho-requests.service';
+import { AuthenticationService } from '@kolenergo/cpa';
 import { environment } from '../../../../environments/environment';
-import {AuthenticationService} from '@kolenergo/lib';
+
 
 @Component({
   selector: 'app-filters',

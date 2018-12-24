@@ -1,12 +1,10 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AuthenticationDialogComponent } from '../../shared-lib/api';
-import { AuthenticationService } from '../../shared-lib/app/authentication/services/authentication.service';
+import { AuthenticationDialogComponent } from './authentication/components/authentication/authentication-dialog.component';
+import { AuthenticationService } from './authentication/services/authentication.service';
 import { DashboardService } from './dashboard/services/dashboard.service';
-import {filter} from 'rxjs/operators';
-import {ActivatedRoute, NavigationEnd, Route, Router} from '@angular/router';
-import {Subscription} from 'rxjs/Subscription';
-import {ApplicationMenuItem} from './dashboard/models/application-menu-item.model';
+import { ActivatedRoute, NavigationEnd, Route, Router } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-root',

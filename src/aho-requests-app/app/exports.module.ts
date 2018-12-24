@@ -29,7 +29,7 @@ import { MatNativeDateModule } from '@angular/material';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { AuthenticationModule } from '@kolenergo/lib';
+import { AuthenticationModule } from '@kolenergo/cpa';
 
 @NgModule({
   imports: [

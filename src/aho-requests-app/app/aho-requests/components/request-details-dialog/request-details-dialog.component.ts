@@ -2,8 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild, Renderer2 } from '@angular/co
 import { Router } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AhoRequestsService } from '../../services/aho-requests.service';
-import { AuthenticationService } from '@kolenergo/lib';
-import { User } from '@kolenergo/cpa';
+import { User, AuthenticationService } from '@kolenergo/cpa';
 import { AhoRequestStatus } from '../../models/aho-request-status.model';
 import { AhoRequestTask } from '../../models/aho-request-task.model';
 import { AhoRequestComment } from '../../models/aho-request-comment.model';

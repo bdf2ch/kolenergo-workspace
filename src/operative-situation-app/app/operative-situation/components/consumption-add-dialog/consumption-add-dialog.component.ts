@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { OperativeSituationConsumption } from '@kolenergo/osr';
 import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
-import { AuthenticationService } from '@kolenergo/lib';
+import { AuthenticationService } from '@kolenergo/cpa';
 import { OperativeSituationService } from '../../services/operative-situation.service';
 
 @Component({

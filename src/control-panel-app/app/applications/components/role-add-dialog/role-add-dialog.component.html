@@ -24,7 +24,44 @@
           </mat-form-field>
         </div>
       </div>
+
+      <div class="row" *ngIf="newRole.permissions.length != applications.selectedApplication().permissions.length">
+        <div class="col">
+          <mat-form-field class="w-100">
+            <mat-label>Права</mat-label>
+            <mat-select placeholder="Favorite food" (selectionChange)="onSelectPermission($event)">
+              <mat-option *ngFor="let permission of (applications.selectedApplication().permissions | exceptSelectedPermissions:newRole.permissions) as permissions" [value]="permission">
+                {{ permission.title}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
     </form>
+
+
+    <mat-table [dataSource]="rolePermissionsDataSource" class="role-permissions-table mat-elevation-z2" *ngIf="newRole.permissions.length > 0">
+      <!-- Start: Колонка наименования права пользователя -->
+      <ng-container matColumnDef="title">
+        <mat-header-cell *matHeaderCellDef class="title-column">Права пользователей роли</mat-header-cell>
+        <mat-cell *matCellDef="let permission" class="title-column"> {{permission.title}}</mat-cell>
+      </ng-container>
+      <!-- End: Колонка наменования права пользователя -->
+
+      <!-- Start: Колонка элементов управления -->
+      <ng-container matColumnDef="controls">
+        <mat-header-cell *matHeaderCellDef class="controls-column"></mat-header-cell>
+        <mat-cell *matCellDef="let permission" class="controls-column">
+          <button mat-icon-button color="primary" (click)="deletePermission(permission)" matTooltip="Удалить" matTooltipPosition="above">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+      <!-- End: Колонка элементов управления -->
+
+      <mat-header-row *matHeaderRowDef="rolePermissionDisplayColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: rolePermissionDisplayColumns;"></mat-row>
+    </mat-table>
   </mat-dialog-content>
 
   <mat-dialog-actions>

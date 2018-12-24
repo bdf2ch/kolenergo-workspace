@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MatSnackBar } from '@angular/material';
+import { MatDialogRef, MatSelectChange, MatSnackBar, MatTableDataSource } from '@angular/material';
 import { ApplicationsService } from '../../services/applications.service';
+import { Permission } from '../../../users/models/permission.model';
 
 @Component({
   selector: 'app-role-edit-dialog',
@@ -10,20 +11,54 @@ import { ApplicationsService } from '../../services/applications.service';
 })
 export class RoleEditDialogComponent implements OnInit {
   public editRoleForm: FormGroup;
+  public rolePermissionsDataSource: MatTableDataSource<Permission>;
+  public rolePermissionDisplayColumns: string[];
 
   constructor(private readonly builder: FormBuilder,
               private readonly dialogRef: MatDialogRef<RoleEditDialogComponent>,
               private readonly snackBar: MatSnackBar,
-              public readonly applications: ApplicationsService) { }
+              public readonly applications: ApplicationsService) {
+    this.rolePermissionDisplayColumns = ['title', 'controls'];
+  }
 
   ngOnInit() {
     const role = this.applications.selectedRole();
+    this.rolePermissionsDataSource = new MatTableDataSource<Permission>(role.permissions);
     this.editRoleForm = this.builder.group({
       code: new FormControl(role ? role.code : null, Validators.required),
       title: new FormControl(role ? role.title : null, Validators.required)
     });
   }
 
+  /**
+   * Добавление права пользователя к роли
+   * @param event - Событие выбора права пользователя
+   */
+  onSelectPermission(event: MatSelectChange) {
+    const role = this.applications.selectedRole();
+    role.permissions.push(event.value);
+    this.rolePermissionsDataSource = new MatTableDataSource<Permission>(role.permissions);
+    this.editRoleForm.markAsDirty();
+  }
+
+  /**
+   * Удаление права пользователя из роли
+   * @param permission - Удаляемое право пользователя
+   */
+  deletePermission(permission: Permission) {
+    const role = this.applications.selectedRole();
+    role.permissions.forEach((item: Permission, index: number) => {
+      if (item.id === permission.id) {
+        role.permissions.splice(index, 1);
+      }
+    });
+    this.rolePermissionsDataSource = new MatTableDataSource<Permission>(role.permissions);
+    this.editRoleForm.markAsDirty();
+  }
+
+  /**
+   * Сохранение изменений в роли пользователя
+   */
   saveChanges() {
     this.applications.editRole(this.applications.selectedRole())
       .subscribe(() => {

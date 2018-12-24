@@ -98,7 +98,7 @@ export class ApplicationsService {
     return from(this.resource.editRole(role, null, {id: role.id}))
       .pipe(
         map((response: IServerResponse<IRole>) => {
-          role.backup.setup(['code', 'title', 'isEnabled']);
+          role.backup.setup(['code', 'title', 'isEnabled', 'permissions']);
           return role;
         }),
         finalize(() => {

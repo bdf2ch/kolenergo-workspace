@@ -31,7 +31,7 @@ export class Application extends Backup implements IApplication {
     if (config && config.roles) {
       config.roles.forEach((item: IRole) => {
         const role = new Role(item);
-        role.backup.setup(['code', 'title', 'isEnabled']);
+        role.backup.setup(['code', 'title', 'isEnabled', 'permissions']);
         this.roles.push(role);
       });
     }
@@ -39,7 +39,7 @@ export class Application extends Backup implements IApplication {
     if (config && config.permissions) {
       config.permissions.forEach((item: IPermission) => {
         const permission = new Permission(item);
-        permission.backup.setup(['code', 'title', 'isEnabled']);
+        permission.backup.setup(['code', 'title']);
         this.permissions.push(permission);
       });
     }

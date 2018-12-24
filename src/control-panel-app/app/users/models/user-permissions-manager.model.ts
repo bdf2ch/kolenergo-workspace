@@ -7,8 +7,8 @@ import { Role } from './role.model';
  * Класс, реализующий механизм доступа к правам  пользователя
  */
 export class UserPermissionsManager {
-  permissions: IPermission[];
-  roles: IRole[];
+  permissions: Permission[];
+  roles: Role[];
 
   /**
    * Конструктор

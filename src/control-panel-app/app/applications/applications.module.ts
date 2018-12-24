@@ -12,6 +12,7 @@ import { PermissionEditDialogComponent } from './components/permission-edit-dial
 import { PermissionAddDialogComponent } from './components/permission-add-dialog/permission-add-dialog.component';
 import { RoleEditDialogComponent } from './components/role-edit-dialog/role-edit-dialog.component';
 import { RoleAddDialogComponent } from './components/role-add-dialog/role-add-dialog.component';
+import { ExceptSelectedPermissionsPipe } from './pipes/except-selected-permissions.pipe';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { RoleAddDialogComponent } from './components/role-add-dialog/role-add-di
     PermissionEditDialogComponent,
     PermissionAddDialogComponent,
     RoleEditDialogComponent,
-    RoleAddDialogComponent
+    RoleAddDialogComponent,
+    ExceptSelectedPermissionsPipe
   ],
   providers: [
     ApplicationsResource,

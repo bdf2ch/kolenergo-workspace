@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MatSnackBar } from '@angular/material';
+import {MatDialogRef, MatSelectChange, MatSnackBar, MatTableDataSource} from '@angular/material';
 import { ApplicationsService } from '../../services/applications.service';
 import { Role } from '../../../users/models/role.model';
+import { Permission } from '../../../users/models/permission.model';
 
 @Component({
   selector: 'app-role-add-dialog',
@@ -12,12 +13,17 @@ import { Role } from '../../../users/models/role.model';
 export class RoleAddDialogComponent implements OnInit {
   public addRoleForm: FormGroup;
   public newRole: Role;
+  public permissions: Permission[];
+  public rolePermissionsDataSource: MatTableDataSource<Permission>;
+  public rolePermissionDisplayColumns: string[];
 
   constructor(private readonly builder: FormBuilder,
               private readonly dialogRed: MatDialogRef<RoleAddDialogComponent>,
               private readonly snackBar: MatSnackBar,
               public readonly applications: ApplicationsService) {
     this.newRole = new Role();
+    this.rolePermissionsDataSource = new MatTableDataSource<Permission>([]);
+    this.rolePermissionDisplayColumns = ['title', 'controls'];
   }
 
   ngOnInit() {
@@ -25,6 +31,22 @@ export class RoleAddDialogComponent implements OnInit {
       code: new FormControl(this.newRole.code, Validators.required),
       title: new FormControl(this.newRole.title, Validators.required)
     });
+  }
+
+
+  onSelectPermission(event: MatSelectChange) {
+    console.log(event);
+    this.newRole.permissions.push(event.value);
+    this.rolePermissionsDataSource = new MatTableDataSource<Permission>(this.newRole.permissions);
+  }
+
+  deletePermission(permission: Permission) {
+    this.newRole.permissions.forEach((item: Permission, index: number) => {
+      if (permission.id === item.id) {
+        this.newRole.permissions.splice(index, 1);
+      }
+    });
+    this.rolePermissionsDataSource = new MatTableDataSource<Permission>(this.newRole.permissions);
   }
 
   /**

@@ -10,6 +10,8 @@ export class ApplicationMenuItem implements IApplicationMenuItem {
   icon: string;                       // Иконка
   items: ApplicationMenuItem[];       // Перечень дочених элементов меню
   parent: ApplicationMenuItem;        // Родительский элемент меню
+  isButtonEnabled: boolean;           //
+  action: string;
 
   /**
    * Конструктор
@@ -21,6 +23,8 @@ export class ApplicationMenuItem implements IApplicationMenuItem {
     this.link = config ? config.link : null;
     this.icon = config ? config.icon : null;
     this.parent = null;
+    this.isButtonEnabled = config && config.isButtonEnabled ? config.isButtonEnabled : false;
+    this.action = config && config.action ? config.action : null;
     this.items = [];
   }
 

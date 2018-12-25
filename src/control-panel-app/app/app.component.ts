@@ -5,6 +5,7 @@ import { AuthenticationService } from './authentication/services/authentication.
 import { DashboardService } from './dashboard/services/dashboard.service';
 import { ActivatedRoute, NavigationEnd, Route, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
+import {CompanyAddDialogComponent} from './companies/components/company-add-dialog/company-add-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -35,5 +36,14 @@ export class AppComponent implements OnInit, OnDestroy {
 
   logOut(): void {
     this.authenticationService.logOut();
+  }
+
+  /**
+   * Открытие диалогового окна добавления новой организации
+   */
+  openAddCompanyDialog() {
+    this.dialog.open(CompanyAddDialogComponent, {
+      width: '450px'
+    });
   }
 }

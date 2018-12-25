@@ -7,6 +7,7 @@ import { CompanyComponent } from './components/company/company.component';
 import { CompaniesService } from './services/companies.service';
 import { CompaniesResource } from './resources/companies.resource';
 import { CompaniesResolveGuard } from './guards/companies.resolve.guard';
+import { CompanyAddDialogComponent } from './components/company-add-dialog/company-add-dialog.component';
 
 @NgModule({
   imports: [
@@ -16,12 +17,16 @@ import { CompaniesResolveGuard } from './guards/companies.resolve.guard';
   declarations: [
     CompaniesComponent,
     CompaniesListComponent,
-    CompanyComponent
+    CompanyComponent,
+    CompanyAddDialogComponent
   ],
   providers: [
     CompaniesResource,
     CompaniesService,
     CompaniesResolveGuard
+  ],
+  entryComponents: [
+    CompanyAddDialogComponent
   ]
 })
 export class CompaniesModule { }

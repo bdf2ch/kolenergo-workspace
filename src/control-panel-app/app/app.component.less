@@ -1,27 +1,45 @@
 @app-sidebar-width: 220px;
-@app-sidebar-background-color: #37474f;
+@app-sidebar-background-color: #546e7a;
 @app-sidebar-menu-item-height: 48px;
 @app-sidebar-menu-item-background-color-hover: #455a64;
 @app-sidebar-menu-item-background-color-selected: #263238;
-@app-sidebar-menu-item-selected-border-color: #4fc3f7;
+@app-sidebar-menu-item-selected-border-color: #00b0ff;
 @app-sidebar-submenu-width: 220px;
-@app-sidebar-submenu-background-color: #263238;
+// @app-sidebar-submenu-background-color: #263238;
+@app-sidebar-submenu-background-color: #eceff1;
 @app-content-background-color: #f5f5f5;
 
 .mat-toolbar {
-  background: #006064;
+  background: #37474f;
 }
 
 .app-sidebar {
   width: @app-sidebar-width;
   font-family: "Segoe UI Light";
   color: white;
+
   background: @app-sidebar-background-color;
 
   .menu-item {
+    color: white;
     &.selected {
       border-left: 4px solid @app-sidebar-menu-item-selected-border-color;
-      background: @app-sidebar-menu-item-background-color-selected;
+      // background: @app-sidebar-menu-item-background-color-selected;
+      .mat-icon {
+        color: @app-sidebar-menu-item-selected-border-color
+      }
+    }
+
+    .mat-icon {
+      color: white;
+    }
+
+    .corner {
+      width: 0px;
+      height: 0px;
+      justify-self: flex-end;
+      border: 6px solid transparent;
+      border-right-color: #eceff1;
     }
   }
 }
@@ -29,19 +47,31 @@
 .submenu {
   width: @app-sidebar-submenu-width;
   font-family: "Segoe UI Light";
-  color: white;
+  color: black;
   line-height: 18px;
   background: @app-sidebar-submenu-background-color;
   .menu-item {
+    color: #607d8b;
     &:hover {
-      background: #1c313a;
+      // color: black;
+      background: #cfd8dc !important;
     }
     &.selected {
-      border-left: 4px solid transparent;
-      border-right: 4px solid @app-sidebar-menu-item-selected-border-color;
-      background: #37474f;
+      color: black;
+      background: #eceff1;
       // background: @app-sidebar-menu-item-background-color-selected;
+      .mat-icon {
+        color: #ff4081;
+      }
     }
+    .mat-icon {
+      color: @app-sidebar-menu-item-selected-border-color;
+    }
+  }
+
+  .mat-stroked-button {
+    color: @app-sidebar-menu-item-selected-border-color;
+    border-color: @app-sidebar-menu-item-selected-border-color;
   }
 }
 
@@ -56,7 +86,6 @@
   &:hover {
     background: @app-sidebar-menu-item-background-color-hover;
   }
-
 }
 
 .app-content {

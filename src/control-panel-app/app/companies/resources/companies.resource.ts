@@ -29,17 +29,16 @@ export class CompaniesResource extends Resource {
   })
   getAll: IResourceMethod<void, IServerResponse<ICompany[]>>;
 
+  @ResourceAction({
+    path: '/',
+    method: ResourceRequestMethod.Post,
+    withCredentials: true
+  })
+  addCompany: IResourceMethod<ICompany, IServerResponse<ICompany>>;
 
 
 
   /*
-  @ResourceAction({
-    path: '/roles',
-    method: ResourceRequestMethod.Post,
-    withCredentials: true
-  })
-  addRole: IResourceMethod<IRole, IServerResponse<IRole>>;
-
   @ResourceAction({
     path: '/roles/{:id}',
     method: ResourceRequestMethod.Patch,

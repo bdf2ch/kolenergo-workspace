@@ -62,7 +62,8 @@ export class AppModule {
         id: 'companies',
         title: 'Организации',
         link: '/companies',
-        icon: 'business'
+        icon: 'business',
+        isButtonEnabled: true
       })
     );
     this.dashboard.menu.addItem(

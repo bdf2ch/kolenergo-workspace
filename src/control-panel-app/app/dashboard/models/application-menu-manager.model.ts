@@ -33,10 +33,20 @@ export class ApplicationMenuManager {
   setActiveItem(link: string): ApplicationMenuItem | null {
     console.log(this.items);
     this.items.getValue().forEach((item: ApplicationMenuItem) => {
+      let result = null;
+      let parent = null;
       if (item.link === link) {
+        item.isSelected = true;
+        if (item.parent) {
+          parent = item.parent;
+          parent.isSelected = true;
+        }
         this.activeMenuItem.next(item);
-        return item;
+        result = item;
+      } else if (parent && item.id !== parent.id) {
+        item.isSelected = false;
       }
+      return result;
     });
     /*
     this.menuBehaviorSubject.getValue().forEach((item: ApplicationMenuItem) => {

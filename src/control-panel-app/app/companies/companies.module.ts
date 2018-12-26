@@ -8,6 +8,7 @@ import { CompaniesService } from './services/companies.service';
 import { CompaniesResource } from './resources/companies.resource';
 import { CompaniesResolveGuard } from './guards/companies.resolve.guard';
 import { CompanyAddDialogComponent } from './components/company-add-dialog/company-add-dialog.component';
+import {DashboardService} from '../dashboard/services/dashboard.service';
 
 @NgModule({
   imports: [
@@ -29,4 +30,9 @@ import { CompanyAddDialogComponent } from './components/company-add-dialog/compa
     CompanyAddDialogComponent
   ]
 })
-export class CompaniesModule { }
+export class CompaniesModule {
+  constructor(private readonly dashboard: DashboardService,
+              private readonly companies: CompaniesService) {
+    this.companies.companies$.next(this.dashboard.companies);
+  }
+}

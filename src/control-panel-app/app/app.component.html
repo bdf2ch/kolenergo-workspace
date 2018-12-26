@@ -1,11 +1,73 @@
+<!--
 <div class="d-flex flex-column h-100">
+
   <mat-toolbar color="primary">Панель управления</mat-toolbar>
-  <div class="container-fluid d-flex" style="flex: 1 0;">
+  -->
+
+  <div class="container-fluid d-flex flex-row h-100" style="flex: 1 0;">
     <div class="row d-flex" style="flex: 1;">
 
       <!-- Start: Элементы меню приложения -->
       <div class="col-auto app-sidebar d-flex flex-column p-0">
-        <a class="menu-item d-flex flex-row justify-content-between pl-3"
+
+        <!-- Start: Информация о текущем пользователе -->
+        <div class="app-sidebar-user">
+          current user
+        </div>
+        <!-- End: Информация о текущем пользователе -->
+
+        <!-- Start: Меню приложения -->
+        <div class="app-sidebar-menu pl-3 pr-3 mt-4">
+          <mat-accordion displayMode="flat">
+            <mat-expansion-panel
+              class="mat-elevation-z0"
+              *ngFor="let item of (dashboard.menu.getItems() | async)"
+              [hideToggle]="item.items.length === 0"
+              [expanded]="item.isSelected">
+              <mat-expansion-panel-header
+                routerLinkActive="selected"
+                collapsedHeight="48px"
+                expandedHeight="48px">
+                <mat-panel-title *ngIf="item.link"
+                                 routerLink="{{item.link}}"
+                                 routerLinkActive="active">
+                  <mat-icon class="mr-3">{{item.icon}}</mat-icon>
+                  {{item.title}}
+                </mat-panel-title>
+                <mat-panel-title *ngIf="!item.link">
+                  <div class="d-flex align-items-center">
+                    <mat-icon class="mr-3">{{item.icon}}</mat-icon>
+                    {{item.title}}
+                  </div>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="d-flex flex-column p-0">
+                <a class="menu-item d-flex flex-row pl-3"
+                   *ngFor="let subItem of item.items"
+                   routerLink="{{subItem.link}}"
+                   routerLinkActive="selected">
+                  <mat-icon class="mr-3">{{subItem.icon}}</mat-icon>
+                  <span class="title">{{subItem.title}}</span>
+                </a>
+                <div class="pl-3 pr-3 mt-3" *ngIf="item.buttons.length > 0">
+                  <button mat-stroked-button class="w-100" color="primary" *ngFor="let control of item.buttons" (click)="control.action()">
+                    <div class="d-flex flex-row justify-content-center align-items-center">
+                      <mat-icon class="mr-2" *ngIf="control.icon">{{control.icon}}</mat-icon>
+                      {{control.title ? control.title : ''}}
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+        <!-- Start: Меню приложения -->
+
+
+
+
+        <!--
+        <a class="menu-item d-flex flex-row justify-content-between"
            *ngFor="let item of (dashboard.menu.getItems() | async)"
            routerLink="{{item.link}}"
            routerLinkActive="selected">
@@ -15,9 +77,12 @@
           </div>
           <div class="corner" *ngIf="(dashboard.menu.getActiveItem() | async)?.items.length > 0 && (dashboard.menu.getActiveItem() | async)?.id === item.id"></div>
         </a>
+        -->
       </div>
+
       <!-- End: Элементы меню приложения -->
 
+      <!--
       <div class="col-auto submenu d-flex flex-column p-0 border-right"
            *ngIf="(dashboard.menu.getActiveItem() | async)?.items.length > 0 || (dashboard.menu.getActiveItem() | async)?.parent">
         <a class="menu-item d-flex flex-row pl-3 pr-3"
@@ -36,6 +101,7 @@
           </button>
         </div>
       </div>
+      -->
 
       <!-- Start: Содержимое активного раздела приложения -->
       <div class="col app-content">
@@ -45,4 +111,6 @@
     </div>
   </div>
 
+<!--
 </div>
+-->

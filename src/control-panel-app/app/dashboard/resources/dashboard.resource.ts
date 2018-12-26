@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { IResourceMethod, Resource, ResourceAction, ResourceHandler, ResourceParams, ResourceRequestMethod } from '@ngx-resource/core';
 import { environment } from '../../../../_common/environments/environment';
 import { IServerResponse } from '../../common/interfaces/server-response.interface';
-import { IControlPanelInitData } from '../interfaces/control-panel-init-data.interface';
+import { IControlPanelInitialData } from '../interfaces/control-panel.init.interface';
 
 @Injectable()
 @ResourceParams({
@@ -19,6 +19,6 @@ export class DashboardResource extends Resource {
     method: ResourceRequestMethod.Get,
     withCredentials: true
   })
-  getInitialData: IResourceMethod<void, IServerResponse<IControlPanelInitData>>;
+  getInitialData: IResourceMethod<void, IServerResponse<IControlPanelInitialData>>;
 
 }

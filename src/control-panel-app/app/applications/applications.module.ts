@@ -13,6 +13,7 @@ import { PermissionAddDialogComponent } from './components/permission-add-dialog
 import { RoleEditDialogComponent } from './components/role-edit-dialog/role-edit-dialog.component';
 import { RoleAddDialogComponent } from './components/role-add-dialog/role-add-dialog.component';
 import { ExceptSelectedPermissionsPipe } from './pipes/except-selected-permissions.pipe';
+import { DashboardService } from '../dashboard/services/dashboard.service';
 
 
 @NgModule({
@@ -45,5 +46,8 @@ import { ExceptSelectedPermissionsPipe } from './pipes/except-selected-permissio
 })
 export class ApplicationsModule {
 
-  constructor() {}
+  constructor(private readonly dashboard: DashboardService,
+              private readonly applications: ApplicationsService) {
+    this.applications.applications$.next(this.dashboard.applications);
+  }
 }

@@ -17,7 +17,7 @@ import { finalize, map } from 'rxjs/operators';
 
 @Injectable()
 export class ApplicationsService {
-  private applications$: BehaviorSubject<Application[]>;
+  public applications$: BehaviorSubject<Application[]>;
   private selectedApplication$: BehaviorSubject<Application>;
   private selectedApplicationRolesDataSource: MatTableDataSource<Role>;
   private selectedApplicationPermissionsDataSource: MatTableDataSource<Permission>;
@@ -29,8 +29,7 @@ export class ApplicationsService {
   private addingPermission$: BehaviorSubject<boolean>;
   private editingPermission$: BehaviorSubject<boolean>;
 
-  constructor(private readonly resource: ApplicationsResource,
-              private readonly dashboard: DashboardService) {
+  constructor(private readonly resource: ApplicationsResource) {
     this.applications$ = new BehaviorSubject<Application[]>([]);
     this.selectedApplication$ = new BehaviorSubject<Application>(null);
     this.selectedApplicationRolesDataSource = new MatTableDataSource<Role>([]);

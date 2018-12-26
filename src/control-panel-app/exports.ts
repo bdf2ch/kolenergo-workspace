@@ -7,7 +7,7 @@
 export { IBackup } from './app/common/interfaces/backup.interface';
 export { IServerResponse } from './app/common/interfaces/server-response.interface';
 export { IPagination } from './app/common/interfaces/pagination.interface';
-export { IControlPanelInitData } from './app/dashboard/interfaces/control-panel-init-data.interface';
+export { IControlPanelInitialData } from './app/dashboard/interfaces/control-panel.init.interface';
 export { IApplication } from './app/applications/interfaces/application.interface';
 export { ICompany } from './app/companies/interfaces/company.interface';
 export { IOffice } from './app/companies/interfaces/office.interface';

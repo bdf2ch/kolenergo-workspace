@@ -41,39 +41,48 @@ export class AppModule {
     /**
      * Регистрация элементов меню приложения
      */
-    this.dashboard.menu.addItem(
-      new ApplicationMenuItem({
-        id: 'dashboard',
-        title: 'Главная',
-        link: '/dashboard',
-        icon: 'dashboard'
-      })
-    );
-    this.dashboard.menu.addItem(
-      new ApplicationMenuItem({
-        id: 'applications',
-        title: 'Приложения',
-        link: '/applications',
-        icon: 'web'
-      })
-    );
-    this.dashboard.menu.addItem(
-      new ApplicationMenuItem({
-        id: 'companies',
-        title: 'Организации',
-        link: '/companies',
-        icon: 'business',
-        isButtonEnabled: true
-      })
-    );
-    this.dashboard.menu.addItem(
-      new ApplicationMenuItem({
-        id: 'users',
-        title: 'Пользователи',
-        link: '/users',
-        icon: 'person'
-      })
-    );
+    (() => {
+      this.dashboard.menu.addItem(
+        new ApplicationMenuItem({
+          id: 'dashboard',
+          title: 'Главная',
+          link: '/dashboard',
+          icon: 'dashboard'
+        })
+      );
+      this.dashboard.menu.addItem(
+        new ApplicationMenuItem({
+          id: 'applications',
+          title: 'Приложения',
+          icon: 'web'
+        })
+      );
 
+
+        this.dashboard.menu.addItem(
+          new ApplicationMenuItem({
+            id: 'companies',
+            title: 'Организации',
+            icon: 'business',
+            isButtonEnabled: true,
+            buttons: [
+              {
+                title: 'Добавить',
+                icon: 'add',
+                action: this.dashboard.openAddCompanyDialog
+              }
+            ]
+          })
+        );
+
+      this.dashboard.menu.addItem(
+        new ApplicationMenuItem({
+          id: 'users',
+          title: 'Пользователи',
+          link: '/users',
+          icon: 'person'
+        })
+      );
+    })();
   }
 }

@@ -11,7 +11,7 @@ import { IServerResponse } from '../../common/interfaces/server-response.interfa
 
 @Injectable()
 export class CompaniesService {
-  private companies$: BehaviorSubject<Company[]>;
+  public companies$: BehaviorSubject<Company[]>;
   private selectedCompany$: BehaviorSubject<Company>;
   private fetchingData$: BehaviorSubject<boolean>;
   private addingCompany$: BehaviorSubject<boolean>;

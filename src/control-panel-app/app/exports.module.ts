@@ -27,6 +27,7 @@ import { MatNativeDateModule } from '@angular/material';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { AuthenticationModule } from './authentication/authentication.module';
 
 @NgModule({
@@ -61,7 +62,8 @@ import { AuthenticationModule } from './authentication/authentication.module';
     MatProgressBarModule,
     MatSlideToggleModule,
     MatPaginatorModule,
-    MatChipsModule
+    MatChipsModule,
+    MatExpansionModule
   ],
   declarations: [],
   exports: [
@@ -94,7 +96,8 @@ import { AuthenticationModule } from './authentication/authentication.module';
     MatNativeDateModule,
     MatProgressBarModule,
     MatSlideToggleModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatExpansionModule
   ]
 })
 export class ExportsModule {}

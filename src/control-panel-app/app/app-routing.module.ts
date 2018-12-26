@@ -9,7 +9,7 @@ const routes: Routes = [
     path: '',
     component: DashboardComponent,
     resolve: [
-      // InitDataResolveGuard
+      InitDataResolveGuard
     ],
     children: [
       {

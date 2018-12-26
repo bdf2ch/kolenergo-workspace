@@ -41,7 +41,7 @@ export class AppComponent implements OnInit, OnDestroy {
   /**
    * Открытие диалогового окна добавления новой организации
    */
-  openAddCompanyDialog() {
+  public openAddCompanyDialog() {
     this.dialog.open(CompanyAddDialogComponent, {
       width: '450px'
     });

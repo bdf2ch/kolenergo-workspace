@@ -10,7 +10,7 @@ const routes: Routes = [
     path: '',
     component: ApplicationsComponent,
     resolve: [
-      ApplicationsResolveGuard
+      // ApplicationsResolveGuard
     ],
     children: [
       {

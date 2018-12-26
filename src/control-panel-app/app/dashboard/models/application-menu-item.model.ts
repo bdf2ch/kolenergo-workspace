@@ -1,4 +1,6 @@
 import { IApplicationMenuItem } from '../interfaces/application-menu-item.interface';
+import {ApplicationMenuItemControl} from './application-menu-item-control.model';
+import {IApplicationMenuItemControl} from '../interfaces/application-menu-item-control.interface';
 
 /**
  * Класс, реализующий интерфейс элемента меню приложения
@@ -10,8 +12,10 @@ export class ApplicationMenuItem implements IApplicationMenuItem {
   icon: string;                       // Иконка
   items: ApplicationMenuItem[];       // Перечень дочених элементов меню
   parent: ApplicationMenuItem;        // Родительский элемент меню
+  isSelected: boolean;                // Является ли текущим
   isButtonEnabled: boolean;           //
   action: string;
+  buttons: ApplicationMenuItemControl[];    // Массив элементов управлению пункта меню
 
   /**
    * Конструктор
@@ -23,9 +27,18 @@ export class ApplicationMenuItem implements IApplicationMenuItem {
     this.link = config ? config.link : null;
     this.icon = config ? config.icon : null;
     this.parent = null;
+    this.isSelected = false;
     this.isButtonEnabled = config && config.isButtonEnabled ? config.isButtonEnabled : false;
     this.action = config && config.action ? config.action : null;
+    this.buttons = [];
     this.items = [];
+
+    if (config && config.buttons) {
+      config.buttons.forEach((item: IApplicationMenuItemControl) => {
+        const control = new ApplicationMenuItemControl(item);
+        this.buttons.push(control);
+      });
+    }
   }
 
   /**

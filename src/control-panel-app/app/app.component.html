@@ -41,7 +41,7 @@
                   </div>
                 </mat-panel-title>
               </mat-expansion-panel-header>
-              <div class="d-flex flex-column p-0">
+              <div class="d-flex flex-column p-0" *ngIf="item.items.length > 0">
                 <a class="menu-item d-flex flex-row pl-3"
                    *ngFor="let subItem of item.items"
                    routerLink="{{subItem.link}}"

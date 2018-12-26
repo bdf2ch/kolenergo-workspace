@@ -8,6 +8,8 @@ import { Permission } from '../../../users/models/permission.model';
 import { PermissionAddDialogComponent } from '../permission-add-dialog/permission-add-dialog.component';
 import { RoleEditDialogComponent } from '../role-edit-dialog/role-edit-dialog.component';
 import { RoleAddDialogComponent } from '../role-add-dialog/role-add-dialog.component';
+import { ApplicationMenuItem } from '../../../dashboard/models/application-menu-item.model';
+import { DashboardService } from '../../../dashboard/services/dashboard.service';
 
 @Component({
   selector: 'app-application',
@@ -20,6 +22,7 @@ export class ApplicationComponent implements OnInit {
 
   constructor(private readonly route: ActivatedRoute,
               private readonly dialog: MatDialog,
+              private readonly dashboard: DashboardService,
               public readonly applications: ApplicationsService) {
     this.route.params.subscribe((data: any) => {
       if (data['id']) {

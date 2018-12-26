@@ -6,6 +6,7 @@ import { DashboardService } from './dashboard/services/dashboard.service';
 import { ActivatedRoute, NavigationEnd, Route, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import {CompanyAddDialogComponent} from './companies/components/company-add-dialog/company-add-dialog.component';
+import {ApplicationMenuItem} from './dashboard/models/application-menu-item.model';
 
 @Component({
   selector: 'app-root',
@@ -42,6 +43,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * Открытие диалогового окна добавления новой организации
    */
   public openAddCompanyDialog() {
+    console.log('openAddCompanyDialogFunction');
     this.dialog.open(CompanyAddDialogComponent, {
       width: '450px'
     });

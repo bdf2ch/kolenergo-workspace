@@ -1,6 +1,6 @@
 import { IApplicationMenuItem } from '../interfaces/application-menu-item.interface';
-import {ApplicationMenuItemControl} from './application-menu-item-control.model';
-import {IApplicationMenuItemControl} from '../interfaces/application-menu-item-control.interface';
+import { ApplicationMenuItemControl } from './application-menu-item-control.model';
+import { IApplicationMenuItemControl } from '../interfaces/application-menu-item-control.interface';
 
 /**
  * Класс, реализующий интерфейс элемента меню приложения

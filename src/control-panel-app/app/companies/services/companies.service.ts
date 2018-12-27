@@ -12,7 +12,7 @@ import { IServerResponse } from '../../common/interfaces/server-response.interfa
 @Injectable()
 export class CompaniesService {
   public companies$: BehaviorSubject<Company[]>;
-  private selectedCompany$: BehaviorSubject<Company>;
+  public selectedCompany$: BehaviorSubject<Company>;
   private fetchingData$: BehaviorSubject<boolean>;
   private addingCompany$: BehaviorSubject<boolean>;
   private editingCompany$: BehaviorSubject<boolean>;
@@ -66,6 +66,23 @@ export class CompaniesService {
           this.addingCompany$.next(false);
         })
       );
+  }
+
+  /**
+   * Получение / установка текущей организации
+   * @param company - Организация, устанавливаемая текущей
+   */
+  selectedCompany(company?: Company | null): Observable<Company> {
+    if (company) {
+      this.selectedCompany$.next(company);
+    }
+    return this.selectedCompany$.asObservable();
+  }
+
+  getCompanyById(id: number): Company | null {
+    const findCompanyById = (company: Company) => company.id === id;
+    const result = this.companies$.getValue().find(findCompanyById);
+    return result ? result : null;
   }
 
 }

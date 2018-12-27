@@ -3,6 +3,7 @@
 @app-sidebar-menu-item-height: 36px;
 @app-sidebar-menu-item-icon-color: #3076C2;
 @app-sidebar-menu-item-text-color: #3B414F;
+@app-sidebar-menu-item-control-color: #00b0ff;
 @app-sidebar-menu-item-background-color-hover: #455a64;
 @app-sidebar-menu-item-selected-background-color: #263238;
 @app-sidebar-menu-item-selected-text-color: #0d47a1;
@@ -40,7 +41,6 @@
         .mat-expansion-panel-header {
           border-radius: 4px;
         }
-        // border-top: 1px solid transparent;
       }
       &:first-of-type {
         border-top: 1px solid transparent;
@@ -68,6 +68,17 @@
 
       .mat-icon {
         color: @app-sidebar-menu-item-text-color;
+      }
+
+      .mat-stroked-button {
+        color: @app-sidebar-menu-item-control-color;
+        border-color: @app-sidebar-menu-item-control-color;
+        &:hover {
+          background: #e1f5fe;
+        }
+        .mat-icon {
+          color: @app-sidebar-menu-item-control-color;
+        }
       }
 
       .menu-item {

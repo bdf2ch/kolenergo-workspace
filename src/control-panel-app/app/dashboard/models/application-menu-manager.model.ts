@@ -20,9 +20,15 @@ export class ApplicationMenuManager {
    * добавление элемента меню
    * @param item - Элемент меню приложения
    */
-  addItem(item: ApplicationMenuItem): ApplicationMenuItem {
+  addItem(item: ApplicationMenuItem, parent?: ApplicationMenuItem): ApplicationMenuItem {
+    item.parent = parent ? parent : null;
     this.items.next(this.items.getValue().concat([item]));
-    this.menuBehaviorSubject.next(this.menuBehaviorSubject.getValue().concat(item));
+    if (parent) {
+      parent.add(item);
+      this.menuBehaviorSubject.next(this.menuBehaviorSubject.getValue());
+    } else {
+      this.menuBehaviorSubject.next(this.menuBehaviorSubject.getValue().concat(item));
+    }
     return item;
   }
 
@@ -31,22 +37,18 @@ export class ApplicationMenuManager {
    * @param link - URL элемента меню
    */
   setActiveItem(link: string): ApplicationMenuItem | null {
-    console.log(this.items);
+    console.log('LINK', link);
+    console.log('ITEMS', this.items.getValue());
     this.items.getValue().forEach((item: ApplicationMenuItem) => {
-      let result = null;
-      let parent = null;
       if (item.link === link) {
+        console.log('MENU ITEM FOUND', item, link);
         item.isSelected = true;
-        if (item.parent) {
-          parent = item.parent;
-          parent.isSelected = true;
-        }
         this.activeMenuItem.next(item);
-        result = item;
-      } else if (parent && item.id !== parent.id) {
-        item.isSelected = false;
+        if (item.parent) {
+          item.parent.isSelected = true;
+        }
+        return item;
       }
-      return result;
     });
     /*
     this.menuBehaviorSubject.getValue().forEach((item: ApplicationMenuItem) => {

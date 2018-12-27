@@ -14,6 +14,10 @@ import { RoleEditDialogComponent } from './components/role-edit-dialog/role-edit
 import { RoleAddDialogComponent } from './components/role-add-dialog/role-add-dialog.component';
 import { ExceptSelectedPermissionsPipe } from './pipes/except-selected-permissions.pipe';
 import { DashboardService } from '../dashboard/services/dashboard.service';
+import { Application, Company, IApplication, ICompany, IControlPanelInitialData } from '@kolenergo/cpa';
+import {ApplicationMenuItemControl} from '../dashboard/models/application-menu-item-control.model';
+import {CompanyAddDialogComponent} from '../companies/components/company-add-dialog/company-add-dialog.component';
+import {ApplicationMenuItem} from '../dashboard/models/application-menu-item.model';
 
 
 @NgModule({
@@ -48,6 +52,21 @@ export class ApplicationsModule {
 
   constructor(private readonly dashboard: DashboardService,
               private readonly applications: ApplicationsService) {
-    this.applications.applications$.next(this.dashboard.applications);
+    this.dashboard.initialData().subscribe((data: IControlPanelInitialData) => {
+      const applications_ = [];
+      const applicationsMenuItem = this.dashboard.menu.getItemById('applications');
+      data.applications.forEach((item: IApplication) => {
+        const application = new Application(item);
+        application.backup.setup(['title', 'description']);
+        applications_.push(application);
+        this.dashboard.menu.addItem(new ApplicationMenuItem({
+          id: String(application.id),
+          title: application.title,
+          link: `/applications/${application.id}`,
+          icon: 'web'
+        }), applicationsMenuItem);
+      });
+      this.applications.applications$.next(applications_);
+    });
   }
 }

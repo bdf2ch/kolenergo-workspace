@@ -59,43 +59,20 @@ export class DashboardService {
         map((response: IServerResponse<IControlPanelInitialData>) => {
           this.initialData$.next(response.data);
           if (response.data.applications.length > 0) {
-            const applicationsMenuItem = this.menu.getItemById('applications');
             response.data.applications.forEach((item: IApplication) => {
               const application = new Application(item);
               application.backup.setup(['code', 'title', 'description']);
               this.applications.push(application);
-              if (!applicationsMenuItem.getById(String(application.id))) {
-                applicationsMenuItem.add({
-                  id: String(application.id),
-                  title: application.title,
-                  link: `/applications/${application.id}`,
-                  icon: 'web'
-                });
-              }
             });
           }
-
           if (response.data.companies.length > 0) {
-            const companiesMenuItem = this.menu.getItemById('companies');
             response.data.companies.forEach((item: ICompany) => {
               const company = new Company(item);
               company.backup.setup(['title', 'shortTitle', 'departments', 'offices']);
               this.companies.push(company);
-              /*
-              if (!companiesMenuItem.getById(String(company.id))) {
-                companiesMenuItem.add({
-                  id: String(company.id),
-                  title: company.shortTitle,
-                  link: `/companies/${company.id}`,
-                  icon: 'business'
-                });
-              }
-              */
             });
 
           }
-
-
           return response;
         })
       );

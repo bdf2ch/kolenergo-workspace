@@ -45,14 +45,12 @@ export class CompaniesModule {
         const company = new Company(item);
         company.backup.setup(['title', 'shortTitle', 'departments', 'offices']);
         companies_.push(company);
-        if (!companiesMenuItem.getById(String(company.id))) {
-          companiesMenuItem.add({
-            id: String(company.id),
-            title: company.shortTitle,
-            link: `/companies/${company.id}`,
-            icon: 'business'
-          });
-        }
+        this.dashboard.menu.addItem(new ApplicationMenuItem({
+          id: String(company.id),
+          title: company.shortTitle,
+          link: `/companies/${company.id}`,
+          icon: 'business'
+        }), companiesMenuItem);
       });
       this.companies.companies$.next(companies_);
       companiesMenuItem.buttons.push(new ApplicationMenuItemControl({

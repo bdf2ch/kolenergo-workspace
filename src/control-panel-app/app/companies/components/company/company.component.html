@@ -1,3 +1,89 @@
-<p>
-  company works!
-</p>
+<div id="company-component" class="p-4">
+
+
+  <div class="container-fluid">
+
+
+    <div class="row no-gutters">
+      <div class="col-12 d-flex justify-content-between align-items-center">
+        <div class="d-flex flex-column">
+          <p class="display-4 mb-0">{{(companies.selectedCompany() | async)?.shortTitle}}</p>
+          <h5 class="lead text-muted">{{(companies.selectedCompany() | async)?.title}}</h5>
+        </div>
+        <div>
+          <button mat-stroked-button color="primary">Изменить</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-5">
+      <div class="col-5 d-flex flex-column">
+        <div class="d-flex flex-row justify-content-between align-items-center mb-3">
+          <div class="d-flex align-items-center">
+            <mat-icon class="text-muted mr-2">location_city</mat-icon>
+            <small class="section-title lead text-dark">Производственные отделения</small>
+          </div>
+          <button mat-stroked-button color="primary">
+            Добавить
+          </button>
+        </div>
+
+        <mat-table class="company-departments-table" [dataSource]="departmentsDataSource">
+
+          <ng-container matColumnDef="title">
+            <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.title}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="controls">
+            <mat-header-cell *matHeaderCellDef class="controls-column"> </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="controls-column">
+              <button mat-icon-button color="primary">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </mat-cell>
+          </ng-container>
+
+          <!--<mat-header-row *matHeaderRowDef="departmentsDisplayColumns"></mat-header-row>-->
+          <mat-row *matRowDef="let row; columns: departmentsDisplayColumns;"></mat-row>
+        </mat-table>
+      </div>
+
+      <div class="col-5">
+
+      </div>
+    </div>
+
+    <div class="row mt-5">
+      <div class="col-4 d-flex flex-column">
+        <div class="d-flex flex-row justify-content-between mb-3">
+          <div class="d-flex align-items-center">
+            <mat-icon class="text-muted mr-2">place</mat-icon>
+            <small class="section-title lead text-dark">Офисы</small>
+          </div>
+          <button mat-stroked-button color="primary">Добавить</button>
+        </div>
+
+        <mat-table class="company-departments-table" [dataSource]="departmentsDataSource">
+
+          <ng-container matColumnDef="title">
+            <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.title}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="controls">
+            <mat-header-cell *matHeaderCellDef class="controls-column"> </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="controls-column">
+              <button mat-icon-button color="primary">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </mat-cell>
+          </ng-container>
+
+          <!-- <mat-header-row *matHeaderRowDef="departmentsDisplayColumns"></mat-header-row> -->
+          <mat-row *matRowDef="let row; columns: departmentsDisplayColumns;"></mat-row>
+        </mat-table>
+      </div>
+    </div>
+  </div>
+</div>

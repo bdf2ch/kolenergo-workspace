@@ -9,6 +9,7 @@ import {
   ResourceRequestMethod
 } from '@ngx-resource/core';
 import { ICompany } from '../../companies/interfaces/company.interface';
+import { IOffice } from '../../companies/interfaces/office.interface';
 import { IServerResponse } from '../../common/interfaces/server-response.interface';
 import { environment } from '../../../../_common/environments/environment';
 
@@ -36,6 +37,12 @@ export class CompaniesResource extends Resource {
   })
   addCompany: IResourceMethod<ICompany, IServerResponse<ICompany>>;
 
+  @ResourceAction({
+    path: '/offices',
+    method: ResourceRequestMethod.Post,
+    withCredentials: true
+  })
+  addOffice: IResourceMethod<IOffice, IServerResponse<IOffice>>;
 
 
   /*

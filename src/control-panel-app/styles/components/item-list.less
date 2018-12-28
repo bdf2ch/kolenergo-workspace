@@ -1,0 +1,53 @@
+@item-list-icon-color: #40c4ff;
+@item-list-primary-label-font-size: 16px;
+@item-list-primary-label-font-color: black;
+@item-list-secondary-label-font-size: 14px;
+@item-list-secondary-label-font-color: #6c757d;
+
+.mat-table {
+  background: transparent;
+
+  &.selectable {
+    .mat-row {
+      cursor: pointer;
+      &:hover {
+        background: #fafafa;
+      }
+    }
+  }
+
+  .mat-row {
+    margin-bottom: 4px;
+    padding-left: 0px;
+    padding-right: 0px;
+    border-radius: 4px;
+    background: white;
+    .mat-icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 40px;
+      height: 40px;
+      font-size: 30px;
+      color: @item-list-icon-color;
+    }
+  }
+
+  .mat-cell {
+    padding-left: 10px;
+    padding-right: 10px;
+    font-family: "Segoe UI";
+    font-weight: 300;
+    line-height: 1.2;
+
+    .primary-label {
+      font-size: @item-list-primary-label-font-size;
+      color: @item-list-primary-label-font-color;
+    }
+
+    .secondary-label {
+      font-size: @item-list-secondary-label-font-size;
+      color: @item-list-secondary-label-font-color;
+    }
+  }
+}

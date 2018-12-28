@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { CompaniesResource } from '../resources/companies.resource';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { IServerResponse } from '../../common/interfaces/server-response.interface';
 import { ICompany } from '../interfaces/company.interface';
+import { IOffice } from '../interfaces/office.interface';
 import { Company } from '../models/company.model';
+import { Office } from '../models/office.model';
 import { MatTableDataSource } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { from } from 'rxjs/observable/from';
 import { finalize, map } from 'rxjs/operators';
-import { IServerResponse } from '../../common/interfaces/server-response.interface';
 
 @Injectable()
 export class CompaniesService {
@@ -15,6 +17,7 @@ export class CompaniesService {
   public selectedCompany$: BehaviorSubject<Company>;
   private fetchingData$: BehaviorSubject<boolean>;
   private addingCompany$: BehaviorSubject<boolean>;
+  private addingOffice$: BehaviorSubject<boolean>;
   private editingCompany$: BehaviorSubject<boolean>;
 
   constructor(private readonly resource: CompaniesResource) {
@@ -22,6 +25,7 @@ export class CompaniesService {
     this.selectedCompany$ = new BehaviorSubject<Company>(null);
     this.fetchingData$ = new BehaviorSubject<boolean>(false);
     this.addingCompany$ = new BehaviorSubject<boolean>(false);
+    this.addingOffice$ = new BehaviorSubject<boolean>(false);
     this.editingCompany$ = new BehaviorSubject<boolean>(false);
   }
 
@@ -69,6 +73,28 @@ export class CompaniesService {
   }
 
   /**
+   * Добавление нового офиса организации
+   * @param office - Добавляемый офис организации
+   */
+  addOffice(office: Office): Observable<Office> {
+    this.addingOffice$.next(true);
+    return from(this.resource.addOffice(office))
+      .pipe(
+        map((response: IServerResponse<IOffice>) => {
+          const newOffice = new Office(response.data);
+          newOffice.backup.setup(['title', 'address', 'floors', 'description', 'isWithLoft', 'isWithBasement']);
+          const selectedCompany = this.selectedCompany$.getValue();
+          selectedCompany.offices.push(newOffice);
+          this.selectedCompany$.next(selectedCompany);
+          return newOffice;
+        }),
+        finalize(() => {
+          this.addingOffice$.next(false);
+        })
+      );
+  }
+
+  /**
    * Получение / установка текущей организации
    * @param company - Организация, устанавливаемая текущей
    */
@@ -83,6 +109,13 @@ export class CompaniesService {
     const findCompanyById = (company: Company) => company.id === id;
     const result = this.companies$.getValue().find(findCompanyById);
     return result ? result : null;
+  }
+
+  /**
+   * Выполняется ли добавление нового офиса организации
+   */
+  isAddingOffice(): Observable<boolean> {
+    return this.addingOffice$.asObservable();
   }
 
 }

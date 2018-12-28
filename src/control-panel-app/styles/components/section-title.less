@@ -1,0 +1,38 @@
+@section-title-primary-label-font-size: 18px;
+@section-title-primary-label-font-weight: 600;
+@section-title-primary-label-font-color: #455A64;
+@section-title-secondary-label-font-size: 1rem;
+@section-title-secondary-label-font-weight: 300;
+@section-title-secondary-label-font-color: #6c757d;
+
+.section-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-family: "Segoe UI Light";
+  line-height: 1.2;
+
+  .section-title-label {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .primary-label {
+      font-size: @section-title-primary-label-font-size;
+      font-weight: @section-title-primary-label-font-weight;
+      color: @section-title-primary-label-font-color;
+    }
+
+    .secondary-label {
+      font-size: @section-title-secondary-label-font-size;
+      font-weight: @section-title-secondary-label-font-weight;
+      color: @section-title-secondary-label-font-color;
+    }
+  }
+
+  .section-title-controls {
+    display: flex;
+    flex-direction: row;
+  }
+}

@@ -1,0 +1,60 @@
+<div class="control-panel-dialog">
+  <h3 mat-dialog-title>Новый офис</h3>
+  <mat-dialog-content>
+    <form [formGroup]="newOfficeForm">
+
+      <!-- Start: Подразделение организации -->
+      <mat-form-field class="w-100">
+        <mat-select placeholder="Производственное отделение" [(ngModel)]="newOffice.departmentId" formControlName="departmentId" required>
+          <mat-option *ngFor="let department of (companies.selectedCompany() | async)?.departments" [value]="department.id">
+            {{ department.title }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!-- End: Подразделение организации -->
+
+      <!-- Start: Наименование -->
+      <mat-form-field class="w-100">
+        <input matInput placeholder="Наименование" [(ngModel)]="newOffice.title" formControlName="title" required>
+      </mat-form-field>
+      <!-- End: Наименование -->
+
+      <!-- Start: Описание -->
+      <mat-form-field class="w-100">
+        <input matInput placeholder="Описание" [(ngModel)]="newOffice.description" formControlName="description">
+      </mat-form-field>
+      <!-- End: Описание -->
+
+      <!-- Start: Адрес -->
+      <mat-form-field class="w-100">
+        <input matInput placeholder="Адрес" [(ngModel)]="newOffice.address" formControlName="address" required>
+      </mat-form-field>
+      <!-- End: Адрес -->
+
+      <!-- Start: Количество этажей -->
+      <mat-form-field class="w-100">
+        <input matInput type="number" placeholder="Количество этажей" [(ngModel)]="newOffice.floors" formControlName="floors" required>
+      </mat-form-field>
+      <!-- End: Количество этажей -->
+
+      <div class="d-flex justify-content-between">
+        <!-- Start: Наличие чердака-->
+        <mat-slide-toggle color="primary" [(ngModel)]="newOffice.isWithLoft" formControlName="isWithLoft">
+          Наличие чердака
+        </mat-slide-toggle>
+        <!-- End: Наличие чердака -->
+
+        <!-- Start: Наличие подвала-->
+        <mat-slide-toggle color="primary" [(ngModel)]="newOffice.isWithBasement" formControlName="isWithBasement">
+          Наличие подвала
+        </mat-slide-toggle>
+        <!-- End: Наличие подвала -->
+      </div>
+
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions class="d-flex justify-content-end align-items-center">
+    <button mat-raised-button color="primary" [disabled]="newOfficeForm.invalid || (companies.isAddingOffice() | async)" (click)="addOffice()">Добавить</button>
+    <button mat-raised-button color="warn" (click)="cancel()">Отмена</button>
+  </mat-dialog-actions>
+</div>

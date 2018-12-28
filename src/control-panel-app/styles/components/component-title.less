@@ -1,0 +1,40 @@
+@component-title-primary-label-font-size: 3rem;
+@component-title-primary-label-font-color: #546E7A;
+@component-title-primary-label-font-weight: 300;
+@component-title-secondary-label-font-size: 1.25rem;
+@component-title-secondary-label-font-color: #6c757d;
+@component-title-secondary-label-font-weight: 300;
+
+.component-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  .component-title-label {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-family: "Segoe UI Light";
+    line-height: 1.2;
+
+    .primary-label {
+      font-size: @component-title-primary-label-font-size;
+      font-weight: @component-title-primary-label-font-weight;
+      color: @component-title-primary-label-font-color;
+    }
+
+    .secondary-label {
+      font-size: @component-title-secondary-label-font-size;
+      font-weight: @component-title-secondary-label-font-weight;
+      color: @component-title-secondary-label-font-color;
+    }
+  }
+
+  .component-title-controls {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+}

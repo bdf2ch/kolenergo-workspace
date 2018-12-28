@@ -10,9 +10,10 @@ import { CompaniesResolveGuard } from './guards/companies.resolve.guard';
 import { CompanyAddDialogComponent } from './components/company-add-dialog/company-add-dialog.component';
 import { DashboardService } from '../dashboard/services/dashboard.service';
 import { ApplicationMenuItem } from '../dashboard/models/application-menu-item.model';
-import {Company, ICompany, IControlPanelInitialData} from "@kolenergo/cpa";
+import { Company, ICompany, IControlPanelInitialData } from '@kolenergo/cpa';
 import { ApplicationMenuItemControl } from '../dashboard/models/application-menu-item-control.model';
 import { MatDialog } from '@angular/material';
+import { OfficeAddDialogComponent } from './components/office-add-dialog/office-add-dialog.component';
 
 @NgModule({
   imports: [
@@ -23,7 +24,8 @@ import { MatDialog } from '@angular/material';
     CompaniesComponent,
     CompaniesListComponent,
     CompanyComponent,
-    CompanyAddDialogComponent
+    CompanyAddDialogComponent,
+    OfficeAddDialogComponent
   ],
   providers: [
     CompaniesResource,
@@ -31,7 +33,8 @@ import { MatDialog } from '@angular/material';
     CompaniesResolveGuard
   ],
   entryComponents: [
-    CompanyAddDialogComponent
+    CompanyAddDialogComponent,
+    OfficeAddDialogComponent
   ]
 })
 export class CompaniesModule {

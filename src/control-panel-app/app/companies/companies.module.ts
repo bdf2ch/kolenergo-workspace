@@ -12,7 +12,7 @@ import { DashboardService } from '../dashboard/services/dashboard.service';
 import { ApplicationMenuItem } from '../dashboard/models/application-menu-item.model';
 import { Company, ICompany, IControlPanelInitialData } from '@kolenergo/cpa';
 import { ApplicationMenuItemControl } from '../dashboard/models/application-menu-item-control.model';
-import { MatDialog } from '@angular/material';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import { OfficeAddDialogComponent } from './components/office-add-dialog/office-add-dialog.component';
 
 @NgModule({
@@ -30,7 +30,15 @@ import { OfficeAddDialogComponent } from './components/office-add-dialog/office-
   providers: [
     CompaniesResource,
     CompaniesService,
-    CompaniesResolveGuard
+    CompaniesResolveGuard,
+    {
+      provide: MatDialogRef,
+      useValue: {}
+    },
+    {
+      provide: MAT_DIALOG_DATA,
+      useValue: []
+    },
   ],
   entryComponents: [
     CompanyAddDialogComponent,

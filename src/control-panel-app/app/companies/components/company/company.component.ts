@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CompaniesService } from '../../services/companies.service';
 import { ActivatedRoute } from '@angular/router';
-import {MatDialog, MatDialogRef, MatTableDataSource} from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material';
 import { Department, Office } from '../../models';
 import { OfficeAddDialogComponent } from '../office-add-dialog/office-add-dialog.component';
 

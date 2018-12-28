@@ -1,23 +1,44 @@
-@dialog-title-font-weight: 600;
-@dialog-title-font-color: #546E7A;
+@dialog-title-font-size: 25px;
+@dialog-title-font-weight: 500;
+@dialog-title-font-color: #FAFAFA;
 @dialog-actions-background-color: #eceff1;
 
-.control-panel-dialog {
-  .mat-dialog-title {
-    font-family: "Segoe UI Light";
-    font-weight: @dialog-title-font-weight;
-    color: @dialog-title-font-color;
-    margin-bottom: 30px;
+.mat-dialog-container {
+  padding: 0px;
+  background: url('/assets/dialog_bg1.jpg');
+  background-size: cover;
+  border-radius: 4px;
+  .control-panel-dialog {
+    .mat-dialog-title {
+      padding-top: 20px;
+      padding-bottom: 20px;
+      font-size: @dialog-title-font-size;
+      font-family: "Segoe UI Light";
+      font-weight: @dialog-title-font-weight;
+      color: @dialog-title-font-color;
+      margin-bottom: 30px;
 
-    h4 {
-      font-family: "Segoe UI Light" !important;
+      h4 {
+        font-family: "Segoe UI Light" !important;
+      }
     }
-  }
 
-  .mat-dialog-actions {
-    // margin-top: 30px;
-    // margin-left: -38px;
-    // margin-right: -38px;
-    // background: @dialog-actions-background-color;
+    .mat-dialog-content {
+      // margin-left: -15px;
+      // margin-right: -15px;
+      // margin-left: 10px;
+      // margin-right: 10px;
+      background: rgba(255, 255, 255, 0.95);
+      // background: white;
+    }
+
+    .mat-dialog-actions {
+      // margin-top: 30px;
+      margin-left: -24px;
+      margin-right: -24px;
+      padding-left: 24px;
+      padding-right: 24px;
+      background: @dialog-actions-background-color;
+    }
   }
 }

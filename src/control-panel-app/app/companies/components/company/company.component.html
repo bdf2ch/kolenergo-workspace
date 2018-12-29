@@ -65,7 +65,7 @@
         </div>
         <!-- End: Производственные отделения организации -->
 
-        <!-- Start: Офисы организации -->
+        <!-- Start: Помещения организации -->
         <div class="d-flex flex-column mt-3" [ngClass]="{'h-50': (companies.selectedCompany() | async)?.offices.length === 0}">
           <!-- Start: Заголовок секции -->
           <div class="section-title mb-2">
@@ -80,7 +80,7 @@
           </div>
           <!-- End: Заголовок секции -->
 
-          <!-- Start: Таблица офисов организации -->
+          <!-- Start: Таблица помещений организации -->
           <mat-table class="item-list" [dataSource]="officesDataSource">
 
             <ng-container matColumnDef="title">
@@ -110,17 +110,17 @@
             <!-- <mat-header-row *matHeaderRowDef="departmentsDisplayColumns"></mat-header-row> -->
             <mat-row *matRowDef="let row; columns: departmentsDisplayColumns;"></mat-row>
           </mat-table>
-          <!-- EWnd: Таблица офисов организации -->
+          <!-- EWnd: Таблица помещений организации -->
 
-          <!-- Start: Заглушка на случай отсутствия офисов у организации -->
+          <!-- Start: Заглушка на случай отсутствия помещений у организации -->
           <div class="section-placeholder" *ngIf="(companies.selectedCompany() | async)?.offices.length === 0"
                [ngClass]="{'h-100': (companies.selectedCompany() | async)?.offices.length === 0}">
             <mat-icon>place</mat-icon>
-            Офисы отсутствуют
+            Помещения отсутствуют
           </div>
-          <!-- End: Заглушка на случай отсутствия офисов у организации -->
+          <!-- End: Заглушка на случай отсутствия помещений у организации -->
         </div>
-        <!-- End: Офисы организации -->
+        <!-- End: Помещения организации -->
       </div>
 
 

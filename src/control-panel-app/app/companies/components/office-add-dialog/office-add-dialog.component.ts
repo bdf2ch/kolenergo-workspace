@@ -22,8 +22,10 @@ export class OfficeAddDialogComponent implements OnInit {
   }
 
   ngOnInit() {
+    const company = this.companies.selectedCompany$.getValue();
+    console.log(company);
     this.newOfficeForm = this.builder.group({
-      departmentId: new FormControl(this.newOffice.departmentId, Validators.required),
+      departmentId: new FormControl(company.departments[0] ? company.departments[0].id : null, Validators.required),
       title: new FormControl(this.newOffice.title, Validators.required),
       description: new FormControl(this.newOffice.description),
       address: new FormControl(this.newOffice.address, Validators.required),
@@ -49,10 +51,10 @@ export class OfficeAddDialogComponent implements OnInit {
       .toPromise()
       .then(() => {
         this.dialogRef.close(true);
-        this.snackBar.open('Офис добавлен', 'Закрыть', {
+        this.snackBar.open('Помещение добавлено', 'Закрыть', {
           horizontalPosition: 'left',
           verticalPosition: 'bottom',
-          duration: 3
+          duration: 3000
         });
       });
   }

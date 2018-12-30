@@ -10,6 +10,12 @@ export {
 export {
   IOperativeSituationConsumption
 } from '../operative-situation-app/app/operative-situation/interfaces/operative-situation-consumption.interface';
+export {
+  IOperativeSituationWeatherReport
+} from '../operative-situation-app/app/operative-situation/interfaces/operative-situation-weather-report.interface';
+export {
+  IOperativeSituationRegion
+} from '../operative-situation-app/app/operative-situation/interfaces/operative-situation-region.interface';
 
 /**
  * Models

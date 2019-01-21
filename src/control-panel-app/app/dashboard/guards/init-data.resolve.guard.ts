@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Resolve} from '@angular/router';
 import { IControlPanelInitialData } from '../interfaces/control-panel.init.interface';
 import { DashboardService } from '../services/dashboard.service';
-import { IServerResponse } from '../../common/interfaces/server-response.interface';
+import { IServerResponse } from '../../basic/interfaces/server-response.interface';
 
 @Injectable()
 export class InitDataResolveGuard implements Resolve<IServerResponse<IControlPanelInitialData>> {

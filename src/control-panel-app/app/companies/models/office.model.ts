@@ -1,4 +1,4 @@
-import { Backup } from '../../common/models/backup.model';
+import { Backup } from '../../basic/models/backup.model';
 import { IOffice } from '../interfaces/office.interface';
 
 /**

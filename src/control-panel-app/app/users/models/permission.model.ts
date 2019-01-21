@@ -1,5 +1,5 @@
 import { IPermission } from '../interfaces/permission.interface';
-import { Backup } from '../../common/models/backup.model';
+import { Backup } from '../../basic/models/backup.model';
 
 export class Permission extends Backup implements IPermission {
   id: number;             // Идентификатор

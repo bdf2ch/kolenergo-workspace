@@ -1,5 +1,5 @@
 import { IDepartment } from '../interfaces/department.interface';
-import { Backup } from '../../common/models/backup.model';
+import { Backup } from '../../basic/models/backup.model';
 
 /**
  * Класс, реализующий интерфейс производственного отделения орагнизации

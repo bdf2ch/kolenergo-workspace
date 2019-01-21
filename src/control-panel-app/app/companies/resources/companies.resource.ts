@@ -10,7 +10,7 @@ import {
 } from '@ngx-resource/core';
 import { ICompany } from '../../companies/interfaces/company.interface';
 import { IOffice } from '../../companies/interfaces/office.interface';
-import { IServerResponse } from '../../common/interfaces/server-response.interface';
+import { IServerResponse } from '../../basic/interfaces/server-response.interface';
 import { environment } from '../../../../_common/environments/environment';
 
 @Injectable()

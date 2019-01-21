@@ -3,7 +3,7 @@ import { IRole } from '../../users/interfaces/role.interface';
 import { IPermission } from '../../users/interfaces/permission.interface';
 import { Role } from '../../users/models/role.model';
 import { Permission } from '../../users/models/permission.model';
-import { Backup } from '../../common/models/backup.model';
+import { Backup } from '../../basic/models/backup.model';
 
 
 /**

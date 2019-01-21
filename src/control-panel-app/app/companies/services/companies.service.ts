@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { CompaniesResource } from '../resources/companies.resource';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { IServerResponse } from '../../common/interfaces/server-response.interface';
+import { IServerResponse } from '../../basic/interfaces/server-response.interface';
 import { ICompany } from '../interfaces/company.interface';
 import { IOffice } from '../interfaces/office.interface';
 import { Company } from '../models/company.model';
 import { Office } from '../models/office.model';
+import { Division } from '../models/division.model';
+import { Tree } from '../../basic/models/tree.model';
 import { MatTableDataSource } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { from } from 'rxjs/observable/from';
@@ -15,6 +17,8 @@ import { finalize, map } from 'rxjs/operators';
 export class CompaniesService {
   public companies$: BehaviorSubject<Company[]>;
   public selectedCompany$: BehaviorSubject<Company>;
+  public selectedDivision$: BehaviorSubject<Division>;
+  public selectedCompanyDivisionTree: Tree<Division>;
   private fetchingData$: BehaviorSubject<boolean>;
   private addingCompany$: BehaviorSubject<boolean>;
   private addingOffice$: BehaviorSubject<boolean>;
@@ -23,6 +27,8 @@ export class CompaniesService {
   constructor(private readonly resource: CompaniesResource) {
     this.companies$ = new BehaviorSubject<Company[]>([]);
     this.selectedCompany$ = new BehaviorSubject<Company>(null);
+    this.selectedDivision$ = new BehaviorSubject<Division>(null);
+    this.selectedCompanyDivisionTree = new Tree<Division>();
     this.fetchingData$ = new BehaviorSubject<boolean>(false);
     this.addingCompany$ = new BehaviorSubject<boolean>(false);
     this.addingOffice$ = new BehaviorSubject<boolean>(false);
@@ -101,8 +107,21 @@ export class CompaniesService {
   selectedCompany(company?: Company | null): Observable<Company> {
     if (company) {
       this.selectedCompany$.next(company);
+      this.selectedCompanyDivisionTree = new Tree(company.divisions);
+      console.log(this.selectedCompanyDivisionTree);
     }
     return this.selectedCompany$.asObservable();
+  }
+
+  /**
+   * Получение / установка текущего структурного подразделения организации
+   * @param division - Структурное подразделение, устанавливаемое текущим
+   */
+  selectedDivision(division?: Division | null): Observable<Division> {
+    if (division) {
+      this.selectedDivision$.next(division);
+    }
+    return this.selectedDivision$.asObservable();
   }
 
   getCompanyById(id: number): Company | null {

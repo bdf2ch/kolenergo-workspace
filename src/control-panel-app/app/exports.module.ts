@@ -29,6 +29,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { AuthenticationModule } from './authentication/authentication.module';
+import { BasicModule } from './basic/basic.module';
 
 @NgModule({
   imports: [
@@ -39,6 +40,7 @@ import { AuthenticationModule } from './authentication/authentication.module';
     HttpClientModule,
     ResourceModule.forRoot(),
     AuthenticationModule,
+    BasicModule,
     MatDialogModule,
     MatButtonModule,
     MatIconModule,
@@ -74,6 +76,7 @@ import { AuthenticationModule } from './authentication/authentication.module';
     HttpClientModule,
     ResourceModule,
     AuthenticationModule,
+    BasicModule,
     MatDialogModule,
     MatButtonModule,
     MatIconModule,

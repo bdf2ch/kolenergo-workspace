@@ -1,5 +1,5 @@
 import { IRole } from '../interfaces/role.interface';
-import { Backup } from '../../common/models/backup.model';
+import { Backup } from '../../basic/models/backup.model';
 import { Permission } from '../models/permission.model';
 import { IPermission } from '@kolenergo/cpa';
 

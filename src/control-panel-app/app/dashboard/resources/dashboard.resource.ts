@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IResourceMethod, Resource, ResourceAction, ResourceHandler, ResourceParams, ResourceRequestMethod } from '@ngx-resource/core';
 import { environment } from '../../../../_common/environments/environment';
-import { IServerResponse } from '../../common/interfaces/server-response.interface';
+import { IServerResponse } from '../../basic/interfaces/server-response.interface';
 import { IControlPanelInitialData } from '../interfaces/control-panel.init.interface';
 
 @Injectable()

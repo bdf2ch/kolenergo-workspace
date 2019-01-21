@@ -10,7 +10,7 @@ import {
 } from '@ngx-resource/core';
 
 import { IApplication } from '../interfaces/application.interface';
-import { IServerResponse } from '../../common/interfaces/server-response.interface';
+import { IServerResponse } from '../../basic/interfaces/server-response.interface';
 import { IRole } from '../../users/interfaces/role.interface';
 import { IPermission } from '../../users/interfaces/permission.interface';
 import { environment } from '../../../../_common/environments/environment';

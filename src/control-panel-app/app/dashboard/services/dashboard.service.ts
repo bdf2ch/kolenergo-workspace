@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApplicationMenuManager } from '../models/application-menu-manager.model';
 import { NavigationEnd, Router } from '@angular/router';
 import { DashboardResource } from '../resources/dashboard.resource';
-import { IServerResponse } from '../../common/interfaces/server-response.interface';
+import { IServerResponse } from '../../basic/interfaces/server-response.interface';
 import { IControlPanelInitialData } from '../interfaces/control-panel.init.interface';
 import { IApplication } from '../../applications/interfaces/application.interface';
 import { Application } from '../../applications/models/application.model';

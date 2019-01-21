@@ -15,17 +15,17 @@
     <div class="row w-100">
       <div class="col-4 d-flex flex-column">
 
-        <!-- Start: Производственные отделения организации -->
+        <!-- Start: Подразделения организации -->
         <div class="d-flex flex-column" [ngClass]="{'h-50': (companies.selectedCompany() | async)?.departments.length === 0}">
 
           <!-- Start: Заголовок секции -->
           <div class="section-title mb-2">
             <div class="section-title-label">
-              <div class="primary-label">Производственные отделения</div>
+              <div class="primary-label">Подразделения</div>
             </div>
             <div class="section-title-controls">
               <button mat-icon-button>
-                <mat-icon class="text-info" matTooltip="Добавить производственное отделение" matTooltipPosition="above">add</mat-icon>
+                <mat-icon class="text-info" matTooltip="Добавить подразделение" matTooltipPosition="above">add</mat-icon>
               </button>
             </div>
           </div>
@@ -63,7 +63,7 @@
           </div>
           <!-- End: Заглушка на случай отсутствия производственных отделений у организации -->
         </div>
-        <!-- End: Производственные отделения организации -->
+        <!-- End: Подразделения организации -->
 
         <!-- Start: Помещения организации -->
         <div class="d-flex flex-column mt-3" [ngClass]="{'h-50': (companies.selectedCompany() | async)?.offices.length === 0}">
@@ -144,6 +144,8 @@
           Производственные отделения отсутствуют
         </div>
         <!-- End: Заглушка на случай отсутствия производственных отделений у организации -->
+
+        <tree-view [tree]="companies.selectedCompanyDivisionTree"></tree-view>
       </div>
 
       <div class="col-4 d-flex flex-column">

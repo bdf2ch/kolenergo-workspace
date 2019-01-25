@@ -6,4 +6,5 @@ export interface IDivision {
   companyId: number;    // Идентификатор организации
   parentId: number;     // Идентификатор структурного подразделенгия верхнего уровня
   title: string;        // Наименование
+  order: number;        // Порядок следования
 }

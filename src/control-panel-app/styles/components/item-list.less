@@ -1,4 +1,4 @@
-@item-list-icon-color: #40c4ff;
+@item-list-icon-color: #90caf9;
 @item-list-primary-label-font-size: 16px;
 @item-list-primary-label-font-color: black;
 @item-list-secondary-label-font-size: 14px;
@@ -17,19 +17,26 @@
   }
 
   .mat-row {
-    margin-bottom: 4px;
+    margin-bottom: 5px;
     padding-left: 0px;
     padding-right: 0px;
-    border-radius: 4px;
-    background: white;
+    // border-radius: 4px;
+    // background: white;
+    border-bottom: none;
     .mat-icon {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 40px;
-      height: 40px;
-      font-size: 30px;
-      color: @item-list-icon-color;
+      &.label {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-shrink: 0;
+        width: 36px !important;
+        height: 36px !important;
+        font-size: 20px;
+        // color: @item-list-icon-color;
+        color: white;
+        background: @item-list-icon-color;
+        border-radius: 50%;
+      }
     }
   }
 

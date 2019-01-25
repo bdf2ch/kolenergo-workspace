@@ -10,6 +10,7 @@ import {
 } from '@ngx-resource/core';
 import { ICompany } from '../../companies/interfaces/company.interface';
 import { IOffice } from '../../companies/interfaces/office.interface';
+import { IDivision } from '../../companies/interfaces/division.interface';
 import { IServerResponse } from '../../basic/interfaces/server-response.interface';
 import { environment } from '../../../../_common/environments/environment';
 
@@ -43,6 +44,27 @@ export class CompaniesResource extends Resource {
     withCredentials: true
   })
   addOffice: IResourceMethod<IOffice, IServerResponse<IOffice>>;
+
+  @ResourceAction({
+    path: '/divisions',
+    method: ResourceRequestMethod.Post,
+    withCredentials: true
+  })
+  addDivision: IResourceMethod<IDivision, IServerResponse<IDivision>>;
+
+  @ResourceAction({
+    path: '/divisions/{:id}',
+    method: ResourceRequestMethod.Patch,
+    withCredentials: true
+  })
+  editDivision: IResourceMethodStrict<IDivision, void, {id: number}, IServerResponse<IDivision>>;
+
+  @ResourceAction({
+    path: '/divisions/{:id}',
+    method: ResourceRequestMethod.Delete,
+    withCredentials: true
+  })
+  deleteDivision: IResourceMethodStrict<void, void, {id: number}, IServerResponse<boolean>>;
 
 
   /*

@@ -1,0 +1,57 @@
+@tree-item-header-expander-icon-color: #0288d1;
+@tree-item-header-expander-icon-color-hover: #0d47a1;
+@tree-item-header-title-font-color: #0288d1;
+@tree-item-header-title-font-color-hover: #0d47a1;
+@tree-item-header-title-font-color-selected: #002f6c;
+@tree-item-header-title-font-color-selected-hover: #002f6c;
+
+.tree-item-component {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 7px;
+
+  .item-header {
+    display: flex;
+    flex-direction: row;
+
+    .expander {
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+
+      .mat-icon {
+        font-size: 20px;
+        line-height: 23px;
+        color: @tree-item-header-expander-icon-color;
+        &:hover {
+          color: @tree-item-header-expander-icon-color-hover;
+        }
+      }
+    }
+
+    .title {
+      font-family: "Segoe UI Light";
+      line-height: 16px;
+      color: @tree-item-header-title-font-color;
+      cursor: pointer;
+      &:hover {
+        color: @tree-item-header-title-font-color-hover;
+      }
+      &.selected {
+        color: @tree-item-header-title-font-color-selected;
+        &:hover {
+          color: @tree-item-header-title-font-color-selected-hover;
+        }
+      }
+    }
+  }
+
+  .item-children {
+    padding-top: 5px;
+    padding-left: 15px;
+  }
+
+  &.selected {
+
+  }
+}

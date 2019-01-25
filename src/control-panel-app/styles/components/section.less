@@ -1,0 +1,55 @@
+@section-title-primary-label-font-size: 17px;
+@section-title-primary-label-font-weight: 500;
+@section-title-primary-label-font-color: #546E7A;
+@section-title-secondary-label-font-size: 1rem;
+@section-title-secondary-label-font-weight: 300;
+@section-title-secondary-label-font-color: #6c757d;
+
+.section {
+  background: #fafafa;
+  border-radius: 4px;
+
+  .section-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    min-height: 40px;
+    box-sizing: border-box;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 10px;
+    font-family: "Segoe UI Light";
+    line-height: 1.1;
+    border-bottom: 1px solid #eeeeee;
+
+    .section-title-label {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      .primary-label {
+        font-size: @section-title-primary-label-font-size;
+        font-weight: @section-title-primary-label-font-weight;
+        color: @section-title-primary-label-font-color;
+      }
+
+      .secondary-label {
+        font-size: @section-title-secondary-label-font-size;
+        font-weight: @section-title-secondary-label-font-weight;
+        color: @section-title-secondary-label-font-color;
+      }
+    }
+
+    .section-title-controls {
+      display: flex;
+      flex-direction: row;
+    }
+  }
+
+
+  .section-content {
+    padding: 20px 10px;
+  }
+}

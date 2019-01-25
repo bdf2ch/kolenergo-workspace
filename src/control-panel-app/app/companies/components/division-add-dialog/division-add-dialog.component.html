@@ -1,0 +1,24 @@
+<div class="control-panel-dialog">
+  <h3 mat-dialog-title>Новое структурное подразделение</h3>
+  <mat-dialog-content>
+    <form [formGroup]="newDivisionForm" class="pt-3">
+
+      <!-- Start: Наименование структурного подразделения -->
+      <mat-form-field class="w-100" floatLabel="always">
+        <input matInput placeholder="Наименование" [(ngModel)]="newDivision.title" formControlName="title" required>
+      </mat-form-field>
+      <!-- End: Наименование сруктурного подразделения -->
+
+      <!-- Start: Порядок следования -->
+      <mat-form-field class="w-100" floatLabel="always">
+        <input matInput placeholder="Порядок следования" [(ngModel)]="newDivision.order" formControlName="order">
+      </mat-form-field>
+      <!-- End: Порядок следования -->
+
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions class="d-flex justify-content-end align-items-center">
+    <button mat-raised-button color="primary" [disabled]="newDivisionForm.invalid || (companies.isAddingDivision() | async)" (click)="addDivision()">Добавить</button>
+    <button mat-raised-button color="warn" (click)="cancel()">Отмена</button>
+  </mat-dialog-actions>
+</div>

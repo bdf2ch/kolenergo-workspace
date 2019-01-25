@@ -12,27 +12,37 @@ import { MatTableDataSource } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { from } from 'rxjs/observable/from';
 import { finalize, map } from 'rxjs/operators';
+import {IDivision} from '@kolenergo/cpa';
 
 @Injectable()
 export class CompaniesService {
   public companies$: BehaviorSubject<Company[]>;
   public selectedCompany$: BehaviorSubject<Company>;
+  public selectedOffice$: BehaviorSubject<Office>;
   public selectedDivision$: BehaviorSubject<Division>;
   public selectedCompanyDivisionTree: Tree<Division>;
   private fetchingData$: BehaviorSubject<boolean>;
   private addingCompany$: BehaviorSubject<boolean>;
   private addingOffice$: BehaviorSubject<boolean>;
+  private addingDivision$: BehaviorSubject<boolean>;
   private editingCompany$: BehaviorSubject<boolean>;
+  private editingOffice$: BehaviorSubject<boolean>;
+  private editingDivision$: BehaviorSubject<boolean>;
+  private deletingDivision$: BehaviorSubject<boolean>;
 
   constructor(private readonly resource: CompaniesResource) {
     this.companies$ = new BehaviorSubject<Company[]>([]);
     this.selectedCompany$ = new BehaviorSubject<Company>(null);
+    this.selectedOffice$ = new BehaviorSubject<Office>(null);
     this.selectedDivision$ = new BehaviorSubject<Division>(null);
-    this.selectedCompanyDivisionTree = new Tree<Division>();
     this.fetchingData$ = new BehaviorSubject<boolean>(false);
     this.addingCompany$ = new BehaviorSubject<boolean>(false);
     this.addingOffice$ = new BehaviorSubject<boolean>(false);
+    this.addingDivision$ = new BehaviorSubject<boolean>(false);
     this.editingCompany$ = new BehaviorSubject<boolean>(false);
+    this.editingOffice$ = new BehaviorSubject<boolean>(false);
+    this.editingDivision$ = new BehaviorSubject<boolean>(false);
+    this.deletingDivision$ = new BehaviorSubject<boolean>(false);
   }
 
   /**
@@ -101,16 +111,91 @@ export class CompaniesService {
   }
 
   /**
+   * Добавление нового структурного подразделения организации
+   * @param division - Добавляемое структурное подразделение
+   */
+  addDivision(division: Division): Observable<Division> {
+    this.addingDivision$.next(true);
+    return from(this.resource.addDivision(division))
+      .pipe(
+        map((response: IServerResponse<IDivision>) => {
+          const newDivision = new Division(response.data);
+          newDivision.backup.setup(['parentId', 'title', 'order']);
+          const selectedCompany = this.selectedCompany$.getValue();
+          selectedCompany.divisions.push(newDivision);
+          this.selectedCompany$.next(selectedCompany);
+          this.selectedCompanyDivisionTree.add(newDivision);
+          return newDivision;
+        }),
+        finalize(() => {
+          this.addingDivision$.next(false);
+        })
+      );
+  }
+
+  /**
+   * Изменение структурного подразделения орагнизации
+   * @param division - Изменяемое структурное подразделение
+   */
+  editDivision(division: Division): Observable<Division> {
+    this.editingDivision$.next(true);
+    return from(this.resource.editDivision(division, null, {id: division.id}))
+      .pipe(
+        map((response: IServerResponse<IDivision>) => {
+          division.backup.setup(['parentId', 'title', 'order']);
+          this.selectedCompanyDivisionTree.getById(division.id).title = division.title;
+          return division;
+        }),
+        finalize(() => {
+          this.editingDivision$.next(false);
+        })
+      );
+  }
+
+  /**
+   * Удаление структурного подразделения организации
+   * @param division - Удаляемое структурное подразделение
+   */
+  deleteDivision(division: Division): Observable<boolean> {
+    this.deletingDivision$.next(true);
+    return from(this.resource.deleteDivision(null, null, {id: division.id}))
+      .pipe(
+        map((response: IServerResponse<boolean>) => {
+          if (response.data === true) {
+            const treeItem = this.selectedCompanyDivisionTree.getById(division.id);
+            this.selectedCompanyDivisionTree.delete(treeItem);
+            this.selectedDivision$.next(null);
+          }
+          return response.data;
+        }),
+        finalize(() => {
+          this.deletingDivision$.next(false);
+        })
+      );
+  }
+
+  /**
    * Получение / установка текущей организации
    * @param company - Организация, устанавливаемая текущей
    */
   selectedCompany(company?: Company | null): Observable<Company> {
     if (company) {
       this.selectedCompany$.next(company);
-      this.selectedCompanyDivisionTree = new Tree(company.divisions);
+      this.selectedCompanyDivisionTree = new Tree(company.divisions, 'id', 'parentId', 'title');
       console.log(this.selectedCompanyDivisionTree);
     }
     return this.selectedCompany$.asObservable();
+  }
+
+  /**
+   * Получение / установка текущего офиса организации
+   * @param office - Офис, устанавливаемый текущим
+   */
+  selectedOffice(office?: Office | null): Observable<Office> {
+    if (office) {
+      this.selectedOffice$.next(office);
+    }
+    return this.selectedOffice$.asObservable();
   }
 
   /**
@@ -137,4 +222,31 @@ export class CompaniesService {
     return this.addingOffice$.asObservable();
   }
 
+  /**
+   * Выполняется ли добавление нового структурного подразделения организации
+   */
+  isAddingDivision(): Observable<boolean> {
+    return this.addingDivision$.asObservable();
+  }
+
+  /**
+   * Выполняется ли изменение помещения организации
+   */
+  isEditingOffice(): Observable<boolean> {
+    return this.editingOffice$.asObservable();
+  }
+
+  /**
+   * Выполняется ли изменение структурного подразделения организации
+   */
+  isEditingDivision(): Observable<boolean> {
+    return this.editingDivision$.asObservable();
+  }
+
+  /**
+   * Выполняется ли удаление структурного подразделения организации
+   */
+  isDeletingDivision(): Observable<boolean> {
+    return this.deletingDivision$.asObservable();
+  }
 }

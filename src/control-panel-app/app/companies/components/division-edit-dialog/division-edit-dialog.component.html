@@ -1,0 +1,24 @@
+<div class="control-panel-dialog">
+  <h3 mat-dialog-title>Изменение структурного подразделения</h3>
+  <mat-dialog-content>
+    <form [formGroup]="editDivisionForm" class="pt-3">
+
+      <!-- Start: Наименование структурного подразделения -->
+      <mat-form-field class="w-100" floatLabel="always">
+        <input matInput placeholder="Наименование" [(ngModel)]="companies.selectedDivision$.getValue().title" formControlName="title" required>
+      </mat-form-field>
+      <!-- End: Наименование сруктурного подразделения -->
+
+      <!-- Start: Порядок следования -->
+      <mat-form-field class="w-100" floatLabel="always">
+        <input matInput placeholder="Порядок следования" [(ngModel)]="companies.selectedDivision$.getValue().order" formControlName="order">
+      </mat-form-field>
+      <!-- End: Порядок следования -->
+
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions class="d-flex justify-content-end align-items-center">
+    <button mat-raised-button color="primary" [disabled]="editDivisionForm.invalid || (companies.isEditingDivision() | async)" (click)="editDivision()">Сохранить</button>
+    <button mat-raised-button color="warn" (click)="cancel()">Отмена</button>
+  </mat-dialog-actions>
+</div>

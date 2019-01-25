@@ -1,50 +1,35 @@
+#company-component {
+  overflow: auto;
+}
+
 .display-4 {
   font-size: 3rem;
   color: #546E7A;
 }
 
 .company-departments-table {
-  background: transparent;
-  border-radius: 4px;
+  // background: transparent;
+  // border-radius: 4px;
+  .controls-column {
+    display: flex;
+    max-width: 40px;
+    .mat-icon {
+      color: #bdbdbd;
+    }
+  }
+}
+
+.company-offices-table {
   .controls-column {
     display: flex;
     justify-content: center;
     max-width: 40px;
-  }
-
-  .mat-row {
-    margin-bottom: 4px;
-    // height: 30px !important;
-    // border-bottom: none;
-    padding-left: 0px;
-    padding-right: 0px;
-    border-radius: 4px;
-    background: white;
     .mat-icon {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 40px;
-      height: 40px;
-      font-size: 30px;
-      color: #80CBC4;
-      // border-radius: 50%;
-      // background: #80CBC4;
+      color: #bdbdbd;
     }
   }
-
-  .mat-cell {
-    font-family: "Segoe UI";
-    font-weight: 300;
-  }
-
-  .mat-icon {
-    width: 20px;
-    height: 20px;
-    font-size: 20px;
-    line-height: 20px;
-  }
 }
+
 
 .section-title {
   font-family: "Segoe UI Light";

@@ -14,6 +14,10 @@ import { Company, ICompany, IControlPanelInitialData } from '@kolenergo/cpa';
 import { ApplicationMenuItemControl } from '../dashboard/models/application-menu-item-control.model';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import { OfficeAddDialogComponent } from './components/office-add-dialog/office-add-dialog.component';
+import { DivisionAddDialogComponent } from './components/division-add-dialog/division-add-dialog.component';
+import { DivisionEditDialogComponent } from './components/division-edit-dialog/division-edit-dialog.component';
+import { DivisionDeleteDialogComponent } from './components/division-delete-dialog/division-delete-dialog.component';
+import { OfficeEditDialogComponent } from './components/office-edit-dialog/office-edit-dialog.component';
 
 @NgModule({
   imports: [
@@ -25,7 +29,11 @@ import { OfficeAddDialogComponent } from './components/office-add-dialog/office-
     CompaniesListComponent,
     CompanyComponent,
     CompanyAddDialogComponent,
-    OfficeAddDialogComponent
+    OfficeAddDialogComponent,
+    DivisionAddDialogComponent,
+    DivisionEditDialogComponent,
+    DivisionDeleteDialogComponent,
+    OfficeEditDialogComponent
   ],
   providers: [
     CompaniesResource,
@@ -42,7 +50,11 @@ import { OfficeAddDialogComponent } from './components/office-add-dialog/office-
   ],
   entryComponents: [
     CompanyAddDialogComponent,
-    OfficeAddDialogComponent
+    OfficeAddDialogComponent,
+    OfficeEditDialogComponent,
+    DivisionAddDialogComponent,
+    DivisionEditDialogComponent,
+    DivisionDeleteDialogComponent,
   ]
 })
 export class CompaniesModule {

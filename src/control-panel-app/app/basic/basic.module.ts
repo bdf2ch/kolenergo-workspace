@@ -13,6 +13,9 @@ import { MatIconModule } from '@angular/material/icon';
     TreeComponent,
     TreeItemComponent
   ],
+  providers: [
+    TreeComponent
+  ],
   exports: [
     TreeItemComponent,
     TreeComponent

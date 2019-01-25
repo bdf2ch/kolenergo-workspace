@@ -9,6 +9,7 @@ export class Division extends Backup implements IDivision {
   companyId: number;      // Идентификатор организации
   parentId: number;       // Идентификатор структурного подразделдения верхнего уровня
   title: string;          // Наименование
+  order: number;          // Порядок следования
   children: Division[];   // Структурные подразделения нижнего уровня
 
   /**
@@ -21,6 +22,7 @@ export class Division extends Backup implements IDivision {
     this.companyId = config ? config.companyId : null;
     this.parentId = config ? config.parentId : null;
     this.title = config ? config.title : null;
+    this.order = config ? config.order : 0;
     this.children = [];
   }
 }

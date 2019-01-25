@@ -1,11 +1,12 @@
-<div class="tree-item-component">
+<div class="tree-item-component" [ngClass]="{'selected': item.isSelected === true}">
   <div class="item-header">
     <div class="expander">
-      <mat-icon *ngIf="item?.children.length > 0">drop_down_arrow</mat-icon>
+      <mat-icon *ngIf="item?.children.length > 0 && item.isOpened === false" (click)="toggle()">arrow_drop_down</mat-icon>
+      <mat-icon *ngIf="item?.children.length > 0 && item.isOpened === true" (click)="toggle()">arrow_drop_up</mat-icon>
     </div>
-    <div class="title">{{item.title}}</div>
+    <div class="title" [ngClass]="{'selected': item.isSelected === true}" (click)="select()">{{item?.title}}</div>
   </div>
-  <div class="item-children" *ngIf="item?.children.length > 0">
-    <tree-item *ngFor="let item of item.children"></tree-item>
+  <div class="item-children" *ngIf="item?.children.length > 0 && item?.isOpened === true">
+    <app-tree-item *ngFor="let item of item.children" [item]="item" [tree]="tree"></app-tree-item>
   </div>
 </div>

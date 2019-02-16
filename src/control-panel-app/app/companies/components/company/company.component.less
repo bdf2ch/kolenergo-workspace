@@ -1,5 +1,9 @@
 #company-component {
-  overflow: auto;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  box-sizing: border-box;
 }
 
 .display-4 {
@@ -12,9 +16,14 @@
   // border-radius: 4px;
   .controls-column {
     display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
     max-width: 40px;
     .mat-icon {
       color: #bdbdbd;
+      &:hover {
+        color: #9e9e9e;
+      }
     }
   }
 }
@@ -22,18 +31,29 @@
 .company-offices-table {
   .controls-column {
     display: flex;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: flex-end;
     max-width: 40px;
     .mat-icon {
       color: #bdbdbd;
+      &:hover {
+        color: #9e9e9e;
+      }
     }
   }
 }
 
-
-.section-title {
-  font-family: "Segoe UI Light";
-  font-size: 18px;
-  font-weight: 600;
-  color: #455A64;
+.company-locations-table {
+  .controls-column {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    max-width: 40px;
+    .mat-icon {
+      color: #bdbdbd;
+      &:hover {
+        color: #9e9e9e;
+      }
+    }
+  }
 }

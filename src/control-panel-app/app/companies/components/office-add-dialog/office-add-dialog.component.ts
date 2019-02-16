@@ -25,7 +25,6 @@ export class OfficeAddDialogComponent implements OnInit {
     const company = this.companies.selectedCompany$.getValue();
     console.log(company);
     this.newOfficeForm = this.builder.group({
-      departmentId: new FormControl(company.departments[0] ? company.departments[0].id : null, Validators.required),
       title: new FormControl(this.newOffice.title, Validators.required),
       description: new FormControl(this.newOffice.description),
       address: new FormControl(this.newOffice.address, Validators.required),
@@ -33,25 +32,31 @@ export class OfficeAddDialogComponent implements OnInit {
       isWithLoft: new FormControl(this.newOffice.isWithLoft),
       isWithBasement: new FormControl(this.newOffice.isWithBasement)
     });
+
+    this.dialogRef.afterClosed()
+      .subscribe((result: boolean) => {
+        console.log('office add dialog result', result);
+      });
   }
 
   /**
-   * Отмена добавления нового офиса организации и закрытие модального окна
+   * Отмена добавления нового помещения и закрытие диалогового окна
    */
   cancel() {
-    this.dialogRef.close();
+    this.dialogRef.close(false);
   }
 
   /**
-   * Добавление нового офиса организации
+   * Добавление нового помещения
    */
   addOffice() {
     this.newOffice.companyId = this.companies.selectedCompany$.getValue().id;
+    this.newOffice.departmentId = this.companies.selectedDepartment$.getValue().id;
     this.companies.addOffice(this.newOffice)
       .toPromise()
       .then(() => {
         this.dialogRef.close(true);
-        this.snackBar.open('Помещение добавлено', 'Закрыть', {
+        this.snackBar.open('Здание добавлено', 'Закрыть', {
           horizontalPosition: 'left',
           verticalPosition: 'bottom',
           duration: 3000

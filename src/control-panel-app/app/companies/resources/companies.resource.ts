@@ -8,9 +8,7 @@ import {
   ResourceParams,
   ResourceRequestMethod
 } from '@ngx-resource/core';
-import { ICompany } from '../../companies/interfaces/company.interface';
-import { IOffice } from '../../companies/interfaces/office.interface';
-import { IDivision } from '../../companies/interfaces/division.interface';
+import { ICompany, IDepartment, IOffice, IOfficeLocation, IDivision } from '../../companies/interfaces';
 import { IServerResponse } from '../../basic/interfaces/server-response.interface';
 import { environment } from '../../../../_common/environments/environment';
 
@@ -39,11 +37,81 @@ export class CompaniesResource extends Resource {
   addCompany: IResourceMethod<ICompany, IServerResponse<ICompany>>;
 
   @ResourceAction({
+    path: '/{:id}',
+    method: ResourceRequestMethod.Patch,
+    withCredentials: true
+  })
+  editCompany: IResourceMethodStrict<ICompany, void, {id: number}, IServerResponse<ICompany>>;
+
+  @ResourceAction({
+    path: '/{:id}',
+    method: ResourceRequestMethod.Delete,
+    withCredentials: true
+  })
+  deleteCompany: IResourceMethodStrict<void, void, {id: number}, IServerResponse<boolean>>;
+
+  @ResourceAction({
+    path: '/departments',
+    method: ResourceRequestMethod.Post,
+    withCredentials: true
+  })
+  addDepartment: IResourceMethod<IDepartment, IServerResponse<IDepartment>>;
+
+  @ResourceAction({
+    path: '/departments/{:id}',
+    method: ResourceRequestMethod.Patch,
+    withCredentials: true
+  })
+  editDepartment: IResourceMethodStrict<IDepartment, void, {id: number}, IServerResponse<IDepartment>>;
+
+  @ResourceAction({
+    path: '/departments/{:id}',
+    method: ResourceRequestMethod.Delete,
+    withCredentials: true
+  })
+  deleteDepartment: IResourceMethodStrict<void, void, {id: number}, IServerResponse<boolean>>;
+
+  @ResourceAction({
     path: '/offices',
     method: ResourceRequestMethod.Post,
     withCredentials: true
   })
   addOffice: IResourceMethod<IOffice, IServerResponse<IOffice>>;
+
+  @ResourceAction({
+    path: '/offices/{:id}',
+    method: ResourceRequestMethod.Patch,
+    withCredentials: true
+  })
+  editOffice: IResourceMethodStrict<IOffice, void, {id: number}, IServerResponse<IOffice>>;
+
+  @ResourceAction({
+    path: '/offices/{:id}',
+    method: ResourceRequestMethod.Delete,
+    withCredentials: true
+  })
+  deleteOffice: IResourceMethodStrict<void, void, {id: number}, IServerResponse<boolean>>;
+
+  @ResourceAction({
+    path: '/locations',
+    method: ResourceRequestMethod.Post,
+    withCredentials: true
+  })
+  addLocation: IResourceMethod<IOfficeLocation, IServerResponse<IOfficeLocation>>;
+
+  @ResourceAction({
+    path: '/locations/{:id}',
+    method: ResourceRequestMethod.Patch,
+    withCredentials: true
+  })
+  editLocation: IResourceMethodStrict<IOfficeLocation, void, {id: number}, IServerResponse<IOfficeLocation>>;
+
+  @ResourceAction({
+    path: '/locations/{:id}',
+    method: ResourceRequestMethod.Delete,
+    withCredentials: true
+  })
+  deleteLocation: IResourceMethodStrict<void, void, {id: number}, IServerResponse<boolean>>;
 
   @ResourceAction({
     path: '/divisions',

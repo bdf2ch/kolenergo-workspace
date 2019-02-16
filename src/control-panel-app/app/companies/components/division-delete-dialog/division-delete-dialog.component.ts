@@ -38,5 +38,4 @@ export class DivisionDeleteDialogComponent implements OnInit {
         });
       });
   }
-
 }

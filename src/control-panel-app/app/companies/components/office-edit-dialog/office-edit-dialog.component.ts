@@ -34,6 +34,8 @@ export class OfficeEditDialogComponent implements OnInit {
    */
   cancel() {
     this.dialogRef.close();
+    const office = this.companies.selectedOffice$.getValue();
+    office.backup.restore();
   }
 
   /**

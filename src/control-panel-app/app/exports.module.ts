@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { ResourceModule } from '@ngx-resource/handler-ngx-http';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material';
+import {MatButtonModule, MatGridListModule} from '@angular/material';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
@@ -65,7 +65,8 @@ import { BasicModule } from './basic/basic.module';
     MatSlideToggleModule,
     MatPaginatorModule,
     MatChipsModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatGridListModule
   ],
   declarations: [],
   exports: [
@@ -100,7 +101,8 @@ import { BasicModule } from './basic/basic.module';
     MatProgressBarModule,
     MatSlideToggleModule,
     MatPaginatorModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatGridListModule
   ]
 })
 export class ExportsModule {}

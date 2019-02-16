@@ -5,20 +5,24 @@ import { Department } from './department.model';
 import { Office } from './office.model';
 import { Backup} from '../../basic/models/backup.model';
 import { Division } from './division.model';
-import {IDivision} from '../interfaces/division.interface';
+import { IDivision } from '../interfaces/division.interface';
+import { OfficeLocation } from './office-location.model';
+import { WeatherSummary } from '../../../../operative-situation-app/app/operative-situation/models/weather-summary.model';
 
 
 /**
  * Класс, реализующий интерфейс организации
  */
 export class Company extends Backup implements ICompany {
-  id: number;                   // Идентификатор
-  title: string;                // Наименование
-  shortTitle: string;           // Короткое наименование
-  activeDirectoryUid: string;   // Идентификатор в Active Directory
-  departments: Department[];    // Производственные отделения организации
-  offices?: Office[];           // Офисы организации
-  divisions: Division[];
+  id: number;                       // Идентификатор
+  title: string;                    // Наименование
+  shortTitle: string;               // Короткое наименование
+  activeDirectoryUid: string;       // Идентификатор в Active Directory
+  departments: Department[];        // Производственные отделения организации
+  offices?: Office[];               // Офисы организации
+  locations: OfficeLocation[];      // Помещения зданий организации
+  divisions: Division[];            // Структурные подразделения организации
+  weatherSummary: WeatherSummary;   // Погодная сводка
 
   /**
    * Конструктор
@@ -30,8 +34,8 @@ export class Company extends Backup implements ICompany {
     this.title = config ? config.title : null;
     this.shortTitle = config ? config.shortTitle : null;
     this.activeDirectoryUid = config ? config.activeDirectoryUid : null;
+    this.weatherSummary = config && config.weatherSummary ? new WeatherSummary(config.weatherSummary) : null;
     this.departments = [];
-    this.offices = [];
     this.divisions = [];
 
     if (config && config.departments) {
@@ -41,13 +45,7 @@ export class Company extends Backup implements ICompany {
         this.departments.push(department);
       });
     }
-    if (config && config.offices) {
-      config.offices.forEach((item: IOffice) => {
-        const office = new Office(item);
-        office.backup.setup(['title', 'address', 'floors', 'isWithLoft', 'isWithBasement', 'description']);
-        this.offices.push(office);
-      });
-    }
+
     if (config && config.divisions) {
       config.divisions.forEach((item: IDivision) => {
         const division = new Division(item);

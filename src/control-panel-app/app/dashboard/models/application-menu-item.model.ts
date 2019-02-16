@@ -53,6 +53,23 @@ export class ApplicationMenuItem implements IApplicationMenuItem {
   }
 
   /**
+   * Удаление элемента меню
+   * @param item - Удаляемый элемент меню
+   */
+  delete(item: ApplicationMenuItem): boolean {
+    const item_ = this.getById(item.id);
+    if (item_) {
+      this.items.forEach((children: ApplicationMenuItem, index: number) => {
+        if (children.id === item.id) {
+          this.items.splice(index, 1);
+        }
+      });
+      return true;
+    }
+    return false;
+  }
+
+  /**
    * поиск элемента подменю по идентификатору
    * @param id - Идентификатор элемента подменю
    */

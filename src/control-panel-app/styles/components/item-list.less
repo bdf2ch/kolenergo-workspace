@@ -11,18 +11,24 @@
     .mat-row {
       cursor: pointer;
       &:hover {
-        background: #fafafa;
+        background: #f0f3ff;
       }
     }
   }
 
   .mat-row {
-    margin-bottom: 5px;
-    padding-left: 0px;
-    padding-right: 0px;
-    // border-radius: 4px;
+    // margin-bottom: 5px;
+    padding: 3px 0px;
+    border-radius: 4px;
     // background: white;
     border-bottom: none;
+    &.selected {
+      background: #e8eaf6;
+      &:hover {
+        background: #e8eaf6 !important;;
+      }
+    }
+
     .mat-icon {
       &.label {
         display: flex;

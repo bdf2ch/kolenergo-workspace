@@ -20,10 +20,11 @@ export class TreeComponent implements OnInit, OnDestroy {
       .subscribe((item: TreeItem<any> | null) => {
         this.select.emit(item);
       });
+    console.log(this.selectedItemSubscription);
   }
 
   ngOnDestroy() {
-    this.selectedItemSubscription.unsubscribe();
+    // this.selectedItemSubscription.unsubscribe();
   }
 
   selectItem(event: any) {

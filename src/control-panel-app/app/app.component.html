@@ -75,11 +75,11 @@
            *ngFor="let item of (dashboard.menu.getItems() | async)"
            routerLink="{{item.link}}"
            routerLinkActive="selected">
-          <div class="d-flex justify-content-center align-items-center">
+          <div class="d-flex justify-content-center align-items$-center">
             <mat-icon class="mr-3">{{item.icon}}</mat-icon>
             <span class="title">{{item.title}}</span>
           </div>
-          <div class="corner" *ngIf="(dashboard.menu.getActiveItem() | async)?.items.length > 0 && (dashboard.menu.getActiveItem() | async)?.id === item.id"></div>
+          <div class="corner" *ngIf="(dashboard.menu.getActiveItem() | async)?.items$.length > 0 && (dashboard.menu.getActiveItem() | async)?.id === item.id"></div>
         </a>
         -->
       </div>
@@ -88,9 +88,9 @@
 
       <!--
       <div class="col-auto submenu d-flex flex-column p-0 border-right"
-           *ngIf="(dashboard.menu.getActiveItem() | async)?.items.length > 0 || (dashboard.menu.getActiveItem() | async)?.parent">
+           *ngIf="(dashboard.menu.getActiveItem() | async)?.items$.length > 0 || (dashboard.menu.getActiveItem() | async)?.parent">
         <a class="menu-item d-flex flex-row pl-3 pr-3"
-           *ngFor="let item of (dashboard.menu.getActiveItem() | async)?.items"
+           *ngFor="let item of (dashboard.menu.getActiveItem() | async)?.items$"
            routerLink="{{item.link}}"
            routerLinkActive="selected">
           <mat-icon class="mr-3" color="accent">{{item.icon}}</mat-icon>
@@ -98,7 +98,7 @@
         </a>
         <div class="pl-3 pr-3 mt-3" *ngIf="(dashboard.menu.getActiveItem() | async)?.isButtonEnabled">
           <button mat-stroked-button class="w-100" color="primary">
-            <div class="d-flex flex-row justify-content-center align-items-center">
+            <div class="d-flex flex-row justify-content-center align-items$-center">
               <mat-icon class="mr-2">add</mat-icon>
               Добавить
             </div>

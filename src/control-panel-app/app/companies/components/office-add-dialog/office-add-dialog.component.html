@@ -1,17 +1,7 @@
 <div class="control-panel-dialog">
-  <h3 mat-dialog-title>Новое помещение</h3>
+  <h3 mat-dialog-title>Новое здание</h3>
   <mat-dialog-content>
     <form [formGroup]="newOfficeForm" class="pt-3">
-
-      <!-- Start: Подразделение организации -->
-      <mat-form-field class="w-100" floatLabel="always">
-        <mat-select placeholder="Подразделение" [(ngModel)]="newOffice.departmentId" formControlName="departmentId" required>
-          <mat-option *ngFor="let department of (companies.selectedCompany() | async)?.departments" [value]="department.id">
-            {{ department.title }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <!-- End: Подразделение организации -->
 
       <!-- Start: Наименование -->
       <mat-form-field class="w-100" floatLabel="always">

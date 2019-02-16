@@ -1,11 +1,14 @@
 @section-title-primary-label-font-size: 17px;
 @section-title-primary-label-font-weight: 500;
 @section-title-primary-label-font-color: #546E7A;
-@section-title-secondary-label-font-size: 1rem;
+@section-title-secondary-label-font-size: 0.9rem;
 @section-title-secondary-label-font-weight: 300;
 @section-title-secondary-label-font-color: #6c757d;
 
 .section {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   background: #fafafa;
   border-radius: 4px;
 
@@ -15,7 +18,7 @@
     justify-content: space-between;
     align-items: center;
     flex-shrink: 0;
-    min-height: 40px;
+    min-height: 61px;
     box-sizing: border-box;
     margin-left: 10px;
     margin-right: 10px;
@@ -50,6 +53,25 @@
 
 
   .section-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: auto;
     padding: 20px 10px;
+  }
+
+  .section-placeholder {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    flex: 1;
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+    font-family: "Segoe UI Light";
+    font-size: 20px;
+    color: #b0bec5;
   }
 }

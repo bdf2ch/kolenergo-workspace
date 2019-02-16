@@ -18,6 +18,9 @@ import { Application, Company, IApplication, ICompany, IControlPanelInitialData 
 import {ApplicationMenuItemControl} from '../dashboard/models/application-menu-item-control.model';
 import {CompanyAddDialogComponent} from '../companies/components/company-add-dialog/company-add-dialog.component';
 import {ApplicationMenuItem} from '../dashboard/models/application-menu-item.model';
+import { SettingsComponent } from './components/settings/settings.component';
+import { RolesComponent } from './components/roles/roles.component';
+import { EmployeesComponent } from './components/employees/employees.component';
 
 
 @NgModule({
@@ -34,7 +37,10 @@ import {ApplicationMenuItem} from '../dashboard/models/application-menu-item.mod
     PermissionAddDialogComponent,
     RoleEditDialogComponent,
     RoleAddDialogComponent,
-    ExceptSelectedPermissionsPipe
+    ExceptSelectedPermissionsPipe,
+    SettingsComponent,
+    RolesComponent,
+    EmployeesComponent
   ],
   providers: [
     ApplicationsResource,

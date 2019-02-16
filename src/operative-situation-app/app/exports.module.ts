@@ -27,6 +27,7 @@ import { MatNativeDateModule } from '@angular/material';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatRadioModule } from '@angular/material/radio';
 import { AuthenticationModule } from '@kolenergo/cpa';
 
 @NgModule({
@@ -61,7 +62,8 @@ import { AuthenticationModule } from '@kolenergo/cpa';
     MatProgressBarModule,
     MatSlideToggleModule,
     MatPaginatorModule,
-    MatChipsModule
+    MatChipsModule,
+    MatRadioModule
   ],
   declarations: [],
   exports: [
@@ -94,7 +96,8 @@ import { AuthenticationModule } from '@kolenergo/cpa';
     MatNativeDateModule,
     MatProgressBarModule,
     MatSlideToggleModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatRadioModule
   ]
 })
 export class ExportsModule {}

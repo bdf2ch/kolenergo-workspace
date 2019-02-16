@@ -1,3 +1,30 @@
-<p>
-  company-add-dialog works!
-</p>
+<div class="control-panel-dialog">
+  <h3 mat-dialog-title>Новая организация</h3>
+  <mat-dialog-content>
+    <form [formGroup]="newCompanyForm" class="pt-3">
+
+      <!-- Start: Наименование -->
+      <mat-form-field class="w-100" floatLabel="always">
+        <input matInput placeholder="Наименование" [(ngModel)]="newCompany.title" formControlName="title" required>
+      </mat-form-field>
+      <!-- End: Наименование -->
+
+      <!-- Start: Краткое наименование -->
+      <mat-form-field class="w-100" floatLabel="always">
+        <input matInput placeholder="Краткое наименование" [(ngModel)]="newCompany.shortTitle" formControlName="shortTitle">
+      </mat-form-field>
+      <!-- End: Краткое наименование -->
+
+      <!-- Start: Идентификатор в Active Directory -->
+      <mat-form-field class="w-100" floatLabel="always">
+        <input matInput placeholder="Идентификатор Active Directory" [(ngModel)]="newCompany.activeDirectoryUid" formControlName="activeDirectoryUid">
+      </mat-form-field>
+      <!-- End: Идентификатор в Active Directory -->
+
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions class="d-flex justify-content-end align-items-center">
+    <button mat-raised-button color="primary" [disabled]="newCompanyForm.invalid || (companies.addingCompany$.asObservable() | async)" (click)="addCompany()">Добавить</button>
+    <button mat-raised-button color="warn" (click)="cancel()">Отмена</button>
+  </mat-dialog-actions>
+</div>

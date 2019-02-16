@@ -1,6 +1,6 @@
 <!--
 <div class="report-list d-flex flex-column h-100 p-4">
-  <div class="d-flex flex-row justify-content-between align-items-center lead mb-3">
+  <div class="d-flex flex-row justify-content-between align-items$-center lead mb-3">
     Оперативная обстановка на {{(osr.date() | async)}}
 
 
@@ -13,7 +13,7 @@
     </mat-form-field>
   </div>
 
-  <div class="d-flex flex-column align-items-center"
+  <div class="d-flex flex-column align-items$-center"
        [ngClass]="{'justify-content-center': (osr.reports() | async).length === 0, 'justify-content-start': (osr.reports() | async).length > 0}" style="flex: 1 1;">
     <table class="operative-situation-reports mb-4" *ngIf="(osr.reports() | async).length > 0">
       <colgroup span="2"></colgroup>
@@ -61,7 +61,7 @@
       </tr>
       <tr *ngFor="let report of (osr.reports() | async)" class="content" (click)="selectReport(report)">
         <th scope="row" class="time">
-          <div class="d-flex justify-content-center align-items-center">
+          <div class="d-flex justify-content-center align-items$-center">
             <span> {{report.periodTime}}</span>
           </div>
         </th>
@@ -96,14 +96,14 @@
       </tr>
     </table>
 
-    <div class="d-flex justify-content-center align-items-center mt-5 mb-3 lead text-muted"
+    <div class="d-flex justify-content-center align-items$-center mt-5 mb-3 lead text-muted"
          *ngIf="(osr.reports() | async).length === 0">
       Отчеты об оперативной обстановке отсутствуют
     </div>
 
-    <div class="d-flex justify-content-center align-items-center">
+    <div class="d-flex justify-content-center align-items$-center">
       <button mat-stroked-button color="primary" class="p-3" (click)="openAddReportDialog()">
-        <div class="d-flex justify-content-center align-items-center">
+        <div class="d-flex justify-content-center align-items$-center">
           <mat-icon class="mr-2">add</mat-icon>
           Добавить отчет об оперативной обстановке
         </div>
@@ -234,7 +234,7 @@
                   <td class="p-3">{{report.violations.uapv_35}}</td>
                   <td class="p-3">{{report.violations.napv_35}}</td>
                   <td class="p-3">{{report.violations.power_off_35}}</td>
-                  <td class="p-3">{{report.violations.uapv_35 + report.violations.napv_35 + report.violations.power_off_35}}</td>
+                  <td class="p-3">{{report.violations.uapv_35 + report.violations.napv_35}}</td>
 
                   <td class="p-3">{{report.violations.lep_rs}}</td>
                   <td class="p-3">{{report.violations.tn_cancel}}</td>
@@ -379,17 +379,17 @@
     </div>
   </div>
 
-  <div class="d-flex flex-column justify-content-center align-items-center pt-2 pb-2"
+  <div class="d-flex flex-column justify-content-center align-items$-center pt-2 pb-2"
        [ngClass]="{'h-100': (osr.reports() | async).length === 0}"
        style="flex-shrink: 0;">
-    <div class="d-flex justify-content-center align-items-center lead text-muted"
+    <div class="d-flex justify-content-center align-items$-center lead text-muted"
          *ngIf="(osr.reports() | async).length === 0">
       Отчеты об оперативной обстановке отсутствуют
     </div>
 
-    <div class="d-flex justify-content-center align-items-center mb-3">
+    <div class="d-flex justify-content-center align-items$-center mb-3">
       <button mat-stroked-button color="primary" class="p-3" (click)="openAddReportDialog()">
-        <div class="d-flex justify-content-center align-items-center">
+        <div class="d-flex justify-content-center align-items$-center">
           <mat-icon class="mr-2">add</mat-icon>
           Добавить отчет об оперативной обстановке
         </div>

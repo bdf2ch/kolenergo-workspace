@@ -1,0 +1,24 @@
+<div class="control-panel-dialog">
+  <h3 mat-dialog-title>Новое помещение</h3>
+  <mat-dialog-content>
+    <form [formGroup]="newLocationForm" class="pt-3">
+
+      <!-- Start: Наименование -->
+      <mat-form-field class="w-100" floatLabel="always">
+        <input matInput placeholder="Наименование" [(ngModel)]="newLocation.title" formControlName="title" required>
+      </mat-form-field>
+      <!-- End: Наименование -->
+
+      <!-- Start: Описание -->
+      <mat-form-field class="w-100" floatLabel="always">
+        <input matInput placeholder="Описание" [(ngModel)]="newLocation.description" formControlName="description">
+      </mat-form-field>
+      <!-- End: Описание -->
+
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions class="d-flex justify-content-end align-items-center">
+    <button mat-raised-button color="primary" [disabled]="newLocationForm.invalid || (companies.isAddingLocation() | async)" (click)="addLocation()">Добавить</button>
+    <button mat-raised-button color="warn" (click)="cancel()">Отмена</button>
+  </mat-dialog-actions>
+</div>

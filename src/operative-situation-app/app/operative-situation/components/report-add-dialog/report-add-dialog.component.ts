@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MatSlideToggleChange, MatSnackBar } from '@angular/material';
+import {MatDialogRef, MatRadioChange, MatSlideToggleChange, MatSnackBar, MatTableDataSource} from '@angular/material';
 import { OperativeSituationService } from '../../services/operative-situation.service';
-import { OperativeSituationReport } from '@kolenergo/osr';
+import {ILocation, ILocationWeather, OperativeSituationReport} from '@kolenergo/osr';
 import { AuthenticationService } from '@kolenergo/cpa';
 
 @Component({
@@ -13,6 +13,9 @@ import { AuthenticationService } from '@kolenergo/cpa';
 export class ReportAddDialogComponent implements OnInit {
   public newReport: OperativeSituationReport;
   public addReportForm: FormGroup;
+  public locationsDataSource: MatTableDataSource<ILocation>;
+  public weatherSummaryDisplayColumns: string[];
+  public useWeatherSummary: boolean;
 
   constructor(private readonly builder: FormBuilder,
               private readonly dialogRef: MatDialogRef<ReportAddDialogComponent>,
@@ -20,6 +23,9 @@ export class ReportAddDialogComponent implements OnInit {
               private readonly auth: AuthenticationService,
               public readonly osr: OperativeSituationService) {
     this.newReport = new OperativeSituationReport();
+    this.locationsDataSource = new MatTableDataSource<ILocation>([]);
+    this.weatherSummaryDisplayColumns = ['title', 'temperature', 'wind', 'precipitations', 'icon'];
+    this.useWeatherSummary = true;
   }
 
   ngOnInit() {
@@ -38,10 +44,10 @@ export class ReportAddDialogComponent implements OnInit {
       population_effect_network: new FormControl(this.newReport.equipment_network.effect.population),
       power_effect_network: new FormControl(this.newReport.equipment_network.effect.power),
       szo_effect_network: new FormControl(this.newReport.equipment_network.effect.szo),
-      weather_min: new FormControl(this.newReport.weather.min, Validators.required),
-      weather_max: new FormControl(this.newReport.weather.max, Validators.required),
-      weather_wind: new FormControl(this.newReport.weather.wind, Validators.required),
-      weather_precipitations: new FormControl(this.newReport.weather.precipitations, Validators.required),
+      weather_min: new FormControl({value: this.newReport.weather.min, disabled: this.useWeatherSummary === true}, Validators.required),
+      weather_max: new FormControl({value: this.newReport.weather.max, disabled: this.useWeatherSummary === true}, Validators.required),
+      weather_wind: new FormControl({value: this.newReport.weather.wind, disabled: this.useWeatherSummary === true}, Validators.required),
+      weather_precipitations: new FormControl({value: this.newReport.weather.precipitations, disabled: this.useWeatherSummary === true}, Validators.required),
       weather_rpg: new FormControl(this.newReport.weather.rpg),
       weather_orr: new FormControl(this.newReport.weather.orr),
       resources_rise: new FormControl(this.newReport.resources.rise),
@@ -60,8 +66,10 @@ export class ReportAddDialogComponent implements OnInit {
       violations_power_off_04: new FormControl(this.newReport.violations.power_off_04),
       violations_greater_3_04: new FormControl(this.newReport.violations.greater_3_04),
       violations_population_srez_o4: new FormControl(this.newReport.violations.population_srez_04),
-      violations_population_greater_3_04: new FormControl(this.newReport.violations.population_greater_3_04)
+      violations_population_greater_3_04: new FormControl(this.newReport.violations.population_greater_3_04),
+      useWeatherSummary: new FormControl(this.useWeatherSummary)
     });
+    this.locationsDataSource = new MatTableDataSource<ILocation>(this.osr.selectedCompany().weatherSummary.locations);
   }
 
   /**
@@ -107,6 +115,21 @@ export class ReportAddDialogComponent implements OnInit {
   changeORRMode(event: MatSlideToggleChange) {
     if (event.checked === true) {
       this.newReport.weather.rpg = false;
+    }
+  }
+
+  weatherInputModeSelect(event: MatRadioChange) {
+    console.log(event);
+    if (event.value === true) {
+      this.addReportForm.controls['weather_min'].disable();
+      this.addReportForm.controls['weather_max'].disable();
+      this.addReportForm.controls['weather_wind'].disable();
+      this.addReportForm.controls['weather_precipitations'].disable();
+    } else {
+      this.addReportForm.controls['weather_min'].enable();
+      this.addReportForm.controls['weather_max'].enable();
+      this.addReportForm.controls['weather_wind'].enable();
+      this.addReportForm.controls['weather_precipitations'].enable();
     }
   }
 

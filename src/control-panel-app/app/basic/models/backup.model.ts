@@ -1,3 +1,5 @@
+import {months} from 'moment';
+
 export class Backup {
   backup?: any;
 
@@ -24,6 +26,14 @@ export class Backup {
         for (const field in this.backup.data) {
           this[field] = JSON.parse(this.backup.data[field]);
         }
+      },
+
+      /**
+       * Получение значения свойства из бэкапа
+       * @param field - Наименование поля
+       */
+      value: (field: string) => {
+        return this.backup.data[field] ? JSON.parse(this.backup.data[field]) : null;
       }
     };
   }

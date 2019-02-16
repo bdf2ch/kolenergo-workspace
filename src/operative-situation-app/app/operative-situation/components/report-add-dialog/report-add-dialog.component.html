@@ -1,6 +1,6 @@
 <div class="container-fluid h-100 control-panel-dialog">
   <div matDialogTitle class="d-flex flex-row align-items-center p-3" [formGroup]="addReportForm">
-    <h4>Добавление отчета об оперативной обстановке на {{osr.selectedPeriod()}}</h4>
+    <h4>Добавление отчета об оперативной обстановке на {{osr?.selectedPeriod()}}</h4>
     <!--
     <mat-form-field class="ml-3 pb-0" floatLabel="never">
       <mat-select placeholder="Время отчета" formControlName="time" [(ngModel)]="newReport.periodTime">
@@ -393,31 +393,138 @@
       </mat-tab>
       <!-- End: Вкладка с данными о нарушениях с нарастающим итогом -->
 
-      <!-- Start: Вкладка с данными о потреблении -->
-      <!--
-      <mat-tab label="Потребление">
-        <div class="p-3">
-          <table class="operative-situation-reports w-100" [formGroup]="addReportForm">
-            <tr>
-              <th scope="col" class="font-weight-normal">Максимум потребления за прошедшие сутки</th>
-            </tr>
-            <tr class="content">
-              <td class="p-3">
-                <mat-form-field class="w-100">
-                  <input matInput
-                         formControlName="consumption"
-                         [(ngModel)]="newReport.consumption">
-                </mat-form-field>
-              </td>
-          </table>
-        </div>
-      </mat-tab>
-      -->
-      <!-- End: Вкладка с данными о потреблении -->
-
       <!-- Start: Вкладка с данными о погодных условиях -->
       <mat-tab label="Погодные условия">
         <div class="p-3">
+          <div class="row no-gutters">
+            <div class="col-12 pt-3">
+              <mat-radio-group class="d-flex flex-row w-100" [(ngModel)]="useWeatherSummary" (change)="weatherInputModeSelect($event)">
+                <mat-radio-button
+                  [value]="false"
+                  class="d-flex flex-row w-50 justify-content-center border-right">
+                  Ввести данные о погоде вручную
+                </mat-radio-button>
+                <mat-radio-button
+                  [value]="true"
+                  class="d-flex flex-row w-50 justify-content-center">
+                  Использовать данные из погодной сводки
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+          <div class="row no-gutters">
+            <div class="d-flex flex-column justify-content-between col-6 border-right pl-3 pr-3 pt-4">
+              <div class="d-flex" style="flex: 1;">
+                <table class="weather-table w-100 h-100" style="flex: 1;" [formGroup]="addReportForm">
+                  <tr>
+                    <th scope="row" class="w-50 h-25 border">t&deg; min</th>
+                    <td class="w-50 h-25 text-center border" style="flex-grow: 0">
+                      <mat-form-field class="w-75">
+                        <input matInput
+                               formControlName="weather_min"
+                               [(ngModel)]="newReport.weather.min">
+                      </mat-form-field>
+                    </td>
+                  </tr>
+                  <tr class="h-25">
+                    <th scope="row" class="border">t&deg; max</th>
+                    <td class="text-center border">
+                      <mat-form-field class="w-75">
+                        <input matInput
+                               formControlName="weather_max"
+                               [(ngModel)]="newReport.weather.max">
+                      </mat-form-field>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="w-50 border">Ветер</th>
+                    <td class="text-center border">
+                      <mat-form-field class="w-75">
+                        <input matInput
+                               formControlName="weather_wind"
+                               [(ngModel)]="newReport.weather.wind">
+                      </mat-form-field>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="w-50 border">Осадки</th>
+                    <td class="text-center border">
+                      <mat-form-field class="w-75">
+                        <input matInput
+                               formControlName="weather_precipitations"
+                               [(ngModel)]="newReport.weather.precipitations">
+                      </mat-form-field>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            <div class="col-6 pl-4 pr-4 pt-3">
+              <div class="d-flex flex-column">
+                <mat-table [dataSource]="locationsDataSource" class="weather-locations-table">
+
+                  <!-- Position Column -->
+                  <ng-container matColumnDef="title">
+                    <mat-header-cell *matHeaderCellDef>Насел. пункт</mat-header-cell>
+                    <mat-cell *matCellDef="let location"> {{location.title}} </mat-cell>
+                  </ng-container>
+
+                  <!-- Name Column -->
+                  <ng-container matColumnDef="temperature">
+                    <mat-header-cell *matHeaderCellDef class="weather-temperature-column"> t&deg; </mat-header-cell>
+                    <mat-cell *matCellDef="let location" class="weather-temperature-column"> {{location.weather.temperature}} </mat-cell>
+                  </ng-container>
+
+                  <!-- Weight Column -->
+                  <ng-container matColumnDef="wind">
+                    <mat-header-cell *matHeaderCellDef class="weather-wind-column"> Ветер, м/с </mat-header-cell>
+                    <mat-cell *matCellDef="let location" class="weather-wind-column"> {{location.weather.wind}}</mat-cell>
+                  </ng-container>
+
+                  <!-- Symbol Column -->
+                  <ng-container matColumnDef="precipitations">
+                    <mat-header-cell *matHeaderCellDef> Осадки </mat-header-cell>
+                    <mat-cell *matCellDef="let location"> {{location.weather.precipitations}} </mat-cell>
+                  </ng-container>
+
+                  <!-- Symbol Column -->
+                  <ng-container matColumnDef="icon">
+                    <mat-header-cell *matHeaderCellDef class="weather-icon-column"> </mat-header-cell>
+                    <mat-cell *matCellDef="let location" class="weather-icon-column">
+                      <img src="http://openweathermap.org/img/w/{{location.weather.icon}}.png">
+                    </mat-cell>
+                  </ng-container>
+
+                  <mat-header-row *matHeaderRowDef="weatherSummaryDisplayColumns"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: weatherSummaryDisplayColumns;"></mat-row>
+                </mat-table>
+              </div>
+            </div>
+          </div>
+
+          <div class="row p-2 pt-3" [formGroup]="addReportForm">
+            <div class="col-6 p-2 pr-4 d-flex justify-content-end">
+              <span class="mr-2">Режим РПГ</span>
+              <mat-slide-toggle
+                formControlName="weather_rpg"
+                [(ngModel)]="newReport.weather.rpg"
+                (change)="changeRPGMode($event)">
+              </mat-slide-toggle>
+            </div>
+            <div class="col-6 p-2 pl-4 d-flex justify-content-start">
+              <span class="mr-2">Режим ОРР</span>
+              <mat-slide-toggle
+                formControlName="weather_orr"
+                [(ngModel)]="newReport.weather.orr"
+                (change)="changeORRMode($event)">
+              </mat-slide-toggle>
+            </div>
+          </div>
+
+
+
+
+          <!--
           <table class="operative-situation-reports w-100" [formGroup]="addReportForm">
             <tr>
               <th scope="col" class="font-weight-normal">t min</th>
@@ -472,6 +579,7 @@
               </td>
             </tr>
           </table>
+          -->
         </div>
       </mat-tab>
       <!-- End: Вкладка с данными о погодных условиях-->

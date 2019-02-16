@@ -16,6 +16,7 @@ export class SessionCanActivateGuard implements CanActivate, CanActivateChild {
         ? window.localStorage.getItem('app_code')
         : null
     );
+    console.log('AUTH RESULT', user);
     if (!user) {
       this.router.navigate(['auth']);
     }

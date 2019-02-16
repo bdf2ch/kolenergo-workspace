@@ -4,6 +4,9 @@ import { ApplicationsComponent } from './components/applications/applications.co
 import { ApplicationsListComponent } from './components/applications-list/applications-list.component';
 import { ApplicationComponent } from './components/application/application.component';
 import { ApplicationsResolveGuard } from './guards/applications.resolve.guard';
+import { SettingsComponent } from './components/settings/settings.component';
+import {RolesComponent} from './components/roles/roles.component';
+import {EmployeesComponent} from './components/employees/employees.component';
 
 const routes: Routes = [
   {
@@ -19,8 +22,27 @@ const routes: Routes = [
       },
       {
         path: ':id',
-        component: ApplicationComponent
-      }
+        component: ApplicationComponent,
+        children: [
+          {
+            path: '',
+            redirectTo: 'roles',
+            pathMatch: 'full'
+          },
+          {
+            path: 'roles',
+            component: RolesComponent
+          },
+          {
+            path: 'employees',
+            component: EmployeesComponent
+          },
+          {
+            path: 'settings',
+            component: SettingsComponent
+          }
+        ]
+      },
     ]
   }
 ];

@@ -1,5 +1,6 @@
 import { IUser, ICompany } from '@kolenergo/cpa';
 import {IOperativeSituationConsumption} from './operative-situation-consumption.interface';
+import {IWeatherSummary} from '@kolenergo/osr';
 
 /**
  * Интерфейс, описывающий отчет об оперативной обстановке
@@ -50,4 +51,5 @@ export interface IOperativeSituationReport {
   violations_population_04_greater_3: number;     // Население в сети 0,4 кВ более 3 часов
   consumption: number;                            // Максимум потребления за прошедшие сутки
   // consumption: IOperativeSituationConsumption;    // Максимум потребления за прошедшие сутки
+  weatherSummary?: IWeatherSummary;               // Погодная сводка
 }

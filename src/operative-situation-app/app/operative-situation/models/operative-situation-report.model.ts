@@ -1,5 +1,6 @@
 import { Backup, Company, ICompany, User } from '@kolenergo/cpa';
 import { IOperativeSituationReport } from '../interfaces/operative-situation-report.interface';
+import {WeatherSummary} from './weather-summary.model';
 
 export class OperativeSituationReport extends Backup {
   id: number;
@@ -62,6 +63,7 @@ export class OperativeSituationReport extends Backup {
     population_greater_3_04: number
   };
   backup?: any;
+  weatherSummary: WeatherSummary;
 
   /**
    * Конструктор
@@ -128,6 +130,7 @@ export class OperativeSituationReport extends Backup {
       population_srez_04: config ? config.violations_population_04_srez : 0,
       population_greater_3_04: config ? config.violations_population_04_greater_3 : 0
     };
+    this.weatherSummary = config && config.weatherSummary ? new WeatherSummary(config.weatherSummary) : null;
   }
 
   getTotalEffect() {

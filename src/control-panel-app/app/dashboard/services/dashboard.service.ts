@@ -46,11 +46,9 @@ export class DashboardService {
         console.log('active', item);
       });
 
-    this.menu.items.subscribe((items: ApplicationMenuItem[]) => {
-      console.log('items changed', items);
+    this.menu.items$.subscribe((items: ApplicationMenuItem[]) => {
+      // console.log('items$ changed', items$);
     });
-
-    console.log('MATIDALOG', this.dialog);
   }
 
   fetchInitialData(): Observable<IServerResponse<IControlPanelInitialData>> {
@@ -68,10 +66,10 @@ export class DashboardService {
           if (response.data.companies.length > 0) {
             response.data.companies.forEach((item: ICompany) => {
               const company = new Company(item);
-              company.backup.setup(['title', 'shortTitle', 'departments', 'offices']);
+              company.backup.setup(['title', 'shortTitle', 'activeDirectoryUid']);
               this.companies.push(company);
             });
-
+            console.log('companies', this.companies);
           }
           return response;
         })

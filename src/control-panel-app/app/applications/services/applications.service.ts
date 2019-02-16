@@ -18,22 +18,22 @@ import { finalize, map } from 'rxjs/operators';
 @Injectable()
 export class ApplicationsService {
   public applications$: BehaviorSubject<Application[]>;
-  private selectedApplication$: BehaviorSubject<Application>;
-  private selectedApplicationRolesDataSource: MatTableDataSource<Role>;
-  private selectedApplicationPermissionsDataSource: MatTableDataSource<Permission>;
-  private selectedRole$: BehaviorSubject<Role>;
-  private selectedPermission$: BehaviorSubject<Permission>;
-  private fetchingData$: BehaviorSubject<boolean>;
-  private addingRole$: BehaviorSubject<boolean>;
-  private editingRole$: BehaviorSubject<boolean>;
-  private addingPermission$: BehaviorSubject<boolean>;
-  private editingPermission$: BehaviorSubject<boolean>;
+  public selectedApplication$: BehaviorSubject<Application>;
+  public rolesDataSource: MatTableDataSource<Role>;
+  public permissionsDataSource: MatTableDataSource<Permission>;
+  public selectedRole$: BehaviorSubject<Role>;
+  public selectedPermission$: BehaviorSubject<Permission>;
+  public fetchingData$: BehaviorSubject<boolean>;
+  public addingRole$: BehaviorSubject<boolean>;
+  public editingRole$: BehaviorSubject<boolean>;
+  public addingPermission$: BehaviorSubject<boolean>;
+  public editingPermission$: BehaviorSubject<boolean>;
 
   constructor(private readonly resource: ApplicationsResource) {
     this.applications$ = new BehaviorSubject<Application[]>([]);
     this.selectedApplication$ = new BehaviorSubject<Application>(null);
-    this.selectedApplicationRolesDataSource = new MatTableDataSource<Role>([]);
-    this.selectedApplicationPermissionsDataSource = new MatTableDataSource<Permission>([]);
+    this.rolesDataSource = new MatTableDataSource<Role>([]);
+    this.permissionsDataSource = new MatTableDataSource<Permission>([]);
     this.selectedRole$ = new BehaviorSubject<Role>(null);
     this.selectedPermission$ = new BehaviorSubject<Permission>(null);
     this.fetchingData$ = new BehaviorSubject<boolean>(false);
@@ -79,7 +79,7 @@ export class ApplicationsService {
           newRole.backup.setup(['code', 'title', 'isEnabled']);
           const roles = this.selectedApplication$.getValue().roles;
           roles.push(newRole);
-          this.selectedApplicationRolesDataSource = new MatTableDataSource<Role>(roles);
+          this.rolesDataSource = new MatTableDataSource<Role>(roles);
           return newRole;
         }),
         finalize(() => {
@@ -119,7 +119,7 @@ export class ApplicationsService {
           newPermission.backup.setup(['code', 'title', 'isEnabled']);
           const permissions = this.selectedApplication$.getValue().permissions;
           permissions.push(newPermission);
-          this.selectedApplicationPermissionsDataSource = new MatTableDataSource<Permission>(permissions);
+          this.permissionsDataSource = new MatTableDataSource<Permission>(permissions);
           return newPermission;
         }),
         finalize(() => {
@@ -156,8 +156,8 @@ export class ApplicationsService {
       const searchResult = this.applications$.getValue().find(findApplicationById);
       if (searchResult) {
         this.selectedApplication$.next(searchResult);
-        this.selectedApplicationRolesDataSource = new MatTableDataSource<Role>(searchResult.roles);
-        this.selectedApplicationPermissionsDataSource = new MatTableDataSource<Permission>(searchResult.permissions);
+        this.rolesDataSource = new MatTableDataSource<Role>(searchResult.roles);
+        this.permissionsDataSource = new MatTableDataSource<Permission>(searchResult.permissions);
       }
     }
     return this.selectedApplication$.getValue();
@@ -189,14 +189,14 @@ export class ApplicationsService {
    * Возвращает DataSource ролей пользователей приложения
    */
   selectedApplicationRoles(): MatTableDataSource<Role> {
-    return this.selectedApplicationRolesDataSource;
+    return this.rolesDataSource;
   }
 
   /**
    * Возвращает DataSource прав пользователей приложения
    */
   selectedApplicationPermissions(): MatTableDataSource<Permission> {
-    return this.selectedApplicationPermissionsDataSource;
+    return this.permissionsDataSource;
   }
 
   /**

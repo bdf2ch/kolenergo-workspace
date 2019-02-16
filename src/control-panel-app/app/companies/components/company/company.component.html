@@ -1,25 +1,43 @@
-<div id="company-component" class="d-flex flex-column h-100 p-4">
+<div id="company-component" class="h-100 p-2 pb-3">
 
   <!-- Start: Заголовок компонента -->
-  <div class="component-title">
-    <div class="component-title-label">
-      <div class="primary-label">{{(companies.selectedCompany() | async)?.shortTitle}}</div>
-      <div class="secondary-label">{{(companies.selectedCompany() | async)?.title}}</div>
-    </div>
-    <div class="component-title-controls">
-      <button mat-stroked-button color="primary">Изменить</button>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12 component-title">
+        <div class="component-title-label">
+          <div class="primary-label">{{(companies.selectedCompany() | async)?.backup.value('shortTitle')}}</div>
+          <div class="secondary-label">{{(companies.selectedCompany() | async)?.backup.value('title')}}</div>
+        </div>
+        <div class="component-title-controls">
+          <button mat-icon-button [matMenuTriggerFor]="companyMenu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #companyMenu="matMenu">
+            <button mat-menu-item (click)="openCompanyEditDialog()">
+              <mat-icon class="text-info">edit</mat-icon>
+              <span>Изменить</span>
+            </button>
+            <button mat-menu-item (click)="openCompanyDeleteDialog()">
+              <mat-icon class="text-danger">delete</mat-icon>
+              <span>Удалить</span>
+            </button>
+          </mat-menu>
+        </div>
+      </div>
     </div>
   </div>
   <!-- End: Заголовок компонента -->
 
   <!-- Start: Содержимое компонента -->
-  <div class="container-fluid p-0 mt-5 w-100">
-    <div class="row pr-0 w-100">
+  <div class="container-fluid d-flex p-0 mt-5 w-100" style="flex: 1;">
+
+    <div class="row w-100 pr-0 mx-auto">
+
       <!-- Start: Подразделения и помещения -->
       <div class="col-4 d-flex flex-column">
 
         <!-- Start: Подразделения организации -->
-        <div class="section d-flex flex-column" [ngClass]="{'h-50': (companies.selectedCompany() | async)?.departments.length === 0}">
+        <div class="section d-flex flex-column h-50">
 
           <!-- Start: Заголовок секции -->
           <div class="section-title">
@@ -28,23 +46,29 @@
             </div>
             <div class="section-title-controls">
               <button mat-icon-button>
-                <mat-icon class="text-success" matTooltip="Добавить подразделение" matTooltipPosition="above">add</mat-icon>
+                <mat-icon class="text-success"
+                          matTooltip="Добавить подразделение"
+                          matTooltipPosition="above"
+                          (click)="openDepartmentAddDialog()">
+                  add
+                </mat-icon>
               </button>
             </div>
           </div>
           <!-- End: Заголовок секции -->
 
-          <div class="section-content h-100">
-            <mat-table class="company-departments-table item-list" [dataSource]="departmentsDataSource">
-
+          <div class="section-content">
+            <mat-table class="company-departments-table item-list selectable"
+                       [dataSource]="companies.departmentsDataSource"
+                       *ngIf="companies.selectedCompany$.getValue()?.departments.length > 0">
               <ng-container matColumnDef="title">
                 <mat-header-cell *matHeaderCellDef> No.</mat-header-cell>
-                <mat-cell *matCellDef="let element">
+                <mat-cell *matCellDef="let department">
                   <div class="d-flex flex-row align-items-center">
                     <mat-icon class="label mr-2">location_city</mat-icon>
                     <div class="d-flex flex-column w-100">
-                      <div class="primary-label">{{element.title}}</div>
-                      <div class="secondary-label">{{element.title}}</div>
+                      <div class="primary-label">{{department.backup.value('title')}}</div>
+                      <div class="secondary-label">{{department.backup.value('title')}}</div>
                     </div>
                   </div>
                 </mat-cell>
@@ -52,30 +76,32 @@
 
               <ng-container matColumnDef="controls">
                 <mat-header-cell *matHeaderCellDef class="controls-column"> </mat-header-cell>
-                <mat-cell *matCellDef="let element" class="controls-column">
-                  <button mat-icon-button [matMenuTriggerFor]="departmentMenu">
+                <mat-cell *matCellDef="let department" class="controls-column">
+                  <button mat-icon-button
+                          [matMenuTriggerFor]="departmentMenu"
+                          *ngIf="companies.selectedDepartment$.getValue()?.id === department.id">
                     <mat-icon>more_vert</mat-icon>
                   </button>
                   <mat-menu #departmentMenu="matMenu">
-                    <button mat-menu-item>
-                      <mat-icon>edit</mat-icon>
+                    <button mat-menu-item (click)="openDepartmentEditDialog()">
+                      <mat-icon class="text-info">edit</mat-icon>
                       <span>Изменить</span>
                     </button>
-                    <button mat-menu-item>
-                      <mat-icon>delete</mat-icon>
+                    <button mat-menu-item (click)="openDepartmentDeleteDialog()">
+                      <mat-icon class="text-danger">delete</mat-icon>
                       <span>Удалить</span>
                     </button>
                   </mat-menu>
                 </mat-cell>
               </ng-container>
 
-              <!--<mat-header-row *matHeaderRowDef="departmentsDisplayColumns"></mat-header-row>-->
-              <mat-row *matRowDef="let row; columns: departmentsDisplayColumns;"></mat-row>
+              <mat-row *matRowDef="let department; columns: departmentsDisplayColumns;"
+                       [ngClass]="{'selected': companies.selectedDepartment$.getValue().id === department.id}"
+                       (click)="companies.selectedDepartment(department)"></mat-row>
             </mat-table>
 
             <!-- Start: Заглушка на случай отсутствия производственных отделений у организации -->
-            <div class="section-placeholder" *ngIf="(companies.selectedCompany() | async)?.departments.length === 0"
-                 [ngClass]="{'h-100': (companies.selectedCompany() | async)?.departments.length === 0}">
+            <div class="section-placeholder" *ngIf="(companies.selectedCompany() | async)?.departments.length === 0">
               Подразделения отсутствуют
             </div>
             <!-- End: Заглушка на случай отсутствия производственных отделений у организации -->
@@ -83,73 +109,164 @@
         </div>
         <!-- End: Подразделения организации -->
 
-        <!-- Start: Помещения организации -->
-        <div class="section d-flex flex-column mt-3" [ngClass]="{'h-50': (companies.selectedCompany() | async)?.offices.length === 0}">
+        <!-- Start: Здания организации -->
+        <div class="section d-flex flex-column h-50 mt-3">
           <!-- Start: Заголовок секции -->
           <div class="section-title">
             <div class="section-title-label">
-              <div class="primary-label">Помещения</div>
+              <div class="primary-label">Здания</div>
             </div>
             <div class="section-title-controls">
               <button mat-icon-button (click)="openAddOfficeDialog()">
-                <mat-icon class="text-success" matTooltip="Добавить помещение" matTooltipPosition="above">add</mat-icon>
+                <mat-icon class="text-success" matTooltip="Добавить здание" matTooltipPosition="above">add</mat-icon>
               </button>
             </div>
           </div>
           <!-- End: Заголовок секции -->
 
           <div class="section-content">
-            <!-- Start: Таблица помещений организации -->
-            <mat-table class="company-offices-table item-list" [dataSource]="officesDataSource">
+            <!-- Start: Таблица зданий организации -->
+            <div class="d-flex flex-column h-100" *ngIf="companies.selectedDepartment$.getValue()?.offices.length > 0">
+              <mat-table class="company-offices-table item-list selectable h-100" [dataSource]="companies.officesDataSource">
+
+                <ng-container matColumnDef="title">
+                  <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+                  <mat-cell *matCellDef="let office">
+                    <div class="d-flex flex-row align-items-center">
+                      <mat-icon class="label mr-2" style="background: #ce93d8 !important;">place</mat-icon>
+                      <div class="d-flex flex-column w-100">
+                        <div class="primary-label">{{office.backup.value('title')}}</div>
+                        <div class="secondary-label">{{office.backup.value('address') + ' - этажей: ' + office.backup.value('floors')}}</div>
+                      </div>
+                    </div>
+                  </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="controls">
+                  <mat-header-cell *matHeaderCellDef class="controls-column"> </mat-header-cell>
+                  <mat-cell *matCellDef="let office" class="controls-column">
+                    <button mat-icon-button [matMenuTriggerFor]="officeMenu" *ngIf="companies.selectedOffice$.getValue()?.id === office.id">
+                      <mat-icon>more_vert</mat-icon>
+                    </button>
+                    <mat-menu #officeMenu="matMenu">
+                      <button mat-menu-item (click)="openEditOfficeDialog(office)">
+                        <mat-icon class="text-info">edit</mat-icon>
+                        <span>Изменить</span>
+                      </button>
+                      <button mat-menu-item (click)="openDeleteOfficeDialog(office)">
+                        <mat-icon class="text-danger">delete</mat-icon>
+                        <span>Удалить</span>
+                      </button>
+                    </mat-menu>
+                  </mat-cell>
+                </ng-container>
+
+                <!-- <mat-header-row *matHeaderRowDef="departmentsDisplayColumns"></mat-header-row> -->
+                <mat-row *matRowDef="let office; columns: departmentsDisplayColumns;"
+                         [ngClass]="{'selected': companies.selectedOffice$.getValue()?.id === office.id}"
+                         (click)="companies.selectedOffice(office)"></mat-row>
+              </mat-table>
+            </div>
+            <!-- End: Таблица зданий организации -->
+
+            <!-- Start: Заглушка на случай отсутствия зданий у организации -->
+            <div class="section-placeholder" *ngIf="!companies.selectedOffice$.getValue() || companies.selectedDepartment$.getValue()?.offices.length === 0">
+              Здания отсутствуют
+            </div>
+            <!-- End: Заглушка на случай отсутствия зданий у организации -->
+          </div>
+        </div>
+        <!-- End: Здания организации -->
+
+      </div>
+      <!-- End: Подразделения и здания -->
+
+      <!-- Start: Структура помещений -->
+      <div class="col-4 d-flex flex-column">
+        <div class="section h-100">
+          <!-- Start: Заголовок секции -->
+          <div class="section-title">
+            <div class="section-title-label">
+              <div class="primary-label">Помещения</div>
+            </div>
+            <div class="section-title-controls">
+              <button mat-icon-button *ngIf="(companies.selectedOffice() | async)" (click)="openAddLocationDialog()">
+                <mat-icon class="text-success" matTooltip="Добавить помещение" matTooltipPosition="above">add</mat-icon>
+              </button>
+            </div>
+          </div>
+          <!-- End: Заголовок секции -->
+
+          <div class="section-content d-flex flex-column pt-0">
+
+            <!-- Start: Панель выбора этажа -->
+            <div class="block-of-controls p-2" *ngIf="companies.selectedOffice$.getValue()">
+              <div class="d-flex flex-row w-100">
+                <div class="col-12">
+                  <mat-form-field class="w-100">
+                    <mat-select placeholder="Этаж" [value]="companies.selectedFloor() | async" (selectionChange)="companies.selectedFloor($event.value)">
+                      <mat-option [value]="floor" *ngFor="let floor of companies.selectedOffice$.getValue()?.floors_">{{floor.title}}</mat-option>
+                    </mat-select>
+                    <mat-hint>{{companies.selectedOffice$.getValue()?.address}}</mat-hint>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <!-- End: Панель выбора этажа -->
+
+            <!-- Start: Таблица помещений здания организации -->
+            <mat-table class="company-locations-table item-list selectable mt-3"
+                       [dataSource]="companies.locationsDataSource">
 
               <ng-container matColumnDef="title">
-                <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
-                <mat-cell *matCellDef="let office">
+                <mat-cell *matCellDef="let location">
                   <div class="d-flex flex-row align-items-center">
-                    <mat-icon class="label mr-2" style="background: #ce93d8 !important;">place</mat-icon>
+                    <mat-icon class="label mr-2" style="background: #a5d6a7 !important;">place</mat-icon>
                     <div class="d-flex flex-column w-100">
-                      <div class="primary-label">{{office.title}}</div>
-                      <div class="secondary-label">{{office.address + ' - этажей: ' + office.floors}}</div>
+                      <div class="primary-label">{{location.backup.value('title')}}</div>
+                      <div class="secondary-label">{{location.backup.value('description')}}</div>
                     </div>
                   </div>
                 </mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="controls">
-                <mat-header-cell *matHeaderCellDef class="controls-column"> </mat-header-cell>
-                <mat-cell *matCellDef="let element" class="controls-column">
-                  <button mat-icon-button [matMenuTriggerFor]="officeMenu">
+                <mat-cell *matCellDef="let location" class="controls-column">
+                  <button mat-icon-button
+                          [matMenuTriggerFor]="officeMenu"
+                          *ngIf="companies.selectedLocation$.getValue()?.id === location.id">
                     <mat-icon>more_vert</mat-icon>
                   </button>
                   <mat-menu #officeMenu="matMenu">
-                    <button mat-menu-item (click)="openEditOfficeDialog(element)">
-                      <mat-icon>edit</mat-icon>
+                    <button mat-menu-item (click)="openEditLocationDialog()">
+                      <mat-icon class="text-info">edit</mat-icon>
                       <span>Изменить</span>
                     </button>
-                    <button mat-menu-item>
-                      <mat-icon>delete</mat-icon>
+                    <button mat-menu-item (click)="openDeleteLocationDialog()">
+                      <mat-icon class="text-danger">delete</mat-icon>
                       <span>Удалить</span>
                     </button>
                   </mat-menu>
                 </mat-cell>
               </ng-container>
 
-              <!-- <mat-header-row *matHeaderRowDef="departmentsDisplayColumns"></mat-header-row> -->
-              <mat-row *matRowDef="let row; columns: departmentsDisplayColumns;"></mat-row>
+              <mat-row *matRowDef="let location; columns: departmentsDisplayColumns;"
+                       [ngClass]="{'selected': companies.selectedLocation$.getValue()?.id === location.id}"
+                       (click)="companies.selectedLocation(location)"></mat-row>
             </mat-table>
-            <!-- End: Таблица помещений организации -->
+            <!-- End: Таблица помещений здания организации -->
 
             <!-- Start: Заглушка на случай отсутствия помещений у организации -->
-            <div class="section-placeholder" *ngIf="(companies.selectedCompany() | async)?.offices.length === 0"
-                 [ngClass]="{'h-100': (companies.selectedCompany() | async)?.offices.length === 0}">
+            <div class="section-placeholder h-100"
+                 *ngIf="((companies.selectedOffice() | async)?.locations | locationsByFloor: (companies.selectedFloor() | async)).length === 0">
               Помещения отсутствуют
             </div>
             <!-- End: Заглушка на случай отсутствия помещений у организации -->
           </div>
+
         </div>
-        <!-- End: Помещения организации -->
       </div>
-      <!-- End: Подразделения и помещения -->
+      <!-- End: Структура помещений -->
 
       <!-- Start: Организационная структура -->
       <div class="col-4 d-flex flex-column">
@@ -173,11 +290,11 @@
           </div>
           <!-- End: Заголовок секции -->
 
-          <div class="section-content h-100">
-            <app-tree-view [tree]="companies.selectedCompanyDivisionTree" (select)="selectDivision($event)"></app-tree-view>
+          <div class="section-content h-100 p-3">
+            <app-tree-view [tree]="companies?.selectedCompanyDivisionTree" (select)="selectDivision($event)"></app-tree-view>
 
             <!-- Start: Заглушка на случай отсутствия производственных отделений у организации -->
-            <div class="section-placeholder h-100" *ngIf="companies.selectedCompany$.getValue().divisions.length === 0">
+            <div class="section-placeholder h-100" *ngIf="companies.selectedCompany$.getValue()?.divisions.length === 0">
               Производственные отделения отсутствуют
             </div>
             <!-- End: Заглушка на случай отсутствия производственных отделений у организации -->
@@ -185,34 +302,6 @@
         </div>
       </div>
       <!-- End: Организационная структура -->
-
-      <!-- Start: Структура помещений -->
-      <div class="col-4 d-flex flex-column">
-        <div class="section h-100">
-          <!-- Start: Заголовок секции -->
-          <div class="section-title">
-            <div class="section-title-label">
-              <div class="primary-label">Структура помещений</div>
-            </div>
-            <div class="section-title-controls">
-              <button mat-icon-button>
-                <mat-icon class="text-success" matTooltip="Добавить помещение" matTooltipPosition="above">add</mat-icon>
-              </button>
-            </div>
-          </div>
-          <!-- End: Заголовок секции -->
-
-          <div class="section-content h-100">
-            <!-- Start: Заглушка на случай отсутствия производственных отделений у организации -->
-            <div class="section-placeholder h-100">
-              Производственные отделения отсутствуют
-            </div>
-            <!-- End: Заглушка на случай отсутствия производственных отделений у организации -->
-          </div>
-
-        </div>
-      </div>
-      <!-- End: Структура помещений -->
 
     </div>
   </div>

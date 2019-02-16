@@ -18,7 +18,9 @@ export class ReportListComponent implements OnInit {
               public readonly osr: OperativeSituationService) { }
 
   ngOnInit() {
-
+    this.dialog.open(ReportAddDialogComponent, {
+      width: '950px'
+    });
   }
 
   selectCompany(event: MatSelectChange) {

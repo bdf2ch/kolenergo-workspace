@@ -6,8 +6,8 @@ import {
   ResourceAction,
   ResourceHandler,
   ResourceParams,
-  ResourceRequestMethod
-} from '@ngx-resource/core';
+  ResourceRequestMethod, ResourceResponseBodyType
+} from "@ngx-resource/core";
 import { environment } from '../../../../_common/environments/environment';
 import { IServerResponse } from '@kolenergo/cpa';
 import { IOperativeSituationReport, IOperativeSituationReportsInitialData, OperativeSituationReport } from '@kolenergo/osr';
@@ -65,4 +65,12 @@ export class OperativeSituationResource extends Resource {
     withCredentials: true
   })
   editConsumption: IResourceMethod<OperativeSituationConsumption, IServerResponse<IOperativeSituationConsumption>>;
+
+  @ResourceAction({
+    path: '/export',
+    method: ResourceRequestMethod.Get,
+    withCredentials: true,
+    responseBodyType: ResourceResponseBodyType.Blob
+  })
+  exportReport: IResourceMethod<{id: number}, Blob>;
 }

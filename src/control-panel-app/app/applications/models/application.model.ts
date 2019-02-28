@@ -5,7 +5,7 @@ import { Role } from '../../users/models/role.model';
 import { Permission } from '../../users/models/permission.model';
 import { Backup } from '../../basic/models/backup.model';
 import { ApplicationSettingGroup } from './application-setting-group.model';
-import {IApplicationSettingGroup} from '../interfaces';
+import { IApplicationSettingGroup } from '../interfaces';
 
 
 /**

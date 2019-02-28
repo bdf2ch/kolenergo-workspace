@@ -1,6 +1,7 @@
 import { Backup, Company, ICompany, User } from '@kolenergo/cpa';
 import { IOperativeSituationReport } from '../interfaces/operative-situation-report.interface';
 import {WeatherSummary} from './weather-summary.model';
+import {IWeatherSummary} from "@kolenergo/osr";
 
 export class OperativeSituationReport extends Backup {
   id: number;
@@ -63,7 +64,7 @@ export class OperativeSituationReport extends Backup {
     population_greater_3_04: number
   };
   backup?: any;
-  weatherSummary: WeatherSummary;
+  weatherSummary: IWeatherSummary;
 
   /**
    * Конструктор

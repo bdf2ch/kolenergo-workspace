@@ -6,10 +6,12 @@ import { OperativeSituationResource } from '../resources/operative-situation.res
 import { Observable } from 'rxjs/Observable';
 import { from } from 'rxjs/observable/from';
 import { finalize, map } from 'rxjs/operators';
-import { IOperativeSituationReport, IOperativeSituationReportsInitialData, OperativeSituationReport } from '@kolenergo/osr';
+import {ILocation, IOperativeSituationReport, IOperativeSituationReportsInitialData, OperativeSituationReport} from "@kolenergo/osr";
 import { OperativeSituationConsumption } from '../models/operative-situation-consumption.model';
 import { IOperativeSituationConsumption } from '../interfaces/operative-situation-consumption.interface';
 import * as moment from 'moment';
+import * as saver from 'file-saver';
+import {MatTableDataSource} from "@angular/material";
 
 
 @Injectable()
@@ -27,6 +29,7 @@ export class OperativeSituationService {
   private addingConsumption$: BehaviorSubject<boolean>;
   private editingReport$: BehaviorSubject<boolean>;
   private editingConsumption$: BehaviorSubject<boolean>;
+  public locationsDataSource: MatTableDataSource<ILocation>;
 
 
   constructor(private readonly resource: OperativeSituationResource,
@@ -44,6 +47,7 @@ export class OperativeSituationService {
     this.addingConsumption$ = new BehaviorSubject<boolean>(false);
     this.editingReport$ = new BehaviorSubject<boolean>(false);
     this.editingConsumption$ = new BehaviorSubject<boolean>(false);
+    this.locationsDataSource = new MatTableDataSource<ILocation>([]);
   }
 
   /**
@@ -278,9 +282,10 @@ export class OperativeSituationService {
   selectedReport(reportId?: number | null): Observable<OperativeSituationReport> {
     if (reportId) {
       const findReportById = (report: OperativeSituationReport) => report.id === reportId;
-      const searchResult = this.reports$.getValue().find(findReportById);
-      if (searchResult) {
-        this.selectedReport$.next(searchResult);
+      const report_ = this.reports$.getValue().find(findReportById);
+      if (report_) {
+        this.selectedReport$.next(report_);
+        this.locationsDataSource = new MatTableDataSource<ILocation>(report_.weatherSummary ? report_.weatherSummary.locations : []);
       }
     } else if (reportId === null) {
       this.selectedReport$.next(null);
@@ -297,6 +302,25 @@ export class OperativeSituationService {
       this.selectedCompany$.next(company);
     }
     return this.selectedCompany$.getValue();
+  }
+
+  /**
+   * Экспорт отчета в Excel
+   * @param reportId - Идентификатор отчета
+   */
+  async exportReport(reportId: number): Promise<string | null> {
+    try {
+      this.fetchingData$.next(true);
+      const result  = await this.resource.exportReport({id: reportId});
+      if (result) {
+        this.fetchingData$.next(false);
+        saver.saveAs(result, `${reportId}.xlsx`);
+      }
+    } catch (error) {
+      console.error(error);
+      this.fetchingData$.next(false);
+      return null;
+    }
   }
 
   /**

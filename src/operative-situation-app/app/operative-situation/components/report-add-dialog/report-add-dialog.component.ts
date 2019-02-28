@@ -48,8 +48,10 @@ export class ReportAddDialogComponent implements OnInit {
       weather_max: new FormControl({value: this.newReport.weather.max, disabled: this.useWeatherSummary === true}, Validators.required),
       weather_wind: new FormControl({value: this.newReport.weather.wind, disabled: this.useWeatherSummary === true}, Validators.required),
       weather_precipitations: new FormControl({value: this.newReport.weather.precipitations, disabled: this.useWeatherSummary === true}, Validators.required),
-      weather_rpg: new FormControl(this.newReport.weather.rpg),
-      weather_orr: new FormControl(this.newReport.weather.orr),
+      weather_rpg_1: new FormControl({value: this.newReport.weather.rpg, disabled: this.useWeatherSummary}),
+      weather_orr_1: new FormControl({value: this.newReport.weather.orr, disabled: this.useWeatherSummary}),
+      weather_rpg_2: new FormControl(this.newReport.weather.rpg),
+      weather_orr_2: new FormControl(this.newReport.weather.orr),
       resources_rise: new FormControl(this.newReport.resources.rise),
       resources_rise_sum_power: new FormControl(this.newReport.resources.riseSumPower),
       resources_rise_people: new FormControl(this.newReport.resources.risePeople),
@@ -79,6 +81,7 @@ export class ReportAddDialogComponent implements OnInit {
     this.newReport.periodTime = this.osr.selectedPeriod();
     this.newReport.company = this.osr.selectedCompany();
     this.newReport.user = this.auth.getCurrentUser();
+    this.newReport.weatherSummary = this.useWeatherSummary ? this.osr.selectedCompany().weatherSummary : null;
     this.osr.addReport(this.newReport)
       .subscribe(() => {
         this.closeDialog();
@@ -119,17 +122,24 @@ export class ReportAddDialogComponent implements OnInit {
   }
 
   weatherInputModeSelect(event: MatRadioChange) {
-    console.log(event);
     if (event.value === true) {
       this.addReportForm.controls['weather_min'].disable();
       this.addReportForm.controls['weather_max'].disable();
       this.addReportForm.controls['weather_wind'].disable();
       this.addReportForm.controls['weather_precipitations'].disable();
+      this.addReportForm.controls['weather_rpg_1'].disable();
+      this.addReportForm.controls['weather_orr_1'].disable();
+      this.addReportForm.controls['weather_rpg_2'].enable();
+      this.addReportForm.controls['weather_orr_2'].enable();
     } else {
       this.addReportForm.controls['weather_min'].enable();
       this.addReportForm.controls['weather_max'].enable();
       this.addReportForm.controls['weather_wind'].enable();
       this.addReportForm.controls['weather_precipitations'].enable();
+      this.addReportForm.controls['weather_rpg_1'].enable();
+      this.addReportForm.controls['weather_orr_1'].enable();
+      this.addReportForm.controls['weather_rpg_2'].disable();
+      this.addReportForm.controls['weather_orr_2'].disable();
     }
   }
 

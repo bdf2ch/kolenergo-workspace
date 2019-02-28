@@ -116,7 +116,7 @@
       <!-- End: Вкладка с данными об оборудовании 35-150 кВ  -->
 
       <!-- Start: Вкладка с данными об оборудовании в распределительной сети -->
-      <mat-tab label="Распределительная сеть">
+      <mat-tab label="Распред. сеть">
         <div class="p-3">
           <table class="operative-situation-reports w-100" [formGroup]="addReportForm">
             <tr>
@@ -185,7 +185,7 @@
       <!-- End: Вкладка с данными об оборудовании в распределительной сети -->
 
       <!-- Start: Вкладка с данными о задействованных ресурсах и ИРСЭ -->
-      <mat-tab label="Задействованные РИСЭ, силы и средства">
+      <mat-tab label="Задействованные ресурсы">
         <div class="p-3">
           <table class="operative-situation-reports w-100" [formGroup]="addReportForm">
             <tr>
@@ -394,7 +394,7 @@
       <!-- End: Вкладка с данными о нарушениях с нарастающим итогом -->
 
       <!-- Start: Вкладка с данными о погодных условиях -->
-      <mat-tab label="Погодные условия">
+      <mat-tab label="Погода">
         <div class="p-3">
           <div class="row no-gutters">
             <div class="col-12 pt-3">
@@ -407,14 +407,50 @@
                 <mat-radio-button
                   [value]="true"
                   class="d-flex flex-row w-50 justify-content-center">
-                  Использовать данные из погодной сводки
+                  <div class="d-flex flex-column pl-2">
+                    <div>Использовать данные из погодной сводки</div>
+                    <div class="small text-muted">Сводка от {{osr.selectedCompany().weatherSummary.dateCreated_ | date:'dd.MM.yyyy, hh:mm'}}</div>
+                  </div>
                 </mat-radio-button>
               </mat-radio-group>
             </div>
           </div>
           <div class="row no-gutters">
             <div class="d-flex flex-column justify-content-between col-6 border-right pl-3 pr-3 pt-4">
-              <div class="d-flex" style="flex: 1;">
+              <div class="d-flex flex-column justify-content-between" style="flex: 1;">
+                <form [formGroup]="addReportForm">
+                  <mat-form-field class="w-100">
+                    <input matInput
+                           type="number"
+                           formControlName="weather_min"
+                           [(ngModel)]="newReport.weather.min"
+                           placeholder="Минимальная температура">
+                  </mat-form-field>
+
+                  <mat-form-field class="w-100">
+                    <input matInput
+                           type="number"
+                           formControlName="weather_max"
+                           [(ngModel)]="newReport.weather.max"
+                           placeholder="Максимальная температура">
+                  </mat-form-field>
+
+                  <mat-form-field class="w-100">
+                    <input matInput
+                           formControlName="weather_wind"
+                           [(ngModel)]="newReport.weather.wind"
+                           placeholder="Скорость ветра">
+                  </mat-form-field>
+
+                  <mat-form-field class="w-100">
+                    <input matInput
+                           formControlName="weather_precipitations"
+                           [(ngModel)]="newReport.weather.precipitations"
+                           placeholder="Осадки">
+                  </mat-form-field>
+                </form>
+
+                <!--
                 <table class="weather-table w-100 h-100" style="flex: 1;" [formGroup]="addReportForm">
                   <tr>
                     <th scope="row" class="w-50 h-25 border">t&deg; min</th>
@@ -457,11 +493,32 @@
                     </td>
                   </tr>
                 </table>
+                -->
+
+                <div class="row p-2 pt-3" [formGroup]="addReportForm">
+                  <div class="col-6 p-2 pr-4 d-flex justify-content-center">
+                    <span class="mr-4">Режим РПГ</span>
+                    <mat-slide-toggle
+                      formControlName="weather_rpg_1"
+                      [(ngModel)]="newReport.weather.rpg"
+                      (change)="changeRPGMode($event)">
+                    </mat-slide-toggle>
+                  </div>
+                  <div class="col-6 p-2 pl-4 d-flex justify-content-center">
+                    <span class="mr-4">Режим ОРР</span>
+                    <mat-slide-toggle
+                      formControlName="weather_orr_1"
+                      [(ngModel)]="newReport.weather.orr"
+                      (change)="changeORRMode($event)">
+                    </mat-slide-toggle>
+                  </div>
+                </div>
+
               </div>
             </div>
             <div class="col-6 pl-4 pr-4 pt-3">
               <div class="d-flex flex-column">
-                <mat-table [dataSource]="locationsDataSource" class="weather-locations-table">
+                <mat-table [dataSource]="osr.locationsDataSource" class="weather-locations-table">
 
                   <!-- Position Column -->
                   <ng-container matColumnDef="title">
@@ -477,7 +534,7 @@
 
                   <!-- Weight Column -->
                   <ng-container matColumnDef="wind">
-                    <mat-header-cell *matHeaderCellDef class="weather-wind-column"> Ветер, м/с </mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef class="weather-wind-column"> Ветер</mat-header-cell>
                     <mat-cell *matCellDef="let location" class="weather-wind-column"> {{location.weather.wind}}</mat-cell>
                   </ng-container>
 
@@ -498,10 +555,30 @@
                   <mat-header-row *matHeaderRowDef="weatherSummaryDisplayColumns"></mat-header-row>
                   <mat-row *matRowDef="let row; columns: weatherSummaryDisplayColumns;"></mat-row>
                 </mat-table>
+
+                <div class="row p-2 pt-3" [formGroup]="addReportForm">
+                  <div class="col-6 p-2 pr-4 d-flex justify-content-center">
+                    <span class="mr-4">Режим РПГ</span>
+                    <mat-slide-toggle
+                      formControlName="weather_rpg_2"
+                      [(ngModel)]="newReport.weather.rpg"
+                      (change)="changeRPGMode($event)">
+                    </mat-slide-toggle>
+                  </div>
+                  <div class="col-6 p-2 pl-4 d-flex justify-content-center">
+                    <span class="mr-4">Режим ОРР</span>
+                    <mat-slide-toggle
+                      formControlName="weather_orr_2"
+                      [(ngModel)]="newReport.weather.orr"
+                      (change)="changeORRMode($event)">
+                    </mat-slide-toggle>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
+          <!--
           <div class="row p-2 pt-3" [formGroup]="addReportForm">
             <div class="col-6 p-2 pr-4 d-flex justify-content-end">
               <span class="mr-2">Режим РПГ</span>
@@ -520,6 +597,7 @@
               </mat-slide-toggle>
             </div>
           </div>
+          -->
 
 
 

@@ -1,19 +1,65 @@
 #report-periods {
+  .mat-tab-header {
+    border-bottom: none;
+  }
+
   .mat-tab-labels {
     display: flex;
     justify-content: space-between !important;
   }
 
+  .mat-ink-bar {
+    display: none !important;
+  }
+
   .mat-tab-label {
-    font-family: "Segoe UI";
-    font-size: 16px;
+    flex: 1;
+    overflow: visible;
+    min-width: 0;
+    height: 60px;
+    font-family: "Segoe UI Light";
+    font-size: 15px;
+    font-weight: 600;
+    // background: #EEEEEE;
+    border-bottom: 1px solid #E0E0E0;
+    .corner {
+      visibility: hidden;
+    }
+    &:hover {
+      background: #EEEEEE;
+    }
+  }
+
+  .mat-tab-label-content {
+    height: 100%;
+  }
+
+  .mat-tab-label-active {
+    min-width: 0;
+    background: #E0E0E0;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    &:hover {
+      background: #E0E0E0;
+    }
+    .corner {
+      visibility: visible;
+    }
   }
 
   .with-data {
-    color: #0d47a1;
+    color: #1976D2;
   }
 
   .mat-tab-body-wrapper {
     height: 100%;
+  }
+
+  .corner {
+    width: 8px;
+    height: 8px;
+    margin-bottom: -1px;
+    border: 8px solid transparent;
+    border-bottom: 8px solid #F5F5F5;
   }
 }

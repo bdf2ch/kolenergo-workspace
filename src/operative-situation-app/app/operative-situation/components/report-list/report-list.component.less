@@ -36,9 +36,16 @@
   background: #f5f5f5;
 
   #report-periods {
-    .mat-tab-labels {
-      display: flex;
-      justify-content: space-between !important;
+    .mat-tab-list {
+      .mat-tab-labels {
+        display: flex;
+        justify-content: space-between !important;
+      }
+
+    }
+
+    .mat-ink-bar {
+      display: none !important;
     }
 
     .mat-tab-label {
@@ -46,7 +53,7 @@
     }
 
     .with-data {
-      color: #0d47a1;
+      color: #CFD8DC;
     }
   }
 
@@ -59,7 +66,7 @@
 
   th {
     padding: 10px;
-    font-size: 14px;
+    font-size: 13px;
     text-align: center;
     background: white;
     border: 1px solid #cfd8dc;
@@ -116,6 +123,16 @@
   h1 {
     font-family: "Segoe UI Light";
     font-size: 60px;
+  }
+}
+
+
+.report-controls {
+  .mat-stroked-button {
+    border: 1px solid #0000001f;
+    .mat-button-wrapper {
+      color: #546E7A !important;
+    }
   }
 }
 

@@ -116,28 +116,31 @@
 
 
 <div class="report-list-component d-flex flex-column justify-content-start align-items-center h-100 p-4">
-  <mat-tab-group class="w-100 h-100" id="report-periods" (selectedTabChange)="onSelectTimePeriod($event)" style="flex-shrink: 0" [selectedIndex]="osr.periods().indexOf(osr.selectedPeriod$.getValue())">
+  <mat-tab-group [@.disabled]="true" class="w-100 h-100" id="report-periods" (selectedTabChange)="onSelectTimePeriod($event)" style="flex-shrink: 0" [selectedIndex]="osr.periods().indexOf(osr.selectedPeriod$.getValue())">
     <mat-tab *ngFor="let period of osr.periods()">
       <ng-template mat-tab-label>
-        <div class="d-flex justify-content-center align-items-center" [ngClass]="{'with-data': osr.getReportByTimePeriod(period)}">
-          <mat-icon class="mr-2">access_time</mat-icon>
-          <span>{{period}}</span>
+        <div class="d-flex flex-column justify-content-between align-items-center h-100" [ngClass]="{'with-data': osr.getReportByTimePeriod(period)}">
+          <div class="d-flex justify-content-center align-items-end" style="flex: 1">
+            <mat-icon class="mr-2">access_time</mat-icon>
+            <span>{{period}}</span>
+          </div>
+          <div class="corner"></div>
         </div>
       </ng-template>
       <div class="d-flex flex-column justify-content-start align-items-center pt-4 h-100">
-        <div class="container-fluid" *ngIf="(osr.selectedReport() | async) as report">
 
-          <div class="row">
-            <div class="col-12">
-              <table class="operative-situation-reports mb-4">
+        <!--
+        <div class="d-flex flex-column w-100">
+
+          <div class="row w-100">
+            <div class="d-flex col-9">
+              <table class="operative-situation-reports mb-4" *ngIf="(osr.selectedReport() | async) as report">
                 <tr>
                   <th colspan="4" scope="colgroup">Отключенное оборудование по сети 35-150 кВ</th>
                   <th colspan="4" scope="colgroup">Последствия для потребителей по сети 35-150 кВ</th>
                   <th colspan="2" scope="colgroup">Распределительная сеть</th>
                   <th colspan="3" scope="colgroup">Последствия для потребителей по распределительной сети</th>
                   <th colspan="4" scope="colgroup">Последствия для потребителей суммарно по основной и распределительной сети</th>
-                  <th colspan="3" scope="colgroup">Задействованные РИСЭ</th>
-                  <th colspan="3" scope="colgroup">Задействованные силы и средства</th>
                 </tr>
                 <tr>
                   <th scope="col" class="font-weight-normal">ЛЭП 110-150 кВ, шт</th>
@@ -161,14 +164,6 @@
                   <th scope="col" class="font-weight-normal">Население, чел</th>
                   <th scope="col" class="font-weight-normal">Нагрузка, МВт</th>
                   <th scope="col" class="font-weight-normal">СЗО, шт</th>
-
-                  <th scope="col" class="font-weight-normal">Количество, шт</th>
-                  <th scope="col" class="font-weight-normal">P∑, кВт</th>
-                  <th scope="col" class="font-weight-normal">Запитано от РИСЭ, чел</th>
-
-                  <th scope="col" class="font-weight-normal">Бригад, шт</th>
-                  <th scope="col" class="font-weight-normal">Человек</th>
-                  <th scope="col" class="font-weight-normal">Единиц техники, шт</th>
                 </tr>
                 <tr  class="content">
                   <td>{{report.equipment_35_150.lep_110_150}}</td>
@@ -192,7 +187,118 @@
                   <td class="total">{{report.getTotalEffect().population}}</td>
                   <td class="total">{{report.getTotalEffect().power}}</td>
                   <td class="total">{{report.getTotalEffect().szo}}</td>
+                </tr>
+              </table>
+            </div>
+            <div class="d-flex col-3">
+              <table class="operative-situation-reports mb-4" *ngIf="(osr.selectedReport() | async) as report">
+                <tr>
+                  <th colspan="3" scope="colgroup">Задействованные РИСЭ</th>
+                  <th colspan="3" scope="colgroup">Задействованные силы и средства</th>
+                </tr>
+                <tr>
+                  <th scope="col" class="font-weight-normal">Количество, шт</th>
+                  <th scope="col" class="font-weight-normal">P∑, кВт</th>
+                  <th scope="col" class="font-weight-normal">Запитано от РИСЭ, чел</th>
 
+                  <th scope="col" class="font-weight-normal">Бригад, шт</th>
+                  <th scope="col" class="font-weight-normal">Человек</th>
+                  <th scope="col" class="font-weight-normal">Единиц техники, шт</th>
+                </tr>
+                <tr  class="content">
+                  <td>{{report.resources.rise}}</td>
+                  <td>{{report.resources.riseSumPower}}</td>
+                  <td>{{report.resources.risePeople}}</td>
+
+                  <td>{{report.resources.brigades}}</td>
+                  <td>{{report.resources.people}}</td>
+                  <td>{{report.resources.technics}}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+
+        </div>
+        -->
+
+
+
+        <div class="container-fluid pl-0 pr-0" style="overflow: hidden;" *ngIf="(osr.selectedReport() | async) as report">
+
+          <div class="row">
+            <div class="col-8">
+              <table class="operative-situation-reports mb-4">
+                <tr>
+                  <th colspan="4" scope="colgroup">Отключенное оборудование по сети 35-150 кВ</th>
+                  <th colspan="4" scope="colgroup">Последствия для потребителей по сети 35-150 кВ</th>
+                  <th colspan="2" scope="colgroup">Распределительная сеть</th>
+                  <th colspan="3" scope="colgroup">Последствия для потребителей по распределительной сети</th>
+                  <th colspan="4" scope="colgroup">Последствия для потребителей суммарно по основной и распределительной сети</th>
+                </tr>
+                <tr>
+                  <th scope="col" class="font-weight-normal">ЛЭП 110-150 кВ, шт</th>
+                  <th scope="col" class="font-weight-normal">ЛЭП 35 кВ, шт.</th>
+                  <th scope="col" class="font-weight-normal">ПС 110 -150 кВ, шт</th>
+                  <th scope="col" class="font-weight-normal">ПС 35 кВ, шт</th>
+
+                  <th scope="col" class="font-weight-normal">ТП 6-20 кВ, шт</th>
+                  <th scope="col" class="font-weight-normal">Население, чел</th>
+                  <th scope="col" class="font-weight-normal">Нагрузка, МВт</th>
+                  <th scope="col" class="font-weight-normal">СЗО, шт</th>
+
+                  <th scope="col" class="font-weight-normal">ЛЭП 6-20 кВ, шт</th>
+                  <th scope="col" class="font-weight-normal">ТП 6-20 кВ, шт</th>
+
+                  <th scope="col" class="font-weight-normal">Население, чел</th>
+                  <th scope="col" class="font-weight-normal">Нагрузка, МВт</th>
+                  <th scope="col" class="font-weight-normal">СЗО, шт</th>
+
+                  <th scope="col" class="font-weight-normal">ТП 6-20 кВ, шт</th>
+                  <th scope="col" class="font-weight-normal">Население, чел</th>
+                  <th scope="col" class="font-weight-normal">Нагрузка, МВт</th>
+                  <th scope="col" class="font-weight-normal">СЗО, шт</th>
+                </tr>
+                <tr  class="content">
+                  <td>{{report.equipment_35_150.lep_110_150}}</td>
+                  <td>{{report.equipment_35_150.lep_35}}</td>
+                  <td>{{report.equipment_35_150.ps_110_150}}</td>
+                  <td>{{report.equipment_35_150.ps_35}}</td>
+
+                  <td>{{report.equipment_35_150.effect.tp_6_20}}</td>
+                  <td>{{report.equipment_35_150.effect.population}}</td>
+                  <td>{{report.equipment_35_150.effect.power}}</td>
+                  <td>{{report.equipment_35_150.effect.szo}}</td>
+
+                  <td>{{report.equipment_network.lep_6_20}}</td>
+                  <td>{{report.equipment_network.tp_6_20}}</td>
+
+                  <td>{{report.equipment_network.effect.population}}</td>
+                  <td>{{report.equipment_network.effect.power}}</td>
+                  <td>{{report.equipment_network.effect.szo}}</td>
+
+                  <td class="total">{{report.getTotalEffect().tp_6_20}}</td>
+                  <td class="total">{{report.getTotalEffect().population}}</td>
+                  <td class="total">{{report.getTotalEffect().power}}</td>
+                  <td class="total">{{report.getTotalEffect().szo}}</td>
+                </tr>
+              </table>
+            </div>
+            <div class="col-4">
+              <table class="operative-situation-reports mb-4">
+                <tr>
+                  <th colspan="3" scope="colgroup">Задействованные РИСЭ</th>
+                  <th colspan="3" scope="colgroup">Задействованные силы и средства</th>
+                </tr>
+                <tr>
+                  <th scope="col" class="font-weight-normal">Количество, шт</th>
+                  <th scope="col" class="font-weight-normal">P∑, кВт</th>
+                  <th scope="col" class="font-weight-normal">Запитано от РИСЭ, чел</th>
+
+                  <th scope="col" class="font-weight-normal">Бригад, шт</th>
+                  <th scope="col" class="font-weight-normal">Человек</th>
+                  <th scope="col" class="font-weight-normal">Единиц техники, шт</th>
+                </tr>
+                <tr  class="content">
                   <td>{{report.resources.rise}}</td>
                   <td>{{report.resources.riseSumPower}}</td>
                   <td>{{report.resources.risePeople}}</td>
@@ -247,7 +353,7 @@
               </table>
             </div>
             <div class="col-4">
-              <table class="operative-situation-reports w-100 mat-elevation-z0">
+              <table class="operative-situation-reports w-100 mat-elevation-z0" *ngIf="!osr.selectedReport$.getValue().weatherSummary">
                 <tr>
                   <th colspan="4">Погодные условия</th>
                   <th>Режимы</th>
@@ -267,22 +373,65 @@
                   <td class="p-3">{{report.weather.orr ? 'ОРР' : report.weather.rpg ? 'РПГ' : 'Нет'}}</td>
                 </tr>
               </table>
+
+              <div *ngIf="osr.selectedReport$.getValue().weatherSummary">
+                <mat-table [dataSource]="locationsDataSource" class="weather-locations-table">
+
+                  <!-- Position Column -->
+                  <ng-container matColumnDef="title">
+                    <mat-header-cell *matHeaderCellDef>Насел. пункт</mat-header-cell>
+                    <mat-cell *matCellDef="let location"> {{location.title}} </mat-cell>
+                  </ng-container>
+
+                  <!-- Name Column -->
+                  <ng-container matColumnDef="temperature">
+                    <mat-header-cell *matHeaderCellDef class="weather-temperature-column"> t&deg; </mat-header-cell>
+                    <mat-cell *matCellDef="let location" class="weather-temperature-column"> {{location.weather.temperature}} </mat-cell>
+                  </ng-container>
+
+                  <!-- Weight Column -->
+                  <ng-container matColumnDef="wind">
+                    <mat-header-cell *matHeaderCellDef class="weather-wind-column"> Ветер</mat-header-cell>
+                    <mat-cell *matCellDef="let location" class="weather-wind-column"> {{location.weather.wind}}</mat-cell>
+                  </ng-container>
+
+                  <!-- Symbol Column -->
+                  <ng-container matColumnDef="precipitations">
+                    <mat-header-cell *matHeaderCellDef> Осадки </mat-header-cell>
+                    <mat-cell *matCellDef="let location"> {{location.weather.precipitations}} </mat-cell>
+                  </ng-container>
+
+                  <!-- Symbol Column -->
+                  <ng-container matColumnDef="icon">
+                    <mat-header-cell *matHeaderCellDef class="weather-icon-column"> </mat-header-cell>
+                    <mat-cell *matCellDef="let location" class="weather-icon-column">
+                      <img src="http://openweathermap.org/img/w/{{location.weather.icon}}.png">
+                    </mat-cell>
+                  </ng-container>
+
+                  <mat-header-row *matHeaderRowDef="weatherSummaryDisplayColumns"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: weatherSummaryDisplayColumns;"></mat-row>
+                </mat-table>
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="d-flex flex-column justify-content-center align-items-center w-25 mt-3"
+        <div class="report-controls d-flex flex-row justify-content-start align-items-center w-100 mt-3"
              style="flex-shrink: 0"
              *ngIf="(osr.selectedReport() | async)">
           <button mat-stroked-button
-                  color="primary"
-                  class="pt-2 pb-2 pl-3 pr-3 mt-3 w-100"
+                  class="mt-3 mr-2"
                   (click)="openEditReportDialog()"
                   [disabled]="(osr.isFetchingData() | async)">
-            <div class="d-flex justify-content-center align-items-center">
-              <mat-icon class="mr-2">edit</mat-icon>
-              Изменить отчет
-            </div>
+            <div class="d-flex justify-content-center align-items-center">Изменить отчет</div>
+          </button>
+
+          <button mat-stroked-button
+                  class="mt-3"
+                  (click)="exportReport()"
+                  [disabled]="(osr.isFetchingData() | async)">
+            <div class="d-flex justify-content-center align-items-center">Экспорт в Excel</div>
           </button>
         </div>
 
@@ -302,10 +451,13 @@
 
     <mat-tab>
       <ng-template mat-tab-label>
-        <div class="d-flex justify-content-center align-items-center"
+        <div class="d-flex flex-column justify-content-between align-items-center h-100"
              [ngClass]="{'with-data': (osr.consumption() | async)}">
-          <mat-icon class="mr-2">offline_bolt</mat-icon>
-          <span>Потребление</span>
+          <div class="d-flex justify-content-center align-items-end" style="flex: 1">
+            <mat-icon class="mr-2">offline_bolt</mat-icon>
+            <span>Потребление</span>
+          </div>
+          <div class="corner"></div>
         </div>
       </ng-template>
       <div class="consumption-tab d-flex flex-column justify-content-center align-items-center h-100 p-4">

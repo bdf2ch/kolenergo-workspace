@@ -227,191 +227,288 @@
 
           <div class="row">
             <div class="col-8">
-              <table class="operative-situation-reports mb-4">
-                <tr>
-                  <th colspan="4" scope="colgroup">Отключенное оборудование по сети 35-150 кВ</th>
-                  <th colspan="4" scope="colgroup">Последствия для потребителей по сети 35-150 кВ</th>
-                  <th colspan="2" scope="colgroup">Распределительная сеть</th>
-                  <th colspan="3" scope="colgroup">Последствия для потребителей по распределительной сети</th>
-                  <th colspan="4" scope="colgroup">Последствия для потребителей суммарно по основной и распределительной сети</th>
-                </tr>
-                <tr>
-                  <th scope="col" class="font-weight-normal">ЛЭП 110-150 кВ, шт</th>
-                  <th scope="col" class="font-weight-normal">ЛЭП 35 кВ, шт.</th>
-                  <th scope="col" class="font-weight-normal">ПС 110 -150 кВ, шт</th>
-                  <th scope="col" class="font-weight-normal">ПС 35 кВ, шт</th>
+              <div class="section border-bottom">
+                <div class="section-title border-bottom-0">
+                  <div class="primary-label">Оборудование 35-150 кВ</div>
+                </div>
+                <div class="section-content p-2">
+                  <table class="operative-situation-reports">
+                    <tr class="border-bottom">
+                      <th colspan="4" scope="colgroup" class="top border-right right-border">Отключенное оборудование по сети 35-150 кВ</th>
+                      <th colspan="4" scope="colgroup" class="top border-right right-border">Последствия для потребителей по сети 35-150 кВ</th>
+                      <th colspan="2" scope="colgroup" class="top border-right right-border">Распределительная сеть</th>
+                      <th colspan="3" scope="colgroup" class="top border-right right-border">Последствия для потребителей по распределительной сети</th>
+                      <th colspan="4" scope="colgroup" class="top">Последствия для потребителей суммарно по основной и распределительной сети</th>
+                    </tr>
+                    <tr>
+                      <th scope="col" class="font-weight-normal border-right">ЛЭП 110-150 кВ, шт</th>
+                      <th scope="col" class="font-weight-normal border-right">ЛЭП 35 кВ, шт.</th>
+                      <th scope="col" class="font-weight-normal border-right">ПС 110 -150 кВ, шт</th>
+                      <th scope="col" class="font-weight-normal border-right">ПС 35 кВ, шт</th>
 
-                  <th scope="col" class="font-weight-normal">ТП 6-20 кВ, шт</th>
-                  <th scope="col" class="font-weight-normal">Население, чел</th>
-                  <th scope="col" class="font-weight-normal">Нагрузка, МВт</th>
-                  <th scope="col" class="font-weight-normal">СЗО, шт</th>
+                      <th scope="col" class="font-weight-normal border-right">ТП 6-20 кВ, шт</th>
+                      <th scope="col" class="font-weight-normal border-right">Население, чел</th>
+                      <th scope="col" class="font-weight-normal border-right">Нагрузка, МВт</th>
+                      <th scope="col" class="font-weight-normal border-right">СЗО, шт</th>
 
-                  <th scope="col" class="font-weight-normal">ЛЭП 6-20 кВ, шт</th>
-                  <th scope="col" class="font-weight-normal">ТП 6-20 кВ, шт</th>
+                      <th scope="col" class="font-weight-normal border-right">ЛЭП 6-20 кВ, шт</th>
+                      <th scope="col" class="font-weight-normal border-right">ТП 6-20 кВ, шт</th>
 
-                  <th scope="col" class="font-weight-normal">Население, чел</th>
-                  <th scope="col" class="font-weight-normal">Нагрузка, МВт</th>
-                  <th scope="col" class="font-weight-normal">СЗО, шт</th>
+                      <th scope="col" class="font-weight-normal border-right">Население, чел</th>
+                      <th scope="col" class="font-weight-normal border-right">Нагрузка, МВт</th>
+                      <th scope="col" class="font-weight-normal border-right">СЗО, шт</th>
 
-                  <th scope="col" class="font-weight-normal">ТП 6-20 кВ, шт</th>
-                  <th scope="col" class="font-weight-normal">Население, чел</th>
-                  <th scope="col" class="font-weight-normal">Нагрузка, МВт</th>
-                  <th scope="col" class="font-weight-normal">СЗО, шт</th>
-                </tr>
-                <tr  class="content">
-                  <td>{{report.equipment_35_150.lep_110_150}}</td>
-                  <td>{{report.equipment_35_150.lep_35}}</td>
-                  <td>{{report.equipment_35_150.ps_110_150}}</td>
-                  <td>{{report.equipment_35_150.ps_35}}</td>
+                      <th scope="col" class="font-weight-normal border-right">ТП 6-20 кВ, шт</th>
+                      <th scope="col" class="font-weight-normal border-right">Население, чел</th>
+                      <th scope="col" class="font-weight-normal border-right">Нагрузка, МВт</th>
+                      <th scope="col" class="font-weight-normal">СЗО, шт</th>
+                    </tr>
+                    <tr  class="content">
+                      <td class="border-right">{{report.equipment_35_150.lep_110_150}}</td>
+                      <td class="border-right">{{report.equipment_35_150.lep_35}}</td>
+                      <td class="border-right">{{report.equipment_35_150.ps_110_150}}</td>
+                      <td class="border-right">{{report.equipment_35_150.ps_35}}</td>
 
-                  <td>{{report.equipment_35_150.effect.tp_6_20}}</td>
-                  <td>{{report.equipment_35_150.effect.population}}</td>
-                  <td>{{report.equipment_35_150.effect.power}}</td>
-                  <td>{{report.equipment_35_150.effect.szo}}</td>
+                      <td class="border-right">{{report.equipment_35_150.effect.tp_6_20}}</td>
+                      <td class="border-right">{{report.equipment_35_150.effect.population}}</td>
+                      <td class="border-right">{{report.equipment_35_150.effect.power}}</td>
+                      <td class="border-right">{{report.equipment_35_150.effect.szo}}</td>
 
-                  <td>{{report.equipment_network.lep_6_20}}</td>
-                  <td>{{report.equipment_network.tp_6_20}}</td>
+                      <td class="border-right">{{report.equipment_network.lep_6_20}}</td>
+                      <td class="border-right">{{report.equipment_network.tp_6_20}}</td>
 
-                  <td>{{report.equipment_network.effect.population}}</td>
-                  <td>{{report.equipment_network.effect.power}}</td>
-                  <td>{{report.equipment_network.effect.szo}}</td>
+                      <td class="border-right">{{report.equipment_network.effect.population}}</td>
+                      <td class="border-right">{{report.equipment_network.effect.power}}</td>
+                      <td class="border-right">{{report.equipment_network.effect.szo}}</td>
 
-                  <td class="total">{{report.getTotalEffect().tp_6_20}}</td>
-                  <td class="total">{{report.getTotalEffect().population}}</td>
-                  <td class="total">{{report.getTotalEffect().power}}</td>
-                  <td class="total">{{report.getTotalEffect().szo}}</td>
-                </tr>
-              </table>
+                      <td class="total border-right">{{report.getTotalEffect().tp_6_20}}</td>
+                      <td class="total border-right">{{report.getTotalEffect().population}}</td>
+                      <td class="total border-right">{{report.getTotalEffect().power}}</td>
+                      <td class="total">{{report.getTotalEffect().szo}}</td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
             </div>
             <div class="col-4">
-              <table class="operative-situation-reports mb-4">
-                <tr>
-                  <th colspan="3" scope="colgroup">Задействованные РИСЭ</th>
-                  <th colspan="3" scope="colgroup">Задействованные силы и средства</th>
-                </tr>
-                <tr>
-                  <th scope="col" class="font-weight-normal">Количество, шт</th>
-                  <th scope="col" class="font-weight-normal">P∑, кВт</th>
-                  <th scope="col" class="font-weight-normal">Запитано от РИСЭ, чел</th>
+              <div class="section h-100 border-bottom">
+                <div class="section-title">
+                  <div class="primary-label">Задействованные ресурсы</div>
+                </div>
+                <div class="section-content justify-content-around p-2">
+                  <div class="row no-gutters h-50 pl-3 pr-3">
+                    <div class="col-12 d-flex flex-row justify-content-between" style="border-bottom: 1px dotted lightgray;">
+                      <div class="d-flex flex-column justify-content-center align-items-center indicator border-right" style="width: 33%">
+                        <div class="value">{{report.resources.rise}}</div>
+                        <div class="description">Задействовано<br>РИСЭ, шт</div>
+                      </div>
 
-                  <th scope="col" class="font-weight-normal">Бригад, шт</th>
-                  <th scope="col" class="font-weight-normal">Человек</th>
-                  <th scope="col" class="font-weight-normal">Единиц техники, шт</th>
-                </tr>
-                <tr  class="content">
-                  <td>{{report.resources.rise}}</td>
-                  <td>{{report.resources.riseSumPower}}</td>
-                  <td>{{report.resources.risePeople}}</td>
+                      <div class="d-flex flex-column justify-content-center align-items-center indicator border-right" style="width: 33%">
+                        <div class="value">{{report.resources.riseSumPower}}</div>
+                        <div class="description">Суммарная<br>мощность, кВт</div>
+                      </div>
 
-                  <td>{{report.resources.brigades}}</td>
-                  <td>{{report.resources.people}}</td>
-                  <td>{{report.resources.technics}}</td>
-                </tr>
-              </table>
+                      <div class="d-flex flex-column justify-content-center align-items-center indicator" style="width: 33%">
+                        <div class="value">{{report.resources.risePeople}}</div>
+                        <div class="description">Запитано от<br>РИСЭ, человек</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row h-50 pl-3 pr-3">
+                    <div class="col-12 d-flex flex-row justify-content-between">
+                      <div class="d-flex flex-column align-items-center indicator border-right" style="width: 33%">
+                        <div class="value">{{report.resources.brigades}}</div>
+                        <div class="description">Задействовано<br>бригад, шт</div>
+                      </div>
+
+                      <div class="d-flex flex-column align-items-center indicator border-right" style="width: 33%">
+                        <div class="value">{{report.resources.people}}</div>
+                        <div class="description">Человек<br>задействовано</div>
+                      </div>
+
+                      <div class="d-flex flex-column align-items-center indicator" style="width: 33%">
+                        <div class="value">{{report.resources.technics}}</div>
+                        <div class="description">Единиц<br>техники, шт</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--
+                  <table class="operative-situation-reports h-100">
+                    <tr class="border-bottom">
+                      <th colspan="3" scope="colgroup" class="border-right">Задействованные РИСЭ</th>
+                      <th colspan="3" scope="colgroup">Задействованные силы и средства</th>
+                    </tr>
+                    <tr>
+                      <th scope="col" class="font-weight-normal border-right">Количество, шт</th>
+                      <th scope="col" class="font-weight-normal border-right">P∑, кВт</th>
+                      <th scope="col" class="font-weight-normal border-right">Запитано от РИСЭ, чел</th>
+
+                      <th scope="col" class="font-weight-normal border-right">Бригад, шт</th>
+                      <th scope="col" class="font-weight-normal border-right">Человек</th>
+                      <th scope="col" class="font-weight-normal">Единиц техники, шт</th>
+                    </tr>
+                    <tr  class="content">
+                      <td class="border-right">{{report.resources.rise}}</td>
+                      <td class="border-right">{{report.resources.riseSumPower}}</td>
+                      <td class="border-right">{{report.resources.risePeople}}</td>
+
+                      <td class="border-right">{{report.resources.brigades}}</td>
+                      <td class="border-right">{{report.resources.people}}</td>
+                      <td>{{report.resources.technics}}</td>
+                    </tr>
+                  </table>
+                  -->
+                </div>
+              </div>
             </div>
           </div>
 
-          <div class="row">
+          <div class="row mt-3">
             <div class="col-8">
-              <table class="operative-situation-reports w-100">
-                <tr>
-                  <th rowspan="2" scope="colgroup">Всего 6 кВ и выше</th>
-                  <th colspan="4" scope="colgroup">Основная сеть 35 кВ и выше</th>
-                  <th rowspan="2" scope="colgroup">ЛЭП<br> р/с</th>
-                  <th rowspan="2" scope="colgroup">ТН с погаш.</th>
-                  <th colspan="3" scope="colgroup">Сеть 0,4 кВ</th>
-                  <th colspan="2" scope="colgroup">Население, чел</th>
-                </tr>
-                <tr>
-                  <th scope="col" class="font-weight-normal">УАПВ</th>
-                  <th scope="col" class="font-weight-normal">НАПВ</th>
-                  <th scope="col" class="font-weight-normal">С обесточ.</th>
-                  <th scope="col" class="font-weight-normal">Итого</th>
+              <div class="section border-bottom">
+                <div class="section-title">
+                  <div class="primary-label">Нарушения</div>
+                </div>
+                <div class="section-content pt-0">
+                  <table class="operative-situation-reports w-100">
+                    <tr class="border-bottom">
+                      <th rowspan="2" scope="colgroup" class="top border-right">Всего 6 кВ и выше</th>
+                      <th colspan="4" scope="colgroup" class="top">Основная сеть 35 кВ и выше</th>
+                      <th rowspan="2" scope="colgroup" class="top right-border">ЛЭП<br> р/с</th>
+                      <th rowspan="2" scope="colgroup" class="top">ТН с погаш.</th>
+                      <th colspan="3" scope="colgroup" class="top right-border">Сеть 0,4 кВ</th>
+                      <th colspan="2" scope="colgroup" class="top">Население, чел</th>
+                    </tr>
+                    <tr class="border-bottom">
+                      <th scope="col" class="font-weight-normal right-border">УАПВ</th>
+                      <th scope="col" class="font-weight-normal right-border">НАПВ</th>
+                      <th scope="col" class="font-weight-normal right-border">С обесточ.</th>
+                      <th scope="col" class="font-weight-normal right-border">Итого</th>
 
-                  <th scope="col" class="font-weight-normal">С 6:00</th>
-                  <th scope="col" class="font-weight-normal">Откл. на срез</th>
-                  <th scope="col" class="font-weight-normal">Более 3 часов</th>
+                      <th scope="col" class="font-weight-normal right-border">С 6:00</th>
+                      <th scope="col" class="font-weight-normal right-border">Откл. на срез</th>
+                      <th scope="col" class="font-weight-normal right-border">Более 3 часов</th>
 
-                  <th scope="col" class="font-weight-normal">По сети 0,4 кВ на срез</th>
-                  <th scope="col" class="font-weight-normal">По сети 0,4 кВ (более 3 часов)</th>
-                </tr>
-                <tr class="content">
-                  <td class="p-3">{{report.violations.total_6}}</td>
-                  <td class="p-3">{{report.violations.uapv_35}}</td>
-                  <td class="p-3">{{report.violations.napv_35}}</td>
-                  <td class="p-3">{{report.violations.power_off_35}}</td>
-                  <td class="p-3">{{report.violations.uapv_35 + report.violations.napv_35}}</td>
+                      <th scope="col" class="font-weight-normal right-border">По сети 0,4 кВ на срез</th>
+                      <th scope="col" class="font-weight-normal">По сети 0,4 кВ (более 3 часов)</th>
+                    </tr>
+                    <tr class="content border-bottom">
+                      <td class="p-3 right-border border-left">{{report.violations.total_6}}</td>
+                      <td class="p-3 right-border">{{report.violations.uapv_35}}</td>
+                      <td class="p-3 right-border">{{report.violations.napv_35}}</td>
+                      <td class="p-3 right-border">{{report.violations.power_off_35}}</td>
+                      <td class="p-3">{{report.violations.uapv_35 + report.violations.napv_35}}</td>
 
-                  <td class="p-3">{{report.violations.lep_rs}}</td>
-                  <td class="p-3">{{report.violations.tn_cancel}}</td>
-                  <td class="p-3">{{report.violations.from_6_04}}</td>
-                  <td class="p-3">{{report.violations.power_off_04}}</td>
-                  <td class="p-3">{{report.violations.greater_3_04}}</td>
-                  <td class="p-3">{{report.violations.population_srez_04}}</td>
-                  <td class="p-3">{{report.violations.population_greater_3_04}}</td>
-                </tr>
-              </table>
+                      <td class="p-3 border-right">{{report.violations.lep_rs}}</td>
+                      <td class="p-3 border-right">{{report.violations.tn_cancel}}</td>
+                      <td class="p-3 border-right">{{report.violations.from_6_04}}</td>
+                      <td class="p-3 border-right">{{report.violations.power_off_04}}</td>
+                      <td class="p-3 border-right">{{report.violations.greater_3_04}}</td>
+                      <td class="p-3 border-right">{{report.violations.population_srez_04}}</td>
+                      <td class="p-3 border-right">{{report.violations.population_greater_3_04}}</td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
             </div>
             <div class="col-4">
-              <table class="operative-situation-reports w-100 mat-elevation-z0" *ngIf="!osr.selectedReport$.getValue().weatherSummary">
-                <tr>
-                  <th colspan="4">Погодные условия</th>
-                  <th>Режимы</th>
-                </tr>
-                <tr>
-                  <th scope="col" class="font-weight-normal">t min</th>
-                  <th scope="col" class="font-weight-normal">t max</th>
-                  <th scope="col" class="font-weight-normal">Ветер, <br>м/с</th>
-                  <th scope="col" class="font-weight-normal">Осадки</th>
-                  <th scope="col" class="font-weight-normal">РПГ / ОРР</th>
-                </tr>
-                <tr class="content">
-                  <td class="p-3">{{report.weather.min}}</td>
-                  <td class="p-3">{{report.weather.max}}</td>
-                  <td class="p-3">{{report.weather.wind}}</td>
-                  <td class="p-3">{{report.weather.precipitations}}</td>
-                  <td class="p-3">{{report.weather.orr ? 'ОРР' : report.weather.rpg ? 'РПГ' : 'Нет'}}</td>
-                </tr>
-              </table>
+              <div class="section h-100 border-bottom">
+                <div class="section-title">
+                  <div class="primary-label">Погодные условия</div>
+                </div>
+                <div class="section-content p-2">
+                  <div class="row h-100 pl-3 pr-3">
+                    <div class="col-8 d-flex flex-column justify-content-between border-right">
+                      <div class="d-flex flex-row align-items-center indicator-row h-25">
+                        <div class="title w-75">Мин. температура</div>
+                        <div class="value w-25">{{report.weather.min}}&deg;</div>
+                      </div>
+                      <div class="d-flex flex-row align-items-center indicator-row h-25">
+                        <div class="title w-75">Макс. температура</div>
+                        <div class="value w-25">{{report.weather.max}}&deg;</div>
+                      </div>
+                      <div class="d-flex flex-row align-items-center indicator-row h-25">
+                        <div class="title w-75">Ветер</div>
+                        <div class="value w-25">{{report.weather.wind}} м/с</div>
+                      </div>
+                      <div class="d-flex flex-row align-items-center indicator-row border-bottom-0 h-25">
+                        <div class="title w-75">Осадки</div>
+                        <div class="value w-25">{{report.weather.precipitations}}</div>
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="d-flex flex-column justify-content-center align-items-center h-100 indicator">
+                        <div class="value">{{report.weather.orr ? 'ОРР' : report.weather.rpg ? 'РПГ' : 'Нет'}}</div>
+                        <div class="description">Режим ОРР / РПГ</div>
+                      </div>
+                    </div>
+                  </div>
 
-              <div *ngIf="osr.selectedReport$.getValue().weatherSummary">
-                <mat-table [dataSource]="locationsDataSource" class="weather-locations-table">
+                  <!--
+                  <table class="operative-situation-reports w-100 h-100 mat-elevation-z0" *ngIf="!osr.selectedReport$.getValue().weatherSummary">
+                    <tr class="border-bottom">
+                      <th colspan="4" class="border-right">Погодные условия</th>
+                      <th>Режимы</th>
+                    </tr>
+                    <tr>
+                      <th scope="col" class="font-weight-normal border-right">t min</th>
+                      <th scope="col" class="font-weight-normal border-right">t max</th>
+                      <th scope="col" class="font-weight-normal border-right">Ветер, <br>м/с</th>
+                      <th scope="col" class="font-weight-normal border-right">Осадки</th>
+                      <th scope="col" class="font-weight-normal">РПГ / ОРР</th>
+                    </tr>
+                    <tr class="content">
+                      <td class="p-3 border-right">{{report.weather.min}}</td>
+                      <td class="p-3 border-right">{{report.weather.max}}</td>
+                      <td class="p-3 border-right">{{report.weather.wind}}</td>
+                      <td class="p-3 border-right">{{report.weather.precipitations}}</td>
+                      <td class="p-3">{{report.weather.orr ? 'ОРР' : report.weather.rpg ? 'РПГ' : 'Нет'}}</td>
+                    </tr>
+                  </table>
+                  -->
 
-                  <!-- Position Column -->
-                  <ng-container matColumnDef="title">
-                    <mat-header-cell *matHeaderCellDef>Насел. пункт</mat-header-cell>
-                    <mat-cell *matCellDef="let location"> {{location.title}} </mat-cell>
-                  </ng-container>
+                  <div *ngIf="osr.selectedReport$.getValue().weatherSummary">
+                    <mat-table [dataSource]="locationsDataSource" class="weather-locations-table">
 
-                  <!-- Name Column -->
-                  <ng-container matColumnDef="temperature">
-                    <mat-header-cell *matHeaderCellDef class="weather-temperature-column"> t&deg; </mat-header-cell>
-                    <mat-cell *matCellDef="let location" class="weather-temperature-column"> {{location.weather.temperature}} </mat-cell>
-                  </ng-container>
+                      <!-- Position Column -->
+                      <ng-container matColumnDef="title">
+                        <mat-header-cell *matHeaderCellDef>Насел. пункт</mat-header-cell>
+                        <mat-cell *matCellDef="let location"> {{location.title}} </mat-cell>
+                      </ng-container>
 
-                  <!-- Weight Column -->
-                  <ng-container matColumnDef="wind">
-                    <mat-header-cell *matHeaderCellDef class="weather-wind-column"> Ветер</mat-header-cell>
-                    <mat-cell *matCellDef="let location" class="weather-wind-column"> {{location.weather.wind}}</mat-cell>
-                  </ng-container>
+                      <!-- Name Column -->
+                      <ng-container matColumnDef="temperature">
+                        <mat-header-cell *matHeaderCellDef class="weather-temperature-column"> t&deg; </mat-header-cell>
+                        <mat-cell *matCellDef="let location" class="weather-temperature-column"> {{location.weather.temperature}} </mat-cell>
+                      </ng-container>
 
-                  <!-- Symbol Column -->
-                  <ng-container matColumnDef="precipitations">
-                    <mat-header-cell *matHeaderCellDef> Осадки </mat-header-cell>
-                    <mat-cell *matCellDef="let location"> {{location.weather.precipitations}} </mat-cell>
-                  </ng-container>
+                      <!-- Weight Column -->
+                      <ng-container matColumnDef="wind">
+                        <mat-header-cell *matHeaderCellDef class="weather-wind-column"> Ветер</mat-header-cell>
+                        <mat-cell *matCellDef="let location" class="weather-wind-column"> {{location.weather.wind}}</mat-cell>
+                      </ng-container>
 
-                  <!-- Symbol Column -->
-                  <ng-container matColumnDef="icon">
-                    <mat-header-cell *matHeaderCellDef class="weather-icon-column"> </mat-header-cell>
-                    <mat-cell *matCellDef="let location" class="weather-icon-column">
-                      <img src="http://openweathermap.org/img/w/{{location.weather.icon}}.png">
-                    </mat-cell>
-                  </ng-container>
+                      <!-- Symbol Column -->
+                      <ng-container matColumnDef="precipitations">
+                        <mat-header-cell *matHeaderCellDef> Осадки </mat-header-cell>
+                        <mat-cell *matCellDef="let location"> {{location.weather.precipitations}} </mat-cell>
+                      </ng-container>
 
-                  <mat-header-row *matHeaderRowDef="weatherSummaryDisplayColumns"></mat-header-row>
-                  <mat-row *matRowDef="let row; columns: weatherSummaryDisplayColumns;"></mat-row>
-                </mat-table>
+                      <!-- Symbol Column -->
+                      <ng-container matColumnDef="icon">
+                        <mat-header-cell *matHeaderCellDef class="weather-icon-column"> </mat-header-cell>
+                        <mat-cell *matCellDef="let location" class="weather-icon-column">
+                          <img src="http://openweathermap.org/img/w/{{location.weather.icon}}.png">
+                        </mat-cell>
+                      </ng-container>
+
+                      <mat-header-row *matHeaderRowDef="weatherSummaryDisplayColumns"></mat-header-row>
+                      <mat-row *matRowDef="let row; columns: weatherSummaryDisplayColumns;"></mat-row>
+                    </mat-table>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

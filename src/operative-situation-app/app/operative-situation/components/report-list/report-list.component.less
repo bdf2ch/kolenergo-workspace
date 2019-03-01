@@ -1,5 +1,5 @@
 .report-list-component {
-  background: #f5f5f5;
+  background: #eceff1;
 
   .lead {
     font-family: "Segoe UI Light";
@@ -34,42 +34,41 @@
 .report-list {
   overflow: auto;
   background: #f5f5f5;
-
-  #report-periods {
-    .mat-tab-list {
-      .mat-tab-labels {
-        display: flex;
-        justify-content: space-between !important;
-      }
-
-    }
-
-    .mat-ink-bar {
-      display: none !important;
-    }
-
-    .mat-tab-label {
-      font-family: "Segoe UI";
-    }
-
-    .with-data {
-      color: #CFD8DC;
-    }
-  }
-
 }
 
 .operative-situation-reports {
   font-family: "Segoe UI Light";
-  // border: 1px solid #cfd8dc;
+  border: none;
   min-height: 206px;
+
+  tbody {
+    border: none;
+  }
 
   th {
     padding: 10px;
     font-size: 13px;
     text-align: center;
-    background: white;
-    border: 1px solid #cfd8dc;
+    background: #f5f5f5;
+    border-color: #e3f2fd !important;
+
+    &.top {
+      background: #eceff1;
+      border: 1px dotted #eeeeee !important;
+      &.right-border {
+        border-right: 1px solid #e0e0e0 !important;
+      }
+      &.left-border {
+        border-left: 1px solid #e0e0e0 !important;
+      }
+    }
+
+    &.left-border {
+      border-left: 1px solid #efebe9 !important;
+    }
+    &.right-border {
+      border-right: 1px solid #efebe9 !important;
+    }
 
     &.empty {
       background: transparent;
@@ -94,11 +93,12 @@
   }
 
   tr {
+    border-color: #eeeeee !important;
     &.content {
       height: 80px;
       &:hover {
         td, th {
-          background: #f1f8e9;
+          // background: #f1f8e9;
           &.total {
             background: #dcedc8;
           }
@@ -109,10 +109,19 @@
 
   td {
     text-align: center;
-    background: white;
-    border: 1px solid #cfd8dc;
+    // background: white;
+    // border: 1px solid #cfd8dc'
+    border-color: #f5f5f5 !important;
+
+    &.left-border {
+      border-left: 1px solid #eeeeee;
+    }
+    &.right-border {
+      border-right: 1px solid #eeeeee;
+    }
     &.total {
-      background: #e8eaf6;
+      background: #e0f2f1;
+      border-color: #eeeeee !important;
     }
   }
 }
@@ -133,6 +142,56 @@
     .mat-button-wrapper {
       color: #546E7A !important;
     }
+  }
+}
+
+
+.indicator {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  .value {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    text-align: center;
+    font-family: "Segoe UI Light";
+    font-size: 32px;
+    line-height: 32px;
+    font-weight: bold;
+    color: #607d8b;
+    .boxing {
+      font-size: 20px;
+      line-height: 20px;
+    }
+  }
+  .description {
+    margin-top: 5px;
+    font-family: "Segoe UI Light";
+    font-weight: bolder;
+    font-size: 13px;
+    line-height: 13px;
+    text-align: center;
+    color: #37474f;
+  }
+}
+
+.indicator-row {
+  border-bottom: 1px dotted lightgrey;
+  .title {
+    font-family: "Segoe UI Light";
+    font-size: 14px;
+    line-height: 14px;
+  }
+  .value {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    text-align: right;
+    font-family: "Segoe UI Light";
+    font-weight: bolder;
+    font-size: 15px;
+    line-height: 15px;
   }
 }
 

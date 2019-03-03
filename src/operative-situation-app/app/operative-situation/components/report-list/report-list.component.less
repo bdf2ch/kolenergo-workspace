@@ -50,11 +50,13 @@
     font-size: 13px;
     text-align: center;
     background: #f5f5f5;
-    border-color: #e3f2fd !important;
+    // border-color: #e3f2fd !important;
 
     &.top {
-      background: #eceff1;
-      border: 1px dotted #eeeeee !important;
+      background: rgba(207, 216, 220, 0.2);
+      // background: rgba(224, 224, 224, 0.4);
+      // border: 1px dotted #eeeeee !important;
+      border-color: #E0E0E0 !important;
       &.right-border {
         border-right: 1px solid #e0e0e0 !important;
       }
@@ -96,22 +98,12 @@
     border-color: #eeeeee !important;
     &.content {
       height: 80px;
-      &:hover {
-        td, th {
-          // background: #f1f8e9;
-          &.total {
-            background: #dcedc8;
-          }
-        }
-      }
     }
   }
 
   td {
     text-align: center;
-    // background: white;
-    // border: 1px solid #cfd8dc'
-    border-color: #f5f5f5 !important;
+    background: white;
 
     &.left-border {
       border-left: 1px solid #eeeeee;
@@ -120,8 +112,8 @@
       border-right: 1px solid #eeeeee;
     }
     &.total {
-      background: #e0f2f1;
-      border-color: #eeeeee !important;
+      background: rgba(109, 167, 222, 0.07);
+      // border-color: #eeeeee !important;
     }
   }
 }
@@ -139,9 +131,9 @@
 .report-controls {
   .mat-stroked-button {
     border: 1px solid #0000001f;
-    .mat-button-wrapper {
+    //.mat-button-wrapper {
       color: #546E7A !important;
-    }
+    //}
   }
 }
 
@@ -168,7 +160,7 @@
   .description {
     margin-top: 5px;
     font-family: "Segoe UI Light";
-    font-weight: bolder;
+    // font-weight: bolder;
     font-size: 13px;
     line-height: 13px;
     text-align: center;

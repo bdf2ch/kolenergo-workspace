@@ -228,17 +228,19 @@
           <div class="row">
             <div class="col-8">
               <div class="section border-bottom">
-                <div class="section-title border-bottom-0">
-                  <div class="primary-label">Оборудование 35-150 кВ</div>
+                <div class="section-title ml-0 pl-0 pt-3 pb-3">
+                  <div class="section-title-label">
+                    <div class="primary-label">Оборудование 35-150 кВ</div>
+                  </div>
                 </div>
-                <div class="section-content p-2">
+                <div class="section-content p-0">
                   <table class="operative-situation-reports">
-                    <tr class="border-bottom">
-                      <th colspan="4" scope="colgroup" class="top border-right right-border">Отключенное оборудование по сети 35-150 кВ</th>
-                      <th colspan="4" scope="colgroup" class="top border-right right-border">Последствия для потребителей по сети 35-150 кВ</th>
-                      <th colspan="2" scope="colgroup" class="top border-right right-border">Распределительная сеть</th>
-                      <th colspan="3" scope="colgroup" class="top border-right right-border">Последствия для потребителей по распределительной сети</th>
-                      <th colspan="4" scope="colgroup" class="top">Последствия для потребителей суммарно по основной и распределительной сети</th>
+                    <tr>
+                      <th colspan="4" scope="colgroup" class="top border-right" style="border-color: #E0E0E0 !important;">Отключенное оборудование по сети 35-150 кВ</th>
+                      <th colspan="4" scope="colgroup" class="top  border-right">Последствия для потребителей по сети 35-150 кВ</th>
+                      <th colspan="2" scope="colgroup" class="top  border-right">Распределительная сеть</th>
+                      <th colspan="3" scope="colgroup" class="top  border-right">Последствия для потребителей по распределительной сети</th>
+                      <th colspan="4" scope="colgroup" class="top ">Последствия для потребителей суммарно по основной и распределительной сети</th>
                     </tr>
                     <tr>
                       <th scope="col" class="font-weight-normal border-right">ЛЭП 110-150 кВ, шт</th>
@@ -291,14 +293,16 @@
               </div>
             </div>
             <div class="col-4">
-              <div class="section h-100 border-bottom">
-                <div class="section-title">
-                  <div class="primary-label">Задействованные ресурсы</div>
+              <div class="section h-100">
+                <div class="section-title ml-0 pl-0 pt-3 pb-3">
+                  <div class="section-title-label">
+                    <div class="primary-label">Задействованные ресурсы</div>
+                  </div>
                 </div>
-                <div class="section-content justify-content-around p-2">
-                  <div class="row no-gutters h-50 pl-3 pr-3">
-                    <div class="col-12 d-flex flex-row justify-content-between" style="border-bottom: 1px dotted lightgray;">
-                      <div class="d-flex flex-column justify-content-center align-items-center indicator border-right" style="width: 33%">
+                <div class="section-content justify-content-around p-0">
+                  <div class="row no-gutters h-50" style="background: white; border-bottom: 1px dotted lightgray;">
+                    <div class="col-12 d-flex flex-row justify-content-between">
+                      <div class="d-flex flex-column justify-content-center align-items-center indicator border-right" style="width: 33%;">
                         <div class="value">{{report.resources.rise}}</div>
                         <div class="description">Задействовано<br>РИСЭ, шт</div>
                       </div>
@@ -315,7 +319,7 @@
                     </div>
                   </div>
 
-                  <div class="row h-50 pl-3 pr-3">
+                  <div class="row no-gutters h-50 border-bottom" style="background: white;">
                     <div class="col-12 d-flex flex-row justify-content-between">
                       <div class="d-flex flex-column align-items-center indicator border-right" style="width: 33%">
                         <div class="value">{{report.resources.brigades}}</div>
@@ -368,37 +372,39 @@
           <div class="row mt-3">
             <div class="col-8">
               <div class="section border-bottom">
-                <div class="section-title">
-                  <div class="primary-label">Нарушения</div>
+                <div class="section-title ml-0 pl-0 pt-3 pb-3">
+                  <div class="section-title-label">
+                    <div class="primary-label">Нарушения</div>
+                  </div>
                 </div>
-                <div class="section-content pt-0">
+                <div class="section-content p-0">
                   <table class="operative-situation-reports w-100">
                     <tr class="border-bottom">
                       <th rowspan="2" scope="colgroup" class="top border-right">Всего 6 кВ и выше</th>
-                      <th colspan="4" scope="colgroup" class="top">Основная сеть 35 кВ и выше</th>
-                      <th rowspan="2" scope="colgroup" class="top right-border">ЛЭП<br> р/с</th>
-                      <th rowspan="2" scope="colgroup" class="top">ТН с погаш.</th>
-                      <th colspan="3" scope="colgroup" class="top right-border">Сеть 0,4 кВ</th>
+                      <th colspan="4" scope="colgroup" class="top border-right">Основная сеть 35 кВ и выше</th>
+                      <th rowspan="2" scope="colgroup" class="top border-right">ЛЭП<br> р/с</th>
+                      <th rowspan="2" scope="colgroup" class="top border-right">ТН с погаш.</th>
+                      <th colspan="3" scope="colgroup" class="top border-right">Сеть 0,4 кВ</th>
                       <th colspan="2" scope="colgroup" class="top">Население, чел</th>
                     </tr>
                     <tr class="border-bottom">
-                      <th scope="col" class="font-weight-normal right-border">УАПВ</th>
-                      <th scope="col" class="font-weight-normal right-border">НАПВ</th>
-                      <th scope="col" class="font-weight-normal right-border">С обесточ.</th>
-                      <th scope="col" class="font-weight-normal right-border">Итого</th>
+                      <th scope="col" class="font-weight-normal border-right">УАПВ</th>
+                      <th scope="col" class="font-weight-normal border-right">НАПВ</th>
+                      <th scope="col" class="font-weight-normal border-right">С обесточ.</th>
+                      <th scope="col" class="font-weight-normal border-right">Итого</th>
 
-                      <th scope="col" class="font-weight-normal right-border">С 6:00</th>
-                      <th scope="col" class="font-weight-normal right-border">Откл. на срез</th>
-                      <th scope="col" class="font-weight-normal right-border">Более 3 часов</th>
+                      <th scope="col" class="font-weight-normal border-right">С 6:00</th>
+                      <th scope="col" class="font-weight-normal border-right">Откл. на срез</th>
+                      <th scope="col" class="font-weight-normal border-right">Более 3 часов</th>
 
-                      <th scope="col" class="font-weight-normal right-border">По сети 0,4 кВ на срез</th>
+                      <th scope="col" class="font-weight-normal border-right">По сети 0,4 кВ на срез</th>
                       <th scope="col" class="font-weight-normal">По сети 0,4 кВ (более 3 часов)</th>
                     </tr>
                     <tr class="content border-bottom">
-                      <td class="p-3 right-border border-left">{{report.violations.total_6}}</td>
-                      <td class="p-3 right-border">{{report.violations.uapv_35}}</td>
-                      <td class="p-3 right-border">{{report.violations.napv_35}}</td>
-                      <td class="p-3 right-border">{{report.violations.power_off_35}}</td>
+                      <td class="p-3 border-right">{{report.violations.total_6}}</td>
+                      <td class="p-3 border-right">{{report.violations.uapv_35}}</td>
+                      <td class="p-3 border-right">{{report.violations.napv_35}}</td>
+                      <td class="p-3 border-right">{{report.violations.power_off_35}}</td>
                       <td class="p-3">{{report.violations.uapv_35 + report.violations.napv_35}}</td>
 
                       <td class="p-3 border-right">{{report.violations.lep_rs}}</td>
@@ -407,19 +413,21 @@
                       <td class="p-3 border-right">{{report.violations.power_off_04}}</td>
                       <td class="p-3 border-right">{{report.violations.greater_3_04}}</td>
                       <td class="p-3 border-right">{{report.violations.population_srez_04}}</td>
-                      <td class="p-3 border-right">{{report.violations.population_greater_3_04}}</td>
+                      <td class="p-3">{{report.violations.population_greater_3_04}}</td>
                     </tr>
                   </table>
                 </div>
               </div>
             </div>
             <div class="col-4">
-              <div class="section h-100 border-bottom">
-                <div class="section-title">
-                  <div class="primary-label">Погодные условия</div>
+              <div class="section h-100">
+                <div class="section-title ml-0 pl-0 pt-3 pb-3">
+                  <div class="section-title-label">
+                    <div class="primary-label">Погодные условия</div>
+                  </div>
                 </div>
-                <div class="section-content p-2">
-                  <div class="row h-100 pl-3 pr-3">
+                <div class="section-content p-0">
+                  <div class="row h-100 p-3 border-bottom" style="background: white;">
                     <div class="col-8 d-flex flex-column justify-content-between border-right">
                       <div class="d-flex flex-row align-items-center indicator-row h-25">
                         <div class="title w-75">Мин. температура</div>
@@ -434,8 +442,8 @@
                         <div class="value w-25">{{report.weather.wind}} м/с</div>
                       </div>
                       <div class="d-flex flex-row align-items-center indicator-row border-bottom-0 h-25">
-                        <div class="title w-75">Осадки</div>
-                        <div class="value w-25">{{report.weather.precipitations}}</div>
+                        <div class="title w-50">Осадки</div>
+                        <div class="value w-50">{{report.weather.precipitations}}</div>
                       </div>
                     </div>
                     <div class="col-4">

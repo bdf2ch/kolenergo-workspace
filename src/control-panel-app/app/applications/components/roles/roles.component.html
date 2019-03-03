@@ -13,8 +13,7 @@
           <button mat-icon-button>
             <mat-icon class="text-success"
                       matTooltip="Добавить роль пользователя"
-                      matTooltipPosition="above"
-                      (click)="openDepartmentAddDialog()">
+                      matTooltipPosition="above">
               add
             </mat-icon>
           </button>
@@ -47,11 +46,11 @@
                 <mat-icon>more_vert</mat-icon>
               </button>
               <mat-menu #departmentMenu="matMenu">
-                <button mat-menu-item (click)="openDepartmentEditDialog()">
+                <button mat-menu-item>
                   <mat-icon class="text-info">edit</mat-icon>
                   <span>Изменить</span>
                 </button>
-                <button mat-menu-item (click)="openDepartmentDeleteDialog()">
+                <button mat-menu-item>
                   <mat-icon class="text-danger">delete</mat-icon>
                   <span>Удалить</span>
                 </button>

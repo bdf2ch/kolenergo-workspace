@@ -567,7 +567,7 @@
       <div class="consumption-tab d-flex flex-column justify-content-center align-items-center h-100 p-4">
 
         <div class="report-controls d-flex flex-column justify-content-center align-items-center w-25 h-100" *ngIf="osr.consumption() | async">
-          <div class="lead text-center text-muted mb-3" style="line-height: 17px;">Максимум потребления за прошедшие сутки</div>
+          <div class="lead text-center text-muted" style="line-height: 18px;">Максимум потребления за прошедшие сутки</div>
           <div class="consumption d-flex justify-content-center align-items-center w-100 p-5 text-center">
             <mat-icon class="mr-3">offline_bolt</mat-icon>
             <span>{{(osr.consumption() | async).consumption}}</span>

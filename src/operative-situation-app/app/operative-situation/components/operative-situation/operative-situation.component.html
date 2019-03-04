@@ -1,4 +1,4 @@
-<div class="d-flex flex-column h-100" style="background: #eceff1;">
+<div class="d-flex flex-column h-100" style="background: #fafafa;">
   <!--
   <mat-toolbar color="primary" class="d-flex">
     <mat-toolbar-row>
@@ -71,7 +71,6 @@
           </mat-menu>
 
           <button mat-stroked-button
-                  color="primary"
                   *ngIf="(auth.user() | async)"
                   [matMenuTriggerFor]="userMenu">
             {{(auth.user() | async).firstName + ' ' + (auth.user() | async).lastName}}

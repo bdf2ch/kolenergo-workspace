@@ -1,6 +1,7 @@
 "use strict";
 const express = require('express');
 const parser = require('body-parser');
+const compression = require('compression');
 const path = require('path');
 const process = require('process');
 
@@ -20,6 +21,7 @@ process
 
 
 var app = express();
+app.use(compression({level: 9, filter: shouldCompress}));
 app.use(function (req, res, next) {
   req.on('error', (err) => {
     console.log('error catched', err);
@@ -45,6 +47,9 @@ app.use(function (req, res, next) {
   console.log(err);
 });
 
+function shouldCompress (req, res) {
+  return true;
+}
 
 
 

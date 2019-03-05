@@ -17,8 +17,4 @@ import { AuthenticationRoutingModule } from './authentication.routing.module';
     SignInComponent
   ]
 })
-export class AuthenticationModule {
-  constructor() {
-    console.log('AUTHENTICATION MODULE');
-  }
-}
+export class AuthenticationModule {}

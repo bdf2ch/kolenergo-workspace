@@ -1,15 +1,9 @@
 <div class="container-fluid h-100 control-panel-dialog">
+  <!--
   <div matDialogTitle class="d-flex flex-row align-items-center p-3" [formGroup]="addReportForm">
     <h4>Добавление отчета об оперативной обстановке на {{osr?.selectedPeriod()}}</h4>
-    <!--
-    <mat-form-field class="ml-3 pb-0" floatLabel="never">
-      <mat-select placeholder="Время отчета" formControlName="time" [(ngModel)]="newReport.periodTime">
-        <mat-option *ngFor="let period of osr.periods() | timePeriods:osr.reports()" [value]="period">{{period}}</mat-option>
-      </mat-select>
-      <mat-error *ngIf="addReportForm.controls['time'].invalid">Вы не выбрали время отчета</mat-error>
-    </mat-form-field>
-    -->
   </div>
+  -->
 
   <mat-dialog-content>
     <mat-tab-group >
@@ -416,7 +410,7 @@
             </div>
           </div>
           <div class="row no-gutters">
-            <div class="d-flex flex-column justify-content-between col-6 border-right pl-3 pr-3 pt-4">
+            <div class="d-flex flex-column justify-content-between col-6 border-right pl-3 pr-3 pt-1">
               <div class="d-flex flex-column justify-content-between" style="flex: 1;">
                 <form [formGroup]="addReportForm">
                   <mat-form-field class="w-100">
@@ -425,6 +419,7 @@
                            formControlName="weather_min"
                            [(ngModel)]="newReport.weather.min"
                            placeholder="Минимальная температура">
+                    <mat-hint>&deg;C</mat-hint>
                   </mat-form-field>
 
                   <mat-form-field class="w-100">
@@ -433,6 +428,7 @@
                            formControlName="weather_max"
                            [(ngModel)]="newReport.weather.max"
                            placeholder="Максимальная температура">
+                    <mat-hint>&deg;C</mat-hint>
                   </mat-form-field>
 
                   <mat-form-field class="w-100">
@@ -440,6 +436,7 @@
                            formControlName="weather_wind"
                            [(ngModel)]="newReport.weather.wind"
                            placeholder="Скорость ветра">
+                    <mat-hint>м/с</mat-hint>
                   </mat-form-field>
 
                   <mat-form-field class="w-100">
@@ -495,7 +492,7 @@
                 </table>
                 -->
 
-                <div class="row p-2 pt-3" [formGroup]="addReportForm">
+                <div class="row p-2 ml-2 mr-2 border rounded" [formGroup]="addReportForm">
                   <div class="col-6 p-2 pr-4 d-flex justify-content-center">
                     <span class="mr-4">Режим РПГ</span>
                     <mat-slide-toggle
@@ -516,7 +513,7 @@
 
               </div>
             </div>
-            <div class="col-6 pl-4 pr-4 pt-3">
+            <div class="col-6 pl-4 pr-4 pt-1">
               <div class="d-flex flex-column">
                 <mat-table [dataSource]="locationsDataSource" class="weather-locations-table">
 
@@ -556,7 +553,7 @@
                   <mat-row *matRowDef="let row; columns: weatherSummaryDisplayColumns;"></mat-row>
                 </mat-table>
 
-                <div class="row p-2 pt-3" [formGroup]="addReportForm">
+                <div class="row p-2 ml-1 mr-1 mt-2 border rounded" [formGroup]="addReportForm">
                   <div class="col-6 p-2 pr-4 d-flex justify-content-center">
                     <span class="mr-4">Режим РПГ</span>
                     <mat-slide-toggle
@@ -665,18 +662,19 @@
   </mat-dialog-content>
 
   <mat-dialog-actions>
-    <div class="d-flex flex-row justify-content-end align-items-center w-100 pt-2 pb-2 pl-4 pr-4">
-      <button mat-flat-button
+    <div class="d-flex flex-row justify-content-end align-self-end align-items-center w-50 pt-1 pb-1 pl-3 pr-3">
+      <button mat-stroked-button
               type="button"
               color="warn"
-              class="w-25 mr-2"
+              class="w-50 mr-2 pt-2 pb-2"
               [disabled]="(osr.isAddingReport() | async)"
               (click)="closeDialog()">
         Отмена
       </button>
-      <button mat-flat-button
+      <button mat-stroked-button
               type="submit"
-              class="w-25"
+              color="primary"
+              class="w-50 pt-2 pb-2"
               [disabled]="(osr.isAddingReport() | async) || addReportForm.invalid"
               (click)="addReport()">
         Добавить

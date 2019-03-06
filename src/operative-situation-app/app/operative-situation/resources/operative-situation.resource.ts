@@ -72,5 +72,5 @@ export class OperativeSituationResource extends Resource {
     withCredentials: true,
     responseBodyType: ResourceResponseBodyType.Blob
   })
-  exportReport: IResourceMethod<{id: number}, Blob>;
+  exportReport: IResourceMethodStrict<void, {date: string, period: string}, void, Blob>;
 }

@@ -16,7 +16,7 @@ import {MatTableDataSource} from "@angular/material";
 
 @Injectable()
 export class OperativeSituationService {
-  private date$: BehaviorSubject<string>;
+  public date$: BehaviorSubject<string>;
   private companies$: BehaviorSubject<ICompany[]>;
   private reports$: BehaviorSubject<OperativeSituationReport[]>;
   public consumption$: BehaviorSubject<OperativeSituationConsumption>;
@@ -306,15 +306,16 @@ export class OperativeSituationService {
 
   /**
    * Экспорт отчета в Excel
-   * @param reportId - Идентификатор отчета
+   * @param date - Дата отчета
+   * @param period - Период отчета
    */
-  async exportReport(reportId: number): Promise<string | null> {
+  async exportReport(date: string, period: string): Promise<string | null> {
     try {
       this.fetchingData$.next(true);
-      const result  = await this.resource.exportReport({id: reportId});
+      const result  = await this.resource.exportReport(null, {date: date, period: period}, null);
       if (result) {
         this.fetchingData$.next(false);
-        saver.saveAs(result, `${reportId}.xlsx`);
+        saver.saveAs(result, `${date} ${period}.xlsx`);
       }
     } catch (error) {
       console.error(error);

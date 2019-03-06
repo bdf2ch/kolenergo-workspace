@@ -85,7 +85,7 @@ export class ReportListComponent implements OnInit {
   }
 
   async exportReport() {
-    await this.osr.exportReport(this.osr.selectedReport$.getValue().id);
+    await this.osr.exportReport(this.osr.date$.getValue(), this.osr.selectedPeriod$.getValue());
   }
 
 }

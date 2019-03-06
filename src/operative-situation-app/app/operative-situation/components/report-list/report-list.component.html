@@ -13,7 +13,7 @@
       <div class="d-flex flex-column justify-content-start align-items-center pt-4 h-100">
 
 
-        <div class="container-fluid pl-0 pr-0" style="overflow: hidden;" *ngIf="(osr.selectedReport() | async) as report">
+        <div class="container-fluid pl-0 pr-0" style="overflow: hidden; flex-shrink: 0;" *ngIf="(osr.selectedReport() | async) as report">
 
           <div class="row">
             <div class="col-8" style="flex-shrink: 0;">
@@ -23,7 +23,7 @@
                     <div class="primary-label">Оборудование 35-150 кВ</div>
                   </div>
                 </div>
-                <div class="section-content p-0" style="flex-shrink: 0;">
+                <div class="section-content p-0" style="flex-shrink: 1; overflow: hidden;">
                   <table class="d-flex operative-situation-reports w-100">
                     <tr>
                       <th colspan="4" scope="colgroup" class="top border-right" style="border-color: #E0E0E0 !important;">Отключенное оборудование по сети 35-150 кВ</th>

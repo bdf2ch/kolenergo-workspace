@@ -140,7 +140,8 @@ export class OperativeSituationService {
           const reports = this.reports$.getValue().slice();
           reports.push(newReport);
           this.reports$.next(reports);
-          this.selectedReport$.next(newReport)
+          this.selectedReport$.next(newReport);
+          this.locationsDataSource = new MatTableDataSource<ILocation>(newReport.weatherSummary ? newReport.weatherSummary.locations : []);
           return newReport;
         }),
         finalize(() => {

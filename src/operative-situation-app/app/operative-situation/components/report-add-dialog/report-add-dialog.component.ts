@@ -81,7 +81,13 @@ export class ReportAddDialogComponent implements OnInit {
     this.newReport.periodTime = this.osr.selectedPeriod();
     this.newReport.company = this.osr.selectedCompany();
     this.newReport.user = this.auth.getCurrentUser();
-    this.newReport.weatherSummary = this.useWeatherSummary ? this.osr.selectedCompany().weatherSummary : null;
+    if (this.useWeatherSummary) {
+      this.newReport.weatherSummary = this.osr.selectedCompany().weatherSummary;
+      this.newReport.weather.min = 0;
+      this.newReport.weather.max = 0;
+      this.newReport.weather.wind = '0';
+      this.newReport.weather.precipitations = '';
+    }
     this.osr.addReport(this.newReport)
       .subscribe(() => {
         this.closeDialog();

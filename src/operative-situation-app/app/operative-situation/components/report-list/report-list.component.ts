@@ -23,11 +23,7 @@ export class ReportListComponent implements OnInit {
     this.weatherSummaryDisplayColumns = ['title', 'temperature', 'wind', 'precipitations', 'icon'];
   }
 
-  ngOnInit() {
-    this.dialog.open(ReportAddDialogComponent, {
-      width: '950px'
-    });
-  }
+  ngOnInit() {}
 
   selectCompany(event: MatSelectChange) {
     this.osr.selectedCompany(event.value);

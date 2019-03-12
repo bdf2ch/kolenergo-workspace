@@ -11,11 +11,15 @@ import { MatSlideToggleChange, MatSnackBar } from '@angular/material';
 })
 export class ReportEditDialogComponent implements OnInit {
   public editReportForm: FormGroup;
+  weatherSummaryDisplayColumns: string[];
 
   constructor(private readonly builder: FormBuilder,
               private readonly dialogRef: MatDialogRef<ReportEditDialogComponent>,
               private readonly snackBar: MatSnackBar,
-              public readonly osr: OperativeSituationService) {}
+              public readonly osr: OperativeSituationService) {
+    this.weatherSummaryDisplayColumns = ['title', 'temperature', 'wind', 'precipitations', 'icon'];
+
+  }
 
   ngOnInit() {
     this.editReportForm = this.builder.group({
@@ -34,10 +38,10 @@ export class ReportEditDialogComponent implements OnInit {
       population_effect_network: new FormControl(this.osr.selectedReport$.getValue().equipment_network.effect.population),
       power_effect_network: new FormControl(this.osr.selectedReport$.getValue().equipment_network.effect.power),
       szo_effect_network: new FormControl(this.osr.selectedReport$.getValue().equipment_network.effect.szo),
-      weather_min: new FormControl(this.osr.selectedReport$.getValue().weather.min, Validators.required),
-      weather_max: new FormControl(this.osr.selectedReport$.getValue().weather.max, Validators.required),
-      weather_wind: new FormControl(this.osr.selectedReport$.getValue().weather.wind, Validators.required),
-      weather_precipitations: new FormControl(this.osr.selectedReport$.getValue().weather.precipitations, Validators.required),
+      // weather_min: new FormControl(this.osr.selectedReport$.getValue().weather.min, Validators.required),
+      // weather_max: new FormControl(this.osr.selectedReport$.getValue().weather.max, Validators.required),
+      // weather_wind: new FormControl(this.osr.selectedReport$.getValue().weather.wind, Validators.required),
+      // weather_precipitations: new FormControl(this.osr.selectedReport$.getValue().weather.precipitations, Validators.required),
       weather_rpg: new FormControl(this.osr.selectedReport$.getValue().weather.rpg),
       weather_orr: new FormControl(this.osr.selectedReport$.getValue().weather.orr),
       resources_rise: new FormControl(this.osr.selectedReport$.getValue().resources.rise),
@@ -58,12 +62,31 @@ export class ReportEditDialogComponent implements OnInit {
       violations_population_srez_o4: new FormControl(this.osr.selectedReport$.getValue().violations.population_srez_04),
       violations_population_greater_3_04: new FormControl(this.osr.selectedReport$.getValue().violations.population_greater_3_04)
     });
+
+    if (!this.osr.selectedReport$.getValue().weatherSummary) {
+      this.editReportForm.addControl('weather_min', new FormControl(this.osr.selectedReport$.getValue().weather.min, Validators.required));
+      this.editReportForm.addControl('weather_max', new FormControl(this.osr.selectedReport$.getValue().weather.max, Validators.required));
+      this.editReportForm.addControl(
+        'weather_wind',
+        new FormControl(this.osr.selectedReport$.getValue().weather.wind, Validators.required)
+      );
+      this.editReportForm.addControl(
+        'weather_precipitations',
+        new FormControl(this.osr.selectedReport$.getValue().weather.precipitations, Validators.required)
+      );
+    }
   }
 
   /**
    * Отправляет данные нового отчета об оперативной обстановке на сервер
    */
   editReport() {
+    if (this.osr.selectedReport$.getValue().weatherSummary) {
+      this.osr.selectedReport$.getValue().weather.min = 0;
+      this.osr.selectedReport$.getValue().weather.max = 0;
+      this.osr.selectedReport$.getValue().weather.wind = '';
+      this.osr.selectedReport$.getValue().weather.precipitations = '';
+    }
     this.osr.editReport(this.osr.selectedReport$.getValue())
       .subscribe(() => {
         this.closeDialog();

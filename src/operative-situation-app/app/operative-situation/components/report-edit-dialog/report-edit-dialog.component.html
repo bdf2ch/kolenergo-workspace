@@ -1,4 +1,4 @@
-<div class="container-fluid h-100 control-panel-dialog">
+<div class="container-fluid h-100 control-panel-dialog" style="margin-top: -25px;">
   <!--
   <div matDialogTitle class="d-flex flex-row align-items-center pt-3 pb-3 pl-3 pr-3" [formGroup]="editReportForm">
     <h4>Редактирование отчета об оперативной обстановке на {{osr.selectedReport()?.periodTime}}</h4>
@@ -409,7 +409,7 @@
       <!-- Start: Вкладка с данными о погодных условиях -->
       <mat-tab label="Погода">
         <div class="p-3" *ngIf="(osr.selectedReport() | async) as report">
-          <table class="operative-situation-reports w-100" [formGroup]="editReportForm">
+          <table class="operative-situation-reports w-100" [formGroup]="editReportForm" *ngIf="!osr.selectedReport$.getValue().weatherSummary">
             <tr>
               <th scope="col" class="font-weight-normal">t min</th>
               <th scope="col" class="font-weight-normal">t max</th>
@@ -463,6 +463,45 @@
               </td>
             </tr>
           </table>
+
+          <mat-table [dataSource]="osr.locationsDataSource" class="weather-locations-table"
+                     *ngIf="osr.selectedReport$.getValue().weatherSummary">
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="title">
+              <mat-header-cell *matHeaderCellDef>Нас. пункт</mat-header-cell>
+              <mat-cell *matCellDef="let location"> {{location.title}} </mat-cell>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="temperature">
+              <mat-header-cell *matHeaderCellDef class="weather-temperature-column"> t&deg; </mat-header-cell>
+              <mat-cell *matCellDef="let location" class="weather-temperature-column"> {{location.weather.temperature}} </mat-cell>
+            </ng-container>
+
+            <!-- Weight Column -->
+            <ng-container matColumnDef="wind">
+              <mat-header-cell *matHeaderCellDef class="weather-wind-column"> Ветер</mat-header-cell>
+              <mat-cell *matCellDef="let location" class="weather-wind-column"> {{location.weather.wind}}</mat-cell>
+            </ng-container>
+
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="precipitations">
+              <mat-header-cell *matHeaderCellDef> Осадки </mat-header-cell>
+              <mat-cell *matCellDef="let location"> {{location.weather.precipitations}} </mat-cell>
+            </ng-container>
+
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="icon">
+              <mat-header-cell *matHeaderCellDef class="weather-icon-column"> </mat-header-cell>
+              <mat-cell *matCellDef="let location" class="weather-icon-column">
+                <img src="http://openweathermap.org/img/w/{{location.weather.icon}}.png">
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="weatherSummaryDisplayColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: weatherSummaryDisplayColumns;"></mat-row>
+          </mat-table>
         </div>
       </mat-tab>
       <!-- End: Вкладка с данными о погодных условиях-->

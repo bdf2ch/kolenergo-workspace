@@ -254,25 +254,25 @@
 
                         <!-- Position Column -->
                         <ng-container matColumnDef="title">
-                          <mat-header-cell *matHeaderCellDef>Нас. пункт</mat-header-cell>
+                          <mat-header-cell *matHeaderCellDef class="text-left">Населенный пункт</mat-header-cell>
                           <mat-cell *matCellDef="let location"> {{location.title}} </mat-cell>
                         </ng-container>
 
                         <!-- Name Column -->
                         <ng-container matColumnDef="temperature">
-                          <mat-header-cell *matHeaderCellDef class="weather-temperature-column"> t&deg; </mat-header-cell>
+                          <mat-header-cell *matHeaderCellDef class="weather-temperature-column text-center">Темп., &deg;C</mat-header-cell>
                           <mat-cell *matCellDef="let location" class="weather-temperature-column"> {{location.weather.temperature}} </mat-cell>
                         </ng-container>
 
                         <!-- Weight Column -->
                         <ng-container matColumnDef="wind">
-                          <mat-header-cell *matHeaderCellDef class="weather-wind-column"> Ветер</mat-header-cell>
+                          <mat-header-cell *matHeaderCellDef class="weather-wind-column text-center">Ветер, м/с</mat-header-cell>
                           <mat-cell *matCellDef="let location" class="weather-wind-column"> {{location.weather.wind}}</mat-cell>
                         </ng-container>
 
                         <!-- Symbol Column -->
                         <ng-container matColumnDef="precipitations">
-                          <mat-header-cell *matHeaderCellDef> Осадки </mat-header-cell>
+                          <mat-header-cell *matHeaderCellDef>Осадки</mat-header-cell>
                           <mat-cell *matCellDef="let location"> {{location.weather.precipitations}} </mat-cell>
                         </ng-container>
 

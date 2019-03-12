@@ -198,9 +198,15 @@
     }
   }
 
+
   .mat-header-row {
     padding-left: 0px;
     padding-right: 0px;
+    font-size: 12px;
+    line-height: 12px;
+    .mat-header-cell {
+      // text-align: center;
+    }
   }
 
   .mat-cell {
@@ -209,20 +215,21 @@
   }
 
   .weather-temperature-column {
-    max-width: 30px;
+    max-width: 35px;
   }
 
   .weather-wind-column {
-    max-width: 50px;
-    padding-left: 10px;
+    max-width: 60px;
+    padding-left: 5px;
+    padding-right: 5px;
     text-align: center;
   }
 
   .weather-icon-column {
-    max-width: 40px;
+    max-width: 30px;
     img {
-      width: 40px;
-      height: 40px;
+      width: 30px;
+      height: 30px;
     }
   }
 }

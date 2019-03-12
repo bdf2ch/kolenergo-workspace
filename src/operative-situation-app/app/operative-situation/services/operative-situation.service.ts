@@ -92,6 +92,7 @@ export class OperativeSituationService {
           });
           this.reports$.next(reports);
           this.selectedReport$.next(this.getReportByTimePeriod(this.selectedPeriod$.getValue()));
+          this.locationsDataSource = new MatTableDataSource<ILocation>(this.selectedReport$.getValue().weatherSummary ? this.selectedReport$.getValue().weatherSummary.locations : [])
           return reports;
         }),
         finalize(() => {
@@ -113,6 +114,7 @@ export class OperativeSituationService {
           });
           this.reports$.next(reports);
           this.selectedReport$.next(this.getReportByTimePeriod(this.selectedPeriod$.getValue()));
+          this.locationsDataSource = new MatTableDataSource<ILocation>(this.selectedReport$.getValue().weatherSummary ? this.selectedReport$.getValue().weatherSummary.locations : [])
           const consumption = response.data.consumption ? new OperativeSituationConsumption(response.data.consumption) : null;
           if (consumption) {
             consumption.backup.setup(['consumption']);

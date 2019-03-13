@@ -72,6 +72,7 @@ export class ReportAddDialogComponent implements OnInit {
       useWeatherSummary: new FormControl(this.useWeatherSummary)
     });
     this.locationsDataSource = new MatTableDataSource<ILocation>(this.osr.selectedCompany().weatherSummary.locations);
+    this.osr.fetchWeatherSummary(this.osr.selectedCompany().id).subscribe();
   }
 
   /**

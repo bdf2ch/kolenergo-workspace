@@ -10,7 +10,7 @@ import {
 } from "@ngx-resource/core";
 import { environment } from '../../../../_common/environments/environment';
 import { IServerResponse } from '@kolenergo/cpa';
-import { IOperativeSituationReport, IOperativeSituationReportsInitialData, OperativeSituationReport } from '@kolenergo/osr';
+import {IOperativeSituationReport, IOperativeSituationReportsInitialData, IWeatherSummary, OperativeSituationReport} from '@kolenergo/osr';
 import { OperativeSituationConsumption } from '../models/operative-situation-consumption.model';
 import { IOperativeSituationConsumption } from '../interfaces/operative-situation-consumption.interface';
 
@@ -65,6 +65,13 @@ export class OperativeSituationResource extends Resource {
     withCredentials: true
   })
   editConsumption: IResourceMethod<OperativeSituationConsumption, IServerResponse<IOperativeSituationConsumption>>;
+
+  @ResourceAction({
+    path: '/weatherSummary',
+    method: ResourceRequestMethod.Get,
+    withCredentials: true
+  })
+  getWeatherSummary: IResourceMethodStrict<void, {companyId: number}, void, IServerResponse<IWeatherSummary>>;
 
   @ResourceAction({
     path: '/export',

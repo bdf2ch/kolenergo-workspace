@@ -6,12 +6,19 @@ import { OperativeSituationResource } from '../resources/operative-situation.res
 import { Observable } from 'rxjs/Observable';
 import { from } from 'rxjs/observable/from';
 import { finalize, map } from 'rxjs/operators';
-import {ILocation, IOperativeSituationReport, IOperativeSituationReportsInitialData, OperativeSituationReport} from "@kolenergo/osr";
+import {
+  ILocation,
+  IOperativeSituationReport,
+  IOperativeSituationReportsInitialData,
+  IWeatherSummary,
+  OperativeSituationReport
+} from '@kolenergo/osr';
 import { OperativeSituationConsumption } from '../models/operative-situation-consumption.model';
 import { IOperativeSituationConsumption } from '../interfaces/operative-situation-consumption.interface';
 import * as moment from 'moment';
 import * as saver from 'file-saver';
 import {MatTableDataSource} from "@angular/material";
+import {WeatherSummary} from '../models';
 
 
 @Injectable()
@@ -121,6 +128,23 @@ export class OperativeSituationService {
           }
           this.consumption$.next(consumption);
           return this.reports$.getValue();
+        }),
+        finalize(() => {
+          this.fetchingData$.next(false);
+        })
+      );
+  }
+
+  fetchWeatherSummary(companyId: number): Observable<WeatherSummary> {
+    this.fetchingData$.next(true);
+    return from(this.resource.getWeatherSummary(null, {companyId: companyId}, null))
+      .pipe(
+        map((response: IServerResponse<IWeatherSummary>) => {
+          const weatherSummary = new WeatherSummary(response.data);
+          if (this.selectedCompany$.getValue().weatherSummary.dateCreated < weatherSummary.dateCreated) {
+            this.selectedCompany$.getValue().weatherSummary = weatherSummary;
+          }
+          return weatherSummary;
         }),
         finalize(() => {
           this.fetchingData$.next(false);

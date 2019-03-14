@@ -7,7 +7,7 @@ import {
   ResourceHandler,
   ResourceParams,
   ResourceRequestMethod, ResourceResponseBodyType
-} from "@ngx-resource/core";
+} from '@ngx-resource/core';
 import { environment } from '../../../../_common/environments/environment';
 import { IServerResponse } from '@kolenergo/cpa';
 import {IOperativeSituationReport, IOperativeSituationReportsInitialData, IWeatherSummary, OperativeSituationReport} from '@kolenergo/osr';

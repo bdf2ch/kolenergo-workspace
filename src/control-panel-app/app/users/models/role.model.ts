@@ -26,7 +26,7 @@ export class Role extends Backup implements IRole {
     this.title = config ? config.title : null;
     this.isEnabled = config && config.isEnabled ? config.isEnabled : false;
     this.permissions = [];
-    if (config) {
+    if (config && config.permissions) {
       config.permissions.forEach((item: IPermission) => {
         const permission = new Permission(item);
         this.permissions.push(permission);

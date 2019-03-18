@@ -162,9 +162,11 @@ export class NewRequestDialogComponent implements OnInit {
       case 3:
         employee = this.aho.getEmployeeById(18);
         break;
+        /*
       case 10:
         employee = this.aho.getEmployeeById(20);
         break;
+        */
     }
     if (employee) {
       this.newRequest.employees.push(employee);

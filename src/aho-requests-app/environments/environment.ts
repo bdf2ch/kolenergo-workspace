@@ -5,6 +5,7 @@
 
 export const environment = {
   production: false,
+  apiUrl: 'http://10.50.0.153:3000/',
   appCode: 'AHO_REQUESTS_APP',
   settings: {
     requestsOnPage: 20

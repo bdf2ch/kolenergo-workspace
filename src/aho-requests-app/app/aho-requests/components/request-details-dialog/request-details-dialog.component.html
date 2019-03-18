@@ -161,7 +161,7 @@
         <!-- End: Вкладка с содержанием заявки -->
 
         <!-- Start: Комментарии к заявке -->
-        <mat-tab label="Комментарии" class="mh-100">
+        <mat-tab label="Комментарии" class="d-flex flex-row col-12 mh-100">
           <ng-template mat-tab-label>
             <div class="d-flex">
               Комментарии
@@ -171,14 +171,14 @@
             </div>
           </ng-template>
 
-          <div #commentsTab>
+          <div #commentsTab class="d-flex h-100 mh-100 w-100 justify-content-center align-items-center">
             <!-- Start: No comments placeholder -->
-            <div *ngIf="aho.getSelectedRequest().comments.length === 0" class="h-100 d-flex flex-column justify-content-center align-items-center">
+            <div *ngIf="aho.getSelectedRequest().comments.length === 0" class="h-100 d-flex flex-column justify-content-center align-items-center p-5">
               <div class="no-comments text-muted mb-3 text-center">Комментарии отсутствуют</div>
             </div>
             <!-- End: No comments placeholder -->
 
-            <div class="pl-4 pr-4 d-flex flex-column justify-content-between" *ngIf="aho.getSelectedRequest().comments.length > 0">
+            <div class="pl-4 pr-4 d-flex flex-column justify-content-between h-100 w-100" *ngIf="aho.getSelectedRequest().comments.length > 0">
               <div class="d-flex w-100 h-100 flex-column justify-content-center align-self-center">
                 <!-- Start: Request comments -->
                 <div class="request-comments w-100 h-100 d-flex flex-column justify-content-end pb-4">

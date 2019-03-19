@@ -111,19 +111,77 @@ export class StartComponent implements OnInit {
   /**
    * Загрузка следующей страницы заявок
    */
-  loadNextPage() {
-    this.aho.fetchNextPage(
-      this.aho.filters_.getFilterByTitle('startDate').getValue()
-        ? this.aho.filters_.getFilterByTitle('startDate').getValue() : 0,
-      this.aho.filters_.getFilterByTitle('endDate').getValue()
-        ? this.aho.filters_.getFilterByTitle('endDate').getValue().getTime() : 0,
-      this.auth.getCurrentUser().id,
-      this.aho.filters_.getFilterByTitle('requestEmployee').getValue()
-        ? this.aho.filters_.getFilterByTitle('requestEmployee').getValue().id : 0,
-      this.aho.filters_.getFilterByTitle('requestType').getValue()
-        ? this.aho.filters_.getFilterByTitle('requestType').getValue().id : 0,
-      this.aho.filters_.getFilterByTitle('requestStatus').getValue()
-        ? this.aho.filters_.getFilterByTitle('requestStatus').getValue().id : 0);
+  async loadNextPage() {
+    console.log('IS FILTERS APPLIED', this.aho.filters_.isFiltersApplied());
+    if (this.aho.filters_.isFiltersApplied()) {
+      console.log('FILTERS APPLIED');
+      this.aho.fetchNextPage(
+        this.aho.filters_.getFilterByTitle('startDate').getValue()
+          ? this.aho.filters_.getFilterByTitle('startDate').getValue() : 0,
+        this.aho.filters_.getFilterByTitle('endDate').getValue()
+          ? this.aho.filters_.getFilterByTitle('endDate').getValue().getTime() : 0,
+        this.auth.getCurrentUser().permissions.getRoleById(1) ? 0 : this.auth.getCurrentUser().id,
+        this.aho.filters_.getFilterByTitle('requestEmployee').getValue()
+          ? this.aho.filters_.getFilterByTitle('requestEmployee').getValue().id : 0,
+        this.aho.filters_.getFilterByTitle('requestType').getValue()
+          ? this.aho.filters_.getFilterByTitle('requestType').getValue().id : 0,
+        this.aho.filters_.getFilterByTitle('requestStatus').getValue()
+          ? this.aho.filters_.getFilterByTitle('requestStatus').getValue().id : 0);
+    } else if (this.aho.isInEmployeeRequestsMode()) {
+      this.aho.fetchNextPage(
+        this.aho.filters_.getFilterByTitle('startDate').getValue()
+          ? this.aho.filters_.getFilterByTitle('startDate').getValue() : 0,
+        this.aho.filters_.getFilterByTitle('endDate').getValue()
+          ? this.aho.filters_.getFilterByTitle('endDate').getValue().getTime() : 0,
+        0,
+        this.auth.getCurrentUser().id,
+        this.aho.filters_.getFilterByTitle('requestType').getValue()
+          ? this.aho.filters_.getFilterByTitle('requestType').getValue().id : 0,
+        this.aho.filters_.getFilterByTitle('requestStatus').getValue()
+          ? this.aho.filters_.getFilterByTitle('requestStatus').getValue().id : 0);
+    } else {
+      this.aho.fetchNextPage(
+        this.aho.filters_.getFilterByTitle('startDate').getValue()
+          ? this.aho.filters_.getFilterByTitle('startDate').getValue() : 0,
+        this.aho.filters_.getFilterByTitle('endDate').getValue()
+          ? this.aho.filters_.getFilterByTitle('endDate').getValue().getTime() : 0,
+        this.auth.getCurrentUser().permissions.getRoleById(1) ? 0 : this.auth.getCurrentUser().id,
+        0,
+        0,
+        0
+      );
+    }
+
+
+
+    /*
+    if (this.aho.isInEmployeeRequestsMode()) {
+      this.aho.fetchNextPage(
+        this.aho.filters_.getFilterByTitle('startDate').getValue()
+          ? this.aho.filters_.getFilterByTitle('startDate').getValue() : 0,
+        this.aho.filters_.getFilterByTitle('endDate').getValue()
+          ? this.aho.filters_.getFilterByTitle('endDate').getValue().getTime() : 0,
+        this.auth.getCurrentUser().id,
+        this.auth.getCurrentUser().id,
+        this.aho.filters_.getFilterByTitle('requestType').getValue()
+          ? this.aho.filters_.getFilterByTitle('requestType').getValue().id : 0,
+        this.aho.filters_.getFilterByTitle('requestStatus').getValue()
+          ? this.aho.filters_.getFilterByTitle('requestStatus').getValue().id : 0);
+    } else {
+      this.aho.fetchNextPage(
+        this.aho.filters_.getFilterByTitle('startDate').getValue()
+          ? this.aho.filters_.getFilterByTitle('startDate').getValue() : 0,
+        this.aho.filters_.getFilterByTitle('endDate').getValue()
+          ? this.aho.filters_.getFilterByTitle('endDate').getValue().getTime() : 0,
+        this.auth.getCurrentUser().id,
+        this.aho.filters_.getFilterByTitle('requestEmployee').getValue()
+          ? this.aho.filters_.getFilterByTitle('requestEmployee').getValue().id : 0,
+        this.aho.filters_.getFilterByTitle('requestType').getValue()
+          ? this.aho.filters_.getFilterByTitle('requestType').getValue().id : 0,
+        this.aho.filters_.getFilterByTitle('requestStatus').getValue()
+          ? this.aho.filters_.getFilterByTitle('requestStatus').getValue().id : 0);
+    }
+    */
   }
 
   /**

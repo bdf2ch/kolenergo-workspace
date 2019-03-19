@@ -299,6 +299,8 @@ export class AhoRequestsService {
    * @param employeeId - Идентификатор исполнителя
    */
   async fetchEmployeeRequests(employeeId: number): Promise<AhoRequest[] | null> {
+    // this.filters_.getFilterByTitle('requestEmployee').setValue(this.auth.getCurrentUser());
+    console.log('current user id = ', employeeId);
     try {
       this.fetchingData$.next(true);
       this.mode$.next('employee-requests-mode');
@@ -377,7 +379,7 @@ export class AhoRequestsService {
     const result = await this.fetchRequests(
       start,
       end,
-      this.auth.getCurrentUser().permissions.getRoleById(1) ? 0 : this.auth.getCurrentUser().id,
+      userId,
       employeeId,
       requestTypeId,
       requestStatusId,
@@ -1211,6 +1213,7 @@ export class AhoRequestsService {
   }
 
   showOwnRequests() {
+    this.filters_.resetFilters();
     this.mode$.next('own-requests-mode');
     this.fetchRequests(
       0,

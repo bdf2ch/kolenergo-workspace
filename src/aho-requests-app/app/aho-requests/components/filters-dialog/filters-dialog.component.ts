@@ -46,12 +46,13 @@ export class FiltersDialogComponent implements OnInit {
       this.aho.filters_.getFilterByTitle('endDate').getValue().setSeconds(59);
     }
     this.aho.getPagination().setPage(0);
+    const filterEmployee = this.aho.filters_.getFilterByTitle('requestEmployee').getValue();
     this.aho.fetchRequests(
       this.aho.filters_.getFilterByTitle('startDate').getValue()
         ? this.aho.filters_.getFilterByTitle('startDate').getValue().getTime() : 0,
       this.aho.filters_.getFilterByTitle('endDate').getValue()
         ? this.aho.filters_.getFilterByTitle('endDate').getValue().getTime() : 0,
-      this.auth.getCurrentUser() && this.auth.getCurrentUser().permissions.getRoleById(1) ? 0 : this.auth.getCurrentUser().id,
+      (filterEmployee && filterEmployee.id === this.auth.getCurrentUser().id) || this.auth.getCurrentUser().permissions.getRoleById(1) ? 0 : this.auth.getCurrentUser().id,
       this.aho.filters_.getFilterByTitle('requestEmployee').getValue()
         ? this.aho.filters_.getFilterByTitle('requestEmployee').getValue().id : 0,
       this.aho.filters_.getFilterByTitle('requestType').getValue()
@@ -74,7 +75,9 @@ export class FiltersDialogComponent implements OnInit {
     }
     */
     this.aho.filters_.resetFilters();
+    this.aho.showOwnRequests();
 
+    /*
     this.aho.fetchRequests(
       0,
       0,
@@ -87,6 +90,7 @@ export class FiltersDialogComponent implements OnInit {
       environment.settings.requestsOnPage,
       true
     );
+    */
     console.log(this.aho.filters_);
   }
 }

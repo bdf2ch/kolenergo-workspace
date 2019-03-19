@@ -60,7 +60,7 @@ export class AhoRequestsService {
   public filters_: FilterManager;
   private dataSource: MatTableDataSource<AhoRequest>;
 
-  private mode$: BehaviorSubject<string>;
+  public mode$: BehaviorSubject<string>;
   private requests$: BehaviorSubject<AhoRequest[]>;
   private fetchingData$: BehaviorSubject<boolean>;
   private allRequestsCount$: BehaviorSubject<number>;
@@ -1214,6 +1214,7 @@ export class AhoRequestsService {
 
   showOwnRequests() {
     this.filters_.resetFilters();
+    this.inEmployeeRequestsMode = false;
     this.mode$.next('own-requests-mode');
     this.fetchRequests(
       0,

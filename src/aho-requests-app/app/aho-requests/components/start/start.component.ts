@@ -127,7 +127,7 @@ export class StartComponent implements OnInit {
           ? this.aho.filters_.getFilterByTitle('requestType').getValue().id : 0,
         this.aho.filters_.getFilterByTitle('requestStatus').getValue()
           ? this.aho.filters_.getFilterByTitle('requestStatus').getValue().id : 0);
-    } else if (this.aho.isInEmployeeRequestsMode()) {
+    } else if (this.aho.mode$.getValue() === 'employee-requests-mode') {
       this.aho.fetchNextPage(
         this.aho.filters_.getFilterByTitle('startDate').getValue()
           ? this.aho.filters_.getFilterByTitle('startDate').getValue() : 0,

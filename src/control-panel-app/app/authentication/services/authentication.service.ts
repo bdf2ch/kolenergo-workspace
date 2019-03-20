@@ -3,6 +3,7 @@ import { AuthenticationResource } from '../resources/authentication.resource';
 import { User } from '../../users/models/user.model';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
+import {MatSnackBar} from '@angular/material';
 
 @Injectable()
 export class AuthenticationService {
@@ -10,7 +11,8 @@ export class AuthenticationService {
   private currentUser: User | null;
   private loadingInProgress: BehaviorSubject<boolean>;
 
-  constructor(private authenticationResource: AuthenticationResource) {
+  constructor(private authenticationResource: AuthenticationResource,
+              private snackBar: MatSnackBar) {
     this.user$ = new BehaviorSubject<User>(null);
     this.currentUser = null;
     this.loadingInProgress = new BehaviorSubject(false);
@@ -83,8 +85,30 @@ export class AuthenticationService {
         return this.currentUser;
       }
     } catch (error) {
-      console.error(error);
       this.loadingInProgress.next(false);
+      switch (error.status) {
+        case 401:
+          this.snackBar.open('Пользователь не найден', 'Закрыть', {
+            duration: 5000,
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom'
+          });
+          break;
+        case 403:
+          this.snackBar.open('Доступ запрещен', 'Закрыть', {
+            duration: 5000,
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom'
+          });
+          break;
+        default:
+          this.snackBar.open('Пользователь не найден', 'Закрыть', {
+            duration: 5000,
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom'
+          });
+          break;
+      }
       return null;
     }
   }

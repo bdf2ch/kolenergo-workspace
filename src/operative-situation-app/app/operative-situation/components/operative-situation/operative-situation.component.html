@@ -1,49 +1,4 @@
 <div class="d-flex flex-column h-100" style="background: #f5f5f5;">
-  <!--
-  <mat-toolbar color="primary" class="d-flex">
-    <mat-toolbar-row>
-      <div class="d-flex flex-row justify-content-between align-items-center w-100">
-        <div>
-          <span>Оперативная обстановка в {{osr.selectedCompany().shortTitle}} на {{osr.date() | async}}</span>
-        </div>
-
-        <div>
-
-          <button mat-button
-                  class="mr-2"
-                  [matMenuTriggerFor]="companiesMenu">
-            {{osr.selectedCompany()?.shortTitle}}
-            <mat-icon>arrow_drop_down</mat-icon>
-          </button>
-          <mat-menu #companiesMenu="matMenu" yPosition="below" [overlapTrigger]="true">
-            <button mat-menu-item
-                    *ngFor="let company of osr.companies() | async"
-                    (click)="selectCompany(company)">
-              <mat-icon>business</mat-icon>
-              {{company.shortTitle}}
-            </button>
-          </mat-menu>
-
-          <button mat-stroked-button
-                       color="primary"
-                       *ngIf="(auth.user() | async)"
-                       [matMenuTriggerFor]="userMenu">
-          {{(auth.user() | async).firstName + ' ' + (auth.user() | async).lastName}}
-        </button>
-          <mat-menu #userMenu="matMenu">
-            <button mat-menu-item
-                    yPosition="after"
-                    (click)="logOut()">
-              <mat-icon color="primary">exit_to_app</mat-icon>
-              Выход из системы
-            </button>
-          </mat-menu>
-        </div>
-
-      </div>
-    </mat-toolbar-row>
-  </mat-toolbar>
-  -->
 
   <!-- Start: Заголовок компонента -->
   <div class="container-fluid pl-4 pr-4 pt-2 mb-4">
@@ -57,6 +12,7 @@
 
           <button mat-button
                   class="mr-3"
+                  *ngIf="auth.getCurrentUser().permissions.getRoleById(14)"
                   [matMenuTriggerFor]="companiesMenu">
             {{osr.selectedCompany()?.shortTitle}}
             <mat-icon>arrow_drop_down</mat-icon>
@@ -73,7 +29,10 @@
           <button mat-stroked-button
                   *ngIf="(auth.user() | async)"
                   [matMenuTriggerFor]="userMenu">
-            {{(auth.user() | async).firstName + ' ' + (auth.user() | async).lastName}}
+            <div class="d-flex justify-content-center align-items-center">
+              <span>{{(auth.user() | async).firstName + ' ' + (auth.user() | async).lastName}}</span>
+              <mat-icon>arrow_drop_down</mat-icon>
+            </div>
           </button>
           <mat-menu #userMenu="matMenu">
             <button mat-menu-item

@@ -60,15 +60,9 @@ export class AuthenticationDialogComponent implements OnInit {
       true,
       window.localStorage && window.localStorage.getItem('app_code') ? window.localStorage.getItem('app_code') : null,
       this.callbacks ? this.callbacks : undefined
-    );
+    )
     if (result) {
       this.dialog.close();
-    } else {
-      this.snackBar.open('Пользователь не найден', 'Закрыть', {
-        duration: 5000,
-        horizontalPosition: 'center',
-        verticalPosition: 'bottom'
-      });
     }
   }
 

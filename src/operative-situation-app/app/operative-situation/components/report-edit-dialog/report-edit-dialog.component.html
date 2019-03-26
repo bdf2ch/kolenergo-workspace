@@ -502,6 +502,25 @@
             <mat-header-row *matHeaderRowDef="weatherSummaryDisplayColumns"></mat-header-row>
             <mat-row *matRowDef="let row; columns: weatherSummaryDisplayColumns;"></mat-row>
           </mat-table>
+
+          <div class="row p-2 border rounded ml-2 mr-2 mt-3" [formGroup]="editReportForm" *ngIf="osr.selectedReport$.getValue().weatherSummary && (osr.selectedReport() | async) as report">
+            <div class="col-6 p-2 pr-4 d-flex justify-content-center">
+              <span class="mr-4">Режим РПГ</span>
+              <mat-slide-toggle
+                formControlName="weather_rpg"
+                [(ngModel)]="report.weather.rpg"
+                (change)="changeRPGMode($event)">
+              </mat-slide-toggle>
+            </div>
+            <div class="col-6 p-2 pl-4 d-flex justify-content-center">
+              <span class="mr-4">Режим ОРР</span>
+              <mat-slide-toggle
+                formControlName="weather_orr"
+                [(ngModel)]="report.weather.orr"
+                (change)="changeORRMode($event)">
+              </mat-slide-toggle>
+            </div>
+          </div>
         </div>
       </mat-tab>
       <!-- End: Вкладка с данными о погодных условиях-->

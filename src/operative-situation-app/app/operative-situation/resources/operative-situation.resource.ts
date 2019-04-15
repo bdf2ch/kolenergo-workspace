@@ -53,6 +53,13 @@ export class OperativeSituationResource extends Resource {
   editReport: IResourceMethod<OperativeSituationReport, IServerResponse<IOperativeSituationReport>>;
 
   @ResourceAction({
+    path: '/{!id}',
+    method: ResourceRequestMethod.Delete,
+    withCredentials: true
+  })
+  deleteReport: IResourceMethodStrict<void, void, {id: number}, IServerResponse<boolean>>;
+
+  @ResourceAction({
     path: '/consumption',
     method: ResourceRequestMethod.Post,
     withCredentials: true

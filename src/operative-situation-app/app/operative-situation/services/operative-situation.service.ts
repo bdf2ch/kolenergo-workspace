@@ -36,6 +36,7 @@ export class OperativeSituationService {
   private addingConsumption$: BehaviorSubject<boolean>;
   private editingReport$: BehaviorSubject<boolean>;
   private editingConsumption$: BehaviorSubject<boolean>;
+  private deletingReport$: BehaviorSubject<boolean>;
   public locationsDataSource: MatTableDataSource<ILocation>;
 
 
@@ -54,6 +55,7 @@ export class OperativeSituationService {
     this.addingConsumption$ = new BehaviorSubject<boolean>(false);
     this.editingReport$ = new BehaviorSubject<boolean>(false);
     this.editingConsumption$ = new BehaviorSubject<boolean>(false);
+    this.deletingReport$ = new BehaviorSubject(false);
     this.locationsDataSource = new MatTableDataSource<ILocation>([]);
   }
 
@@ -233,6 +235,33 @@ export class OperativeSituationService {
   }
 
   /**
+   * Удаление отчета об оперативной обстановке
+   * @param reportId - Идентификатор отчета
+   */
+  deleteReport(reportId: number): Observable<boolean> {
+    this.deletingReport$.next(true);
+    return from(this.resource.deleteReport(null, null, {id: reportId}))
+      .pipe(
+        map((response: IServerResponse<boolean>) => {
+          let result = false;
+          if (response.data === true) {
+            this.reports$.getValue().forEach((item: OperativeSituationReport, index: number, reports: OperativeSituationReport[]) => {
+              if (item.id === reportId) {
+                reports.splice(index, 1);
+                result = true;
+                this.selectedReport$.next(null);
+              }
+            });
+          }
+          return result;
+        }),
+        finalize(() => {
+          this.deletingReport$.next(false);
+        })
+      );
+  }
+
+  /**
    * Возвращает текущую дату на сервере
    */
   date(): Observable<string> {
@@ -370,6 +399,13 @@ export class OperativeSituationService {
    */
   isEditingReport(): Observable<boolean> {
     return this.editingReport$.asObservable();
+  }
+
+  /**
+   * Выполняется ли удаление отчета об оперативной обстановке
+   */
+  isDeletingReport(): Observable<boolean> {
+    return this.deletingReport$.asObservable();
   }
 
   /**

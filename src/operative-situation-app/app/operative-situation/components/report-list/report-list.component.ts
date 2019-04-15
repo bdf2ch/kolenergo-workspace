@@ -7,6 +7,8 @@ import { ReportEditDialogComponent } from '../report-edit-dialog/report-edit-dia
 import { ConsumptionAddDialogComponent } from '../consumption-add-dialog/consumption-add-dialog.component';
 import { ConsumptionEditDialogComponent } from '../consumption-edit-dialog/consumption-edit-dialog.component';
 import { ILocation } from '@kolenergo/osr';
+import {ReportDeleteDialogComponent} from '../report-delete-dialog/report-delete-dialog.component';
+import {AuthenticationService} from '@kolenergo/cpa';
 
 @Component({
   selector: 'app-report-list',
@@ -18,6 +20,7 @@ export class ReportListComponent implements OnInit {
   public weatherSummaryDisplayColumns: string[];
 
   constructor(private readonly dialog: MatDialog,
+              public readonly auth: AuthenticationService,
               public readonly osr: OperativeSituationService) {
     this.locationsDataSource = new MatTableDataSource<ILocation>([]);
     this.weatherSummaryDisplayColumns = ['title', 'temperature', 'wind', 'precipitations', 'icon'];
@@ -76,6 +79,15 @@ export class ReportListComponent implements OnInit {
    */
   openEditConsumptionDialog() {
     this.dialog.open(ConsumptionEditDialogComponent, {
+      width: '400px'
+    });
+  }
+
+  /**
+   * Открытие диалогового окна удаления отчета об оперативнйо обстановке
+   */
+  openDeleteReportDialog() {
+    this.dialog.open(ReportDeleteDialogComponent, {
       width: '400px'
     });
   }

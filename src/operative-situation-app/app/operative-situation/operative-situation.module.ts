@@ -12,6 +12,7 @@ import { ReportListComponent } from './components/report-list/report-list.compon
 import { TimePeriodsPipe } from './pipes/time-periods.pipe';
 import { ConsumptionAddDialogComponent } from './components/consumption-add-dialog/consumption-add-dialog.component';
 import { ConsumptionEditDialogComponent } from './components/consumption-edit-dialog/consumption-edit-dialog.component';
+import { ReportDeleteDialogComponent } from './components/report-delete-dialog/report-delete-dialog.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { ConsumptionEditDialogComponent } from './components/consumption-edit-di
     ReportListComponent,
     TimePeriodsPipe,
     ConsumptionAddDialogComponent,
-    ConsumptionEditDialogComponent
+    ConsumptionEditDialogComponent,
+    ReportDeleteDialogComponent
   ],
   providers: [
     OperativeSituationResource,
@@ -37,6 +39,7 @@ import { ConsumptionEditDialogComponent } from './components/consumption-edit-di
   entryComponents: [
     ReportAddDialogComponent,
     ReportEditDialogComponent,
+    ReportDeleteDialogComponent,
     ConsumptionAddDialogComponent,
     ConsumptionEditDialogComponent
   ]

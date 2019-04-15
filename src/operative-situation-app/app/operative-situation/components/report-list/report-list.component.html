@@ -312,6 +312,15 @@
           </button>
 
           <button mat-stroked-button
+                  class="mt-3 mr-2"
+                  color="warn"
+                  *ngIf="auth.getCurrentUser().permissions.getRoleById(14)"
+                  (click)="openDeleteReportDialog()"
+                  [disabled]="(osr.isDeletingReport() | async)">
+            <div class="d-flex justify-content-center align-items-center">Удалить отчет</div>
+          </button>
+
+          <button mat-stroked-button
                   class="mt-3"
                   (click)="exportReport()"
                   [disabled]="(osr.isFetchingData() | async)">

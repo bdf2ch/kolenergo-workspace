@@ -1,0 +1,33 @@
+<div class="container-fluid h-100 control-panel-dialog" style="margin-top: -25px;">
+  <!--
+  <div matDialogTitle class="d-flex flex-row align-items-center pt-3 pb-3 pl-3 pr-3" [formGroup]="editReportForm">
+    <h4>Редактирование отчета об оперативной обстановке на {{osr.selectedReport()?.periodTime}}</h4>
+  </div>
+  -->
+
+  <mat-dialog-content class="p-4">
+    Подтвердите удаление отчета
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <div class="d-flex flex-row justify-content-end align-items-center w-100 pt-2 pb-2 pl-4 pr-4">
+      <button mat-stroked-button
+              type="button"
+              color="warn"
+              class="w-50 mr-2"
+              [disabled]="(osr.isDeletingReport() | async)"
+              (click)="closeDialog()">
+        Отмена
+      </button>
+      <button mat-stroked-button
+              type="submit"
+              color="primary"
+              class="w-50"
+              [disabled]="(osr.isDeletingReport() | async)"
+              (click)="deleteReport()">
+        Удалить
+      </button>
+    </div>
+  </mat-dialog-actions>
+
+</div>

@@ -30,14 +30,14 @@ export class AuthenticationResource extends Resource {
     method: ResourceRequestMethod.Get,
     withCredentials: true
   })
-  check: IResourceMethodStrict<{appCode: string | null}, void, void, IServerResponse<IUser | null>;
+  check: IResourceMethodStrict<{appCode: string | null}, void, void, IServerResponse<IUser | null>>;
 
   @ResourceAction({
     method: ResourceRequestMethod.Post,
     path: '/login',
     withCredentials: true
   })
-  login: IResourceMethod<{account: string, password: string, addIfNotExists?: boolean, appCode?: string}, IServerResponse<IUser>;
+  login: IResourceMethod<{account: string, password: string, addIfNotExists?: boolean, appCode?: string}, IServerResponse<IUser>>;
 
   @ResourceAction({
     path: '/logout',

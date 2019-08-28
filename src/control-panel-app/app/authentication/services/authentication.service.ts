@@ -41,8 +41,8 @@ export class AuthenticationService {
       // console.log(result);
       if (result) {
         this.loadingInProgress.next(false);
-        this.user$.next(new User(result));
-        this.currentUser = new User(result);
+        this.user$.next(new User(result.data));
+        this.currentUser = new User(result.data);
         // console.log(this.currentUser);
         return this.currentUser;
       }
@@ -74,8 +74,8 @@ export class AuthenticationService {
       });
       if (result) {
         this.loadingInProgress.next(false);
-        this.user$.next(new User(result));
-        this.currentUser = new User(result);
+        this.user$.next(new User(result.data));
+        this.currentUser = new User(result.data);
         if (callbacks) {
           console.log('auth callbacks', callbacks.length);
           callbacks.forEach((callback: Function) => {

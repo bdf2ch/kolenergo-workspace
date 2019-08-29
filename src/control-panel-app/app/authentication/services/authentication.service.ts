@@ -4,6 +4,7 @@ import { User } from '../../users/models/user.model';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import {MatSnackBar} from '@angular/material';
+import {IServerResponse, IUser} from '@kolenergo/cpa';
 
 @Injectable()
 export class AuthenticationService {
@@ -37,12 +38,12 @@ export class AuthenticationService {
   async check(appCode?: string | null): Promise<User | null> {
     try {
       this.loadingInProgress.next(true);
-      const result = await this.authenticationResource.check({appCode: appCode}, null, null);
+      const result: IServerResponse<IUser | null> = await this.authenticationResource.check({appCode: appCode}, null, null);
       // console.log(result);
       if (result) {
         this.loadingInProgress.next(false);
-        this.user$.next(new User(result));
-        this.currentUser = new User(result);
+        this.user$.next(new User(result.data));
+        this.currentUser = new User(result.data);
         // console.log(this.currentUser);
         return this.currentUser;
       }
@@ -66,7 +67,7 @@ export class AuthenticationService {
   async logIn(account: string, password: string, addIfNotExists?: boolean, appCode?: string, callbacks?: Function[]): Promise<User | null> {
     try {
       this.loadingInProgress.next(true);
-      const result = await this.authenticationResource.login({
+      const result: IUser| null = await this.authenticationResource.login({
         account: account,
         password: password,
         addIfNotExists: addIfNotExists,

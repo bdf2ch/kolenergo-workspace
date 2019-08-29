@@ -140,7 +140,10 @@ export class AhoRequestsService {
     try {
       this.fetchingData$.next(true);
       this.requests = [];
-      const result = await this.ahoRequestResource.getInitialData({userId: userId, itemsOnPage: itemsOnPage});
+      const result: IServerResponse<IAhoRequestsInitialData> = await this.ahoRequestResource.getInitialData({
+        userId: userId,
+        itemsOnPage: itemsOnPage
+      });
       if (result) {
         if (this.requestTypes.length === 0) {
           result.data.types.forEach((item: IAhoRequestType) => {

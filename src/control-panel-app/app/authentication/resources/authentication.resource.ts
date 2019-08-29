@@ -30,7 +30,8 @@ export class AuthenticationResource extends Resource {
     method: ResourceRequestMethod.Get,
     withCredentials: true
   })
-  check: IResourceMethodStrict<{appCode: string | null}, void, void, IServerResponse<IUser|null>>;
+  check: IResourceMethodStrict<{appCode: string | null}, void, void, IServerResponse<IUser | null>>;
+
 
   @ResourceAction({
     method: ResourceRequestMethod.Post,

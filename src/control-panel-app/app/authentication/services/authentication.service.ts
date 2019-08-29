@@ -38,7 +38,7 @@ export class AuthenticationService {
   async check(appCode?: string | null): Promise<User | null> {
     try {
       this.loadingInProgress.next(true);
-      const result: IServerResponse<IUser | null> = await this.authenticationResource.check({appCode: appCode}, null, null);
+      const result: IServerResponse<IUser|null> = await this.authenticationResource.check({appCode: appCode}, null, null);
       // console.log(result);
       if (result) {
         this.loadingInProgress.next(false);

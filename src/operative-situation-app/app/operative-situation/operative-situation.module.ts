@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+
 import { OperativeSituationRoutingModule } from './operative-situation.routing.module';
 import { ExportsModule } from '../exports.module';
 import { OperativeSituationService } from './services/operative-situation.service';
@@ -13,6 +14,8 @@ import { TimePeriodsPipe } from './pipes/time-periods.pipe';
 import { ConsumptionAddDialogComponent } from './components/consumption-add-dialog/consumption-add-dialog.component';
 import { ConsumptionEditDialogComponent } from './components/consumption-edit-dialog/consumption-edit-dialog.component';
 import { ReportDeleteDialogComponent } from './components/report-delete-dialog/report-delete-dialog.component';
+import { DivisionTreeComponent } from './components/division-tree/division-tree.component';
+import { DivisionTreeItemComponent } from './components/division-tree-item/division-tree-item.component';
 
 
 @NgModule({
@@ -28,7 +31,9 @@ import { ReportDeleteDialogComponent } from './components/report-delete-dialog/r
     TimePeriodsPipe,
     ConsumptionAddDialogComponent,
     ConsumptionEditDialogComponent,
-    ReportDeleteDialogComponent
+    ReportDeleteDialogComponent,
+    DivisionTreeComponent,
+    DivisionTreeItemComponent
   ],
   providers: [
     OperativeSituationResource,

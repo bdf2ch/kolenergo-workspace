@@ -1,15 +1,11 @@
 <div class="d-flex flex-column h-100" style="background: #f5f5f5;">
 
-  <!-- Start: Заголовок компонента -->
-  <div class="container-fluid pl-4 pr-4 pt-2 mb-4">
-    <div class="row">
-      <div class="col-12 component-title">
-        <div class="component-title-label">
-          <div class="primary-label">Оперативная обстановка</div>
-          <div class="secondary-label">в филиале {{osr.selectedCompany()?.shortTitle}} по состоянию на {{osr.date() | async}}</div>
-        </div>
-        <div class="component-title-controls">
+  <div class="row no-gutters h-100">
 
+
+    <div class="col-auto pl-4 pr-4 pt-2 mb-4">
+      <div class="row">
+        <div class="col-12">
           <button mat-button
                   class="mr-3"
                   *ngIf="auth.getCurrentUser().permissions.getRoleById(14)"
@@ -25,36 +21,102 @@
               {{company.shortTitle}}
             </button>
           </mat-menu>
+        </div>
+      </div>
 
-          <button mat-stroked-button
-                  *ngIf="(auth.user() | async)"
-                  [matMenuTriggerFor]="userMenu">
-            <div class="d-flex justify-content-center align-items-center">
-              <span>{{(auth.user() | async).firstName + ' ' + (auth.user() | async).lastName}}</span>
-              <mat-icon>arrow_drop_down</mat-icon>
+      <div class="row">
+        <div class="col-12">
+          <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="example-tree">
+            <!-- This is the tree node template for leaf nodes -->
+            <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
+              <li class="mat-tree-node">
+                <!-- use a disabled button to provide padding for tree leaf -->
+                <button mat-icon-button disabled></button>
+                {{node.name}}
+              </li>
+            </mat-tree-node>
+            <!-- This is the tree node template for expandable nodes -->
+            <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
+              <li>
+                <div class="mat-tree-node">
+                  <button mat-icon-button matTreeNodeToggle
+                          [attr.aria-label]="'toggle ' + node.name">
+                    <mat-icon class="mat-icon-rtl-mirror">
+                      {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                    </mat-icon>
+                  </button>
+                  {{node.name}}
+                </div>
+                <ul [class.example-tree-invisible]="!treeControl.isExpanded(node)">
+                  <ng-container matTreeNodeOutlet></ng-container>
+                </ul>
+              </li>
+            </mat-nested-tree-node>
+          </mat-tree>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col">
+      <!-- Start: Заголовок компонента -->
+      <div class="container-fluid pl-4 pr-4 pt-2 mb-4">
+        <div class="row">
+          <div class="col-12 component-title">
+            <div class="component-title-label">
+              <div class="primary-label">Оперативная обстановка</div>
+              <div class="secondary-label">в филиале {{osr.selectedCompany()?.shortTitle}} по состоянию на {{osr.date() | async}}</div>
             </div>
-          </button>
-          <mat-menu #userMenu="matMenu">
-            <button mat-menu-item
-                    yPosition="after"
-                    (click)="logOut()">
-              <mat-icon color="primary">exit_to_app</mat-icon>
-              Выход из системы
-            </button>
-          </mat-menu>
+            <div class="component-title-controls">
+
+              <button mat-button
+                      class="mr-3"
+                      *ngIf="auth.getCurrentUser().permissions.getRoleById(14)"
+                      [matMenuTriggerFor]="companiesMenu">
+                {{osr.selectedCompany()?.shortTitle}}
+                <mat-icon>arrow_drop_down</mat-icon>
+              </button>
+              <mat-menu #companiesMenu="matMenu" yPosition="below" [overlapTrigger]="true">
+                <button mat-menu-item
+                        *ngFor="let company of osr.companies() | async"
+                        (click)="selectCompany(company)">
+                  <mat-icon>business</mat-icon>
+                  {{company.shortTitle}}
+                </button>
+              </mat-menu>
+
+              <button mat-stroked-button
+                      *ngIf="(auth.user() | async)"
+                      [matMenuTriggerFor]="userMenu">
+                <div class="d-flex justify-content-center align-items-center">
+                  <span>{{(auth.user() | async).firstName + ' ' + (auth.user() | async).lastName}}</span>
+                  <mat-icon>arrow_drop_down</mat-icon>
+                </div>
+              </button>
+              <mat-menu #userMenu="matMenu">
+                <button mat-menu-item
+                        yPosition="after"
+                        (click)="logOut()">
+                  <mat-icon color="primary">exit_to_app</mat-icon>
+                  Выход из системы
+                </button>
+              </mat-menu>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End: Заголовок компонента -->
+
+      <div class="container-fluid d-flex p-0" style="flex: 1 0; overflow: auto">
+        <div class="row no-gutters d-flex p-0 m-0" style="flex: 1;">
+          <!-- Start: Содержимое активного раздела приложения -->
+          <div class="col">
+            <router-outlet></router-outlet>
+          </div>
+          <!-- End: Содержимое активного раздела приложения -->
         </div>
       </div>
     </div>
   </div>
-  <!-- End: Заголовок компонента -->
 
-  <div class="container-fluid d-flex p-0" style="flex: 1 0; overflow: auto">
-    <div class="row no-gutters d-flex p-0 m-0" style="flex: 1;">
-      <!-- Start: Содержимое активного раздела приложения -->
-      <div class="col">
-        <router-outlet></router-outlet>
-      </div>
-      <!-- End: Содержимое активного раздела приложения -->
-    </div>
-  </div>
 </div>

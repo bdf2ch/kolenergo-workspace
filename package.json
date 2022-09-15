@@ -48,7 +48,7 @@
     "@types/jasminewd2": "~2.0.2",
     "@types/ldapjs": "^1.0.3",
     "@types/node": "~6.0.60",
-    "bootstrap": "^4.0.0",
+    "bootstrap": "^4.3.1",
     "codelyzer": "^4.0.1",
     "jasmine-core": "~2.8.0",
     "jasmine-spec-reporter": "~4.2.1",
